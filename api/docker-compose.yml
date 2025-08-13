@@ -1,0 +1,30 @@
+services:
+  postgres:
+    image: postgres:17
+    container_name: postgres-web2
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: postgres
+    ports:
+      - "8765:5432"
+    networks:
+      - web2-network
+
+  pgadmin:
+    image: dpage/pgadmin4:8
+    container_name: pgadmin-web2
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    ports:
+      - "5050:80"
+    depends_on:
+      - postgres
+    networks:
+      - web2-network
+
+networks:
+  web2-network:
+    driver: bridge
