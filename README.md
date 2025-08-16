@@ -26,6 +26,16 @@ Para rodar qualquer um dos comandos use npm
 npm run start
 ```
 
+Links Uteis Frontend:
+
+[Documentação do figma](https://github.com/AngeloPre/web2/blob/main/web/src/app/pages/figma.md)
+
+[Documentação da Landing Page](https://github.com/AngeloPre/web2/blob/main/web/Landing-Page.md)
+
+[Documentação do Padrão de Projeto](https://github.com/AngeloPre/web2/blob/main/web/Atomic-Design.md)
+
+[Referência de Design página 404](https://github.com/AngeloPre/web2/blob/main/web/src/app/pages/404.md)
+
 ## Backend
 
 Para compilar o backend use o comando:
