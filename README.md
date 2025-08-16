@@ -4,7 +4,27 @@
 
 ## Frontend
 
+Para baixar as dependências (node_modules) use:
+```bash
+npm i
+```
+Definido no package.json já vem os scripts para rodar no npm:
 
+```json
+"scripts": {
+    "ng": "ng",
+    "start": "ng serve",
+    "build": "ng build",
+    "watch": "ng build --watch --configuration development",
+    "test": "ng test"
+}
+```
+
+Para rodar qualquer um dos comandos use npm
+
+```bash
+npm run start
+```
 
 ## Backend
 
