@@ -11,6 +11,10 @@ module.exports = {
       xl: '1440px',
     },
     colors: {
+      white: '#ffffff',
+      black: '#000000',
+      transparent: 'transparent',
+      current: 'currentColor',
       'brand-dark': '#2E3DA3',
       'brand-base': '#5165E1',
       'brand-light': '#8996EB',
