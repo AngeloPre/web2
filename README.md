@@ -3,6 +3,9 @@
 </p>
 
 ## Frontend
+```bash
+cd web/
+```
 
 Para baixar as dependências (node_modules) use:
 ```bash
