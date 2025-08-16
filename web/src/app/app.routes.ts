@@ -4,6 +4,7 @@ import { NotFoundComponent } from './pages/errors/not-found/not-found.component'
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { WrapperLoginRegisterComponent } from './layouts/wrapper-login-register/wrapper-login-register.component';
+import { RegisterFormComponent } from './layouts/register-form/register-form.component';
 
 export const routes: Routes = [
   {
@@ -11,6 +12,13 @@ export const routes: Routes = [
     component: WrapperLoginRegisterComponent,
     children: [
       { path: '', component: LoginComponent },
+    ],
+  },
+  {
+    path: 'register',
+    component: WrapperLoginRegisterComponent,
+    children: [
+      { path: '', component: RegisterFormComponent },
     ],
   },
 
