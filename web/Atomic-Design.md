@@ -22,9 +22,6 @@ Seguiremos a estrutura abaixo para criar os elementos de forma organizada:
 ```bash
 shared/
   components/
-    atoms/
-    molecules/
-    organisms/
     templates/
 ```
 
@@ -34,17 +31,8 @@ Quando for começar a criação sua página faça marcações em volta dos eleme
   <img alt="Atomic Design Example" src="public/atomic-example.png" width="90%">
 </p>
 
-Você já pode nomear cada uma das partes, digamos, a marcação verde como um "template-login"
-
-Ai você importa dentro dele suas partes: dois organismos "no-account" e "login-form", e uma molecula "logo-with-name"
-
-Cada organismo será composto pelas moleculas + texto adicional
-
-Por exemplo: "login-form" terá importado "email-field", "password-field", "login-button" (atomo), e incluirá o texto "Acesse o portal..."
-
-A molecula "email-field" importa "email-input" e insere uma label (sub-atomo) para ele.
-
-"email-input" por sua vez, como um atomo, será o elemento básico de input utilizado diretamente da angular material library, estilizado corretamente para ficar de acordo com o figma do projeto. [Disponível aqui](https://www.figma.com/design/l2FOk4gyBZ939U3bBxKoRu/WEB2)
+Vamos usar apenas o template
+Siga o figma: [Disponível aqui](https://www.figma.com/design/l2FOk4gyBZ939U3bBxKoRu/WEB2)
 
 Com todos esses imports você precisará colocar o template dentro da page, e a page dentro do router, como child do Layout correto. Acessar a subrota definida para a page te dará acesso a um desenvolvimento "ao vivo" de todas as mudanças que fizer nos componentes.
 
