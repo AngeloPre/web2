@@ -8,7 +8,7 @@ import { RouterOutlet } from '@angular/router';
   standalone: true,
   imports: [CommonModule, RouterOutlet, MatCardModule],
   templateUrl: './wrapper-login-register.component.html',
-  styles: ``
+  styles: `:host { display:block; }`
 })
 export class WrapperLoginRegisterComponent {
 
