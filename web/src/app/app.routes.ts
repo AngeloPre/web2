@@ -18,7 +18,11 @@ export const routes: Routes = [
     component: WrapperLoginRegisterComponent,
     children: [{ path: '', component: RegisterComponent }],
   },
-  { path: 'home', component: PagInicialClienteComponent },
+  { 
+    path: 'customer',
+    component: MenuLateralComponent,
+    children: [{ path: '', component: PagInicialClienteComponent }],
+  },
   {
     path: '',
     component: MenuLateralComponent,
