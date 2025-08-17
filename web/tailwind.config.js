@@ -11,6 +11,10 @@ module.exports = {
       xl: '1440px',
     },
     colors: {
+      white: '#ffffff',
+      black: '#000000',
+      transparent: 'transparent',
+      current: 'currentColor',
       'brand-dark': '#2E3DA3',
       'brand-base': '#5165E1',
       'brand-light': '#8996EB',
@@ -26,8 +30,11 @@ module.exports = {
       'feedback-done': '#508B26',
     },
     fontFamily: {
-      sans: ['Graphik', 'sans-serif'],
-      serif: ['Merriweather', 'serif'],
+      sans: ["Lato", 'system-ui', 'sans-serif'],
+      lato: ['Lato', 'system-ui', 'sans-serif'],
+      spartan: ['"League Spartan"', 'system-ui', 'sans-serif'],
+      cinzel: ['Cinzel', 'serif'],
+      orbitron: ['Orbitron', 'serif']
     },
   },
   plugins: [],

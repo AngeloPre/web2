@@ -6,13 +6,13 @@ import {MatIconModule} from '@angular/material/icon';
 import {MatInputModule} from '@angular/material/input';
 
 @Component({
-  selector: 'app-login-form',
+  selector: 'app-register-form',
+  standalone: true,
   imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButtonModule, MatIconModule],
-  templateUrl: './login-form.component.html',
+  templateUrl: './register-form.component.html',
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LoginFormComponent {
-  email = '';
-  password = '';
+export class RegisterFormComponent {
+  name = '';
 }

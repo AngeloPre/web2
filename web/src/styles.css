@@ -12,3 +12,50 @@ body {
   margin: 0;
   font-family: Roboto, "Helvetica Neue", sans-serif;
 }
+
+:root {
+  --mdc-filled-text-field-container-color: #fff;
+  --autofill-bg: #fff;
+  --autofill-hover: #f0ecec;
+
+  /* ESTILIZAÇÃO DE BOTÕES ANGULAR MATERIAL */
+  --mdc-filled-button-container-color: #1E2024;
+  --mdc-filled-button-label-text-color: #fff;
+  --mdc-filled-button-container-shape: 8px;
+  --mdc-filled-button-hover-state-layer-color: transparent;
+  --mdc-filled-button-focus-state-layer-color: transparent;
+  --mdc-filled-button-pressed-state-layer-color: transparent;
+  --mdc-filled-button-hover-state-layer-opacity: 0;
+  --mdc-filled-button-focus-state-layer-opacity: 0;
+  --mdc-filled-button-pressed-state-layer-opacity: 0;
+  --mdc-filled-button-label-text-size: 1.125rem;
+  --mdc-filled-button-label-text-font: "Lato", ui-sans-serif, system-ui, sans-serif;
+
+  /* família padrão para tipografia do mdc */
+  --mdc-typography-font-family: "Lato", ui-sans-serif, system-ui, sans-serif;
+  --mdc-typography-label-large-font-family:  "Lato", ui-sans-serif, system-ui, sans-serif;
+  --mdc-typography-label-medium-font-family: "Lato", ui-sans-serif, system-ui, sans-serif;
+  --mdc-typography-label-small-font-family:  "Lato", ui-sans-serif, system-ui, sans-serif;
+}
+
+.mat-mdc-form-field .mat-mdc-input-element:-webkit-autofill,
+.mat-mdc-form-field .mat-mdc-input-element:-webkit-autofill:focus {
+  -webkit-box-shadow: 0 0 0 1000px var(--autofill-bg) inset !important;
+  box-shadow:        0 0 0 1000px var(--autofill-bg) inset !important;
+  -webkit-text-fill-color: inherit;  /* mantém a cor do texto */
+  caret-color: inherit;
+}
+
+.mat-mdc-form-field .mat-mdc-input-element:-webkit-autofill:hover {
+  -webkit-box-shadow: 0 0 0 1000px var(--autofill-hover) inset !important;
+  box-shadow:        0 0 0 1000px var(--autofill-hover) inset !important;
+  -webkit-text-fill-color: inherit;  /* mantém a cor do texto */
+  caret-color: inherit;
+}
+
+/* Firefox */
+.mat-mdc-form-field .mat-mdc-input-element:-moz-autofill {
+  box-shadow: 0 0 0 1000px var(--autofill-bg) inset !important;
+  -moz-text-fill-color: inherit;
+  caret-color: inherit;
+}
