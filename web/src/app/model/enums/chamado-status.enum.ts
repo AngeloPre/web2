@@ -1,6 +1,6 @@
 export enum StatusConcertoEnum {
   ABERTA = 'Aberta',
-  ORÇADA = 'Orçada',
+  ORCADA = 'Orçada',
   REJEITADA = 'Rejeitada',
   APROVADA = 'Aprovada',
   REDIRECIONADA = 'Redirecionada',

@@ -15,7 +15,7 @@ export class PagInicialClienteComponent {
     {
       userId: 1,
       serviceId: 101,
-      status: StatusConcertoEnum.ABERTA,
+      status: StatusConcertoEnum.ORCADA,
       descricao: 'Descrição do chamado 1',
       data: new Date(),
     },
