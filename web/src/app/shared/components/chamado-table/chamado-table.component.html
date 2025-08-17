@@ -1,0 +1,48 @@
+  <table class="text-left w-full shadow-lg bg-white border-collapse">
+    <thead>
+      <tr>
+        <th class="border-b border-figma-gray-300 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+            Data
+          </p>
+        </th>
+        <th class="border-b border-figma-gray-300 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+            Descrição
+          </p>
+        </th>
+        <th class="border-b border-figma-gray-300 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+            Situação
+          </p>
+        </th>
+        <th class="border-b border-figma-gray-300 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70"></p>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (chamado of chamados(); track chamado.serviceId) {
+        <tr class="hover:bg-figma-gray-200">
+        <td class="px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+            {{ chamado.data | date:'short' }}
+          </p>
+        </td>
+        <td class="px-8 py-4">
+          <p class="block-b font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900">
+            {{ chamado.descricao }}
+          </p>
+        </td>
+        <td class="px-8 py-4">
+          <p class="block-b font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+            {{ chamado.status }}
+          </p>
+        </td>
+        <td class="px-8 py-4">
+          <button type="button">Visualizar</button>
+        </td>
+        </tr>
+      }
+    </tbody>
+  </table>
