@@ -1,14 +1,32 @@
-<form class="p-7 border border-figma-gray-300">
-  <mat-form-field class="w-full">
-    <mat-label>Nome</mat-label>
-    <input matInput placeholder="Digite o nome completo">
+<form class="p-7 border border-figma-gray-200 rounded-xl">
+  <h1 class="text-3xl font-bold font-lato text-figma-gray-500">Acesse o portal</h1>
+  <p class="text-base font-lato text-figma-gray-400 mt-2">Entre usando seu e-mail e senha cadastrados</p>
+  <mat-form-field class="w-full mt-6">
+    <mat-label class="text-sm font-lato">E-MAIL</mat-label>
+    <input  matInput 
+            placeholder="exemplo@email.com"
+            [(ngModel)]="email"
+            class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
+            name="email">
+    @if (email) {
+        <button matSuffix matIconButton aria-label="Clear" type="button" (click)="email=''">
+        <mat-icon class="mr-3">close</mat-icon>
+        </button>
+    }
   </mat-form-field>
   <mat-form-field class="w-full">
-    <mat-label>E-mail</mat-label>
-    <input matInput placeholder="exemplo@email.com">
+    <mat-label class="text-sm font-lato">SENHA</mat-label>
+    <input  matInput
+            placeholder="Digite sua senha"
+            type="password"
+            [(ngModel)]="password"
+            class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
+            name="password">
+    @if (password) {
+        <button matSuffix matIconButton aria-label="Clear" type="button" (click)="password=''">
+        <mat-icon class="mr-3">close</mat-icon>
+        </button>
+    }
   </mat-form-field>
-  <mat-form-field class="w-full">
-    <mat-label>Senha</mat-label>
-    <input matInput placeholder="Digite sua senha" type="password">
-  </mat-form-field>
+  <button mat-flat-button class="w-full mt-8 font-lato">Entrar</button>
 </form>
