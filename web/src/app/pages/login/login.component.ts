@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   selector: 'app-login',
   imports: [LoginFormComponent],
   templateUrl: './login.component.html',
-  styles: ``
+  styles: `:host { display:block; flex: 1;   }`
 })
 export class LoginComponent {
 }

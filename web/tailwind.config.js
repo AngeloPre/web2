@@ -30,8 +30,11 @@ module.exports = {
       'feedback-done': '#508B26',
     },
     fontFamily: {
-      sans: ['Graphik', 'sans-serif'],
-      serif: ['Merriweather', 'serif'],
+      sans: ["Lato", 'system-ui', 'sans-serif'],
+      lato: ['Lato', 'system-ui', 'sans-serif'],
+      spartan: ['"League Spartan"', 'system-ui', 'sans-serif'],
+      cinzel: ['Cinzel', 'serif'],
+      orbitron: ['Orbitron', 'serif']
     },
   },
   plugins: [],
