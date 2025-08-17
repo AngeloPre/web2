@@ -1,8 +1,13 @@
 
-<form class="example-form">
+<form class="p-7">
   <mat-form-field class="w-full">
     <mat-label>Nome</mat-label>
-    <input matInput placeholder="Digite o nome completo">
+    <input matInput placeholder="Digite o nome completo" [(ngModel)]="name" name="name">
+    @if (name) {
+        <button matSuffix matIconButton aria-label="Clear" type="button" (click)="name=''">
+        <mat-icon class="mr-3">close</mat-icon>
+        </button>
+    }
   </mat-form-field>
   <mat-form-field class="w-full">
     <mat-label>E-mail</mat-label>
@@ -11,7 +16,6 @@
   <mat-form-field class="w-full">
     <mat-label>Senha</mat-label>
     <input matInput placeholder="Digite sua senha" type="password">
-    <!-- <mat-hint align="end">{{value().length}}/10</mat-hint> -->
   </mat-form-field>
 
   </form>
