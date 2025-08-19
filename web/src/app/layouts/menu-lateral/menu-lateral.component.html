@@ -11,18 +11,23 @@
                     <div class="min-w-0">
                         <span class="font-cinzel font-semibold text-brand-light" >Phoenix</span>
                         <span class="font-orbitron font-medium text-brand-light">LAB</span>
-                        <p class="text-center justify-center text-white text-[10px] font-bold uppercase leading-3 tracking-wide">Cliente</p>
+                        <p class="text-center justify-center text-white text-[10px] font-bold uppercase leading-3 tracking-wide">
+                            {{ isEmployee ? 'Funcionário' : 'Cliente' }}
+                        </p>
                     </div>
                 </header>
 
                 <!--line-->
                 <div class="border-t opacity-20"></div>
 
-                <!--side-nav-->
+                <!--itens de navegação-->
                 <nav class="flex-1 overflow-y-auto px-2 py-3 space-y-1">
-                    <!--aqui só tem um exemplo, a ideia seria criar um component para chamar aqui pois esses botoes variam de acordo com o usuario-->
-                    <button class="w-full justify-start">
-                        <span class="text-figma-gray-300">Meus Chamados</span>
+                    <button 
+                        *ngFor="let item of menuItems" 
+                        (click)="setActiveItem(item.id)"
+                        [class]="'matSuffix matIconButton w-full flex items-center justify-start px-3 py-4 rounded-lg text-left transition-colors duration-200 ' + 
+                                (selectedItemId == item.id ? 'bg-brand-dark text-white hover:bg-brand-base' : 'bg-figma-gray-600 text-figma-gray-300 hover:bg-figma-gray-500')">
+                        <span class="font-lato font-medium">{{ item.label }}</span>
                     </button>
                 </nav>
 

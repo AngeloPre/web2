@@ -6,8 +6,11 @@ import { LoginComponent } from './pages/login/login.component';
 import { PagInicialClienteComponent } from './pages/pag-inicial-cliente/pag-inicial-cliente.component';
 import { WrapperLoginRegisterComponent } from './layouts/wrapper-login-register/wrapper-login-register.component';
 import { RegisterComponent } from './pages/register/register.component';
+import { authGuard } from './auth/auth.guard';
 
 export const routes: Routes = [
+  //enquanto ainda não temos landing page, encaminhamos do root pro login
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'login',
     component: WrapperLoginRegisterComponent,
@@ -18,15 +21,25 @@ export const routes: Routes = [
     component: WrapperLoginRegisterComponent,
     children: [{ path: '', component: RegisterComponent }],
   },
-  { 
-    path: 'customer',
+  {
+    path: 'cliente',
     component: MenuLateralComponent,
-    children: [{ path: '', component: PagInicialClienteComponent }],
+    children: [
+      { path: '', component: PagInicialClienteComponent, canActivate: [authGuard] },
+      { path: 'solicitar-manutencao', component: PagInicialClienteComponent, canActivate: [authGuard] },
+      { path: 'visualizar-manutencao', component: PagInicialClienteComponent, canActivate: [authGuard] },
+    ],
   },
   {
-    path: '',
+    path: 'funcionario',
     component: MenuLateralComponent,
-    children: [{ path: '', component: HomeComponent }],
+    children: [
+      { path: '', component: HomeComponent, canActivate: [authGuard] },
+      { path: 'solicitacoes', component: HomeComponent, canActivate: [authGuard] },
+      { path: 'funcionarios', component: HomeComponent, canActivate: [authGuard] },
+      { path: 'novo-funcionario', component: HomeComponent, canActivate: [authGuard] },
+      { path: 'categorias-equipamento', component: HomeComponent, canActivate: [authGuard] },
+    ],
   },
 
   {
