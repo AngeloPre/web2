@@ -24,13 +24,11 @@ export const routes: Routes = [
     children: [{ path: '', component: PagInicialClienteComponent }],
   },
   {
-    path: 'home',
-    component: HomeComponent
-  },
-  {
     path: '',
-    component: MenuLateralComponent
+    component: MenuLateralComponent,
+    children: [{ path: '', component: HomeComponent }],
   },
+
   {
     path: '404',
     component: NotFoundComponent,
