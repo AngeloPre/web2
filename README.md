@@ -35,7 +35,9 @@ Links Uteis Frontend:
 
 [Documentação da Landing Page](https://github.com/AngeloPre/web2/blob/main/web/Landing-Page.md)
 
-[Documentação do Padrão de Projeto](https://github.com/AngeloPre/web2/blob/main/web/Atomic-Design.md)
+[Documentação do Padrão de Projeto](https://github.com/AngeloPre/web2/blob/main/web/Components.md)
+
+[Documentação Tailwind e CSS](https://github.com/AngeloPre/web2/blob/main/web/Tailwind.md)
 
 [Referência de Design página 404](https://github.com/AngeloPre/web2/blob/main/web/src/app/pages/404.md)
 

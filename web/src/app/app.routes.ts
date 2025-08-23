@@ -6,7 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { PagInicialClienteComponent } from './pages/pag-inicial-cliente/pag-inicial-cliente.component';
 import { WrapperLoginRegisterComponent } from './layouts/wrapper-login-register/wrapper-login-register.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { authGuard } from './auth/auth.guard';
+import { authGuard } from './core/guards/auth/auth.guard';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
