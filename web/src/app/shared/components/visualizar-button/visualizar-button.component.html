@@ -4,9 +4,6 @@
     Aprovar
   </button>
 }
-@case (chamadosStatus.APROVADA){
-  <p></p>
-}
 @case (chamadosStatus.REJEITADA) {
   <button class="bg-transparent font-sans text-sm hover:bg-figma-gray-300 hover:text-figma-gray-100 py-2 px-4 border border-figma-gray-600 hover:border-transparent rounded">
     Resgatar
@@ -18,8 +15,6 @@
   </button>
 }
 @default {
-  <button class="bg-transparent font-sans text-sm hover:bg-figma-gray-300 hover:text-figma-gray-100 py-2 px-4 border border-figma-gray-600 hover:border-transparent rounded">
-    Visualizar
-  </button>
+  <p></p>
 }
 }

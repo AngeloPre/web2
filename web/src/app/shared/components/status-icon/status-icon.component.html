@@ -1,0 +1,66 @@
+@switch (status()) {
+  @case (chamadosStatus.ABERTA) {
+    <span class="text-[#717171] p-1.5 rounded-3xl inline-flex items-center bg-[#e1e1e1]">
+    <img src="/assets/svg/aberta-icon.svg" />
+    <p class="font-semibold ml-2">
+      Aberta
+    </p>
+    </span>
+  }
+  @case (chamadosStatus.ORCADA) {
+    <span class="text-[#ffd4ae] p-1.5 rounded-3xl inline-flex items-center bg-[#8f663a]">
+    <img src="/assets/svg/orcada-icon.svg" />
+    <p class="font-semibold ml-2">
+      Orçada
+    </p>
+    </span>
+  }
+  @case (chamadosStatus.REJEITADA) {
+    <span class="text-[#8e0f0f] p-1.5 rounded-3xl inline-flex items-center bg-[#ffe0e0]">
+    <img src="/assets/svg/rejeitada-icon.svg" />
+    <p class="font-semibold ml-2">
+      Rejeitada
+    </p>
+    </span>
+  }
+  @case (chamadosStatus.APROVADA) {
+    <span class="text-[#928a00] p-1.5 rounded-3xl inline-flex items-center bg-[#fcfac5]">
+    <img src="/assets/svg/aprovada-icon.svg" />
+    <p class="font-semibold ml-2">
+      Aprovada
+    </p>
+    </span>
+  }
+  @case (chamadosStatus.REDIRECIONADA) {
+    <span class="text-[#692db1] p-1.5 rounded-3xl inline-flex items-center bg-[#f0e0ff]">
+    <img src="/assets/svg/redirecionada-icon.svg" />
+    <p class="font-semibold ml-2">
+      Redirecionada
+    </p>
+    </span>
+  }
+  @case (chamadosStatus.ARRUMADA) {
+    <span class="text-[#2e31b7] p-1.5 rounded-3xl inline-flex items-center bg-[#e0e0ff]">
+    <img src="/assets/svg/arrumada-icon.svg" />
+    <p class="font-semibold ml-2">
+      Arrumada
+    </p>
+    </span>
+  }
+  @case (chamadosStatus.PAGA) {
+    <span class="text-[#df7f26] p-1.5 rounded-3xl inline-flex items-center bg-[#ffeee0]">
+    <img src="/assets/svg/paga-icon.svg" />
+    <p class="font-semibold ml-2">
+      Paga
+    </p>
+    </span>
+  }
+  @case (chamadosStatus.FINALIZADA) {
+    <span class="text-feedback-done p-1.5 rounded-3xl inline-flex items-center bg-[#edffe0]">
+    <img src="/assets/svg/finalizada-icon.svg" />
+    <p class="font-semibold ml-2">
+      Finalizada
+    </p>
+    </span>
+  }
+}

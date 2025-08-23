@@ -19,6 +19,9 @@
         <th class="border-b border-figma-gray-300 px-8 py-4">
           <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70"></p>
         </th>
+        <th class="border-b border-figma-gray-300 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70"></p>
+        </th>
       </tr>
     </thead>
     <tbody>
@@ -34,13 +37,16 @@
             {{ chamado.descricao }}
           </p>
         </td>
-        <td class="px-8 py-4">
-          <p class="block-b font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-            {{ chamado.status }}
-          </p>
+        <td class="px-4 py-4">
+            <app-status-icon [status]="chamado.status" />
         </td>
-        <td class="px-8 py-4">
+        <td class="px-2 py-4">
           <app-visualizar-button [status]="chamado.status" />
+        </td>
+        <td class="px-2 py-4">
+          <button class="bg-figma-gray-200 aspect-square rounded p-2">
+            <img src="/assets/svg/visualizar-icon.svg" />
+          </button>
         </td>
         </tr>
       }
