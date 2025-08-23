@@ -12,8 +12,8 @@
         <p class="font-medium text-brand-dark text-2xl">A Fênix te guia de volta — escolha um atalho abaixo e continue a navegação.</p>
     </div>
 
-    <div class="flex gap-20">
-        <button mat-flat-button>Conteudo</button>
-        <button mat-flat-button>Conteudo</button>
+    <div class="flex gap-52 mt-24">
+        <a mat-flat-button class="w-72" [routerLink]="['/']">Voltar à Página Inicial</a>
+        <a mat-stroked-button class="w-72" [routerLink]="userRole.dashboardPath()">Ir para o Painel Principal ⟶</a>
     </div>
 </div>
