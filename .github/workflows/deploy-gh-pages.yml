@@ -21,6 +21,9 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          persist-credentials: false
 
       - name: Setup Node
         uses: actions/setup-node@v4
@@ -32,14 +35,14 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      # Se configurou baseHref no angular.json, pode remover o --base-href aqui
       - name: Build + Deploy (angular-cli-ghpages)
         env:
-          # Para repositório público, crie um PAT 'repo' e salve como GH_TOKEN
-          GH_TOKEN: ${{ secrets.GH_TOKEN }}
-          # Para repositório privado, você pode usar:
-          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CI: true
         run: |
-          npx ng deploy --base-href=/web2/ \
+          npx ng deploy \
+            --base-href=/web2/ \
+            --branch=gh-pages \
             --name="github-actions[bot]" \
-            --email="github-actions[bot]@users.noreply.github.com"
+            --email="github-actions[bot]@users.noreply.github.com" \
+            --repo=https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/AngeloPre/web2.git \
+            --no-silent
