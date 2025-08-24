@@ -2,6 +2,8 @@
   <img alt="projeto web2" src=".github/maintenance.png" width="80%">
 </p>
 
+[![Deploy Angular to GitHub Pages](https://github.com/AngeloPre/web2/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/AngeloPre/web2/actions/workflows/deploy-gh-pages.yml)
+
 ## Frontend
 ```bash
 cd web/
