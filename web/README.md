@@ -1,5 +1,6 @@
-# ANGULAR 19
+[![Deploy Angular to GitHub Pages](https://github.com/AngeloPre/web2/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/AngeloPre/web2/actions/workflows/deploy-gh-pages.yml)
 
+# ANGULAR 19
 Baixou agora?
 
 ```bash
