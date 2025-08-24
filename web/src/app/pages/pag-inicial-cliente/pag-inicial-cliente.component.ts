@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, signal } from '@angular/core';
 import { ChamadoItem } from '@/app/model/chamado-list-mock.type';
 import { ChamadoTableComponent } from '@/app/shared/components/chamado-table/chamado-table.component';
 //Temporário
@@ -11,7 +11,7 @@ import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
   styles: ``,
 })
 export class PagInicialClienteComponent {
-  chamadosMock: ChamadoItem[] = [
+  chamadosMock = signal<ChamadoItem[]>([
     {
       userId: 1,
       serviceId: 101,
@@ -68,5 +68,13 @@ export class PagInicialClienteComponent {
       descricao: 'Descrição do chamado 5',
       data: new Date(),
     },
-  ];
+  ]);
+
+  btnAtualizar(event: { id: number; statusNovo: StatusConcertoEnum }): void {
+    this.chamadosMock.update((chamados) =>
+      chamados.map((c) =>
+        c.serviceId === event.id ? { ...c, status: event.statusNovo } : c
+      )
+    );
+  }
 }
