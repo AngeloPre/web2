@@ -18,9 +18,9 @@ body {
   --autofill-bg: #fff;
   --autofill-hover: #f0ecec;
 
-  /* ESTILIZAÇÃO DE BOTÕES ANGULAR MATERIAL */
+  /* ESTILIZAÇÃO DE BOTÕES FILLED ANGULAR MATERIAL */
   --mdc-filled-button-container-color: #1E2024;
-  --mdc-filled-button-label-text-color: #fff;
+  --mdc-filled-button-label-text-color: #F9FAFA;
   --mdc-filled-button-container-shape: 8px;
   --mdc-filled-button-hover-state-layer-color: transparent;
   --mdc-filled-button-focus-state-layer-color: transparent;
@@ -30,6 +30,19 @@ body {
   --mdc-filled-button-pressed-state-layer-opacity: 0;
   --mdc-filled-button-label-text-size: 1.125rem;
   --mdc-filled-button-label-text-font: "Lato", ui-sans-serif, system-ui, sans-serif;
+
+    /* ESTILIZAÇÃO DE BOTÕES STOKE ANGULAR MATERIAL */
+  --mdc-outlined-button-container-color: #F9FAFA;
+  --mdc-outlined-button-label-text-color: #1E2024;
+  --mdc-outlined-button-container-shape: 8px;
+  --mdc-outlined-button-hover-state-layer-color: transparent;
+  --mdc-outlined-button-focus-state-layer-color: transparent;
+  --mdc-outlined-button-pressed-state-layer-color: transparent;
+  --mdc-outlined-button-hover-state-layer-opacity: 0;
+  --mdc-outlined-button-focus-state-layer-opacity: 0;
+  --mdc-outlined-button-pressed-state-layer-opacity: 0;
+  --mdc-outlined-button-label-text-size: 1.125rem;
+  --mdc-outlined-button-label-text-font: "Lato", ui-sans-serif, system-ui, sans-serif;
 
   /* família padrão para tipografia do mdc */
   --mdc-typography-font-family: "Lato", ui-sans-serif, system-ui, sans-serif;

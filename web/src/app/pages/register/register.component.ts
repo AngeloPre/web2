@@ -5,7 +5,7 @@ import { Component } from '@angular/core';
   selector: 'app-register',
   imports: [RegisterFormComponent],
   templateUrl: './register.component.html',
-  styles: `:host { display:block; flex: 1;   }`
+  styles: `:host { display:flex; flex: 1; justify-content: end; }`
 })
 export class RegisterComponent {
 
