@@ -24,21 +24,23 @@ export const routes: Routes = [
   {
     path: 'cliente',
     component: MenuLateralComponent,
+    canActivate: [authGuard],
     children: [
-      { path: '', component: PagInicialClienteComponent, canActivate: [authGuard] },
-      { path: 'solicitar-manutencao', component: PagInicialClienteComponent, canActivate: [authGuard] },
-      { path: 'visualizar-manutencao', component: PagInicialClienteComponent, canActivate: [authGuard] },
+      { path: '', component: PagInicialClienteComponent, title: 'Meus chamados)' },
+      { path: 'solicitar-manutencao', component: PagInicialClienteComponent, title: 'Solicitar Manutenção' },
+      { path: 'visualizar-manutencao', component: PagInicialClienteComponent, title: 'Visualizar Manutenção' },
     ],
   },
   {
     path: 'funcionario',
     component: MenuLateralComponent,
+    canActivate: [authGuard],
     children: [
-      { path: '', component: HomeComponent, canActivate: [authGuard] },
-      { path: 'solicitacoes', component: HomeComponent, canActivate: [authGuard] },
-      { path: 'funcionarios', component: HomeComponent, canActivate: [authGuard] },
-      { path: 'novo-funcionario', component: HomeComponent, canActivate: [authGuard] },
-      { path: 'categorias-equipamento', component: HomeComponent, canActivate: [authGuard] },
+      { path: '', component: HomeComponent, title: 'Overview' },
+      { path: 'solicitacoes', component: HomeComponent, title: 'Solicitações' },
+      { path: 'funcionarios', component: HomeComponent, title: 'Funcionários' },
+      { path: 'novo-funcionario', component: HomeComponent, title: 'Novo Funcionário' },
+      { path: 'categorias-equipamento', component: HomeComponent, title: 'Categorias de Equipamento' },
     ],
   },
 
