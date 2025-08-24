@@ -30,6 +30,7 @@
                 "input": "public/assets",
                 "output": "assets"
               },
+              { "glob": "**/*", "input": "public",   "output": "assets" },
               { "glob": "favicon.ico", "input": "public", "output": "." }
             ],
             "styles": [
@@ -91,6 +92,7 @@
                 "input": "public/assets",
                 "output": "assets"
               },
+              { "glob": "**/*", "input": "public",   "output": "assets" },
               { "glob": "favicon.ico", "input": "public", "output": "." }
             ],
             "styles": [
