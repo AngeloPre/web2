@@ -1,0 +1,65 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+permissions:
+  contents: write   # necessário para push na branch gh-pages
+
+concurrency:
+  group: gh-pages
+  cancel-in-progress: true
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install deps
+        run: npm ci
+
+      # Define BASE_HREF conforme o tipo de Pages:
+      # - user/organization site: <user>.github.io  => '/'
+      # - project page: <repo>                      => '/<repo>/'
+      - name: Compute base-href
+        id: base
+        run: |
+          REPO="${{ github.repository }}"
+          NAME="${REPO#*/}"         # parte depois de owner/
+          if [[ "$NAME" == *".github.io" ]]; then
+            echo "value=/" >> $GITHUB_OUTPUT
+          else
+            echo "value=/$NAME/" >> $GITHUB_OUTPUT
+          fi
+
+      # Build sempre para um caminho fixo (evita adivinhar dist)
+      - name: Build Angular
+        env:
+          NG_CLI_ANALYTICS: "false"
+        run: |
+          npx ng build --configuration=production \
+            --base-href="${{ steps.base.outputs.value }}" \
+            --output-path=dist/ghpages
+
+      # SPA fallback para rotas do Angular no GitHub Pages
+      - name: Add 404 fallback
+        run: cp dist/ghpages/index.html dist/ghpages/404.html
+
+      - name: Deploy to gh-pages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx angular-cli-ghpages --dir=dist/ghpages --no-silent \
+            --name="${{ github.actor }}" \
+            --email="${{ github.actor }}@users.noreply.github.com"
