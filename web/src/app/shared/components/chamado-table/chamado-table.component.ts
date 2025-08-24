@@ -13,5 +13,23 @@ import { StatusIconComponent } from '../status-icon/status-icon.component';
 })
 export class ChamadoTableComponent {
   chamados = input.required<Array<ChamadoItem>>();
+
   chamadosStatus = StatusConcertoEnum;
+
+  btnAcao(id: number): void {
+    const res = this.chamados().find((chamado) => chamado.serviceId === id);
+    switch (res?.status) {
+      case StatusConcertoEnum.ARRUMADA:
+        console.log('Pagar');
+        break;
+      case StatusConcertoEnum.REJEITADA:
+        console.log('Resgatar');
+        break;
+      case StatusConcertoEnum.ORCADA:
+        console.log('Aprovar');
+        break;
+      default:
+        console.log('Não implementado');
+    }
+  }
 }

@@ -41,7 +41,10 @@
             <app-status-icon [status]="chamado.status" />
         </td>
         <td class="px-2 py-4">
-          <app-visualizar-button [status]="chamado.status" />
+          <app-visualizar-button
+            [status]="chamado.status"
+            [id]="chamado.serviceId"
+            (btnClicked)="btnAcao($event)" />
         </td>
         <td class="px-2 py-4">
           <button class="bg-figma-gray-200 aspect-square rounded p-2">

@@ -1,16 +1,19 @@
 @switch (status()) {
 @case (chamadosStatus.ORCADA) {
-  <button class="bg-transparent font-sans text-sm hover:bg-figma-gray-300 hover:text-figma-gray-100 py-2 px-4 border border-figma-gray-600 hover:border-transparent rounded">
+  <button (click)="this.eventoBtn()"
+    class="bg-transparent font-sans text-sm hover:bg-figma-gray-300 hover:text-figma-gray-100 py-2 px-4 border border-figma-gray-600 hover:border-transparent rounded">
     Aprovar
   </button>
 }
 @case (chamadosStatus.REJEITADA) {
-  <button class="bg-transparent font-sans text-sm hover:bg-figma-gray-300 hover:text-figma-gray-100 py-2 px-4 border border-figma-gray-600 hover:border-transparent rounded">
+  <button (click)="this.eventoBtn()"
+    class="bg-transparent font-sans text-sm hover:bg-figma-gray-300 hover:text-figma-gray-100 py-2 px-4 border border-figma-gray-600 hover:border-transparent rounded">
     Resgatar
   </button>
 }
 @case (chamadosStatus.ARRUMADA) {
-  <button class="bg-transparent font-sans text-sm hover:bg-figma-gray-300 hover:text-figma-gray-100 py-2 px-4 border border-figma-gray-600 hover:border-transparent rounded">
+  <button (click)="this.eventoBtn()"
+    class="bg-transparent font-sans text-sm hover:bg-figma-gray-300 hover:text-figma-gray-100 py-2 px-4 border border-figma-gray-600 hover:border-transparent rounded">
     Pagar
   </button>
 }
