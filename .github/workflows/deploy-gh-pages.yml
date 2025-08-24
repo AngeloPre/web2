@@ -1,0 +1,45 @@
+name: Deploy Angular to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'web/**'
+      - '.github/workflows/deploy-gh-pages.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: write   # para push no branch gh-pages
+
+defaults:
+  run:
+    working-directory: web   # <- seu app está em /web
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+          cache-dependency-path: web/package-lock.json
+
+      - name: Install deps
+        run: npm ci
+
+      # Se configurou baseHref no angular.json, pode remover o --base-href aqui
+      - name: Build + Deploy (angular-cli-ghpages)
+        env:
+          # Para repositório público, crie um PAT 'repo' e salve como GH_TOKEN
+          GH_TOKEN: ${{ secrets.GH_TOKEN }}
+          # Para repositório privado, você pode usar:
+          # GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          npx ng deploy --base-href=/web2/ \
+            --name="github-actions[bot]" \
+            --email="github-actions[bot]@users.noreply.github.com"

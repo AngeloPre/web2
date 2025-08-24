@@ -27,8 +27,11 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
-              }
+                "input": "public/assets",
+                "output": "assets"
+              },
+              { "glob": "**/*", "input": "public",   "output": "assets" },
+              { "glob": "favicon.ico", "input": "public", "output": "." }
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
@@ -86,8 +89,11 @@
             "assets": [
               {
                 "glob": "**/*",
-                "input": "public"
-              }
+                "input": "public/assets",
+                "output": "assets"
+              },
+              { "glob": "**/*", "input": "public",   "output": "assets" },
+              { "glob": "favicon.ico", "input": "public", "output": "." }
             ],
             "styles": [
               "@angular/material/prebuilt-themes/azure-blue.css",
@@ -95,6 +101,9 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "angular-cli-ghpages:deploy"
         }
       }
     }
