@@ -22,10 +22,10 @@
 
                 <!--itens de navegação-->
                 <nav class="flex-1 overflow-y-auto px-2 py-3 space-y-1">
-                    <button 
-                        *ngFor="let item of menuItems" 
+                    <button
+                        *ngFor="let item of menuItems"
                         (click)="setActiveItem(item.id)"
-                        [class]="'matSuffix matIconButton w-full flex items-center justify-start px-3 py-4 rounded-lg text-left transition-colors duration-200 ' + 
+                        [class]="'matSuffix matIconButton w-full flex items-center justify-start px-3 py-4 rounded-lg text-left transition-colors duration-200 ' +
                                 (selectedItemId == item.id ? 'bg-brand-dark text-white hover:bg-brand-base' : 'bg-figma-gray-600 text-figma-gray-300 hover:bg-figma-gray-500')">
                         <span class="font-lato font-medium">{{ item.label }}</span>
                     </button>
@@ -51,7 +51,7 @@
 
         <!-- main-content -->
         <div class="h-full pt-4">
-            <div class="h-full w-full bg-white rounded-tl-[20px]">
+            <div class="h-full w-full bg-white rounded-tl-[20px] overflow-y-auto">
                 <button type="button" mat-button (click)="menu.toggle()">
                 Icone do menu
                 </button>

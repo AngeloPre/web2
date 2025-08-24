@@ -1,4 +1,4 @@
-import { Component, input } from '@angular/core';
+import { Component, input, output } from '@angular/core';
 import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
 
 @Component({
@@ -9,5 +9,13 @@ import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
 })
 export class VisualizarButtonComponent {
   status = input.required<StatusConcertoEnum>();
+  id = input.required<number>();
+
+  btnClicked = output<number>();
+
+  eventoBtn(): void {
+    this.btnClicked.emit(this.id());
+  }
+
   chamadosStatus = StatusConcertoEnum;
 }
