@@ -1,8 +1,10 @@
+<form class="p-7 border border-figma-gray-200 rounded-xl">
+  <h1 class="text-3xl font-bold font-lato text-figma-gray-500">Crie sua conta</h1>
+  <p class="text-base font-lato text-figma-gray-400 mt-2">Informe seu nome, e-mail e senha</p>
 
-<form class="p-7">
-  <mat-form-field class="w-full">
+  <mat-form-field class="w-full mt-6">
     <mat-label>Nome</mat-label>
-    <input matInput placeholder="Digite o nome completo" [(ngModel)]="name" name="name">
+    <input matInput placeholder="Digite o nome completo" [(ngModel)]="name" name="name" required>
     @if (name) {
         <button matSuffix matIconButton aria-label="Clear" type="button" (click)="name=''">
         <mat-icon class="mr-3">close</mat-icon>
@@ -10,12 +12,55 @@
     }
   </mat-form-field>
   <mat-form-field class="w-full">
-    <mat-label>E-mail</mat-label>
-    <input matInput placeholder="exemplo@email.com">
+    <mat-label class="text-sm font-lato">E-MAIL</mat-label>
+    <input  matInput
+            placeholder="exemplo@email.com"
+            [(ngModel)]="email"
+            required
+            class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
+            name="email">
+    @if (email) {
+        <button matSuffix matIconButton aria-label="Clear" type="button" (click)="email=''">
+        <mat-icon class="mr-3">close</mat-icon>
+        </button>
+    }
   </mat-form-field>
   <mat-form-field class="w-full">
-    <mat-label>Senha</mat-label>
-    <input matInput placeholder="Digite sua senha" type="password">
+    <mat-label class="text-sm font-lato">SENHA</mat-label>
+    <input  matInput
+            placeholder="Digite sua senha"
+            [type]="passwordVisible ? 'text' : 'password'"
+            [(ngModel)]="password"
+            required
+            minlength="6"
+            class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
+            name="password">
+    <mat-hint align="start" class="text-xs text-figma-gray-400">Mínimo de 6 dígitos</mat-hint>
+    @if (password) {
+        <button matSuffix matIconButton aria-label="Clear" type="button" (click)="password=''" aria-label="Limpar campo">
+          <mat-icon class="mr-3">close</mat-icon>
+        </button>
+    }
+    <button
+      matSuffix
+      mat-icon-button
+      type="button"
+      (click)="togglePassword()"
+      [attr.aria-label]="passwordVisible ? 'Ocultar senha' : 'Mostrar senha'"
+      class="mr-1"  >
+      <mat-icon class="text-[18px]">
+        {{ passwordVisible ? 'visibility_off' : 'visibility' }}
+      </mat-icon>
+    </button>
   </mat-form-field>
-
-  </form>
+  <button mat-flat-button class="w-full mt-8 font-lato">Cadastrar</button>
+</form>
+<div class="p-7 border border-figma-gray-200 rounded-xl">
+  <h1 class="font-bold font-lato text-figma-gray-500">Já tem uma conta?</h1>
+  <p class="text-sm font-lato text-figma-gray-400 mt-2">Entre agora mesmo</p>
+  <button
+  routerLink="/login"
+  class="w-full mt-8 bg-figma-gray-200
+    font-sans hover:bg-figma-gray-300
+    hover:text-figma-gray-100 py-2 px-4  border-figma-gray-600 hover:border-transparent rounded">Acessar conta</button>
+</div>

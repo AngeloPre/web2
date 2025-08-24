@@ -14,11 +14,13 @@ export const routes: Routes = [
   {
     path: 'login',
     component: WrapperLoginRegisterComponent,
+    title: 'Sign In',
     children: [{ path: '', component: LoginComponent }],
   },
   {
     path: 'register',
     component: WrapperLoginRegisterComponent,
+    title: 'Sign Up',
     children: [{ path: '', component: RegisterComponent }],
   },
   {
