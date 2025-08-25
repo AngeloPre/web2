@@ -15,6 +15,12 @@ import { UserRole } from '@core/store/user-role/user-role.store';
 export class MenuLateralComponent {
   readonly userRole = inject(UserRole);
 
+  //controla o estado do menu (open/closed)
+  isOpen = true;
+  toggleMenu(): void {
+    this.isOpen = !this.isOpen;
+  }
+
   get roleLabel(): 'Funcionário' | 'Cliente' {
     return this.userRole.isEmployee() ? 'Funcionário' : 'Cliente';
   }
@@ -35,4 +41,5 @@ export class MenuLateralComponent {
   }
 
   trackById = (_: number, item: { id: number }) => item.id;
+
 }
