@@ -3,7 +3,7 @@ import { inject } from "@angular/core";
 import { ActivatedRouteSnapshot, RouterStateSnapshot, CanActivateFn, UrlTree, Router } from "@angular/router";
 import { JwtHelperService } from "@auth0/angular-jwt";
 import { catchError, map, Observable, of } from "rxjs";
-import { AuthService } from "../../services/auth.service";
+import { AuthService } from "../services/auth.service";
 import { AccessToken } from "@/app/model/data/access-token.model";
 
 export const authGuard: CanActivateFn = (
