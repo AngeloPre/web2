@@ -7,6 +7,7 @@ import { PagInicialClienteComponent } from './pages/pag-inicial-cliente/pag-inic
 import { WrapperLoginRegisterComponent } from './layouts/wrapper-login-register/wrapper-login-register.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { authGuard } from './core/guards/auth/auth.guard';
+import { PagInicialFuncionarioComponent } from './pages/pag-inicial-funcionario/pag-inicial-funcionario.component';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
@@ -38,7 +39,7 @@ export const routes: Routes = [
     component: MenuLateralComponent,
     canActivate: [authGuard],
     children: [
-      { path: '', component: HomeComponent, title: 'Overview' },
+      { path: '', component: PagInicialFuncionarioComponent, title: 'Solicitações Abertas' },
       { path: 'solicitacoes', component: HomeComponent, title: 'Solicitações' },
       { path: 'funcionarios', component: HomeComponent, title: 'Funcionários' },
       { path: 'novo-funcionario', component: HomeComponent, title: 'Novo Funcionário' },
