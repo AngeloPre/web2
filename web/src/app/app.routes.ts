@@ -6,7 +6,7 @@ import { LoginComponent } from './pages/login/login.component';
 import { PagInicialClienteComponent } from './pages/pag-inicial-cliente/pag-inicial-cliente.component';
 import { WrapperLoginRegisterComponent } from './layouts/wrapper-login-register/wrapper-login-register.component';
 import { RegisterComponent } from './pages/register/register.component';
-import { authGuard } from './core/guards/auth/auth.guard';
+import { authGuard } from './core/auth/auth.guard';
 import { PagInicialFuncionarioComponent } from './pages/pag-inicial-funcionario/pag-inicial-funcionario.component';
 
 export const routes: Routes = [

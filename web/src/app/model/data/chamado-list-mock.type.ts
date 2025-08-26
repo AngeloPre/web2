@@ -1,4 +1,4 @@
-import { StatusConcertoEnum } from './enums/chamado-status.enum';
+import { StatusConcertoEnum } from "../enums/chamado-status.enum";
 
 export type ChamadoItem = {
   userId: number;

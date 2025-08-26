@@ -1,8 +1,8 @@
 import { Component, signal } from '@angular/core';
-import { ChamadoItem } from '@/app/model/chamado-list-mock.type';
 import { ChamadoTableComponent } from '@/app/shared/components/chamado-table/chamado-table.component';
 //Temporário
 import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { ChamadoItem } from '@/app/model/data/chamado-list-mock.type';
 
 @Component({
   selector: 'app-pag-inicial-cliente',

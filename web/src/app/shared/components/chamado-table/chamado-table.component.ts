@@ -1,9 +1,9 @@
 import { Component, input, output } from '@angular/core';
-import { ChamadoItem } from '@/app/model/chamado-list-mock.type';
 import { DatePipe } from '@angular/common';
 import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { VisualizarButtonComponent } from '../visualizar-button/visualizar-button.component';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
+import { ChamadoItem } from '@/app/model/data/chamado-list-mock.type';
 
 @Component({
   selector: 'app-chamado-table',
