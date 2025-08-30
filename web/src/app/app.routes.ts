@@ -4,6 +4,7 @@ import { NotFoundComponent } from './pages/errors/not-found/not-found.component'
 import { HomeComponent } from './pages/home/home.component';
 import { LoginComponent } from './pages/login/login.component';
 import { PagInicialClienteComponent } from './pages/pag-inicial-cliente/pag-inicial-cliente.component';
+import { SolicitacaoClienteComponent } from './pages/solicitacao-cliente/solicitacao-cliente.component';
 import { WrapperLoginRegisterComponent } from './layouts/wrapper-login-register/wrapper-login-register.component';
 import { RegisterComponent } from './pages/register/register.component';
 import { authGuard } from './core/guards/auth/auth.guard';
@@ -29,9 +30,21 @@ export const routes: Routes = [
     component: MenuLateralComponent,
     canActivate: [authGuard],
     children: [
-      { path: '', component: PagInicialClienteComponent, title: 'Meus chamados)' },
-      { path: 'solicitar-manutencao', component: PagInicialClienteComponent, title: 'Solicitar Manutenção' },
-      { path: 'visualizar-manutencao', component: PagInicialClienteComponent, title: 'Visualizar Manutenção' },
+      {
+        path: '',
+        component: PagInicialClienteComponent,
+        title: 'Meus chamados)',
+      },
+      {
+        path: 'solicitar-manutencao',
+        component: SolicitacaoClienteComponent,
+        title: 'Solicitar Manutenção',
+      },
+      {
+        path: 'visualizar-manutencao',
+        component: PagInicialClienteComponent,
+        title: 'Visualizar Manutenção',
+      },
     ],
   },
   {
@@ -39,11 +52,23 @@ export const routes: Routes = [
     component: MenuLateralComponent,
     canActivate: [authGuard],
     children: [
-      { path: '', component: PagInicialFuncionarioComponent, title: 'Solicitações Abertas' },
+      {
+        path: '',
+        component: PagInicialFuncionarioComponent,
+        title: 'Solicitações Abertas',
+      },
       { path: 'solicitacoes', component: HomeComponent, title: 'Solicitações' },
       { path: 'funcionarios', component: HomeComponent, title: 'Funcionários' },
-      { path: 'novo-funcionario', component: HomeComponent, title: 'Novo Funcionário' },
-      { path: 'categorias-equipamento', component: HomeComponent, title: 'Categorias de Equipamento' },
+      {
+        path: 'novo-funcionario',
+        component: HomeComponent,
+        title: 'Novo Funcionário',
+      },
+      {
+        path: 'categorias-equipamento',
+        component: HomeComponent,
+        title: 'Categorias de Equipamento',
+      },
     ],
   },
 
