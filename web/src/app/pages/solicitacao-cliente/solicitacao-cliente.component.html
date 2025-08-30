@@ -24,7 +24,11 @@
         <textarea matInput></textarea>
       </mat-form-field>
       <div class="flex justify-center">
-        <button mat-flat-button class="w-5/6 mt-8 font-lato">Abrir Solicitação</button>
+        <button
+        mat-flat-button
+        class="w-5/6 mt-8 font-lato"
+        (click)="openDialog()"
+        >Abrir Solicitação</button>
       </div>
     </div>
   </div>
