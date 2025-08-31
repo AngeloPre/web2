@@ -91,7 +91,7 @@
   <div class="flex gap-2">
     <mat-form-field class="">
       <mat-label>UF</mat-label>
-      <mat-select required name="uf">
+      <mat-select required name="uf" [(ngModel)]="cliente.endereco.uf">
         @for (uf of listaUfs; track uf) {
           <mat-option [value]="uf" class="placeholder:font-lato placeholder:text-sm">{{ uf }}</mat-option>
         }
