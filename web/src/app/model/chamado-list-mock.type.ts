@@ -5,5 +5,6 @@ export type ChamadoItem = {
   serviceId: number;
   status: StatusConcertoEnum;
   descricao: string;
+  slug: string;
   data: Date;
 };

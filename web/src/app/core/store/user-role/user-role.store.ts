@@ -8,7 +8,7 @@ export interface Role {
 }
 
 const STORAGE_KEY = 'role';
-const DEFAULT_ROLE: Role = { id: 1, name: 'employee' };
+const DEFAULT_ROLE: Role = { id: 1, name: 'client' };
 
 export interface RoleState {
   role: Role;

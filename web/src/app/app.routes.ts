@@ -8,6 +8,7 @@ import { WrapperLoginRegisterComponent } from './layouts/wrapper-login-register/
 import { RegisterComponent } from './pages/register/register.component';
 import { authGuard } from './core/guards/auth/auth.guard';
 import { PagInicialFuncionarioComponent } from './pages/pag-inicial-funcionario/pag-inicial-funcionario.component';
+import { PagAprovarRejeitarOrcamentoComponent } from './pages/pag-aprovar-rejeitar-orcamento/pag-aprovar-rejeitar-orcamento.component';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
@@ -32,6 +33,7 @@ export const routes: Routes = [
       { path: '', component: PagInicialClienteComponent, title: 'Meus chamados)' },
       { path: 'solicitar-manutencao', component: PagInicialClienteComponent, title: 'Solicitar Manutenção' },
       { path: 'visualizar-manutencao', component: PagInicialClienteComponent, title: 'Visualizar Manutenção' },
+      { path: 'orcamentos/:id/:slug', component: PagAprovarRejeitarOrcamentoComponent, title: 'Detalhe do Orçamento' },
     ],
   },
   {

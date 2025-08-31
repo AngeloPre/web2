@@ -17,6 +17,7 @@ export class PagInicialClienteComponent {
       serviceId: 101,
       status: StatusConcertoEnum.FINALIZADA,
       descricao: 'Descrição do chamado 1',
+      slug: 'descricao-do-chamado-1',
       data: new Date(),
     },
     {
@@ -24,6 +25,7 @@ export class PagInicialClienteComponent {
       serviceId: 102,
       status: StatusConcertoEnum.PAGA,
       descricao: 'Descrição do chamado 2',
+      slug: 'descricao-do-chamado-2',
       data: new Date(),
     },
     {
@@ -31,6 +33,7 @@ export class PagInicialClienteComponent {
       serviceId: 103,
       status: StatusConcertoEnum.ARRUMADA,
       descricao: 'Descrição do chamado 3',
+      slug: 'descricao-do-chamado-3',
       data: new Date(),
     },
     {
@@ -38,6 +41,7 @@ export class PagInicialClienteComponent {
       serviceId: 104,
       status: StatusConcertoEnum.REDIRECIONADA,
       descricao: 'Descrição do chamado 4',
+      slug: 'descricao-do-chamado-4',
       data: new Date(),
     },
     {
@@ -45,27 +49,31 @@ export class PagInicialClienteComponent {
       serviceId: 105,
       status: StatusConcertoEnum.APROVADA,
       descricao: 'Descrição do chamado 5',
+      slug: 'descricao-do-chamado-5',
       data: new Date(),
     },
     {
       userId: 6,
       serviceId: 106,
       status: StatusConcertoEnum.REJEITADA,
-      descricao: 'Descrição do chamado 5',
+      descricao: 'Descrição do chamado 6',
+      slug: 'descricao-do-chamado-6',
       data: new Date(),
     },
     {
       userId: 7,
       serviceId: 107,
       status: StatusConcertoEnum.ORCADA,
-      descricao: 'Descrição do chamado 5',
+      descricao: 'Descrição do chamado 7',
+      slug: 'descricao-do-chamado-7',
       data: new Date(),
     },
     {
       userId: 8,
       serviceId: 108,
       status: StatusConcertoEnum.ABERTA,
-      descricao: 'Descrição do chamado 5',
+      descricao: 'Descrição do chamado 8',
+      slug: 'descricao-do-chamado-8',
       data: new Date(),
     },
   ]);
