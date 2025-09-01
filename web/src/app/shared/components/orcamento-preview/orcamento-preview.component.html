@@ -1,0 +1,97 @@
+<div class="grid gap-6 md:[grid-template-columns:minmax(0,1fr)_minmax(320px,35%)]">
+  <div class="min-w-0">
+    <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
+      <p class="text-sm text-figma-gray-300">00004</p>
+      <h2 class="text-xl font-semibold mt-1">Backup não está funcionando</h2>
+
+      <div class="mt-4">
+        <p class="text-sm font-semibold text-figma-gray-300">Descrição</p>
+        <p class="mt-1 text-figma-gray-600">
+          O sistema de backup automático parou de funcionar. Última execução bem-sucedida foi há uma semana.
+        </p>
+      </div>
+
+      <div class="mt-4">
+        <p class="text-sm font-semibold text-figma-gray-300">Categoria</p>
+        <p class="mt-1">Recuperação de Dados</p>
+      </div>
+
+      <div class="mt-4 grid grid-cols-2 gap-6">
+        <div>
+          <p class="text-sm font-semibold text-figma-gray-300">Criado em</p>
+          <p class="mt-1">12/04/25 09:12</p>
+        </div>
+        <div>
+          <p class="text-sm font-semibold text-figma-gray-300">Respondido em</p>
+          <p class="mt-1">12/04/25 15:20</p>
+        </div>
+      </div>
+
+      <div class="mt-6">
+        <p class="text-sm font-semibold text-figma-gray-300">Cliente</p>
+        <div class="mt-2 flex items-center gap-3">
+          <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">AC</div>
+          <div>
+            <p class="font-medium leading-tight">André Costa</p>
+            <p class="text-xs text-figma-gray-300">andre.costa&#64;example.com</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="mt-6 bg-white rounded-lg border border-figma-gray-200 p-0 overflow-hidden">
+      <mat-expansion-panel class="shadow-none">
+        <mat-expansion-panel-header>
+          <span class="font-medium">Serviços adicionais</span>
+        </mat-expansion-panel-header>
+        <div class="p-6">
+          <ul class="divide-y divide-figma-gray-200">
+            <li class="flex items-center justify-between py-3">
+              <span>Assinatura de backup</span>
+              <span>R$ 120,00</span>
+            </li>
+            <li class="flex items-center justify-between py-3">
+              <span>Formatação do PC</span>
+              <span>R$ 75,00</span>
+            </li>
+          </ul>
+        </div>
+      </mat-expansion-panel>
+    </div>
+  </div>
+
+  <aside class="bg-white rounded-lg border border-figma-gray-200 p-6 flex flex-col">
+    <p class="text-sm font-semibold text-figma-gray-300">Técnico responsável</p>
+    <div class="mt-3 flex items-center gap-3">
+      <div class="w-10 h-10 rounded-full bg-brand-base text-white flex items-center justify-center">CS</div>
+      <div>
+        <p class="font-medium leading-tight">Carlos Silva</p>
+        <p class="text-sm text-figma-gray-300 leading-tight">carlos.silva&#64;test.com</p>
+      </div>
+    </div>
+
+    <div class="mt-6 space-y-2">
+      <p class="text-sm font-semibold text-figma-gray-300">Valores</p>
+      <div class="flex items-center justify-between">
+        <span>Preço base</span>
+        <span>R$ 200,00</span>
+      </div>
+      <div class="flex items-center justify-between">
+        <span>Adicionais</span>
+        <span>R$ 195,00</span>
+      </div>
+    </div>
+
+    <mat-divider class="my-4"></mat-divider>
+
+    <div class="flex items-center justify-between font-semibold">
+      <span>Total</span>
+      <span>R$ 395,00</span>
+    </div>
+
+    <div class="mt-auto pt-4 flex flex-col gap-2">
+      <button mat-flat-button class="w-full btn-reject" (click)="rejeitar()">Rejeitar</button>
+      <button mat-flat-button class="w-full btn-approve" (click)="aprovar()">Aprovar</button>
+    </div>
+  </aside>
+</div>

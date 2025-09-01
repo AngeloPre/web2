@@ -69,20 +69,100 @@ body {
 .mat-mdc-form-field .mat-mdc-input-element:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px var(--autofill-bg) inset !important;
   box-shadow:        0 0 0 1000px var(--autofill-bg) inset !important;
-  -webkit-text-fill-color: inherit;  /* mantém a cor do texto */
+  -webkit-text-fill-color: inherit;
   caret-color: inherit;
 }
 
 .mat-mdc-form-field .mat-mdc-input-element:-webkit-autofill:hover {
   -webkit-box-shadow: 0 0 0 1000px var(--autofill-hover) inset !important;
   box-shadow:        0 0 0 1000px var(--autofill-hover) inset !important;
-  -webkit-text-fill-color: inherit;  /* mantém a cor do texto */
+  -webkit-text-fill-color: inherit;
   caret-color: inherit;
 }
 
-/* Firefox */
 .mat-mdc-form-field .mat-mdc-input-element:-moz-autofill {
   box-shadow: 0 0 0 1000px var(--autofill-bg) inset !important;
   -moz-text-fill-color: inherit;
   caret-color: inherit;
+}
+
+.mat-mdc-button.figma-ghost.mat-mdc-button-base {
+  border-radius: 8px;
+  padding-inline: 6px;
+  min-height: auto;
+  line-height: 1;
+}
+.mat-mdc-button.figma-ghost .mdc-button__label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #535964;
+  font-size: 1rem;
+}
+.mat-mdc-button.figma-ghost .mdc-button__label img,
+.mat-mdc-button.figma-ghost .mdc-button__label mat-icon {
+  width: 14px;
+  height: 14px;
+  font-size: 14px;
+}
+
+.mat-mdc-button.figma-ghost:not(.mat-mdc-button-disabled):hover,
+.mat-mdc-button.figma-ghost:not(.mat-mdc-button-disabled):focus-visible {
+  background-color: #E3E5E8;
+}
+.mat-mdc-button.figma-ghost:not(.mat-mdc-button-disabled):active {
+  background-color: #858B99;
+}
+.mat-mdc-button.figma-ghost {
+  --mdc-text-button-hover-state-layer-opacity: 0;
+  --mdc-text-button-focus-state-layer-opacity: 0;
+  --mdc-text-button-pressed-state-layer-opacity: 0;
+}
+
+.page-shell {
+  padding-inline: clamp(40px, calc((100vw - 1120px)/2), 180px);
+}
+
+.mat-mdc-unelevated-button.btn-approve {
+  --mdc-filled-button-container-color: #508B26;
+  --mdc-filled-button-label-text-color: #F9FAFA;
+  --mdc-filled-button-container-shape: 8px;
+  --mdc-filled-button-hover-state-layer-opacity: 0;
+  --mdc-filled-button-focus-state-layer-opacity: 0;
+  --mdc-filled-button-pressed-state-layer-opacity: 0;
+  filter: none;
+}
+.mat-mdc-unelevated-button.btn-approve:hover { filter: brightness(0.96); }
+.mat-mdc-unelevated-button.btn-approve:active { filter: brightness(0.92); }
+
+.mat-mdc-unelevated-button.btn-reject {
+  --mdc-filled-button-container-color: #D03E3E;
+  --mdc-filled-button-label-text-color: #F9FAFA;
+  --mdc-filled-button-container-shape: 8px;
+  --mdc-filled-button-hover-state-layer-opacity: 0;
+  --mdc-filled-button-focus-state-layer-opacity: 0;
+  --mdc-filled-button-pressed-state-layer-opacity: 0;
+  filter: none;
+}
+.mat-mdc-unelevated-button.btn-reject:hover { filter: brightness(0.96); }
+.mat-mdc-unelevated-button.btn-reject:active { filter: brightness(0.92); }
+
+.mat-mdc-snack-bar-container.snack-success .mdc-snackbar__surface {
+  background-color: #508B26;
+  color: #F9FAFA;
+}
+.mat-mdc-snack-bar-container.snack-danger .mdc-snackbar__surface {
+  background-color: #D03E3E;
+  color: #F9FAFA;
+}
+.mat-mdc-snack-bar-container.snack-success .mdc-snackbar__label,
+.mat-mdc-snack-bar-container.snack-danger  .mdc-snackbar__label {
+  color: #F9FAFA;
+}
+.mat-mdc-snack-bar-container.snack-success .mat-mdc-snack-bar-action,
+.mat-mdc-snack-bar-container.snack-success .mat-mdc-button .mdc-button__label,
+.mat-mdc-snack-bar-container.snack-danger  .mat-mdc-snack-bar-action,
+.mat-mdc-snack-bar-container.snack-danger  .mat-mdc-button .mdc-button__label {
+  color: #F9FAFA;
 }
