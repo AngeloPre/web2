@@ -1,0 +1,35 @@
+<div class="mt-4 mx-24">
+  <h1 class="text-3xl text-brand-dark" >Solicitar Manuntenção</h1>
+  <div class="mt-8 bg-white rounded-lg overflow-hidden border border-figma-gray-200">
+    <div class="p-8">
+      <h2 class="text-md font-semibold font-lato">Informações da Solicitação</h2>
+      <h3 class="text-figma-gray-400 font-lato mt-2">Informe os dados abaixo para abrir uma solicitação</h3>
+      <mat-form-field class="w-full mt-4">
+        <mat-label class="text-sm font-lato">Descrição do Equipamento</mat-label>
+            <input  matInput
+            placeholder="Computador Desktop"
+            class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
+            name="descrição">
+      </mat-form-field>
+      <mat-form-field class="w-full mt-4">
+        <mat-label class="text-sm font-lato">Categoria do Equipamento</mat-label>
+        <mat-select>
+          @for (item of categorias; track item) {
+            <mat-option [value]="item" class="placeholder:font-lato placeholder:text-sm">{{ item }}</mat-option>
+          }
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field class="w-full mt-4">
+        <mat-label class="text-sm font-lato">Descrição do Defeito</mat-label>
+        <textarea matInput></textarea>
+      </mat-form-field>
+      <div class="flex justify-center">
+        <button
+        mat-flat-button
+        class="w-5/6 mt-8 font-lato"
+        (click)="openDialog()"
+        >Abrir Solicitação</button>
+      </div>
+    </div>
+  </div>
+</div>

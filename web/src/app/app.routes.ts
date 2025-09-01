@@ -31,7 +31,6 @@ export const routes: Routes = [
     component: MenuLateralComponent,
     canActivate: [authGuard],
     children: [
-      { path: '', component: PagInicialClienteComponent, title: 'Meus chamados)' },
       {
         path: '',
         component: PagInicialClienteComponent,
