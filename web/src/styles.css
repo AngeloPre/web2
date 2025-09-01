@@ -51,6 +51,20 @@ body {
   --mdc-typography-label-small-font-family:  "Lato", ui-sans-serif, system-ui, sans-serif;
 }
 
+/* Modais do Angular Material */
+.mat-dialog-actions,
+.mat-mdc-dialog-actions,
+.mat-dialog-actions button,
+.mat-mdc-dialog-actions button {
+  font-family: "Lato", ui-sans-serif, system-ui, sans-serif !important;
+  font-size: 0.875rem !important;
+}
+.mat-dialog-title,
+.mat-mdc-dialog-title {
+  font-family: "Lato", ui-sans-serif, system-ui, sans-serif !important;
+  font-size: 1rem !important;
+}
+
 .mat-mdc-form-field .mat-mdc-input-element:-webkit-autofill,
 .mat-mdc-form-field .mat-mdc-input-element:-webkit-autofill:focus {
   -webkit-box-shadow: 0 0 0 1000px var(--autofill-bg) inset !important;
