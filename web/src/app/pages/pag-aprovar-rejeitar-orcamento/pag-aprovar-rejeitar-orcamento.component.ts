@@ -1,6 +1,7 @@
 import { OrcamentoPreviewComponent } from '@/app/shared/components/orcamento-preview/orcamento-preview.component';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { Component } from '@angular/core';
 
 @Component({
@@ -9,6 +10,17 @@ import { Component } from '@angular/core';
   templateUrl: './pag-aprovar-rejeitar-orcamento.component.html',
   styles: ``
 })
-export class PagAprovarRejeitarOrcamentoComponent {
 
+export class PagAprovarRejeitarOrcamentoComponent {
+  constructor(
+    private route: ActivatedRoute
+  ) {
+    this.getOrder();
+  }
+
+  getOrder() {
+    this.route.paramMap.subscribe(params => {
+      const orderId = params.get('id');
+    });
+  }
 }

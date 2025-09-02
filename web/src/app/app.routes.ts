@@ -11,6 +11,7 @@ import { authGuard } from './core/guards/auth/auth.guard';
 import { PagInicialFuncionarioComponent } from './pages/pag-inicial-funcionario/pag-inicial-funcionario.component';
 import { PagAprovarRejeitarOrcamentoComponent } from './pages/pag-aprovar-rejeitar-orcamento/pag-aprovar-rejeitar-orcamento.component';
 import { UserRole } from './core/store/user-role/user-role.store';
+import { HistoricoClienteComponent } from './pages/historico-cliente/historico-cliente.component';
 import { PagInserirOrcamentoComponent } from './pages/pag-inserir-orcamento/pag-inserir-orcamento.component';
 
 export const routes: Routes = [
@@ -49,6 +50,16 @@ export const routes: Routes = [
         component: PagInicialClienteComponent,
         title: 'Visualizar Manutenção',
       },
+      {
+        path: 'orcamentos/:id',
+        component: PagAprovarRejeitarOrcamentoComponent,
+        title: 'Detalhe do Orçamento'
+      },
+      {
+        path: 'historico/:id',
+        component: HistoricoClienteComponent,
+        title: 'Detalhe do Orçamento'
+      },
       { 
         path: 'orcamentos/:id/:slug', 
         component: PagAprovarRejeitarOrcamentoComponent, 
@@ -58,8 +69,8 @@ export const routes: Routes = [
   {
     path: 'funcionario',
     component: MenuLateralComponent,
-    canActivate: [authGuard],
     providers: [{ provide: UserRole, useValue: { isEmployee: () => true } }],
+    canActivate: [authGuard],
     children: [
       {
         path: '',
