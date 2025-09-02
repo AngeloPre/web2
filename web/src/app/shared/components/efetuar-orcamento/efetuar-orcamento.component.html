@@ -1,0 +1,58 @@
+<div class="grid gap-6 md:[grid-template-columns:minmax(0,1fr)_minmax(320px,35%)]">
+    <div class="min-w-0">
+        <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
+            <p class="text-sm text-figma-gray-300">00004</p>
+            <h2 class="text-xl font-semibold mt-1">Backup não está funcionando</h2>
+
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-figma-gray-300">Descrição</p>
+                <p class="mt-1 text-figma-gray-600">
+                    O sistema de backup automático parou de funcionar. Última execução bem-sucedida foi há uma semana.
+                </p>
+            </div>
+
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-figma-gray-300">Categoria</p>
+                <p class="mt-1">Recuperação de Dados</p>
+            </div>
+            
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-figma-gray-300">Criado em</p>
+                <p class="mt-1">12/04/25 09:00</p>
+            </div>
+
+            <div class="mt-6">
+                <p class="text-sm font-semibold text-figma-gray-300">Cliente</p>
+                <div class="mt-2 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">AC</div>
+                    <div>
+                        <p class="font-medium leading-tight">Andre Costa</p>
+                        <p class="text-xs text-figma-gray-300">andre.costa&#64;example.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!--Formulario lateral-->
+    <aside class="bg-white rounded-lg border border-figma-gray-200 p-6 flex flex-col">
+        <p class="text-sm font-semibold text-figma-gray-300">Técnico Responsável</p>
+        <div class="mt-3 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-brand-base text-white flex items-center justify-center">??</div>
+            <div>
+                <p class="font-medium leading-tight">Sem técnico atribuído</p>
+                <p class="text-sm text-figma-gray-300 leading-tight">Sem técnico atribuído</p>
+            </div>
+        </div>
+
+        <div class="mt-6 space-y-2">
+            <p class="text-sm font-semibold text-figma-gray-300">Atribuir Valores</p>
+            <mat-label>Preço Base</mat-label>
+            <input 
+                matInput 
+                placeholder="R$ 0,00" 
+                class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent" />
+        </div>
+        <button mat-flat-button class="w-full mt-3">Confirmar Orçamento</button>
+    </aside>
+</div>
