@@ -1,0 +1,106 @@
+<div class="grid gap-6">
+    <div class="min-w-0">
+        <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
+            <h2 class="text-3xl font-semibold mt-1 mb-2">Resumo</h2>
+            <h2 class="text-xl font-semibold mt-1">Backup não está funcionando</h2>
+
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-figma-gray-300">Descrição</p>
+                <p class="mt-1 text-figma-gray-600">
+                    O sistema de backup automático parou de funcionar. Última execução bem-sucedida foi há uma semana.
+                </p>
+            </div>
+
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-figma-gray-300">Categoria</p>
+                <p class="mt-1">Desktop</p>
+            </div>
+
+            <div class="mt-4 grid grid-cols-2 gap-6">
+                <div>
+                    <p class="text-sm font-semibold text-figma-gray-300">Criado em</p>
+                    <p class="mt-1">12/04/25 09:12</p>
+                </div>
+            </div>
+
+            <div class="mt-4 grid grid-cols-2 gap-6">
+                <div>
+                    <p class="text-sm font-semibold text-figma-gray-300">Status</p>
+                    <div class >
+                        <app-status-icon [status]="statusFinal" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-6">
+                <p class="text-sm font-semibold text-figma-gray-300">Cliente</p>
+                <div class="mt-2 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">AC</div>
+                    <div>
+                        <p class="font-medium leading-tight">André Costa</p>
+                        <p class="text-xs text-figma-gray-300">andre.costa&#64;example.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <h2 class="text-xl font-semibold mt-5">Etapas do chamado:</h2>
+
+
+    <div>
+        @for (etapa of etapas; track etapa.id) {
+            <div class="min-w-0 mb-2">
+                <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
+                    <p class="text-xl font-semibold mt-1">00{{ etapa.id }}</p>
+
+                    @if (etapa.status === StatusConcertoEnum.ABERTA) {
+                        <div class="mt-4">
+                            <p class="text-sm font-semibold text-figma-gray-300">Descrição</p>
+                            <p class="mt-1 text-figma-gray-600">
+                                O sistema de backup automático parou de funcionar
+                            </p>
+                        </div>
+
+                        <div class="mt-4">
+                            <p class="text-sm font-semibold text-figma-gray-300">Categoria</p>
+                            <p class="mt-1">Desktop</p>
+                        </div>
+                    }
+
+                    <div class="mt-4 grid grid-cols-2 gap-6">
+                        <div>
+                            <p class="text-sm font-semibold text-figma-gray-300">Criado em</p>
+                            <p class="mt-1">12/04/25 09:12</p>
+                        </div>
+                    </div>
+
+                    @if ( etapa.status !== StatusConcertoEnum.ABERTA ) { <!--não é a primeira etapa, ja temos técnico designado e orçamento disponivel-->
+                        <div class="mt-4 grid grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-sm font-semibold text-figma-gray-300">Técnico</p>
+                                <p class="mt-1">{{ etapa.tecnico.nome }}</p>
+                            </div>
+                        </div>
+
+                        <div class="mt-4 grid grid-cols-2 gap-6">
+                            <div>
+                                <p class="text-sm font-semibold text-figma-gray-300">Orçamento</p>
+                                <p class="mt-1">R$ {{ etapa.orcamento }},00 </p>
+                            </div>
+                        </div>
+                    }
+
+                    <div class="mt-4 grid grid-cols-2 gap-6">
+                        <div>
+                            <p class="text-sm font-semibold text-figma-gray-300">Status</p>
+                            <div class >
+                                <app-status-icon [status]=etapa.status />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+  </div>
+</div>

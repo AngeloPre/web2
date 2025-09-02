@@ -10,6 +10,8 @@ import { RegisterComponent } from './pages/register/register.component';
 import { authGuard } from './core/guards/auth/auth.guard';
 import { PagInicialFuncionarioComponent } from './pages/pag-inicial-funcionario/pag-inicial-funcionario.component';
 import { PagAprovarRejeitarOrcamentoComponent } from './pages/pag-aprovar-rejeitar-orcamento/pag-aprovar-rejeitar-orcamento.component';
+import { HistoricoClienteComponent } from './pages/historico-cliente/historico-cliente.component';
+import { UserRole } from './core/store/user-role/user-role.store';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
@@ -28,6 +30,7 @@ export const routes: Routes = [
   },
   {
     path: 'cliente',
+    providers: [{ provide: UserRole, useValue: { isEmployee: () => false } }],
     component: MenuLateralComponent,
     canActivate: [authGuard],
     children: [
@@ -46,12 +49,22 @@ export const routes: Routes = [
         component: PagInicialClienteComponent,
         title: 'Visualizar Manutenção',
       },
-      { path: 'orcamentos/:id/:slug', component: PagAprovarRejeitarOrcamentoComponent, title: 'Detalhe do Orçamento' },
+      {
+        path: 'orcamentos/:id',
+        component: PagAprovarRejeitarOrcamentoComponent,
+        title: 'Detalhe do Orçamento'
+      },
+      {
+        path: 'historico/:id',
+        component: HistoricoClienteComponent,
+        title: 'Detalhe do Orçamento'
+      },
     ],
   },
   {
     path: 'funcionario',
     component: MenuLateralComponent,
+    providers: [{ provide: UserRole, useValue: { isEmployee: () => true } }],
     canActivate: [authGuard],
     children: [
       {
