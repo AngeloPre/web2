@@ -4,7 +4,7 @@
             <!--header-->
             <div class="flex items-start justify-between">
                 <div class="text-xs text-figma-gray-300">{{ chamado.serviceId }}</div>
-                <button 
+                <button
                 [routerLink]="['/funcionario/orcamentos',chamado.serviceId,chamado.slug]"
                 class="inline-flex items-center gap-2 rounded-lg bg-figma-gray-600 text-white text-xs font-medium px-4 py-1">
                 Orçar</button>
@@ -12,7 +12,7 @@
 
             <!--categoria e descrição-->
             <h3 class="text-lg font-semibold text-figma-gray-500">{{ chamado.serviceCategory }}</h3>
-            <p class="text-sm text-figma-gray-400 -mt-1">{{ chamado.descricao | limiteCaracteres : 30 }}</p>
+            <p class="text-sm text-figma-gray-400 -mt-1">{{ chamado.descricaoEquipamento | limiteCaracteres : 30 }}</p>
 
             <!--data de criação-->
             <div class="mt-4 flex items-center justify-between text-sm">
