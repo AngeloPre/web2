@@ -9,12 +9,15 @@ export const LS_Chamado = 'Chamado';
   providedIn: 'root',
 })
 export class ChamadoService implements MockServices<ChamadoItem> {
+  private serviceID = 100;
+
   listarTodos(): ChamadoItem[] {
     const chamados = localStorage[LS_Chamado];
     return chamados ? JSON.parse(chamados) : [];
   }
   inserir(elemento: ChamadoItem): void {
     const chamados = this.listarTodos();
+    elemento.serviceId = this.serviceID++;
     chamados.push(elemento);
     localStorage[LS_Chamado] = JSON.stringify(chamados);
   }
