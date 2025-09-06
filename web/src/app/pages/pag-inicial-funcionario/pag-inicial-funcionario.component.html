@@ -1,10 +1,6 @@
-<div class="mt-6 mx-16">
-    <h1 class="text-3xl text-brand-dark" >Minhas Solicitações</h1>
-    <div class="mt-8 flex flex-wrap gap-6">
-        @for (it of items; track $index){
-            <div class="w-[360px]">
-                <app-chamado-card />
-            </div>
-        }
+<div class="mt-6 page-shell">
+    <h1 class="text-3xl font-bold text-brand-dark" >Solicitações Ativas</h1>
+    <div class="mt-8">
+        <app-chamado-card [chamados]="chamadosMock()"/>
     </div>
 </div>

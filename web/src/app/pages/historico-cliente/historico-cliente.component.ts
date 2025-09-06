@@ -3,11 +3,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Component } from '@angular/core';
-import { StatusIconComponent } from '@/app/shared/components/status-icon/status-icon.component';
 
 @Component({
     selector: 'app-historico-cliente',
-    imports: [HistoricoComponent, MatButtonModule, RouterLink, StatusIconComponent],
+    imports: [HistoricoComponent, MatButtonModule, RouterLink],
     templateUrl: './historico-cliente.component.html',
     styles: ``
 })

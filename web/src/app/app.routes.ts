@@ -38,7 +38,7 @@ export const routes: Routes = [
       {
         path: '',
         component: PagInicialClienteComponent,
-        title: 'Meus chamados)',
+        title: 'Meus chamados',
       },
       {
         path: 'solicitar-manutencao',
@@ -51,12 +51,7 @@ export const routes: Routes = [
         title: 'Visualizar Manutenção',
       },
       {
-        path: 'orcamentos/:id',
-        component: PagAprovarRejeitarOrcamentoComponent,
-        title: 'Detalhe do Orçamento'
-      },
-      {
-        path: 'historico/:id',
+        path: 'historico/:id/:slug',
         component: HistoricoClienteComponent,
         title: 'Detalhe do Orçamento'
       },
@@ -78,9 +73,9 @@ export const routes: Routes = [
         title: 'Solicitações Abertas',
       },
       { 
-        path: 'inserir-orcamento', 
+        path: 'orcamentos/:id/:slug', 
         component: PagInserirOrcamentoComponent, 
-        title: 'Inserir Orçamento' },
+        title: 'Efetuar Orçamento' },
       { 
         path: 'solicitacoes', 
         component: HomeComponent, 
