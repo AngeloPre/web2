@@ -48,7 +48,7 @@
             (btnClicked)="btnAcao($event)" />
         </td>
         <td class="px-2 py-4">
-          <button class="aspect-square rounded p-2">
+          <button class="aspect-square rounded p-2" [routerLink]="['/cliente/historico',chamado.serviceId,chamado.slug]">
             <img src="assets/svg/visualizar-icon.svg" />
           </button>
         </td>

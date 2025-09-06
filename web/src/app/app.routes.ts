@@ -51,7 +51,7 @@ export const routes: Routes = [
         title: 'Visualizar Manutenção',
       },
       {
-        path: 'historico/:id',
+        path: 'historico/:id/:slug',
         component: HistoricoClienteComponent,
         title: 'Detalhe do Orçamento'
       },

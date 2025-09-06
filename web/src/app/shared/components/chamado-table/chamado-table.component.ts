@@ -1,13 +1,14 @@
 import { Component, input, output } from '@angular/core';
 import { ChamadoItem } from '@/app/model/chamado-list-mock.type';
 import { DatePipe } from '@angular/common';
+import { RouterLink } from '@angular/router';
 import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { VisualizarButtonComponent } from '../visualizar-button/visualizar-button.component';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
 
 @Component({
   selector: 'app-chamado-table',
-  imports: [DatePipe, VisualizarButtonComponent, StatusIconComponent],
+  imports: [DatePipe, VisualizarButtonComponent, StatusIconComponent, RouterLink],
   templateUrl: './chamado-table.component.html',
   styles: ``,
 })
