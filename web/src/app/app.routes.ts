@@ -38,7 +38,7 @@ export const routes: Routes = [
       {
         path: '',
         component: PagInicialClienteComponent,
-        title: 'Meus chamados)',
+        title: 'Meus chamados',
       },
       {
         path: 'solicitar-manutencao',
@@ -49,11 +49,6 @@ export const routes: Routes = [
         path: 'visualizar-manutencao',
         component: PagInicialClienteComponent,
         title: 'Visualizar Manutenção',
-      },
-      {
-        path: 'orcamentos/:id',
-        component: PagAprovarRejeitarOrcamentoComponent,
-        title: 'Detalhe do Orçamento'
       },
       {
         path: 'historico/:id',
