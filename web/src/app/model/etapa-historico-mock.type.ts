@@ -1,22 +1,22 @@
-import { CategoriaEquipamento } from "./enums/categoria-equipamento"
-import { StatusConcertoEnum } from "./enums/chamado-status.enum"
+import { CategoriaEquipamento } from './enums/categoria-equipamento';
+import { StatusConcertoEnum } from './enums/chamado-status.enum';
 
 export type Tecnico = {
-    nome: string
-}
+  nome: string;
+};
 
 export type ChamadoInicial = {
-    descricaoFalha: string,
-    descricaoEquipamento: string,
-    categoriaEquipamento: CategoriaEquipamento
-}
+  descricaoFalha: string;
+  descricaoEquipamento: string;
+  categoriaEquipamento: CategoriaEquipamento;
+};
 
 export type EtapaHistorico = {
-    id: number,
-    chamadoInicial: ChamadoInicial,
-    dataCriado: Date,
-    tecnico: Tecnico,
-    status: StatusConcertoEnum
-    orcamento?: number,
-    motivoRejeicao?: string
-}
+  id: number;
+  //chamadoInicial: ChamadoInicial,
+  dataCriado: Date;
+  tecnico: Tecnico;
+  status: StatusConcertoEnum;
+  orcamento?: number;
+  motivoRejeicao?: string;
+};

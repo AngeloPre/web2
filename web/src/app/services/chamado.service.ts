@@ -41,14 +41,14 @@ export class ChamadoService implements MockServices<ChamadoItem> {
 
   constructor() {
     if (this.listarTodos().length === 0) {
-      localStorage.setItem('chamado_mock_initialized', 'true');
       this.inserir({
         userId: 1,
         userName: 'João',
         serviceId: 101,
         serviceCategory: CategoriaEquipamento.NOTEBOOK,
         status: StatusConcertoEnum.FINALIZADA,
-        descricao: 'Descrição do chamado 1',
+        descricaoEquipamento: 'Notebook Dell',
+        descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-1',
         data: new Date(),
       });
@@ -58,7 +58,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         serviceId: 102,
         serviceCategory: CategoriaEquipamento.IMPRESSORA,
         status: StatusConcertoEnum.PAGA,
-        descricao: 'Descrição do chamado 2',
+        descricaoEquipamento: 'Impressora HP',
+        descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-2',
         data: new Date(),
       });
@@ -68,7 +69,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         serviceId: 103,
         serviceCategory: CategoriaEquipamento.MOUSE,
         status: StatusConcertoEnum.ARRUMADA,
-        descricao: 'Descrição do chamado 3',
+        descricaoEquipamento: 'Mouse Razer',
+        descricaoFalha: 'Descrição do chamado 3',
         slug: 'descricao-do-chamado-3',
         data: new Date(),
       });
@@ -78,7 +80,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         serviceId: 104,
         serviceCategory: CategoriaEquipamento.DESKTOP,
         status: StatusConcertoEnum.REDIRECIONADA,
-        descricao: 'Descrição do chamado 4',
+        descricaoEquipamento: 'Desktop Dell',
+        descricaoFalha: 'Descrição do chamado 4',
         slug: 'descricao-do-chamado-4',
         data: new Date(),
       });
@@ -88,7 +91,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         serviceId: 105,
         serviceCategory: CategoriaEquipamento.TECLADO,
         status: StatusConcertoEnum.APROVADA,
-        descricao: 'Descrição do chamado 5',
+        descricaoEquipamento: 'Teclado Logitec',
+        descricaoFalha: 'Descrição do chamado 5',
         slug: 'descricao-do-chamado-5',
         data: new Date(),
       });
@@ -98,7 +102,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         serviceId: 106,
         serviceCategory: CategoriaEquipamento.IMPRESSORA,
         status: StatusConcertoEnum.REJEITADA,
-        descricao: 'Descrição do chamado 6',
+        descricaoEquipamento: 'Impressora Epson',
+        descricaoFalha: 'Descrição do chamado 6',
         slug: 'descricao-do-chamado-6',
         data: new Date(),
       });
@@ -108,7 +113,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         serviceId: 107,
         serviceCategory: CategoriaEquipamento.DESKTOP,
         status: StatusConcertoEnum.ORCADA,
-        descricao: 'Descrição do chamado 7',
+        descricaoEquipamento: 'Desktop Customizado',
+        descricaoFalha: 'Descrição do chamado 7',
         slug: 'descricao-do-chamado-7',
         data: new Date(),
       });
@@ -118,7 +124,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         serviceId: 108,
         serviceCategory: CategoriaEquipamento.NOTEBOOK,
         status: StatusConcertoEnum.ABERTA,
-        descricao: 'Descrição do chamado 8',
+        descricaoEquipamento: 'Notebook Avell',
+        descricaoFalha: 'Descrição do chamado 8',
         slug: 'descricao-do-chamado-8',
         data: new Date(),
       });
