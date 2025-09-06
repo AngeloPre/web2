@@ -73,9 +73,9 @@ export const routes: Routes = [
         title: 'Solicitações Abertas',
       },
       { 
-        path: 'inserir-orcamento', 
+        path: 'orcamentos/:id/:slug', 
         component: PagInserirOrcamentoComponent, 
-        title: 'Inserir Orçamento' },
+        title: 'Efetuar Orçamento' },
       { 
         path: 'solicitacoes', 
         component: HomeComponent, 
