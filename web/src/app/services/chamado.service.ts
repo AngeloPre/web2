@@ -10,6 +10,7 @@ export const LS_Chamado = 'Chamado';
 })
 export class ChamadoService implements MockServices<ChamadoItem> {
   private serviceID = 100;
+  private alreadyInitialized = localStorage.getItem('chamado_mock_initialized');
 
   listarTodos(): ChamadoItem[] {
     const chamados = localStorage[LS_Chamado];
@@ -39,7 +40,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
   }
 
   constructor() {
-    if (this.listarTodos().length === 0) {
+    if (!this.alreadyInitialized) {
+      localStorage.setItem('chamado_mock_initialized', 'true');
       this.inserir({
         userId: 1,
         serviceId: 101,
