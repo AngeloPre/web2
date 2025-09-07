@@ -13,6 +13,7 @@ import { PagAprovarRejeitarOrcamentoComponent } from './pages/pag-aprovar-rejeit
 import { UserRole } from './core/store/user-role/user-role.store';
 import { HistoricoClienteComponent } from './pages/historico-cliente/historico-cliente.component';
 import { PagInserirOrcamentoComponent } from './pages/pag-inserir-orcamento/pag-inserir-orcamento.component';
+import { PagCategoriaEquipamentoComponent } from './pages/pag-categoria-equipamento/pag-categoria-equipamento.component';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
@@ -91,7 +92,7 @@ export const routes: Routes = [
       },
       {
         path: 'categorias-equipamento',
-        component: HomeComponent,
+        component: PagCategoriaEquipamentoComponent,
         title: 'Categorias de Equipamento',
       },
     ],

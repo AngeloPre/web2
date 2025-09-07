@@ -1,0 +1,48 @@
+  <table class="text-left w-full shadow-lg bg-white border-collapse">
+    <thead>
+      <tr>
+        <th class="border-b border-figma-gray-200 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+            Título
+          </p>
+        </th>
+        <th class="border-b border-figma-gray-200 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+            Valor
+          </p>
+        </th>
+        <th class="border-b border-figma-gray-200 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+            Status
+          </p>
+        </th>
+        <th class="border-b border-figma-gray-200 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70"></p>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- @for (chamado of chamados(); track chamado.serviceId) { -->
+        <tr class="hover:bg-figma-gray-200">
+        <td class="px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+            <!-- {{ chamado.data | date:'short' }} -->
+          </p>
+        </td>
+        <td class="px-8 py-4">
+          <p class="block-b font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900">
+            <!-- {{ chamado.descricaoEquipamento }} -->
+          </p>
+        </td>
+        <td class="px-4 py-4">
+            <!-- <app-status-icon [status]="chamado.status" /> -->
+        </td>
+        <td class="px-6 py-4 flex justify-end">
+          <button class="aspect-square rounded p-2">
+            <img src="assets/svg/pen-line.svg" />
+          </button>
+        </td>
+        </tr>
+      <!-- } -->
+    </tbody>
+  </table>
