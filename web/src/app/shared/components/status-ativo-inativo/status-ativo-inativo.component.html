@@ -1,1 +1,18 @@
-<p>status-ativo-inativo works!</p>
+@switch (status()) {
+  @case (categoriaStatus.INATIVO) {
+    <span class="text-[#8e0f0f] p-1.5 pr-3 rounded-3xl inline-flex items-center bg-[#ffe0e0]">
+    <!-- <img src="assets/svg/rejeitada-icon.svg" /> -->
+    <p class="font-semibold ml-2">
+      Inativo
+    </p>
+    </span>
+  }
+  @case (categoriaStatus.ATIVO) {
+    <span class="text-feedback-done p-1.5 pr-3 rounded-3xl inline-flex items-center bg-[#edffe0]">
+    <!-- <img src="assets/svg/finalizada-icon.svg" /> -->
+    <p class="font-semibold ml-2">
+      Ativo
+    </p>
+    </span>
+  }
+}

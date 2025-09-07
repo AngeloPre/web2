@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
+import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
 
 @Component({
   selector: 'app-status-ativo-inativo',
@@ -7,5 +8,6 @@ import { Component } from '@angular/core';
   styles: ``
 })
 export class StatusAtivoInativoComponent {
-
+  status = input.required<StatusAtivoInativo>();
+  categoriaStatus = StatusAtivoInativo;
 }
