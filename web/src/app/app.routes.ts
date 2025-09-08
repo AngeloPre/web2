@@ -15,6 +15,7 @@ import { HistoricoClienteComponent } from './pages/historico-cliente/historico-c
 import { PagInserirOrcamentoComponent } from './pages/pag-inserir-orcamento/pag-inserir-orcamento.component';
 import { PagCategoriaEquipamentoComponent } from './pages/pag-categoria-equipamento/pag-categoria-equipamento.component';
 import { PagSolicitacoesComponent } from './pages/pag-solicitacoes/pag-solicitacoes.component';
+import { PagarClienteComponent } from './pages/pagar-cliente/pagar-cliente.component';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
@@ -55,12 +56,18 @@ export const routes: Routes = [
       {
         path: 'historico/:id/:slug',
         component: HistoricoClienteComponent,
-        title: 'Detalhe do Orçamento'
+        title: 'Detalhe do Orçamento',
       },
-      { 
-        path: 'orcamentos/:id/:slug', 
-        component: PagAprovarRejeitarOrcamentoComponent, 
-        title: 'Detalhe do Orçamento' },
+      {
+        path: 'orcamentos/:id/:slug',
+        component: PagAprovarRejeitarOrcamentoComponent,
+        title: 'Detalhe do Orçamento',
+      },
+      {
+        path: 'pagar/:id/:slug',
+        component: PagarClienteComponent,
+        title: 'Pagamento do Serviço',
+      },
     ],
   },
   {
@@ -74,18 +81,21 @@ export const routes: Routes = [
         component: PagInicialFuncionarioComponent,
         title: 'Solicitações em Aberto',
       },
-      { 
-        path: 'orcamentos/:id/:slug', 
-        component: PagInserirOrcamentoComponent, 
-        title: 'Efetuar Orçamento' },
-      { 
-        path: 'solicitacoes', 
-        component: PagSolicitacoesComponent, 
-        title: 'Todas as Solicitações' },
-      { 
-        path: 'funcionarios', 
-        component: HomeComponent, 
-        title: 'Funcionários' },
+      {
+        path: 'orcamentos/:id/:slug',
+        component: PagInserirOrcamentoComponent,
+        title: 'Efetuar Orçamento',
+      },
+      {
+        path: 'solicitacoes',
+        component: PagSolicitacoesComponent,
+        title: 'Todas as Solicitações',
+      },
+      {
+        path: 'funcionarios',
+        component: HomeComponent,
+        title: 'Funcionários',
+      },
       {
         path: 'novo-funcionario',
         component: HomeComponent,
