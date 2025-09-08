@@ -166,3 +166,11 @@ body {
 .mat-mdc-snack-bar-container.snack-danger  .mat-mdc-button .mdc-button__label {
   color: #F9FAFA;
 }
+
+.mat-mdc-unelevated-button.btn-inline .mdc-button__label {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding-right: 8px;
+}

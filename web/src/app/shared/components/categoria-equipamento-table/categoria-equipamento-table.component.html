@@ -38,12 +38,45 @@
             <app-status-ativo-inativo [status]="categoria.isActive"/>
             <!-- <app-status-icon [status]="chamado.status" /> -->
         </td>
-        <td class="px-6 py-4 flex justify-end">
+        <td class="px-6 py-4 flex justify-end gap-2">
+          @if (categoria.isActive === 'Ativo') {
+            
+            <button class="flex gap-2 items-center">
+              <img src="assets/svg/ban.svg" class="w-5"/>
+              <span>Desativar</span>
+            </button>
+          } @else {
+            <button class="flex gap-2 items-center">
+              <img src="assets/svg/circle-check.svg" class="h-5 w-5"/>
+              <span>Reativar</span>
+            </button>
+          }
+          
           <button class="aspect-square rounded p-2">
-            <img src="assets/svg/pen-line.svg" />
+            <img src="assets/svg/pen-line.svg" class="h-5 w-5"/>
           </button>
         </td>
         </tr>
-      }
+      } @empty {
+      <tr>
+        <td colspan="4" class="py-2">
+          <div class="flex flex-col items-center justify-center text-center gap-3 py-6">
+            <img
+              src="assets/empty-categories.gif"
+              alt="Nenhuma categoria cadastrada"
+              class="h-96 opacity-96"
+            />
+            <div>
+              <p class="text-figma-gray-500 font-semibold">Nenhuma categoria cadastrada</p>
+              <p class="text-figma-gray-300 text-sm">Crie categorias para visualizar aqui.</p>
+            </div>
+            <button mat-flat-button class="btn-inline">
+              <img src="assets/svg/plus.svg" />
+              Criar categoria
+            </button>
+          </div>
+        </td>
+      </tr>
+    }
     </tbody>
   </table>
