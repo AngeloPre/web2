@@ -1,6 +1,6 @@
 import { CategoriaEquipamento } from '@/app/model/enums/categoria-equipamento';
 import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
-import { ChamadoInicial, EtapaHistorico, Tecnico } from '@/app/model/etapa-historico-mock.type';
+import { ChamadoInicial, EtapaHistorico, Tecnico } from '@/app/model/etapa-historico.type';
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';

@@ -1,10 +1,9 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ChamadoItem } from '@/app/model/chamado-list-mock.type';
+import { ChamadoItem } from '@/app/model/chamado-list.type';
 import { ChamadoTableComponent } from '@/app/shared/components/chamado-table/chamado-table.component';
-import { ChamadoService } from '@/app/services/chamado.service';
 //Temporário
 import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
-import { CategoriaEquipamento } from '@/app/model/enums/categoria-equipamento';
+import { ChamadoService } from '@/app/services/chamado.service';
 
 @Component({
   selector: 'app-pag-inicial-cliente',
