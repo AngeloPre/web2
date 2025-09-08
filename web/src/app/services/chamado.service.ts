@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MockServices } from '../model/interfaces/mock-services';
-import { ChamadoItem } from '../model/chamado-list-mock.type';
+import { ChamadoItem } from '../model/chamado-list.type';
 import { StatusConcertoEnum } from '../model/enums/chamado-status.enum';
 import { CategoriaEquipamento } from '../model/enums/categoria-equipamento';
 
@@ -15,6 +15,16 @@ export class ChamadoService implements MockServices<ChamadoItem> {
   listarTodos(): ChamadoItem[] {
     const chamados = localStorage[LS_Chamado];
     return chamados ? JSON.parse(chamados) : [];
+  }
+  listarPorStatus(status: StatusConcertoEnum): ChamadoItem[] {
+    const chamados = localStorage[LS_Chamado];
+    const lista: ChamadoItem[] = JSON.parse(chamados);
+    return lista.filter((chamado) => chamado.status === status);
+  }
+  listarPorUser(userId: number): ChamadoItem[] {
+    const chamados = localStorage[LS_Chamado];
+    const lista: ChamadoItem[] = JSON.parse(chamados);
+    return lista.filter((chamado) => chamado.userId === userId);
   }
   inserir(elemento: ChamadoItem): void {
     const chamados = this.listarTodos();

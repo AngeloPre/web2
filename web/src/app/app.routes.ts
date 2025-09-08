@@ -14,6 +14,7 @@ import { UserRole } from './core/store/user-role/user-role.store';
 import { HistoricoClienteComponent } from './pages/historico-cliente/historico-cliente.component';
 import { PagInserirOrcamentoComponent } from './pages/pag-inserir-orcamento/pag-inserir-orcamento.component';
 import { PagCategoriaEquipamentoComponent } from './pages/pag-categoria-equipamento/pag-categoria-equipamento.component';
+import { PagSolicitacoesComponent } from './pages/pag-solicitacoes/pag-solicitacoes.component';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
@@ -71,7 +72,7 @@ export const routes: Routes = [
       {
         path: '',
         component: PagInicialFuncionarioComponent,
-        title: 'Solicitações Abertas',
+        title: 'Solicitações em Aberto',
       },
       { 
         path: 'orcamentos/:id/:slug', 
@@ -79,8 +80,8 @@ export const routes: Routes = [
         title: 'Efetuar Orçamento' },
       { 
         path: 'solicitacoes', 
-        component: HomeComponent, 
-        title: 'Solicitações' },
+        component: PagSolicitacoesComponent, 
+        title: 'Todas as Solicitações' },
       { 
         path: 'funcionarios', 
         component: HomeComponent, 

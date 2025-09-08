@@ -1,6 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { StatusAtivoInativoComponent } from '../status-ativo-inativo/status-ativo-inativo.component';
-import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
+import { CategoriaEquipamento } from '@/app/model/categoria-equipamento.type';
 
 @Component({
   selector: 'app-categoria-equipamento-table',
@@ -9,5 +9,5 @@ import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum'
   styles: ``
 })
 export class CategoriaEquipamentoTableComponent {
-  categoriaStatus = StatusAtivoInativo;
+  categorias = input.required<CategoriaEquipamento[]>();
 }

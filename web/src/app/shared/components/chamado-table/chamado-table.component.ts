@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { ChamadoItem } from '@/app/model/chamado-list-mock.type';
+import { ChamadoItem } from '@/app/model/chamado-list.type';
 import { DatePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
 import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';

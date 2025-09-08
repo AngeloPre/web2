@@ -1,6 +1,8 @@
 import { CategoriaEquipamentoTableComponent } from '@/app/shared/components/categoria-equipamento-table/categoria-equipamento-table.component';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
+import { CategoriaEquipamentoService } from '@/app/services/categoria-equipamento.service';
+import { CategoriaEquipamento } from '@/app/model/categoria-equipamento.type';
 
 @Component({
   selector: 'app-pag-categoria-equipamento',
@@ -8,6 +10,17 @@ import { MatButtonModule } from '@angular/material/button';
   templateUrl: './pag-categoria-equipamento.component.html',
   styles: ``
 })
-export class PagCategoriaEquipamentoComponent {
+export class PagCategoriaEquipamentoComponent implements OnInit {
+  private categoriaEquipamentoService = inject(CategoriaEquipamentoService);
 
+  categoriaEquipamentoMock = signal<CategoriaEquipamento[]>([]);
+
+  ngOnInit(): void {
+    this.atualizarTela();
+    console.log(this.categoriaEquipamentoService.listarTodos());
+  }
+
+  atualizarTela(): void {
+    this.categoriaEquipamentoMock.set(this.categoriaEquipamentoService.listarTodos());
+  }
 }

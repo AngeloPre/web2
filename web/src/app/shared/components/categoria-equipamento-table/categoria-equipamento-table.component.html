@@ -22,22 +22,20 @@
       </tr>
     </thead>
     <tbody>
-      <!-- @for (chamado of chamados(); track chamado.serviceId) { -->
+      @for (categoria of categorias(); track categoria.id) {
         <tr class="hover:bg-figma-gray-200">
         <td class="px-8 py-4">
           <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-            Titulo vai aqui
-            <!-- {{ chamado.data | date:'short' }} -->
+            {{ categoria.name }}
           </p>
         </td>
         <td class="px-8 py-4">
           <p class="block-b font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900">
-            R$ Valor,00
-            <!-- {{ chamado.descricaoEquipamento }} -->
+            {{ categoria.baseValue }}
           </p>
         </td>
         <td class="px-4 py-4">
-            <app-status-ativo-inativo [status]="categoriaStatus.ATIVO"/>
+            <app-status-ativo-inativo [status]="categoria.isActive"/>
             <!-- <app-status-icon [status]="chamado.status" /> -->
         </td>
         <td class="px-6 py-4 flex justify-end">
@@ -46,6 +44,6 @@
           </button>
         </td>
         </tr>
-      <!-- } -->
+      }
     </tbody>
   </table>
