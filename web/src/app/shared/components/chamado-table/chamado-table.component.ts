@@ -5,10 +5,17 @@ import { RouterLink } from '@angular/router';
 import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { VisualizarButtonComponent } from '../visualizar-button/visualizar-button.component';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
+import { LimiteCaracteresPipe } from '../../pipes/limite-caracteres.pipe';
 
 @Component({
   selector: 'app-chamado-table',
-  imports: [DatePipe, VisualizarButtonComponent, StatusIconComponent, RouterLink],
+  imports: [
+    DatePipe,
+    VisualizarButtonComponent,
+    StatusIconComponent,
+    RouterLink,
+    LimiteCaracteresPipe,
+  ],
   templateUrl: './chamado-table.component.html',
   styles: ``,
 })
