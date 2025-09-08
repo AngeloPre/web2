@@ -7,7 +7,7 @@ export class Cliente extends Usuario {
 
   override readonly role: Role = CLIENT_ROLE;
 
-  constructor(id: string, cpf: string, nome: string, email: string, telefone: string, endereco: Endereco) {
-    super(id, cpf, nome, email, telefone, endereco);
+  constructor(id: number, cpf: string, nome: string, email: string, senha: string, telefone: string, endereco: Endereco) {
+    super(id, cpf, nome, email, senha, telefone, endereco);
   }
 }
