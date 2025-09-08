@@ -1,113 +1,170 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="p-7 border border-figma-gray-200 rounded-xl">
   <h1 class="text-3xl font-bold font-lato text-figma-gray-500">Crie sua conta</h1>
-  <p class="text-base font-lato text-figma-gray-400 mt-2">Informe seu nome, e-mail e senha</p>
+  <p class="text-base font-lato text-figma-gray-400 mt-2">Informe seus dados</p>
 
-  <mat-form-field class="w-full mt-6">
-    <mat-label>CPF</mat-label>
-    <input matInput placeholder="CPF" [(ngModel)]="cliente.cpf" name="cpf" required>
-    @if (cliente.cpf) {
-        <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('cpf')">
-        <mat-icon class="mr-3">close</mat-icon>
-        </button>
-    }
-  </mat-form-field>
-  <mat-form-field class="w-full">
-    <mat-label>Nome</mat-label>
-    <input matInput placeholder="Digite o nome completo" [(ngModel)]="cliente.nome" name="nome" required>
-    @if (cliente.nome) {
-        <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('nome')">
-        <mat-icon class="mr-3">close</mat-icon>
-        </button>
-    }
-  </mat-form-field>
-  <mat-form-field class="w-full">
-    <mat-label class="text-sm font-lato">E-MAIL</mat-label>
-    <input  matInput
-            placeholder="exemplo@email.com"
-            [(ngModel)]="cliente.email"
-            required
-            class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
-            name="email">
-    @if (cliente.email) {
-        <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('email')">
-        <mat-icon class="mr-3">close</mat-icon>
-        </button>
-    }
-  </mat-form-field>
-  <div class="flex gap-2">
-    <mat-form-field class="">
-      <mat-label>CEP</mat-label>
-      <input matInput placeholder="Digite seu cep" [(ngModel)]="cliente.endereco.cep" name="cep" required (blur)="buscarCep(cliente.endereco.cep)">
-      @if (cliente.endereco.cep) {
-          <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('cep')">
-          <mat-icon class="mr-3">close</mat-icon>
-          </button>
-      }
-    </mat-form-field>
-      <mat-form-field class="">
-      <mat-label>Telefone</mat-label>
-      <input matInput placeholder="(xx) x xxxx-xxxx" [(ngModel)]="cliente.telefone" name="telefone" required>
-      @if (cliente.telefone) {
-          <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('telefone')">
-          <mat-icon class="mr-3">close</mat-icon>
-          </button>
-      }
-    </mat-form-field>
-  </div>
-  <mat-form-field class="w-full">
-    <mat-label class="text-sm font-lato">LOGRADOURO</mat-label>
-    <input  matInput
-            placeholder="Rua Exemplo A"
-            [(ngModel)]="cliente.endereco.logradouro"
-            required
-            class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
-            name="logradouro">
-    @if (cliente.endereco.logradouro) {
-        <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('logradouro')">
-        <mat-icon class="mr-3">close</mat-icon>
-        </button>
-    }
-  </mat-form-field>
-  <div class="flex gap-2">
-    <mat-form-field class="">
-      <mat-label>CIDADE</mat-label>
-      <input matInput placeholder="Digite seu cep" [(ngModel)]="cliente.endereco.cidade" name="cidade" required>
-      @if (cliente.endereco.cidade) {
-          <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('cidade')">
-          <mat-icon class="mr-3">close</mat-icon>
-          </button>
-      }
-    </mat-form-field>
-    <mat-form-field class="">
-      <mat-label>BAIRRO</mat-label>
-      <input matInput placeholder="Bairro" [(ngModel)]="cliente.endereco.bairro" name="bairro" required>
-      @if (cliente.endereco.bairro) {
-          <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('bairro')">
-          <mat-icon class="mr-3">close</mat-icon>
-          </button>
-      }
-    </mat-form-field>
-  </div>
-  <div class="flex gap-2">
-    <mat-form-field class="">
-      <mat-label>UF</mat-label>
-      <mat-select required name="uf" [(ngModel)]="cliente.endereco.uf">
-        @for (uf of listaUfs; track uf) {
-          <mat-option [value]="uf" class="placeholder:font-lato placeholder:text-sm">{{ uf }}</mat-option>
-        }
-      </mat-select>
-    </mat-form-field>
-    <mat-form-field class="">
-      <mat-label>NÚMERO</mat-label>
-      <input matInput [(ngModel)]="cliente.endereco.numero" name="numero" required>
-      @if (cliente.endereco.numero) {
-          <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('numero')">
-          <mat-icon class="mr-3">close</mat-icon>
-          </button>
-      }
-    </mat-form-field>
-  </div>
-  <button mat-flat-button class="w-full mt-8 font-lato">Cadastrar</button>
+  <mat-stepper [linear]="true" class="mt-6 w-full" labelPosition="bottom">
+    <mat-step [stepControl]="dadosGroup.control">
+      <ng-template matStepLabel>Dados</ng-template>
+
+      <section ngModelGroup="dados" #dadosGroup="ngModelGroup">
+        <mat-form-field class="w-full mt-6">
+          <mat-label>CPF</mat-label>
+          <input matInput placeholder="CPF" [(ngModel)]="cliente.cpf" name="cpf" mask="000.000.000-00" required>
+          @if (cliente.cpf) {
+            <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('cpf')">
+              <mat-icon class="mr-3">close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label>Nome</mat-label>
+          <input matInput placeholder="Digite o nome completo" [(ngModel)]="cliente.nome" name="nome" required>
+          @if (cliente.nome) {
+            <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('nome')">
+              <mat-icon class="mr-3">close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+
+        <mat-form-field class="w-full">
+          <mat-label class="text-sm font-lato">E-MAIL</mat-label>
+          <input  matInput
+                  placeholder="exemplo@email.com"
+                  [(ngModel)]="cliente.email"
+                  name="email"
+                  type="email"
+                  required
+                  class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400">
+          @if (cliente.email) {
+            <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('email')">
+              <mat-icon class="mr-3">close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+
+        <div class="flex gap-2">
+          <mat-form-field>
+            <mat-label>Telefone</mat-label>
+            <input matInput placeholder="(xx) x xxxx-xxxx" [(ngModel)]="cliente.telefone" name="telefone" mask="(00) 0 0000-0000" required>
+            @if (cliente.telefone) {
+              <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('telefone')">
+                <mat-icon class="mr-3">close</mat-icon>
+              </button>
+            }
+          </mat-form-field>
+        </div>
+      </section>
+
+      <div class="mt-4">
+        <button mat-button matStepperNext type="button">Próximo</button>
+      </div>
+    </mat-step>
+
+    <mat-step [stepControl]="enderecoGroup.control">
+      <ng-template matStepLabel>Endereço</ng-template>
+
+      <section ngModelGroup="endereco" #enderecoGroup="ngModelGroup">
+        <div class="flex gap-2">
+          <mat-form-field>
+            <mat-label>CEP</mat-label>
+            <input matInput placeholder="Digite seu cep"
+                   [(ngModel)]="cliente.endereco.cep" name="cep"
+                   mask="00.000-000"
+                   required
+                   (blur)="buscarCep(cliente.endereco.cep)">
+            @if (cliente.endereco.cep) {
+              <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('cep')">
+                <mat-icon class="mr-3">close</mat-icon>
+              </button>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>UF</mat-label>
+            <mat-select required name="uf" [(ngModel)]="cliente.endereco.uf">
+              @for (uf of listaUfs; track uf) {
+                <mat-option [value]="uf" class="placeholder:font-lato placeholder:text-sm">{{ uf }}</mat-option>
+              }
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <mat-form-field class="w-full">
+          <mat-label class="text-sm font-lato">LOGRADOURO</mat-label>
+          <input  matInput
+                  placeholder="Rua Exemplo A"
+                  [(ngModel)]="cliente.endereco.logradouro"
+                  name="logradouro"
+                  required
+                  class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400">
+          @if (cliente.endereco.logradouro) {
+            <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('logradouro')">
+              <mat-icon class="mr-3">close</mat-icon>
+            </button>
+          }
+        </mat-form-field>
+
+        <div class="flex gap-2">
+          <mat-form-field>
+            <mat-label>CIDADE</mat-label>
+            <input matInput [(ngModel)]="cliente.endereco.cidade" name="cidade" required>
+            @if (cliente.endereco.cidade) {
+              <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('cidade')">
+                <mat-icon class="mr-3">close</mat-icon>
+              </button>
+            }
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>BAIRRO</mat-label>
+            <input matInput [(ngModel)]="cliente.endereco.bairro" name="bairro" required>
+            @if (cliente.endereco.bairro) {
+              <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('bairro')">
+                <mat-icon class="mr-3">close</mat-icon>
+              </button>
+            }
+          </mat-form-field>
+        </div>
+
+        <div class="flex gap-2">
+          <mat-form-field>
+            <mat-label>NÚMERO</mat-label>
+            <input matInput [(ngModel)]="cliente.endereco.numero" name="numero" required>
+            @if (cliente.endereco.numero) {
+              <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('numero')">
+                <mat-icon class="mr-3">close</mat-icon>
+              </button>
+            }
+          </mat-form-field>
+        </div>
+      </section>
+
+      <div class="mt-4">
+        <button mat-button matStepperPrevious type="button">Voltar</button>
+        <button mat-button matStepperNext type="button">Próximo</button>
+      </div>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Revisão</ng-template>
+
+      <div class="space-y-1 text-sm">
+        <div><strong>CPF:</strong> {{ cliente.cpf }}</div>
+        <div><strong>Nome:</strong> {{ cliente.nome }}</div>
+        <div><strong>E-mail:</strong> {{ cliente.email }}</div>
+        <div><strong>Telefone:</strong> {{ cliente.telefone }}</div>
+        <div><strong>CEP:</strong> {{ cliente.endereco.cep }}</div>
+        <div><strong>Logradouro:</strong> {{ cliente.endereco.logradouro }}, {{ cliente.endereco.numero }}</div>
+        <div><strong>Bairro/Cidade/UF:</strong> {{ cliente.endereco.bairro }} - {{ cliente.endereco.cidade }} / {{ cliente.endereco.uf }}</div>
+      </div>
+
+      <div class="mt-4">
+        <button mat-button matStepperPrevious type="button">Voltar</button>
+        <button mat-flat-button class="w-full mt-8 font-lato" type="submit">Cadastrar</button>
+      </div>
+    </mat-step>
+  </mat-stepper>
 </form>
 <div class="p-7 border border-figma-gray-200 rounded-xl">
   <h1 class="font-bold font-lato text-figma-gray-500">Já tem uma conta?</h1>

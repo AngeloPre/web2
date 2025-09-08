@@ -4,14 +4,16 @@ import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { provideStore } from '@ngrx/store';
+import { provideEnvironmentNgxMask } from 'ngx-mask';
 
 export const appConfig: ApplicationConfig = {
   providers: [provideZoneChangeDetection({ eventCoalescing: true }),
   provideRouter(routes),
   provideHttpClient(
-      withInterceptors([
+    withInterceptors([
 
-      ])
-    ),
-  provideStore()]
+    ])
+  ),
+  provideStore(),
+  provideEnvironmentNgxMask()]
 };

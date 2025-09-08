@@ -1,6 +1,7 @@
 import { Cliente } from '@/app/model/cliente';
 import { Endereco } from '@/app/model/endereco';
 import { toUF, UF } from '@/app/model/enums/uf';
+import { UsuarioService } from '@/app/services/usuario.service';
 import { ViacepService } from '@/app/services/viacep.service';
 import { fromViaCep } from '@/app/util/mapper/endereco-mapper';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, signal } from '@angular/core';
@@ -10,7 +11,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { MatStepperModule } from '@angular/material/stepper';
 import { RouterLink } from '@angular/router';
+import { NgxMaskDirective } from 'ngx-mask';
 import { catchError } from 'rxjs';
 
 @Component({
@@ -22,18 +25,22 @@ import { catchError } from 'rxjs';
     MatButtonModule,
     MatIconModule,
     RouterLink,
-    MatSelectModule],
+    MatSelectModule,
+    MatStepperModule,
+    NgxMaskDirective],
+
   templateUrl: './register-form.component.html',
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class RegisterFormComponent {
   viacepService = inject(ViacepService);
+  usuarioService = inject(UsuarioService);
   listaUfs = Object.values(UF);
 
   passwordVisible = false;
 
-  cliente = new Cliente('1', '052.333.719-45', 'Marcos Renato', 'renato@email.com', '(41)-9 9999-8888', this.novoEndereco())
+  cliente = new Cliente(1, '052.333.719-45', 'Marcos Renato', 'renato@email.com', "", '(41)-9 9999-8888', this.novoEndereco())
 
   // cliente: Cliente = new Cliente(
   //   '', // id
@@ -62,6 +69,7 @@ export class RegisterFormComponent {
   onSubmit(form: NgForm) {
     if (form.invalid) return;
 
+    this.usuarioService.inserir(this.cliente);
     console.log('cliente do form', this.cliente);
   }
 
