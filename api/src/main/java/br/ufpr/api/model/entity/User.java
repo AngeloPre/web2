@@ -33,6 +33,7 @@ public abstract class User implements Serializable {
     @Column(nullable = false, length = 4)
     private String password;
 
+    //lista de autoridades (roles) compatível com o spring security
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(role.name()));
     }
