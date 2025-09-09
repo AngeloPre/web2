@@ -1,0 +1,31 @@
+<h2 mat-dialog-title class="text-xl font-semibold">Criar nova categoria de equipamentos</h2>
+<div mat-dialog-content>
+    <p class="text-sm text-figma-gray-600 mb-3">
+    É necessário incluir o nome e valor recomendado para a categoria de equipamento:
+    </p>
+    <mat-form-field class="w-full">
+        <mat-label for="nome" class="text-sm font-lato">NOME DA CATEGORIA</mat-label>
+        <input  matInput
+                placeholder="Digite um nome de categoria"
+                type="text"
+                [(ngModel)]="categoria"
+                class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
+                name="nome">
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
+        <mat-label for="valor" class="text-sm font-lato">VALOR SUGERIDO</mat-label>
+        <input  matInput
+                placeholder="Digite um valor sugerido"
+                type="text"
+                [(ngModel)]="valor"
+                class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
+                placeholder="R$ 0,00"
+                name="valor">
+    </mat-form-field>
+</div>
+<div mat-dialog-actions class="gap-2">
+    <button mat-stroked-button mat-dialog-close>Cancelar</button>
+    <button mat-flat-button color="primary" [disabled]="!categoria.trim()" (click)="send()">Salvar</button>
+</div>
+
