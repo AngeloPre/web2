@@ -43,10 +43,11 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
     localStorage[LS_CategoriaEquipamento] = JSON.stringify(categorias);
   }
 
-  constructor() { 
-    if (this.listarTodos().length === 0) {
+  constructor() {
+    const existentes = this.listarTodos();
+    this.categoriaID = (existentes.length+1)
+    if (existentes.length === 0) {
       this.inserir({
-        id: 1,
         name: 'Notebook',
         slug: 'notebook',
         baseValue: 20000,
@@ -55,7 +56,6 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
         description: 'Equipamentos portáteis',
       });
       this.inserir({
-        id: 2,
         name: 'Desktop',
         slug: 'desktop',
         baseValue: 15000,
@@ -64,7 +64,6 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
         description: 'Computadores de mesa',
       });
       this.inserir({
-        id: 3,
         name: 'Impressora',
         slug: 'impressora',
         baseValue: 10000,
@@ -73,7 +72,6 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
         description: 'Periféricos de impressão',
       });
       this.inserir({
-        id: 4,
         name: 'Mouse',
         slug: 'mouse',
         baseValue: 5000,
@@ -82,7 +80,6 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
         description: 'Periférico de entrada - mouse',
       });
       this.inserir({
-        id: 5,
         name: 'Teclado',
         slug: 'teclado',
         baseValue: 8000,

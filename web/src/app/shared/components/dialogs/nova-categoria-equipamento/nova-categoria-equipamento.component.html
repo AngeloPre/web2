@@ -14,12 +14,23 @@
     </mat-form-field>
 
     <mat-form-field class="w-full">
+      <mat-label for="slug" class="text-sm font-lato">SLUG</mat-label>
+      <input matInput
+             type="text"
+             [value]="slug" 
+             name="slug" 
+             disabled
+             >
+    </mat-form-field>
+
+    <mat-form-field class="w-full">
         <mat-label for="valor" class="text-sm font-lato">VALOR SUGERIDO</mat-label>
         <input  matInput
                 placeholder="Digite um valor sugerido"
                 type="text"
                 [(ngModel)]="valor"
                 class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
+                [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }"
                 placeholder="R$ 0,00"
                 name="valor">
     </mat-form-field>
