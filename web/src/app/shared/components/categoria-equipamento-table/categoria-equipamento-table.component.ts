@@ -25,7 +25,6 @@ export class CategoriaEquipamentoTableComponent {
       });
       ref.afterClosed().subscribe((ok: boolean) => {
         if (ok) {
-          // TODO: chamar API de aprovação
           this.snack.open('Criada nova categoria de equipamento', 'OK', {
             duration: 3000,
             verticalPosition: 'top',
