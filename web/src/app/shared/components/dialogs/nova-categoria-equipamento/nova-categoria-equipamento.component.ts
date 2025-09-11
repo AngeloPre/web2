@@ -8,6 +8,7 @@ import { NgxCurrencyDirective } from "ngx-currency";
 import { CategoriaEquipamento } from '@/app/model/categoria-equipamento.type';
 import { CategoriaEquipamentoService } from '@/app/services/categoria-equipamento.service';
 import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
+import { SlugifyService } from '@/app/services/slugify.service';
 
 @Component({
   selector: 'app-nova-categoria-equipamento',
@@ -22,27 +23,22 @@ export class NovaCategoriaEquipamentoComponent {
   constructor(
     private ref: MatDialogRef<NovaCategoriaEquipamentoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
-    private categoriasService: CategoriaEquipamentoService
+    private categoriasService: CategoriaEquipamentoService,
+    private slug: SlugifyService,
   ) {}
 
-  get slug(): string { return this.slugFrom(this.categoria); }
+  get slugValue(): string { return this.slug.make(this.categoria); }
 
   send() {
     const valorCentavos = Number(this.valor)*100;
     const novo: CategoriaEquipamento = {
       name: this.categoria.trim(),
-      slug: this.slugFrom(this.categoria),
+      slug: this.slug.make(this.categoria),
       baseValue: valorCentavos,
       isActive: StatusAtivoInativo.ATIVO,
       createdAt: new Date(),
     };
     this.categoriasService.inserir(novo);
     this.ref.close(novo);
-  }
-
-  private slugFrom(s: string): string {
-    return (s || '').trim().toLowerCase()
-      .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
-      .replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '').replace(/-+/g, '-');
   }
 }
