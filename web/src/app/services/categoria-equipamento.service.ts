@@ -10,6 +10,7 @@ export const LS_CategoriaEquipamento = 'CategoriaEquipamento';
 })
 export class CategoriaEquipamentoService implements MockServices<CategoriaEquipamento> {
   private categoriaID = 1;
+  peekNextId(): number { return this.categoriaID; }
   listarTodos(): CategoriaEquipamento[] {
     const categorias = localStorage[LS_CategoriaEquipamento];
     return categorias ? (JSON.parse(categorias)) : [];
@@ -17,11 +18,14 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
   listarPorStatus(status: StatusAtivoInativo): CategoriaEquipamento[] {
     const categorias = localStorage[LS_CategoriaEquipamento];
     const lista: CategoriaEquipamento[] = JSON.parse(categorias);
-    return lista.filter((categoria) => categorias.status === status);
+    return lista.filter((categoria) => categoria.isActive === status);
   }
   inserir(elemento: CategoriaEquipamento): void {
     const categorias = this.listarTodos();
-    elemento.id = this.categoriaID++;
+    if (!elemento.id || elemento.id <= 0) {
+      elemento.id = this.categoriaID;
+    }
+    this.categoriaID++;
     if (!elemento.createdAt) elemento.createdAt = new Date();
     categorias.push(elemento);
     localStorage[LS_CategoriaEquipamento] = JSON.stringify(categorias);
@@ -48,6 +52,7 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
     this.categoriaID = (existentes.length+1)
     if (existentes.length === 0) {
       this.inserir({
+        id: -1,
         name: 'Notebook',
         slug: 'notebook',
         baseValue: 20000,
@@ -56,6 +61,7 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
         description: 'Equipamentos portáteis',
       });
       this.inserir({
+        id: -1,
         name: 'Desktop',
         slug: 'desktop',
         baseValue: 15000,
@@ -64,6 +70,7 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
         description: 'Computadores de mesa',
       });
       this.inserir({
+        id: -1,
         name: 'Impressora',
         slug: 'impressora',
         baseValue: 10000,
@@ -72,6 +79,7 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
         description: 'Periféricos de impressão',
       });
       this.inserir({
+        id: -1,
         name: 'Mouse',
         slug: 'mouse',
         baseValue: 5000,
@@ -80,6 +88,7 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
         description: 'Periférico de entrada - mouse',
       });
       this.inserir({
+        id: -1,
         name: 'Teclado',
         slug: 'teclado',
         baseValue: 8000,

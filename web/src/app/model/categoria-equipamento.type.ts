@@ -1,7 +1,7 @@
 import { StatusAtivoInativo } from "./enums/status-ativo-inativo.enum";
 
 export type CategoriaEquipamento = {
-  id?: number;
+  id: number;
   name: string;
   slug: string;
   baseValue: number;

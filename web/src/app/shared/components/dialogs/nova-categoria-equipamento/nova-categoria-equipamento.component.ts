@@ -32,6 +32,7 @@ export class NovaCategoriaEquipamentoComponent {
   send() {
     const valorCentavos = Number(this.valor)*100;
     const novo: CategoriaEquipamento = {
+      id: this.categoriasService.peekNextId(),
       name: this.categoria.trim(),
       slug: this.slug.make(this.categoria),
       baseValue: valorCentavos,
