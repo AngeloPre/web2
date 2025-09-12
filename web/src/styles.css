@@ -174,3 +174,13 @@ body {
   gap: 8px;
   padding-right: 8px;
 }
+
+.stepper-pb0 .mat-horizontal-content-container,
+.stepper-pb0 .mat-horizontal-stepper-content {
+  padding-bottom: 0;
+}
+
+.stepper-py .mat-step-header,
+.stepper-py .mat-horizontal-stepper-header {
+  padding-block: 12px !important;
+}
