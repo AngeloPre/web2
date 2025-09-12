@@ -1,4 +1,5 @@
 <div class="grid gap-6 md:[grid-template-columns:minmax(0,1fr)_minmax(320px,35%)]">
+    
     <div class="min-w-0">
         <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
             <p class="text-sm text-figma-gray-300">00004</p>
@@ -15,10 +16,16 @@
                 <p class="text-sm font-semibold text-figma-gray-300">Categoria</p>
                 <p class="mt-1">Recuperação de Dados</p>
             </div>
-            
-            <div class="mt-4">
-                <p class="text-sm font-semibold text-figma-gray-300">Criado em</p>
-                <p class="mt-1">12/04/25 09:00</p>
+
+            <div class="mt-4 grid grid-cols-2 gap-6">
+                <div>
+                    <p class="text-sm font-semibold text-figma-gray-300">Criado em</p>
+                    <p class="mt-1">12/04/25 09:12</p>
+                </div>
+                <div>
+                    <p class="text-sm font-semibold text-figma-gray-300">Respondido em</p>
+                    <p class="mt-1">12/04/25 15:20</p>
+                </div>
             </div>
 
             <div class="mt-6">
@@ -32,14 +39,48 @@
                 </div>
             </div>
         </div>
+
+    <!--Serviços adicionais -->
+        <div class="mt-6 bg-white rounded-lg border border-figma-gray-200 overflow-hidden">
+            <header class="px-6 py-6 flex items-center justify-between">
+                <p class="text-sm font-semibold text-figma-gray-500">Serviços adicionais</p>
+                <button
+                    type="button"
+                    aria-label="adicionar serviço"
+                    class="h-9 w-9 rounded-xl border bg-figma-gray-500 px-2 py-1 text-sm hover:bg-figma-gray-300 hover:border-figma-gray-300"
+                    (click)="adicionarServico()"
+                >
+                    <img src="/assets/svg/plus.svg">
+                </button>
+            </header>
+
+            <ul class="divide-y divide-figma-gray-200 px-6">
+                <li class="flex items-center justify-between py-3">
+                    <span class="text-sm">Assinatura de backup</span>
+                    <div class="flex items-center gap-3">
+                        <span class="text-sm">R$ 120,00</span>
+                        <button
+                            type="button"
+                            aria-label="remover serviço"
+                            (click)="excluirServico()"
+                            class="h-9 w-9 rounded-xl border bg-figma-gray-200 border-figma-gray-200 px-2 py-1 text-sm hover:bg-figma-gray-300 hover:border-figma-gray-300"
+                        >
+                            <img src="/assets/svg/trash.svg">
+                        </button>
+                    </div>
+                </li>
+            </ul>
+        </div>
     </div>
+
+
 
     <!--Formulario lateral-->
     <aside class="bg-white rounded-lg border border-figma-gray-200 p-6 flex flex-col">
         <p class="text-sm font-semibold text-figma-gray-300">Técnico Responsável</p>
         <div class="mt-3 flex items-center gap-3">
             <div class="w-10 h-10 rounded-full bg-brand-base text-white flex items-center justify-center">??</div>
-            <div>
+            <div class="min-w-0">
                 <p class="font-medium leading-tight">Sem técnico atribuído</p>
                 <p class="text-sm text-figma-gray-300 leading-tight">Sem técnico atribuído</p>
             </div>
@@ -47,12 +88,36 @@
 
         <div class="mt-6 space-y-2">
             <p class="text-sm font-semibold text-figma-gray-300">Atribuir Valores</p>
-            <mat-label>Preço Base</mat-label>
-            <input 
-                matInput 
-                placeholder="R$ 0,00" 
-                class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent" />
+            <div class="mt-3">
+                <p class="text-sm text-figma-gray-600">Preço base</p>
+                <input 
+                    matInput 
+                    placeholder="R$ 0,00" 
+                    class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent" />
+            </div>
+            <div class="mt-4 space-y-2 text-sm">
+                <div class="flex items-center justify-between">
+                    <p class="font-normal">Adicionais</p>
+                    <span>R$195,00</span>
+                </div>
+                <div class="flex items-center justify-between font-semibold">
+                    <span>Total</span>
+                    <span>R$195,00</span>
+                </div>
+            </div>
         </div>
-        <button mat-flat-button class="w-full mt-3">Confirmar Orçamento</button>
+        <div class="mt-auto">
+            <button 
+                mat-flat-button
+                color="primary"
+                type="button"
+                class="w-full mt-6 h-12 btn-inline"
+                (click)="efetuarOrcamento()">
+                <img src="/assets/svg/clock-2.svg" alt="" class="block align-middle">
+                <span class="leading-none">
+                    Confirmar Orçamento
+                </span>
+            </button>
+        </div>
     </aside>
 </div>
