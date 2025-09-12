@@ -47,6 +47,15 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
     localStorage[LS_CategoriaEquipamento] = JSON.stringify(categorias);
   }
 
+  reativar(id: number)  { this.setStatus(id, StatusAtivoInativo.ATIVO); }
+  desativar(id: number) { this.setStatus(id, StatusAtivoInativo.INATIVO); }
+  private setStatus(id: number, status: StatusAtivoInativo) {
+    const categorias = this.listarTodos();
+    const elemento = categorias.findIndex(categoria => categoria.id === id);
+    categorias[elemento] = { ...categorias[elemento], isActive: status };
+    localStorage[LS_CategoriaEquipamento] = JSON.stringify(categorias);
+  }
+
   constructor() {
     const existentes = this.listarTodos();
     this.categoriaID = (existentes.length+1)
