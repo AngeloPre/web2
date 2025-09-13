@@ -26,8 +26,8 @@
           name="serviceCategory"
           #categoriaModel="ngModel"
           required>
-          @for (item of categorias; track item) {
-            <mat-option [value]="item" class="placeholder:font-lato placeholder:text-sm">{{ item }}</mat-option>
+          @for (item of categorias(); track item) {
+            <mat-option [value]="item.name" class="placeholder:font-lato placeholder:text-sm">{{ item.name }}</mat-option>
           }
         </mat-select>
         @if (categoriaModel.errors && (categoriaModel.touched || categoriaModel.dirty)) {

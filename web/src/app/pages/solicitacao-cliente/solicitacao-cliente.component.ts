@@ -3,6 +3,7 @@ import {
   Component,
   inject,
   OnInit,
+  signal,
   ViewChild,
 } from '@angular/core';
 import { MatInput } from '@angular/material/input';
@@ -18,6 +19,7 @@ import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { Router } from '@angular/router';
+import { CategoriaEquipamento } from '@/app/model/enums/categoria-equipamento';
 
 @Component({
   selector: 'app-solicitacao-cliente',
@@ -33,7 +35,7 @@ import { Router } from '@angular/router';
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class SolicitacaoClienteComponent implements OnInit {
+export class SolicitacaoClienteComponent {
   private catEquipamentoService = inject(CategoriaEquipamentoService);
   private chamadoService = inject(ChamadoService);
   private router = inject(Router);
@@ -41,7 +43,7 @@ export class SolicitacaoClienteComponent implements OnInit {
 
   @ViewChild('formChamado') formChamado!: NgForm;
 
-  categorias: string[] = [];
+  categorias = this.catEquipamentoService.signalCategorias;
 
   pedido: ChamadoItem = {
     userId: 0,
@@ -54,14 +56,6 @@ export class SolicitacaoClienteComponent implements OnInit {
     slug: 'slug',
     data: new Date(),
   };
-
-  ngOnInit(): void {
-    this.catEquipamentoService
-      .listarPorStatus(StatusAtivoInativo.ATIVO)
-      .forEach((element) => {
-        this.categorias.push(element.name);
-      });
-  }
 
   criarChamado(): void {
     this.chamadoService.inserir(this.pedido);
