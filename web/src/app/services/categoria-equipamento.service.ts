@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { MockServices } from '../model/interfaces/mock-services';
 import { CategoriaEquipamento } from '../model/categoria-equipamento.type';
 import { StatusAtivoInativo } from '../model/enums/status-ativo-inativo.enum';
@@ -11,6 +11,11 @@ export const LS_CategoriaEquipamento = 'CategoriaEquipamento';
 export class CategoriaEquipamentoService implements MockServices<CategoriaEquipamento> {
   private categoriaID = 1;
   peekNextId(): number { return this.categoriaID; }
+  signalCategorias = signal<CategoriaEquipamento[]>(this.listarTodos());
+  private persistirAtualizar(categorias: CategoriaEquipamento[]) {
+    localStorage[LS_CategoriaEquipamento] = JSON.stringify(categorias);
+    this.signalCategorias.set(categorias);
+  }
   listarTodos(): CategoriaEquipamento[] {
     const categorias = localStorage[LS_CategoriaEquipamento];
     return categorias ? (JSON.parse(categorias)) : [];
@@ -27,8 +32,9 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
     }
     this.categoriaID++;
     if (!elemento.createdAt) elemento.createdAt = new Date();
+    elemento.baseValue = Math.round(elemento.baseValue);
     categorias.push(elemento);
-    localStorage[LS_CategoriaEquipamento] = JSON.stringify(categorias);
+    this.persistirAtualizar(categorias)
   }
   buscarPorID(id: number): CategoriaEquipamento | undefined {
     const categorias = this.listarTodos();
@@ -39,12 +45,21 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
     categorias = categorias.map((categoria) =>
       categoria.id === elemento.id ? { ...categoria, ...elemento } : categoria
     );
-    localStorage[LS_CategoriaEquipamento] = JSON.stringify(categorias);
+    this.persistirAtualizar(categorias)
   }
   remover(elemento: CategoriaEquipamento): void {
     let categorias = this.listarTodos();
     categorias = categorias.filter((categoria) => categoria.id !== elemento.id);
-    localStorage[LS_CategoriaEquipamento] = JSON.stringify(categorias);
+    this.persistirAtualizar(categorias)
+  }
+
+  reativar(id: number)  { this.setStatus(id, StatusAtivoInativo.ATIVO); }
+  desativar(id: number) { this.setStatus(id, StatusAtivoInativo.INATIVO); }
+  private setStatus(id: number, status: StatusAtivoInativo) {
+    const categorias = this.listarTodos();
+    const elemento = categorias.findIndex(categoria => categoria.id === id);
+    categorias[elemento] = { ...categorias[elemento], isActive: status };
+    this.persistirAtualizar(categorias)
   }
 
   constructor() {
@@ -96,6 +111,8 @@ export class CategoriaEquipamentoService implements MockServices<CategoriaEquipa
         createdAt: new Date(),
         description: 'Periférico de entrada - teclado',
       });
+    } else {
+      this.signalCategorias.set(existentes);
     }
   }
 }

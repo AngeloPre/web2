@@ -30,7 +30,7 @@ export class NovaCategoriaEquipamentoComponent {
   get slugValue(): string { return this.slug.make(this.categoria); }
 
   send() {
-    const valorCentavos = Number(this.valor)*100;
+    const valorCentavos = Math.round(Number(this.valor) * 100);
     const novo: CategoriaEquipamento = {
       id: this.categoriasService.peekNextId(),
       name: this.categoria.trim(),
