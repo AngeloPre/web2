@@ -1,8 +1,10 @@
 import {
   ChangeDetectionStrategy,
   Component,
+  computed,
   inject,
   OnInit,
+  Signal,
   signal,
   ViewChild,
 } from '@angular/core';
@@ -43,7 +45,11 @@ export class SolicitacaoClienteComponent {
 
   @ViewChild('formChamado') formChamado!: NgForm;
 
-  categorias = this.catEquipamentoService.signalCategorias;
+  categorias = computed(() =>
+    this.catEquipamentoService
+      .signalCategorias()
+      .filter((cat) => cat.isActive === StatusAtivoInativo.ATIVO)
+  );
 
   pedido: ChamadoItem = {
     userId: 0,
