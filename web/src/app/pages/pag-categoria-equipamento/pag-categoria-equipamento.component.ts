@@ -1,5 +1,5 @@
 import { CategoriaEquipamentoTableComponent } from '@/app/shared/components/categoria-equipamento-table/categoria-equipamento-table.component';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
@@ -13,19 +13,7 @@ import { NovaCategoriaEquipamentoComponent } from '@/app/shared/components/dialo
   templateUrl: './pag-categoria-equipamento.component.html',
   styles: ``
 })
-export class PagCategoriaEquipamentoComponent implements OnInit {
-  private categoriaEquipamentoService = inject(CategoriaEquipamentoService);
-
-  categoriaEquipamentoMock = signal<CategoriaEquipamento[]>([]);
-
-  ngOnInit(): void {
-    this.atualizarTela();
-    console.log(this.categoriaEquipamentoService.listarTodos());
-  }
-
-  atualizarTela(): void {
-    this.categoriaEquipamentoMock.set(this.categoriaEquipamentoService.listarTodos());
-  }
+export class PagCategoriaEquipamentoComponent {
 
   private dialog = inject(MatDialog);
   private snack  = inject(MatSnackBar);
