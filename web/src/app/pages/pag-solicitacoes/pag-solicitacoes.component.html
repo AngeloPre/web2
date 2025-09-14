@@ -1,6 +1,39 @@
 <div class="mt-6 page-shell">
-    <h1 class="text-3xl font-bold text-brand-dark" >Todas as Solicitações</h1>
-    <div class="mt-8">
-        <app-chamado-card [chamados]="chamadosMock()"/>
+    <h1 class="text-3xl font-bold text-brand-dark mb-6" >Todas as Solicitações</h1>
+    <div class="flex min-h-[80px] space-x-4">
+
+      @if (opcaoData() === "HOJE") {
+      <button mat-flat-button> HOJE </button>
+      } @else {
+      <button mat-stroked-button (click)="mudarFiltro('HOJE')"> HOJE </button>}
+      @if (opcaoData() === "TODOS") {
+      <button mat-flat-button> TODOS </button>
+      } @else {
+      <button mat-stroked-button (click)="mudarFiltro('TODOS')"> TODOS </button>}
+      @if (opcaoData() === "DATA") {
+      <button mat-flat-button> DATA </button>
+
+      <!-- Calendario -->
+      <mat-form-field>
+        <mat-label>Escolha o período</mat-label>
+        <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+          <input matStartDate formControlName="start" placeholder="Data Inicio">
+          <input (dateChange)="mudancaDatepicker(range)" matEndDate formControlName="end" placeholder="Data Fim">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+
+        @if (range.controls.start.hasError('matStartDateInvalid')) {
+          <mat-error>Data de Inicio Inválida</mat-error>
+        }
+        @if (range.controls.end.hasError('matEndDateInvalid')) {
+          <mat-error>Data de Fim</mat-error>
+        }
+      </mat-form-field>
+      } @else {
+      <button mat-stroked-button (click)="mudarFiltro('DATA')"> DATA </button>}
+    </div>
+    <div class="mt-2">
+        <app-chamado-card [chamados]="chamdados()"/>
     </div>
 </div>
