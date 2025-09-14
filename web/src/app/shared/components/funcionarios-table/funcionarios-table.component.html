@@ -1,0 +1,54 @@
+  <table class="text-left w-full shadow-lg bg-white border-collapse">
+    <thead>
+      <tr>
+        <th class="border-b border-figma-gray-200 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+            Nome
+          </p>
+        </th>
+        <th class="border-b border-figma-gray-200 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+            Email
+          </p>
+        </th>
+        <th class="border-b border-figma-gray-200 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70">
+            Status
+          </p>
+        </th>
+        <th class="border-b border-figma-gray-200 px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-none text-blue-gray-900 opacity-70"></p>
+        </th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (funcionario of usuarios(); track funcionario.id) {
+        <tr class="hover:bg-figma-gray-200">
+        <td class="px-8 py-4">
+          <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+            {{ funcionario.nome }}
+          </p>
+        </td>
+        <td class="px-8 py-4">
+          <p class="block-b font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900">
+            {{ funcionario.email }}
+          </p>
+        </td>
+        <td class="px-4 py-4">
+            <app-status-ativo-inativo [status]="funcionario.status"/>
+            <!-- <app-status-icon [status]="chamado.status" /> -->
+        </td>
+        <td class="px-6 py-4 flex justify-end">
+          <button class="aspect-square rounded p-2"  [routerLink]="[`../editar-funcionario/${funcionario.id}`]">
+            <img src="assets/svg/pen-line.svg" />
+          </button>
+        <button type="button"
+                class="inline-flex items-center rounded-lg  px-2.5 py-1.5 text-sm text-red-600 hover:bg-red-50"
+                (click)="confirmarExcluir(funcionario.id)">
+        <img src="assets/svg/trash.svg" />
+      </button>
+        </td>
+        </tr>
+      }
+    </tbody>
+  </table>

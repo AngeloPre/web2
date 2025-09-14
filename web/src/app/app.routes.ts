@@ -16,6 +16,9 @@ import { PagInserirOrcamentoComponent } from './pages/pag-inserir-orcamento/pag-
 import { PagCategoriaEquipamentoComponent } from './pages/pag-categoria-equipamento/pag-categoria-equipamento.component';
 import { PagSolicitacoesComponent } from './pages/pag-solicitacoes/pag-solicitacoes.component';
 import { PagarClienteComponent } from './pages/pagar-cliente/pagar-cliente.component';
+import { PagCadastroFuncionarioComponent } from './pages/pag-cadastro-funcionario/pag-cadastro-funcionario.component';
+import { PagListarFuncionariosComponent } from './pages/pag-listar-funcionarios/pag-listar-funcionarios.component';
+import { PagEditarFuncionarioComponent } from './pages/pag-editar-funcionario/pag-editar-funcionario.component';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
@@ -84,22 +87,27 @@ export const routes: Routes = [
       {
         path: 'orcamentos/:id/:slug',
         component: PagInserirOrcamentoComponent,
-        title: 'Efetuar Orçamento',
+        title: 'Efetuar Orçamento'
       },
       {
         path: 'solicitacoes',
         component: PagSolicitacoesComponent,
-        title: 'Todas as Solicitações',
+        title: 'Todas as Solicitações'
       },
       {
         path: 'funcionarios',
-        component: HomeComponent,
-        title: 'Funcionários',
+        component: PagListarFuncionariosComponent,
+        title: 'Funcionários'
       },
       {
         path: 'novo-funcionario',
-        component: HomeComponent,
+        component: PagCadastroFuncionarioComponent,
         title: 'Novo Funcionário',
+      },
+      {
+        path: 'editar-funcionario/:id',
+        component: PagEditarFuncionarioComponent,
+        title: 'Editar Funcionário',
       },
       {
         path: 'categorias-equipamento',
