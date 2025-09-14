@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { StatusAtivoInativoComponent } from '../status-ativo-inativo/status-ativo-inativo.component';
 import { CategoriaEquipamento } from '@/app/model/categoria-equipamento.type';
+import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -38,6 +39,24 @@ export class CategoriaEquipamentoTableComponent {
         }
       });
     }
+    
+    editar(categoria: CategoriaEquipamento) {
+      const ref = this.dialog.open(NovaCategoriaEquipamentoComponent, {
+        width: '500px',
+        maxWidth: 'none',
+        panelClass: 'dialog-xxl',
+        data: { categoria } // <-- envia a categoria para edição
+      });
+      ref.afterClosed().subscribe((ok: boolean) => {
+        if (ok) {
+          this.snack.open('Categoria atualizada', 'OK', {
+            duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
+            panelClass: ['snack-top','snack-success']
+          });
+        }
+      });
+    }
+
     toggle(categoria: CategoriaEquipamento) {
     if (categoria.isActive === StatusAtivoInativo.ATIVO) {
       this.categoriasService.desativar(categoria.id);
