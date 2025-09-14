@@ -7,11 +7,13 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ServicoAdicionalDialogComponent } from '../dialogs/servico-adicional-dialog/servico-adicional-dialog.component';
 import { ConfirmarOrcamentoDialogComponent } from '../dialogs/confirmar-orcamento-dialog/confirmar-orcamento-dialog.component';
+import { NgxCurrencyDirective } from 'ngx-currency';
+import { ServicosAdicionaisComponent } from '../servicos-adicionais/servicos-adicionais.component';
 
 
 @Component({
   selector: 'app-efetuar-orcamento',
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButton],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButton, NgxCurrencyDirective, ServicosAdicionaisComponent],
   templateUrl: './efetuar-orcamento.component.html',
   styles: ``
 })
@@ -26,10 +28,6 @@ export class EfetuarOrcamentoComponent {
         });
   }
 
-  excluirServico() {
-    //implementar on delete do servico
-  }
-
   efetuarOrcamento() {
     const ref = this.dialog.open(ConfirmarOrcamentoDialogComponent, {
           width: '440px',
@@ -37,6 +35,9 @@ export class EfetuarOrcamentoComponent {
           panelClass: 'dialog-xxl'
         });
   }
+
+
+
 
 
 }

@@ -4,30 +4,32 @@
         <h2 mat-dialog-title class="flex-1 font-lato font-bold">Serviço Adicional</h2>
         <button mat-dialog-close aria-label="fechar modal" class="w-6 h-6 flex items-center justify-center rounded-full hover:bg-figma-gray-200">
             <img src="/assets/svg/x.svg" alt=""/>
-        </button>  
+        </button>
     </header>
 
     <!--Form-->
-    <div 
+    <div
         class="flex flex-col pt-6 px-6 pb-8 gap-6 w-full border-b border-figma-gray-200">
         <div class="flex flex-col gap-4 w-full">
             <mat-form-field appearance="fill" class="w-full">
                 <mat-label class="tracking-wider text-figma-gray-500">Descrição</mat-label>
-                <input 
+                <input
                     matInput/>
             </mat-form-field>
             <mat-form-field>
                 <mat-label class="tracking-wider text-figma-gray-500">Valor</mat-label>
                 <input
                     matInput
-                    placeholder="R$ 0,00"/>
+                    placeholder="R$ 0,00"
+                    [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }"/>
+
             </mat-form-field>
         </div>
     </div>
 
     <!--Footer-->
     <div class="px-6 py-4">
-        <button 
+        <button
                 mat-flat-button
                 color="primary"
                 type="button"

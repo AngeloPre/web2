@@ -1,5 +1,5 @@
 <div class="grid gap-6 md:[grid-template-columns:minmax(0,1fr)_minmax(320px,35%)]">
-    
+
     <div class="min-w-0">
         <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
             <p class="text-sm text-figma-gray-300">00004</p>
@@ -41,8 +41,8 @@
         </div>
 
     <!--Serviços adicionais -->
-        <div class="mt-6 bg-white rounded-lg border border-figma-gray-200 overflow-hidden">
-            <header class="px-6 py-6 flex items-center justify-between">
+        <div class="px-6 py-6 mt-6 bg-white rounded-lg border border-figma-gray-200 overflow-hidden">
+            <header class="flex items-center justify-between">
                 <p class="text-sm font-semibold text-figma-gray-500">Serviços adicionais</p>
                 <button
                     type="button"
@@ -53,23 +53,7 @@
                     <img src="/assets/svg/plus.svg">
                 </button>
             </header>
-
-            <ul class="divide-y divide-figma-gray-200 px-6">
-                <li class="flex items-center justify-between py-3">
-                    <span class="text-sm">Assinatura de backup</span>
-                    <div class="flex items-center gap-3">
-                        <span class="text-sm">R$ 120,00</span>
-                        <button
-                            type="button"
-                            aria-label="remover serviço"
-                            (click)="excluirServico()"
-                            class="h-9 w-9 rounded-xl border bg-figma-gray-200 border-figma-gray-200 px-2 py-1 text-sm hover:bg-figma-gray-300 hover:border-figma-gray-300"
-                        >
-                            <img src="/assets/svg/trash.svg">
-                        </button>
-                    </div>
-                </li>
-            </ul>
+            <app-servicos-adicionais/>
         </div>
     </div>
 
@@ -90,9 +74,10 @@
             <p class="text-sm font-semibold text-figma-gray-300">Atribuir Valores</p>
             <div class="mt-3">
                 <p class="text-sm text-figma-gray-600">Preço base</p>
-                <input 
-                    matInput 
-                    placeholder="R$ 0,00" 
+                <input
+                    matInput
+                    placeholder="R$ 0,00"
+                    [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }"
                     class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent" />
             </div>
             <div class="mt-4 space-y-2 text-sm">
@@ -107,7 +92,7 @@
             </div>
         </div>
         <div class="mt-auto">
-            <button 
+            <button
                 mat-flat-button
                 color="primary"
                 type="button"
