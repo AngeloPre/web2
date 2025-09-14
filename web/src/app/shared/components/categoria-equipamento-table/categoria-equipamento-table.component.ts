@@ -7,10 +7,12 @@ import { MatButtonModule } from '@angular/material/button';
 import { NovaCategoriaEquipamentoComponent } from '../dialogs/nova-categoria-equipamento/nova-categoria-equipamento.component';
 import { CategoriaEquipamentoService } from '@/app/services/categoria-equipamento.service';
 import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
+import { FormsModule } from '@angular/forms';
+import { NgxCurrencyDirective } from 'ngx-currency';
 
 @Component({
   selector: 'app-categoria-equipamento-table',
-  imports: [StatusAtivoInativoComponent, MatButtonModule, MatDialogModule, MatSnackBarModule],
+  imports: [StatusAtivoInativoComponent, MatButtonModule, MatDialogModule, MatSnackBarModule, FormsModule, NgxCurrencyDirective],
   templateUrl: './categoria-equipamento-table.component.html',
   styles: ``
 })
