@@ -30,7 +30,7 @@
         </button>
     }
   </mat-form-field>
-  <button mat-flat-button routerLink="/cliente" class="w-full mt-8 font-lato">Entrar</button>
+  <button mat-flat-button [routerLink]="userRole.dashboardPath()" class="w-full mt-8 font-lato">Entrar</button>
 </form>
 <div class="p-7 mt-4 border border-figma-gray-200 rounded-xl">
   <h1 class="font-bold font-lato text-figma-gray-500">Ainda não tem uma conta?</h1>
