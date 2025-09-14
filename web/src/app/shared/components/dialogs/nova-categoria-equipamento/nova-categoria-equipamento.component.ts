@@ -20,26 +20,42 @@ import { SlugifyService } from '@/app/services/slugify.service';
 export class NovaCategoriaEquipamentoComponent {
   categoria = '';
   valor = '';
+  isEdit = false;
+  editingId?: number;
   constructor(
     private ref: MatDialogRef<NovaCategoriaEquipamentoComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: { categoria?: CategoriaEquipamento } | null,
     private categoriasService: CategoriaEquipamentoService,
     private slug: SlugifyService,
-  ) {}
+  ) {
+    const categoria = data?.categoria;
+    if (categoria) {
+      this.isEdit = true;
+      this.editingId = categoria.id;
+      this.categoria = categoria.name;
+      this.valor = (categoria.baseValue / 100).toString();
+    }
+  }
 
   get slugValue(): string { return this.slug.make(this.categoria); }
 
   send() {
     const valorCentavos = Math.round(Number(this.valor) * 100);
-    const novo: CategoriaEquipamento = {
-      id: this.categoriasService.peekNextId(),
+    const base: CategoriaEquipamento = {
+      id: this.isEdit ? (this.editingId as number) : this.categoriasService.peekNextId(),
       name: this.categoria.trim(),
       slug: this.slug.make(this.categoria),
       baseValue: valorCentavos,
-      isActive: StatusAtivoInativo.ATIVO,
-      createdAt: new Date(),
+      isActive: this.isEdit ? (this.data!.categoria!.isActive) : StatusAtivoInativo.ATIVO,
+      createdAt: this.isEdit ? (this.data!.categoria!.createdAt) : new Date(),
+      description: this.data?.categoria?.description
     };
-    this.categoriasService.inserir(novo);
-    this.ref.close(novo);
+
+    if (this.isEdit) {
+      this.categoriasService.atualizar(base);
+    } else {
+      this.categoriasService.inserir(base);
+    }
+    this.ref.close(true);
   }
 }
