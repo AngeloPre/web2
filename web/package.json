@@ -23,8 +23,10 @@
     "@ngrx/signals": "19.2.1",
     "@ngrx/store": "^19.2.1",
     "angular-cli-ghpages": "^2.0.3",
+    "ngx-currency": "^19.0.0",
     "ngx-mask": "^20.0.3",
     "rxjs": "~7.8.0",
+    "slugify": "^1.6.6",
     "tslib": "^2.3.0",
     "zone.js": "~0.15.0"
   },

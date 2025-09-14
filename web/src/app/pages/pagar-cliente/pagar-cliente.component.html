@@ -1,0 +1,48 @@
+<div class="mt-6 page-shell">
+  <a mat-button class="figma-ghost"
+    [routerLink]="['/cliente']">
+    <img src="assets/svg/arrow-left.svg" alt=""/>
+    <span>Voltar</span>
+  </a>
+  <h1 class="text-3xl font-bold text-brand-dark" >Pagamento do Serviço</h1>
+  <div class="mt-8 gap-6 flex flex-row items-start">
+    @if (chamado) {
+    <div class="w-[65%] bg-white rounded-lg overflow-hidden border border-figma-gray-200">
+      <div class="p-8">
+        <div class="flex justify-between">
+          <div>
+            <p class="mb-2 text-figma-gray-400 font-sans">{{ chamado.serviceId }}</p>
+            <p class="font-semibold text-xl">{{ chamado.descricaoEquipamento }}</p>
+          </div>
+          <div>
+            <app-status-icon [status]="chamado.status" />
+          </div>
+        </div>
+        <div class="mt-4">
+          <p class="text-figma-gray-400 font-semibold">Descrição</p>
+          <p class="font-sans">{{ chamado.descricaoFalha }}</p>
+        </div>
+        <div class="mt-4">
+          <p class="text-figma-gray-400 font-semibold">Criado em</p>
+          <p class="font-sans">{{ chamado.data | date:'dd/MM/yyyy H:mm' }}</p>
+        </div>
+        <div class="mt-4">
+          <p class="text-figma-gray-400 font-semibold">Solucionado em</p>
+          <p class="font-sans">08/09/2025 23:00</p>
+        </div>
+      </div>
+    </div>
+    <div class="w-[35%] bg-white rounded-lg overflow-hidden border border-figma-gray-200">
+      <div class="p-8 flex flex-col justify-between">
+        <p class="text-figma-gray-400 font-semibold">Valor</p>
+        <p class="mt-2 font-bold text-2xl">R$ 4000</p>
+        <button
+        (click)="abrirModal()"
+        mat-flat-button
+        class="mt-8 w-full btn-approve"
+        >Pagar</button>
+      </div>
+    </div>
+    }
+  </div>
+</div>
