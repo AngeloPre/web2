@@ -4,32 +4,58 @@
     <div class="p-8">
       <h2 class="text-md font-semibold font-lato">Informações da Solicitação</h2>
       <h3 class="text-figma-gray-400 font-lato mt-2">Informe os dados abaixo para abrir uma solicitação</h3>
+      <form #formPedido="ngForm">
       <mat-form-field class="w-full mt-4">
         <mat-label class="text-sm font-lato">Descrição do Equipamento</mat-label>
-            <input  matInput
+            <input
+            matInput
+            required
+            [(ngModel)]="pedido.descricaoEquipamento"
+            #descricao = "ngModel"
             placeholder="Computador Desktop"
             class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
             name="descrição">
+            @if (descricao.errors && (descricao.dirty || descricao.touched)) {
+              <mat-error>Campo Obrigatório</mat-error>
+            }
       </mat-form-field>
       <mat-form-field class="w-full mt-4">
         <mat-label class="text-sm font-lato">Categoria do Equipamento</mat-label>
-        <mat-select>
-          @for (item of categorias; track item) {
-            <mat-option [value]="item" class="placeholder:font-lato placeholder:text-sm">{{ item }}</mat-option>
+        <mat-select
+          [(ngModel)]="pedido.serviceCategory"
+          name="serviceCategory"
+          #categoriaModel="ngModel"
+          required>
+          @for (item of categorias(); track item) {
+            <mat-option [value]="item.name" class="placeholder:font-lato placeholder:text-sm">{{ item.name }}</mat-option>
           }
         </mat-select>
+        @if (categoriaModel.errors && (categoriaModel.touched || categoriaModel.dirty)) {
+          <mat-error>Campo Obrigatório</mat-error>
+        }
       </mat-form-field>
       <mat-form-field class="w-full mt-4">
         <mat-label class="text-sm font-lato">Descrição do Defeito</mat-label>
-        <textarea matInput></textarea>
+        <textarea
+          matInput
+          required
+          [(ngModel)]="pedido.descricaoFalha"
+          name="descricaoFalha"
+          #falha="ngModel"
+          required></textarea>
+          @if (falha.errors && (falha.dirty || falha.touched)) {
+            <mat-error>Campo Obrigatório</mat-error>
+          }
       </mat-form-field>
       <div class="flex justify-center">
         <button
         mat-flat-button
         class="w-5/6 mt-8 font-lato"
+        [disabled]="!formPedido.form.valid"
         (click)="openDialog()"
         >Abrir Solicitação</button>
       </div>
+      </form>
     </div>
   </div>
 </div>
