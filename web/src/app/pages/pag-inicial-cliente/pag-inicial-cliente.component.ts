@@ -20,7 +20,7 @@ export class PagInicialClienteComponent implements OnInit {
   }
 
   atualizarTela(): void {
-    this.chamadosMock2.set(this.chamadoService.listarTodos());
+    this.chamadosMock2.set(this.chamadoService.listarEmOrdemCrescente());
   }
 
   btnAtualizar(event: { id: number; statusNovo: StatusConcertoEnum }): void {

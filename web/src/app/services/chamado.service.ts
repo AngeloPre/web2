@@ -26,6 +26,22 @@ export class ChamadoService implements MockServices<ChamadoItem> {
     const lista: ChamadoItem[] = JSON.parse(chamados);
     return lista.filter((chamado) => chamado.userId === userId);
   }
+  listarEmOrdemCrescente(): ChamadoItem[] {
+    const chamados = this.listarTodos();
+    return chamados.sort(
+      (a, b) => new Date(a.data).getTime() - new Date(b.data).getTime()
+    );
+  }
+  listarFiltroData(data_inicial: string, data_final: string): ChamadoItem[] {
+    const dt_i = new Date(data_inicial).setHours(0, 0, 0, 0);
+    const dt_f = new Date(data_final).setHours(23, 59, 59, 0);
+
+    return this.listarEmOrdemCrescente().filter(
+      (chamado) =>
+        new Date(chamado.data).getTime() >= dt_i &&
+        new Date(chamado.data).getTime() <= dt_f
+    );
+  }
   inserir(elemento: ChamadoItem): void {
     const chamados = this.listarTodos();
     elemento.serviceId = this.serviceID++;
@@ -45,7 +61,9 @@ export class ChamadoService implements MockServices<ChamadoItem> {
   }
   remover(elemento: ChamadoItem): void {
     let chamados = this.listarTodos();
-    chamados.filter((chamado) => chamado.serviceId !== elemento.serviceId);
+    chamados = chamados.filter(
+      (chamado) => chamado.serviceId !== elemento.serviceId
+    );
     localStorage[LS_Chamado] = JSON.stringify(chamados);
   }
 
@@ -60,7 +78,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Notebook Dell',
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-1',
-        data: new Date(),
+        data: new Date('2025-09-13T03:24:00'),
       });
       this.inserir({
         userId: 2,
@@ -71,7 +89,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Impressora HP',
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-2',
-        data: new Date(),
+        data: new Date('2025-09-12T03:24:00'),
       });
       this.inserir({
         userId: 3,
@@ -82,7 +100,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Mouse Razer',
         descricaoFalha: 'Descrição do chamado 3',
         slug: 'descricao-do-chamado-3',
-        data: new Date(),
+        data: new Date('2025-09-11T03:24:00'),
       });
       this.inserir({
         userId: 4,
@@ -93,7 +111,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Desktop Dell',
         descricaoFalha: 'Descrição do chamado 4',
         slug: 'descricao-do-chamado-4',
-        data: new Date(),
+        data: new Date('2025-09-10T03:24:00'),
       });
       this.inserir({
         userId: 5,
