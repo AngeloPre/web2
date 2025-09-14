@@ -1,5 +1,6 @@
 import { Cliente } from '@/app/model/cliente';
 import { Endereco } from '@/app/model/endereco';
+import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
 import { toUF, UF } from '@/app/model/enums/uf';
 import { UsuarioService } from '@/app/services/usuario.service';
 import { ViacepService } from '@/app/services/viacep.service';
@@ -40,7 +41,7 @@ export class RegisterFormComponent {
 
   passwordVisible = false;
 
-  cliente = new Cliente(1, '052.333.719-45', 'Marcos Renato', 'renato@email.com', "", '(41)-9 9999-8888', this.novoEndereco())
+  cliente = new Cliente(1, '052.333.719-45', 'Marcos Renato', 'renato@email.com', "", '(41)-9 9999-8888', this.novoEndereco(), StatusAtivoInativo.ATIVO)
 
   // cliente: Cliente = new Cliente(
   //   '', // id

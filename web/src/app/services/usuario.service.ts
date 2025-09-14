@@ -6,6 +6,8 @@ import { Endereco } from '../model/endereco';
 import { toUF } from '../model/enums/uf';
 import { Cliente } from '../model/cliente';
 import { GeradorsenhaService } from './geradorsenha.service';
+import { StatusAtivoInativo } from '../model/enums/status-ativo-inativo.enum';
+import { EMPLOYEE_ROLE } from '../model/roles';
 
 export const LS_USUARIO = "Usuario";
 
@@ -17,50 +19,26 @@ export class UsuarioService implements MockServices<Usuario> {
   private geradorSenhaService = inject(GeradorsenhaService);
 
   constructor() {
-    if (this.listarTodos().length === 0) {
-
-      let enderecoMaria: Endereco = {
-        cep: "83511520",
-        cidade: "Almirante Tamandaré",
-        logradouro: "Rua das Laranjeiras",
-        bairro: "Cachoeira",
-        estado: "Paraná",
-        numero: "120",
-        uf: toUF("PR"),
-        complemento: "Casa"
-      };
-
+    if (this.nenhumUsuario()) {
+      console.log("esta criando ususarios")
       let maria: Usuario = new Funcionario(
         this.usuarioID++,
-        "15080311002",
         "Maria",
         "maria@email.com",
         "1234",
-        "41 996767676",
-        enderecoMaria,
-        "152" // matrícula
+        "152", // matrícula
+        new Date(1990, 9, 26, 10, 0, 0),
+        StatusAtivoInativo.ATIVO
       );
-
-      let enderecoMario: Endereco = {
-        cep: "83510230",
-        cidade: "Almirante Tamandaré",
-        logradouro: "Avenida das Araucárias",
-        bairro: "Centro",
-        estado: "Paraná",
-        numero: "45",
-        uf: toUF("PR"),
-        complemento: "Bloco B, sala 204"
-      };
 
       let mario: Usuario = new Funcionario(
         this.usuarioID++,
-        "31728945010",
         "Mário",
         "mario@email.com",
         "1234",
-        "41 984545454",
-        enderecoMario,
-        "207" // matrícula
+        "207", // matrícula
+        new Date(1990, 9, 26, 10, 0, 0),
+        StatusAtivoInativo.ATIVO
       );
 
       // --- Clientes ---
@@ -82,7 +60,8 @@ export class UsuarioService implements MockServices<Usuario> {
         "joao@email.com",
         "1234",
         "41 988887777",
-        enderecoJoao
+        enderecoJoao,
+        StatusAtivoInativo.ATIVO
       );
 
       let enderecoJose: Endereco = {
@@ -103,7 +82,8 @@ export class UsuarioService implements MockServices<Usuario> {
         "jose@email.com",
         "1234",
         "41 987006006",
-        enderecoJose
+        enderecoJose,
+        StatusAtivoInativo.ATIVO
       );
 
       let enderecoJoana: Endereco = {
@@ -124,7 +104,8 @@ export class UsuarioService implements MockServices<Usuario> {
         "joana@email.com",
         "1234",
         "41 997778888",
-        enderecoJoana
+        enderecoJoana,
+        StatusAtivoInativo.ATIVO
       );
 
       let enderecojoaquina: Endereco = {
@@ -145,7 +126,8 @@ export class UsuarioService implements MockServices<Usuario> {
         "joaquina@email.com",
         "1234",
         "41 996660000",
-        enderecojoaquina
+        enderecojoaquina,
+        StatusAtivoInativo.ATIVO
       );
 
       this.inserir(maria);
@@ -157,9 +139,21 @@ export class UsuarioService implements MockServices<Usuario> {
       this.inserir(jose);
     }
   }
+
+  nenhumUsuario(): boolean {
+    return this.listarTodos().length === 0;
+  }
+
   listarTodos(): Usuario[] {
     const usuarios = localStorage[LS_USUARIO];
     return usuarios ? JSON.parse(usuarios) : [];
+  }
+  listarTodosFuncionarios(): Usuario[] {
+    const funcionarios = this.listarTodos().filter(funcionario => {
+      // console.log(funcionario.role.name)
+      return funcionario.role.name === 'employee';
+    });
+    return funcionarios;
   }
   inserir(elemento: Usuario): void {
     const usuarios = this.listarTodos();
@@ -168,10 +162,17 @@ export class UsuarioService implements MockServices<Usuario> {
     usuarios.push(elemento);
     localStorage[LS_USUARIO] = JSON.stringify(usuarios);
   }
+
   buscarPorID(id: number): Usuario | undefined {
     const usuarios = this.listarTodos();
-    return usuarios.find((usuario) => usuario.id === id);
+    return this.nenhumUsuario() ? undefined : usuarios.find((usuario) => usuario.id === id);
   }
+
+  buscarPorEmail(email: string): Usuario | undefined {
+    const usuarios = this.listarTodos();
+    return this.nenhumUsuario() ? undefined : usuarios.find((usuario) => usuario.email === email);
+  }
+
   atualizar(elemento: Usuario): void {
     let usuarios = this.listarTodos();
     usuarios = usuarios.map((usuario) =>
@@ -181,7 +182,9 @@ export class UsuarioService implements MockServices<Usuario> {
   }
   remover(elemento: Usuario): void {
     let usuarios = this.listarTodos();
-    usuarios.filter((usuario) => usuario.id !== elemento.id);
+    usuarios = usuarios.filter(usuario => usuario.id !== elemento.id);
+    console.log(usuarios);
     localStorage[LS_USUARIO] = JSON.stringify(usuarios);
+    this.listarTodos();
   }
 }
