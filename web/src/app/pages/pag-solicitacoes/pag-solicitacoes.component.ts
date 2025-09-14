@@ -23,10 +23,6 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'app-pag-solicitacoes',
-  providers: [
-    provideNativeDateAdapter(),
-    { provide: MAT_DATE_LOCALE, useValue: 'pt-BR' },
-  ],
   imports: [
     ChamadoCardComponent,
     MatButton,
