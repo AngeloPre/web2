@@ -33,6 +33,7 @@ export class MenuLateralComponent {
         { id: 2, icon: 'assets/svg/funcionarios.svg', label: 'Funcionários', path: '/funcionario/funcionarios' },
         { id: 3, icon: 'assets/svg/novo-funcionario.svg', label: 'Novo Funcionário', path: '/funcionario/novo-funcionario' },
         { id: 4, icon: 'assets/svg/categorias-equipamento.svg', label: 'Categorias de Equipamento', path: '/funcionario/categorias-equipamento' },
+        { id: 5, icon: 'assets/svg/dolar.svg', label: 'Relatórios', path:'/funcionario/relatorios'}
       ]
       : [
         { id: 0, icon: 'assets/svg/pagina-inicial.svg', label: 'Página Inicial', path: '/cliente' },
