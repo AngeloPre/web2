@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { MatDialogModule } from '@angular/material/dialog';
+import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
@@ -12,7 +12,11 @@ import { MatInputModule } from '@angular/material/input';
   styles: ``
 })
 export class ConfirmarOrcamentoDialogComponent {
-  confirmarOrcamento(){
-    //implementar on confirmar
+  comentario = '';
+
+  constructor(public dialogRef: MatDialogRef<ConfirmarOrcamentoDialogComponent>) {}  
+
+  salvarOrcamento(){
+    this.dialogRef.close({saved: true, comentario: this.comentario});
   }
 }

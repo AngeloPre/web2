@@ -1,4 +1,4 @@
-import { ChamadoItem } from '@/app/model/chamado-list.type';
+import { ChamadoItem } from '@/app/model/chamado.type';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { StatusIconComponent } from '@/app/shared/components/status-icon/status-icon.component';
 import { ConfirmarModalComponent } from '@/app/shared/components/confirmar-modal/confirmar-modal.component';

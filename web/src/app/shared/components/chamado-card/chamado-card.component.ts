@@ -1,6 +1,6 @@
 import { Component, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ChamadoItem } from '@/app/model/chamado-list.type';
+import { ChamadoItem } from '@/app/model/chamado.type';
 import { DatePipe } from '@angular/common';
 import { LimiteCaracteresPipe } from '@/app/shared/pipes/limite-caracteres.pipe';
 import { StatusIconComponent } from '../status-icon/status-icon.component';

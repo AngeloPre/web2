@@ -1,4 +1,3 @@
-import { CategoriaEquipamento } from './enums/categoria-equipamento';
 import { StatusConcertoEnum } from './enums/chamado-status.enum';
 
 export type ChamadoItem = {
@@ -11,4 +10,6 @@ export type ChamadoItem = {
   descricaoFalha: string;
   slug: string;
   data: Date;
+  preco?: number;
+  comentario?: string;
 };

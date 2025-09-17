@@ -1,4 +1,5 @@
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
+import { DatePipe, CurrencyPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from "@angular/material/input";
 import { FormsModule } from "@angular/forms";
@@ -9,16 +10,28 @@ import { ServicoAdicionalDialogComponent } from '../dialogs/servico-adicional-di
 import { ConfirmarOrcamentoDialogComponent } from '../dialogs/confirmar-orcamento-dialog/confirmar-orcamento-dialog.component';
 import { NgxCurrencyDirective } from 'ngx-currency';
 import { ServicosAdicionaisComponent } from '../servicos-adicionais/servicos-adicionais.component';
+import { ChamadoItem } from '@/app/model/chamado.type';
+import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { ChamadoService } from '@/app/services/chamado.service';
+import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'app-efetuar-orcamento',
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButton, NgxCurrencyDirective, ServicosAdicionaisComponent],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButton, NgxCurrencyDirective, ServicosAdicionaisComponent, DatePipe, CurrencyPipe],
   templateUrl: './efetuar-orcamento.component.html',
   styles: ``
 })
+
 export class EfetuarOrcamentoComponent {
   private dialog = inject(MatDialog);
+  private chamadoService = inject(ChamadoService);
+  private router = inject(Router);
+  private snackBar = inject(MatSnackBar);
+  chamado = input.required<ChamadoItem | undefined>();
+  precoBase = signal(0);
+  adicionais = 50;
+  total = computed(() => this.precoBase() + this.adicionais);
 
   adicionarServico() {
     const ref = this.dialog.open(ServicoAdicionalDialogComponent, {
@@ -34,10 +47,19 @@ export class EfetuarOrcamentoComponent {
           maxWidth: 'none',
           panelClass: 'dialog-xxl'
         });
+
+    ref.afterClosed().subscribe(resultado => {
+      if (resultado && resultado.saved && this.chamado()) {
+        const chamadoAtualizado: ChamadoItem = {
+          ...this.chamado()!,
+          preco: this.total(),
+          comentario: resultado.comentario,
+          status: StatusConcertoEnum.ORCADA 
+        };
+        this.chamadoService.atualizar(chamadoAtualizado);
+        this.snackBar.open('Orçamento efetuado com sucesso!', 'Fechar', { duration: 3000 });
+        this.router.navigate(['/funcionario']);
+      }
+    });
   }
-
-
-
-
-
 }

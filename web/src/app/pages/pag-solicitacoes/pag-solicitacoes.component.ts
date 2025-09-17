@@ -7,7 +7,7 @@ import {
   Signal,
   signal,
 } from '@angular/core';
-import { ChamadoItem } from '@/app/model/chamado-list.type';
+import { ChamadoItem } from '@/app/model/chamado.type';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButton } from '@angular/material/button';
 import { ChamadoService } from '@/app/services/chamado.service';
