@@ -51,6 +51,24 @@
     <div>
         @for (etapa of etapas; track etapa.id) {
             <div class="min-w-0 mb-2">
+                <mat-expansion-panel class="shadow-none">
+                    <mat-expansion-panel-header class="flex-between">
+                    <span class="font-medium">Serviços adicionais</span>
+                    <app-status-icon [status]=etapa.status />
+                    </mat-expansion-panel-header>
+                    <div class="p-6">
+                    <ul class="divide-y divide-figma-gray-200">
+                        <li class="flex items-center justify-between py-3">
+                        <span>Assinatura de backup</span>
+                        <span>R$ 120,00</span>
+                        </li>
+                        <li class="flex items-center justify-between py-3">
+                        <span>Formatação do PC</span>
+                        <span>R$ 75,00</span>
+                        </li>
+                    </ul>
+                    </div>
+                </mat-expansion-panel>
                 <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
                     <p class="text-xl font-semibold mt-1">00{{ etapa.id }}</p>
 

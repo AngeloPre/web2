@@ -11,6 +11,17 @@ export type ChamadoInicial = {
   categoriaEquipamento: CategoriaEquipamento;
 };
 
+/* const ETAPA: Record<StatusSolicitacao, StatusSolicitacao[]> = {
+  [StatusSolicitacao.ABERTA]:        [StatusSolicitacao.ORCADA],
+  [StatusSolicitacao.ORCADA]:        [StatusSolicitacao.APROVADA, StatusSolicitacao.REJEITADA],
+  [StatusSolicitacao.REJEITADA]:     [StatusSolicitacao.APROVADA], // resgatar
+  [StatusSolicitacao.APROVADA]:      [StatusSolicitacao.ARRUMADA, StatusSolicitacao.REDIRECIONADA],
+  [StatusSolicitacao.REDIRECIONADA]: [StatusSolicitacao.ARRUMADA, StatusSolicitacao.REDIRECIONADA],
+  [StatusSolicitacao.ARRUMADA]:      [StatusSolicitacao.PAGA],
+  [StatusSolicitacao.PAGA]:          [StatusSolicitacao.FINALIZADA],
+  [StatusSolicitacao.FINALIZADA]:    [],
+}; */
+
 export type EtapaHistorico = {
   id: number;
   //chamadoInicial: ChamadoInicial,
