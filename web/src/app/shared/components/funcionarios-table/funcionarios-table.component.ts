@@ -1,5 +1,5 @@
 import { Usuario } from '@/app/model/usuario';
-import { Component, inject, input, } from '@angular/core';
+import { Component, inject, input, output, } from '@angular/core';
 import { StatusAtivoInativoComponent } from "../status-ativo-inativo/status-ativo-inativo.component";
 import { Router, RouterLink } from '@angular/router';
 import { ConfirmarModalComponent } from '../confirmar-modal/confirmar-modal.component';
@@ -18,6 +18,7 @@ export class FuncionariosTableComponent {
   usuarios = input.required<Usuario[]>();
   usuarioService = inject(UsuarioService);
   router = inject(Router);
+  deleted = output<number>();
 
   confirmarExcluir(id: number) {
     const funcionario = this.usuarioService.buscarPorID(id);
@@ -30,7 +31,7 @@ export class FuncionariosTableComponent {
       if (!ok) return;
 
       this.usuarioService.remover(funcionario);
-      this.router.navigate(['/funcionario/funcionarios']);
+      this.deleted.emit(id);
     });
   }
 }
