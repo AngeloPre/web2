@@ -15,6 +15,7 @@ import { HistoricoClienteComponent } from './pages/historico-cliente/historico-c
 import { PagInserirOrcamentoComponent } from './pages/pag-inserir-orcamento/pag-inserir-orcamento.component';
 import { PagCategoriaEquipamentoComponent } from './pages/pag-categoria-equipamento/pag-categoria-equipamento.component';
 import { PagSolicitacoesComponent } from './pages/pag-solicitacoes/pag-solicitacoes.component';
+import { PagEfetuarManutencaoComponent } from './pages/efetuar-manutencao/pag-efetuar-manutencao.component';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
@@ -57,10 +58,11 @@ export const routes: Routes = [
         component: HistoricoClienteComponent,
         title: 'Detalhe do Orçamento'
       },
-      { 
-        path: 'orcamentos/:id/:slug', 
-        component: PagAprovarRejeitarOrcamentoComponent, 
-        title: 'Detalhe do Orçamento' },
+      {
+        path: 'orcamentos/:id/:slug',
+        component: PagAprovarRejeitarOrcamentoComponent,
+        title: 'Detalhe do Orçamento'
+      },
     ],
   },
   {
@@ -74,18 +76,21 @@ export const routes: Routes = [
         component: PagInicialFuncionarioComponent,
         title: 'Solicitações em Aberto',
       },
-      { 
-        path: 'orcamentos/:id/:slug', 
-        component: PagInserirOrcamentoComponent, 
-        title: 'Efetuar Orçamento' },
-      { 
-        path: 'solicitacoes', 
-        component: PagSolicitacoesComponent, 
-        title: 'Todas as Solicitações' },
-      { 
-        path: 'funcionarios', 
-        component: HomeComponent, 
-        title: 'Funcionários' },
+      {
+        path: 'orcamentos/:id/:slug',
+        component: PagInserirOrcamentoComponent,
+        title: 'Efetuar Orçamento'
+      },
+      {
+        path: 'solicitacoes',
+        component: PagSolicitacoesComponent,
+        title: 'Todas as Solicitações'
+      },
+      {
+        path: 'funcionarios',
+        component: HomeComponent,
+        title: 'Funcionários'
+      },
       {
         path: 'novo-funcionario',
         component: HomeComponent,
@@ -96,6 +101,11 @@ export const routes: Routes = [
         component: PagCategoriaEquipamentoComponent,
         title: 'Categorias de Equipamento',
       },
+      {
+        path: 'efetuar-manutencao/:id',
+        component: PagEfetuarManutencaoComponent,
+        title: 'Efetuar Manutenção',
+      }
     ],
   },
 

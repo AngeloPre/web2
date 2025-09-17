@@ -1,0 +1,47 @@
+<div class="grid gap-6 md:[grid-template-columns:minmax(0,1fr)_minmax(320px,35%)]">
+    <div class="min-w-0">
+        <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
+            <p class="text-sm text-figma-gray-300">{{ chamado()?.serviceId }}</p>
+            <h2 class="text-xl font-semibold mt-1">{{ chamado()?.descricaoEquipamento }}</h2>
+
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-figma-gray-300">Descrição</p>
+                <p class="mt-1 text-figma-gray-600">
+                    {{ chamado()?.descricaoFalha }}
+                </p>
+            </div>
+
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-figma-gray-300">Categoria</p>
+                <p class="mt-1">{{ chamado()?.serviceCategory }}</p>
+            </div>
+            
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-figma-gray-300">Criado em</p>
+                <p class="mt-1">{{ chamado()?.data | dataHora }}</p>
+            </div>
+
+            @if(chamado()?.status) {
+                <div class="mt-4 grid grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-sm font-semibold text-figma-gray-300">Status</p>
+                        <div>
+                            <app-status-icon [status]="chamado()!.status" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="mt-6">
+                <p class="text-sm font-semibold text-figma-gray-300">Cliente</p>
+                <div class="mt-2 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">AC</div>
+                    <div>
+                        <p class="font-medium leading-tight">{{ chamado()?.userName }}</p>
+                        <p class="text-xs text-figma-gray-300">andre.costa&#64;example.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

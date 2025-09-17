@@ -10,6 +10,7 @@ import { ChamadoService } from '@/app/services/chamado.service';
   templateUrl: './pag-solicitacoes.component.html',
   styles: ``
 })
+
 export class PagSolicitacoesComponent implements OnInit {
   private chamadoService = inject(ChamadoService);
 

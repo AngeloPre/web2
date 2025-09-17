@@ -1,0 +1,19 @@
+<div class="mt-6 page-shell">
+
+    <!-- botao para voltar -->
+    <a mat-button class="figma-ghost" 
+        [routerLink]="['/funcionario']">
+        <img src="assets/svg/arrow-left.svg" alt="" />
+        <span>Voltar</span>
+    </a>
+
+    <!-- Título -->
+    <h1 class="text-3xl font-bold text-brand-dark">
+        Efetuar manutenção referente ao chamado #{{ chamado()?.serviceId }}
+    </h1>
+
+    <!-- Componente de preview do chamado -->
+    <div class="mt-8 bg-white rounded-lg overflow-hidden border border-none">
+        <app-efetuar-manutencao [chamado]="chamado()"></app-efetuar-manutencao>
+    </div>
+</div>
