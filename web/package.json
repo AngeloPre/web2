@@ -23,6 +23,7 @@
     "@ngrx/signals": "19.2.1",
     "@ngrx/store": "^19.2.1",
     "angular-cli-ghpages": "^2.0.3",
+    "jspdf": "^3.0.2",
     "ngx-currency": "^19.0.0",
     "ngx-mask": "^20.0.3",
     "rxjs": "~7.8.0",

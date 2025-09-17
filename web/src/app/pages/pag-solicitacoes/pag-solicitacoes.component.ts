@@ -10,7 +10,6 @@ import {
 import { ChamadoItem } from '@/app/model/chamado-list.type';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButton } from '@angular/material/button';
-import { provideNativeDateAdapter } from '@angular/material/core';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
@@ -19,7 +18,6 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 @Component({
   selector: 'app-pag-solicitacoes',

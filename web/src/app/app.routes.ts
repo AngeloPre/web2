@@ -19,6 +19,7 @@ import { PagarClienteComponent } from './pages/pagar-cliente/pagar-cliente.compo
 import { PagCadastroFuncionarioComponent } from './pages/pag-cadastro-funcionario/pag-cadastro-funcionario.component';
 import { PagListarFuncionariosComponent } from './pages/pag-listar-funcionarios/pag-listar-funcionarios.component';
 import { PagEditarFuncionarioComponent } from './pages/pag-editar-funcionario/pag-editar-funcionario.component';
+import { PagRelatoriosComponent } from './pages/pag-relatorios/pag-relatorios.component';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
@@ -87,17 +88,17 @@ export const routes: Routes = [
       {
         path: 'orcamentos/:id/:slug',
         component: PagInserirOrcamentoComponent,
-        title: 'Efetuar Orçamento'
+        title: 'Efetuar Orçamento',
       },
       {
         path: 'solicitacoes',
         component: PagSolicitacoesComponent,
-        title: 'Todas as Solicitações'
+        title: 'Todas as Solicitações',
       },
       {
         path: 'funcionarios',
         component: PagListarFuncionariosComponent,
-        title: 'Funcionários'
+        title: 'Funcionários',
       },
       {
         path: 'novo-funcionario',
@@ -113,6 +114,11 @@ export const routes: Routes = [
         path: 'categorias-equipamento',
         component: PagCategoriaEquipamentoComponent,
         title: 'Categorias de Equipamento',
+      },
+      {
+        path: 'relatorios',
+        component: PagRelatoriosComponent,
+        title: 'Relatório de Receitas',
       },
     ],
   },
