@@ -3,7 +3,7 @@ import { Funcionario } from '@/app/model/funcionario';
 import { UsuarioService } from '@/app/services/usuario.service';
 import { FuncionarioFormComponent } from '@/app/shared/components/funcionario-form/funcionario-form.component';
 import { Component, inject, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterOutlet } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-pag-editar-funcionario',

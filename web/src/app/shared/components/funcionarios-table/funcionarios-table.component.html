@@ -39,7 +39,7 @@
             <!-- <app-status-icon [status]="chamado.status" /> -->
         </td>
         <td class="px-6 py-4 flex justify-end">
-          <button class="aspect-square rounded p-2"  [routerLink]="[`../editar-funcionario/${funcionario.id}`]">
+          <button class="aspect-square rounded p-2"  [routerLink]="['/funcionario/editar-funcionario', funcionario.id]">
             <img src="assets/svg/pen-line.svg" />
           </button>
         <button type="button"
