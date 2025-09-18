@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { MockServices } from '../model/interfaces/mock-services';
 import { ChamadoItem } from '../model/chamado-list.type';
 import { StatusConcertoEnum } from '../model/enums/chamado-status.enum';
-import { CategoriaEquipamento } from '../model/enums/categoria-equipamento';
 
 export const LS_Chamado = 'Chamado';
 
@@ -68,12 +67,13 @@ export class ChamadoService implements MockServices<ChamadoItem> {
   }
 
   constructor() {
-    if (this.listarTodos().length === 0) {
+    this.serviceID = this.listarTodos().length + 100;
+    if (this.serviceID === 100) {
       this.inserir({
         userId: 1,
         userName: 'João',
-        serviceId: 101,
-        serviceCategory: CategoriaEquipamento.NOTEBOOK,
+        serviceId: -1,
+        serviceCategory: 'Notebook',
         status: StatusConcertoEnum.FINALIZADA,
         descricaoEquipamento: 'Notebook Dell',
         descricaoFalha: 'Descrição do chamado 2',
@@ -83,8 +83,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
       this.inserir({
         userId: 2,
         userName: 'João',
-        serviceId: 102,
-        serviceCategory: CategoriaEquipamento.IMPRESSORA,
+        serviceId: -1,
+        serviceCategory: 'Impressora',
         status: StatusConcertoEnum.PAGA,
         descricaoEquipamento: 'Impressora HP',
         descricaoFalha: 'Descrição do chamado 2',
@@ -95,7 +95,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userId: 3,
         userName: 'José',
         serviceId: 103,
-        serviceCategory: CategoriaEquipamento.MOUSE,
+        serviceCategory: 'Mouse',
         status: StatusConcertoEnum.ARRUMADA,
         descricaoEquipamento: 'Mouse Razer',
         descricaoFalha: 'Descrição do chamado 3',
@@ -105,8 +105,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
       this.inserir({
         userId: 4,
         userName: 'José',
-        serviceId: 104,
-        serviceCategory: CategoriaEquipamento.DESKTOP,
+        serviceId: -1,
+        serviceCategory: 'Desktop',
         status: StatusConcertoEnum.REDIRECIONADA,
         descricaoEquipamento: 'Desktop Dell',
         descricaoFalha: 'Descrição do chamado 4',
@@ -116,8 +116,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
       this.inserir({
         userId: 5,
         userName: 'Joana',
-        serviceId: 105,
-        serviceCategory: CategoriaEquipamento.TECLADO,
+        serviceId: -1,
+        serviceCategory: 'Teclado',
         status: StatusConcertoEnum.APROVADA,
         descricaoEquipamento: 'Teclado Logitec',
         descricaoFalha: 'Descrição do chamado 5',
@@ -127,8 +127,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
       this.inserir({
         userId: 6,
         userName: 'Joana',
-        serviceId: 106,
-        serviceCategory: CategoriaEquipamento.IMPRESSORA,
+        serviceId: -1,
+        serviceCategory: 'Impressora',
         status: StatusConcertoEnum.REJEITADA,
         descricaoEquipamento: 'Impressora Epson',
         descricaoFalha: 'Descrição do chamado 6',
@@ -138,8 +138,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
       this.inserir({
         userId: 7,
         userName: 'Joaquina',
-        serviceId: 107,
-        serviceCategory: CategoriaEquipamento.DESKTOP,
+        serviceId: -1,
+        serviceCategory: 'Desktop',
         status: StatusConcertoEnum.ORCADA,
         descricaoEquipamento: 'Desktop Customizado',
         descricaoFalha: 'Descrição do chamado 7',
@@ -149,8 +149,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
       this.inserir({
         userId: 8,
         userName: 'Joaquina',
-        serviceId: 108,
-        serviceCategory: CategoriaEquipamento.NOTEBOOK,
+        serviceId: -1,
+        serviceCategory: 'Notebook',
         status: StatusConcertoEnum.ABERTA,
         descricaoEquipamento: 'Notebook Avell',
         descricaoFalha: 'Descrição do chamado 8',
