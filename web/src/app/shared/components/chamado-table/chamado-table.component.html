@@ -53,6 +53,28 @@
           </button>
         </td>
         </tr>
+      } @empty {
+        <tr>
+        <td colspan="5" class="py-2">
+          <div class="flex flex-col items-center justify-center text-center gap-3 py-6">
+            <img
+            src="assets/desktop-computer.jpg"
+            alt="Nenhum Chamado Cadastrado"
+            class="h-64 opacity-96">
+            <div>
+            <p class="text-figma-gray-500 font-semibold">Nenhum chamadado cadastrado</p>
+            <p class="text-figma-gray-300 text-sm">Crie um novo chamado aqui.</p>
+            </div>
+            <button
+              mat-flat-button
+              class="btn-inline"
+              [routerLink]="['/cliente/solicitar-manutencao']">
+              <img src="assets/svg/plus.svg" class="w-5 h-5"/>
+              Novo Chamado
+            </button>
+          </div>
+        </td>
+        </tr>
       }
     </tbody>
   </table>
