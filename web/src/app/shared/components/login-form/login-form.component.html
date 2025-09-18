@@ -8,7 +8,10 @@
             required
             [(ngModel)]="email"
             class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400"
+            type="email"
+            email="true"
             name="email">
+
     @if (email) {
         <button matSuffix matIconButton aria-label="Clear" type="button" (click)="email=''">
         <mat-icon class="mr-3">close</mat-icon>

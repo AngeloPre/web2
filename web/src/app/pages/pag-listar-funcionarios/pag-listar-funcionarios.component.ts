@@ -22,7 +22,15 @@ export class PagListarFuncionariosComponent implements OnInit {
   funcionarioMock = signal<Usuario[]>([]);
 
   ngOnInit(): void {
-    this.funcionarioMock.set(this.usuarioService.listarTodosFuncionarios())
+    this.recarregarTabela();
+  }
+
+  recarregarTabela() {
+    this.funcionarioMock.set(this.usuarioService.listarTodosFuncionarios());
+  }
+
+  onDeleted() {
+    this.recarregarTabela();
   }
 
 }

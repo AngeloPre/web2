@@ -1,11 +1,12 @@
 import { Cliente } from '@/app/model/cliente';
 import { Endereco } from '@/app/model/endereco';
 import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
-import { toUF, UF } from '@/app/model/enums/uf';
+import { UF } from '@/app/model/enums/uf';
+import { EmailjsService } from '@/app/services/emailjs.service';
 import { UsuarioService } from '@/app/services/usuario.service';
 import { ViacepService } from '@/app/services/viacep.service';
 import { fromViaCep } from '@/app/util/mapper/endereco-mapper';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -38,6 +39,7 @@ export class RegisterFormComponent {
   viacepService = inject(ViacepService);
   usuarioService = inject(UsuarioService);
   listaUfs = Object.values(UF);
+  private email = inject(EmailjsService);
 
   passwordVisible = false;
 
@@ -71,6 +73,7 @@ export class RegisterFormComponent {
     if (form.invalid) return;
 
     this.usuarioService.inserir(this.cliente);
+    this.enviarSenha(this.cliente.email, this.cliente.senha);
     console.log('cliente do form', this.cliente);
   }
 
@@ -100,5 +103,14 @@ export class RegisterFormComponent {
 
   togglePassword(): void {
     this.passwordVisible = !this.passwordVisible;
+  }
+  enviarSenha(email: string, senha: string) {
+    this.email.mandarSenha(email, senha).then(() => {
+      alert('Enviado!');
+    }).catch(err => {
+      console.error(err);
+      alert('Falha ao enviar');
+    });
+
   }
 }
