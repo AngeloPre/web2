@@ -74,10 +74,10 @@ export class PagSolicitacoesComponent {
     }
   }
 
-  mudancaDatepicker(range: any) {
-    if (range.value.start && range.value.end) {
-      this.data_inicial.set(range.value.start);
-      this.data_fim.set(range.value.end);
+  mudancaDatepicker() {
+    if (this.range.value.start && this.range.value.end) {
+      this.data_inicial.set(this.range.value.start.toDateString());
+      this.data_fim.set(this.range.value.end.toDateString());
     }
   }
 }
