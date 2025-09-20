@@ -1,0 +1,78 @@
+<div class="grid gap-6 min-h-[550px] md:[grid-template-columns:minmax(0,1fr)_minmax(320px,40%)]">
+    <div class="min-w-0 h-full">
+        <div class="bg-white rounded-lg border border-figma-gray-200 p-6 h-full">
+            <p class="text-sm text-figma-gray-300">{{ chamado()?.serviceId }}</p>
+            <h2 class="text-xl font-semibold mt-1">{{ chamado()?.descricaoEquipamento }}</h2>
+
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-figma-gray-300">Descrição</p>
+                <p class="mt-1 text-figma-gray-600">
+                    {{ chamado()?.descricaoFalha }}
+                </p>
+            </div>
+
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-figma-gray-300">Categoria</p>
+                <p class="mt-1">{{ chamado()?.serviceCategory }}</p>
+            </div>
+            
+            <div class="mt-4">
+                <p class="text-sm font-semibold text-figma-gray-300">Criado em</p>
+                <p class="mt-1">{{ chamado()?.data | dataHora }}</p>
+            </div>
+
+            @if(chamado()?.status) {
+                <div class="mt-4 grid grid-cols-2 gap-6">
+                    <div>
+                        <p class="text-sm font-semibold text-figma-gray-300">Status</p>
+                        <div>
+                            <app-status-icon [status]="chamado()!.status" />
+                        </div>
+                    </div>
+                </div>
+            }
+
+            <div class="mt-6">
+                <p class="text-sm font-semibold text-figma-gray-300">Cliente</p>
+                <div class="mt-2 flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">AC</div>
+                    <div>
+                        <p class="font-medium leading-tight">{{ chamado()?.userName }}</p>
+                        <p class="text-xs text-figma-gray-300">andre.costa&#64;example.com</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <aside class="bg-white rounded-lg border border-figma-gray-200 p-6 flex flex-col">
+        <p class="text-sm font-semibold text-figma-gray-300">Técnico Responsável</p>
+        <div class="mt-3 flex items-center gap-3">
+            <div class="w-10 h-10 rounded-full bg-brand-base text-white flex items-center justify-center">??</div>
+            <div>
+                <p class="font-medium leading-tight">Sem técnico atribuído</p>
+                <p class="text-sm text-figma-gray-300 leading-tight">Sem técnico atribuído</p>
+            </div>
+        </div>
+
+        <div class="mt-6 space-y-2">
+            <mat-label>Descrição</mat-label>
+            <input 
+                matInput 
+                [(ngModel)]="descricaoManutencao"
+                placeholder="Descrição da manutenção"
+                class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent"/>
+        </div>
+        <div class="mt-6 space-y-2">
+            <mat-label>Orientações</mat-label>
+            <textarea
+                matInput
+                rows="4"
+                [(ngModel)]="orientacoesCliente"
+                placeholder="Orientações para o cliente"
+                class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent"></textarea>
+        </div>
+        <button mat-flat-button class="w-full mt-10" (click)="efetuarManutencao()">Concluir manutenção</button>
+        <button mat-flat-button class="w-full mt-5 bg-feedback-danger text-white hover:bg-red-700" (click)="redirecionarManutencao()">Redirecionar manutenção</button>
+    </aside>
+</div>

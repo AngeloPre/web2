@@ -61,6 +61,7 @@ export class SolicitacaoClienteComponent {
     descricaoFalha: '',
     slug: 'slug',
     data: new Date(),
+    etapas: []
   };
 
   criarChamado(): void {

@@ -33,6 +33,7 @@ import {
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
+
 export class PagSolicitacoesComponent {
   private chamadoService = inject(ChamadoService);
   opcaoData = signal<'HOJE' | 'DATA' | 'TODOS'>('TODOS');

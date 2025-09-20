@@ -78,6 +78,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Notebook Dell',
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-1',
+        etapas: [],
         data: new Date('2025-09-13T03:24:00'),
       });
       this.inserir({
@@ -89,6 +90,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Impressora HP',
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-2',
+        etapas: [],
         data: new Date('2025-09-12T03:24:00'),
       });
       this.inserir({
@@ -100,6 +102,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Mouse Razer',
         descricaoFalha: 'Descrição do chamado 3',
         slug: 'descricao-do-chamado-3',
+        etapas: [],
         data: new Date('2025-09-11T03:24:00'),
       });
       this.inserir({
@@ -111,6 +114,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Desktop Dell',
         descricaoFalha: 'Descrição do chamado 4',
         slug: 'descricao-do-chamado-4',
+        etapas: [],
         data: new Date('2025-09-10T03:24:00'),
       });
       this.inserir({
@@ -123,6 +127,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 5',
         slug: 'descricao-do-chamado-5',
         data: new Date(),
+        etapas: []
       });
       this.inserir({
         userId: 6,
@@ -134,6 +139,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 6',
         slug: 'descricao-do-chamado-6',
         data: new Date(),
+        etapas: []
       });
       this.inserir({
         userId: 7,
@@ -145,6 +151,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 7',
         slug: 'descricao-do-chamado-7',
         data: new Date(),
+        etapas: []
       });
       this.inserir({
         userId: 8,
@@ -156,6 +163,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 8',
         slug: 'descricao-do-chamado-8',
         data: new Date(),
+        etapas: []
       });
     }
   }
