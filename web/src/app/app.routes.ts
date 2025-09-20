@@ -103,11 +103,6 @@ export const routes: Routes = [
       },
       {
         path: 'funcionarios',
-        component: HomeComponent,
-        title: 'Todas as Solicitações',
-      },
-      {
-        path: 'funcionarios',
         component: PagListarFuncionariosComponent,
         title: 'Funcionários',
       },
