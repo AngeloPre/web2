@@ -80,6 +80,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Notebook Dell',
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-1',
+        etapas: [],
         dataCriacao: new Date('2025-09-13T03:24:00'),
         precoBase: 250.00
       });
@@ -92,6 +93,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Impressora HP',
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-2',
+        etapas: [],
         dataCriacao: new Date('2025-09-12T03:24:00'),
         precoBase: 395.00
       });
@@ -104,6 +106,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Mouse Razer',
         descricaoFalha: 'Descrição do chamado 3',
         slug: 'descricao-do-chamado-3',
+        etapas: [],
         dataCriacao: new Date('2025-09-11T03:24:00'),
         precoBase: 75.00
       });
@@ -116,6 +119,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Desktop Dell',
         descricaoFalha: 'Descrição do chamado 4',
         slug: 'descricao-do-chamado-4',
+        etapas: [],
         dataCriacao: new Date('2025-09-10T03:24:00'),
         precoBase: 450.00
       });
@@ -128,6 +132,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Teclado Logitec',
         descricaoFalha: 'Descrição do chamado 5',
         slug: 'descricao-do-chamado-5',
+        etapas: [],
         dataCriacao: new Date(),
         precoBase: 120.00
       });
@@ -140,6 +145,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Impressora Epson',
         descricaoFalha: 'Descrição do chamado 6',
         slug: 'descricao-do-chamado-6',
+        etapas: [],
         dataCriacao: new Date(),
         precoBase: 420.00
       });
@@ -152,6 +158,20 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Desktop Customizado',
         descricaoFalha: 'Descrição do chamado 7',
         slug: 'descricao-do-chamado-7',
+        dataCriacao: new Date(),
+        etapas: [],
+        precoBase: 780.00
+      });
+      this.inserir({
+        userId: 8,
+        userName: 'Joaquina',
+        serviceId: 108,
+        serviceCategory: CategoriaEquipamento.NOTEBOOK,
+        status: StatusConcertoEnum.ABERTA,
+        descricaoEquipamento: 'Notebook Avell',
+        descricaoFalha: 'Descrição do chamado 8',
+        slug: 'descricao-do-chamado-8',
+        etapas: [],
         dataCriacao: new Date(),
         precoBase: 325.00
       });

@@ -60,6 +60,7 @@ export class SolicitacaoClienteComponent {
     descricaoEquipamento: '',
     descricaoFalha: '',
     slug: 'slug',
+    etapas: [],
     dataCriacao: new Date(),
     precoBase: 0
   };

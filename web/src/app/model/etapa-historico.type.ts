@@ -1,22 +1,27 @@
-import { CategoriaEquipamento } from './enums/categoria-equipamento';
 import { StatusConcertoEnum } from './enums/chamado-status.enum';
 
 export type Tecnico = {
   nome: string;
 };
 
-export type ChamadoInicial = {
-  descricaoFalha: string;
-  descricaoEquipamento: string;
-  categoriaEquipamento: CategoriaEquipamento;
+export type Redirecionamento = { //tecnico redireciona quando não está apto
+  tecnicoOrigem: Tecnico;
+  tecnicoDestino: Tecnico;
 };
+
+export type Manutencao = { //tecnico efetuou a manutenção
+  descricao: string,
+  orientacoes: string
+}
 
 export type EtapaHistorico = {
   id: number;
-  //chamadoInicial: ChamadoInicial,
+  serviceId: number, //id do chamado
   dataCriado: Date;
   tecnico: Tecnico;
   status: StatusConcertoEnum;
+  redirecionamento?: Redirecionamento;
+  manutencao?: Manutencao;
   orcamento?: number;
   motivoRejeicao?: string;
 };
