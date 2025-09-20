@@ -1,5 +1,5 @@
 import { Component, input, output } from '@angular/core';
-import { ChamadoItem } from '@/app/model/chamado-list.type';
+import { ChamadoItem } from '@/app/model/chamado.type';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
 import { DataHoraPipe } from '../../pipes/data-hora.pipe';
 import { MatLabel } from '@angular/material/form-field';

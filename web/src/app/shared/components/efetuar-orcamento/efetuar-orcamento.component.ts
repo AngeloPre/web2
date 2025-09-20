@@ -16,7 +16,7 @@ import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-efetuar-orcamento',
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButton, NgxCurrencyDirective, ServicosAdicionaisComponent, DatePipe, CurrencyPipe],
+  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButton, NgxCurrencyDirective, DatePipe, CurrencyPipe],
   templateUrl: './efetuar-orcamento.component.html',
   styles: ``
 })
@@ -30,13 +30,13 @@ export class EfetuarOrcamentoComponent {
   precoBase = signal(0);
   total = computed(() => this.precoBase());
   
-  adicionarServico() {
-    const ref = this.dialog.open(ServicoAdicionalDialogComponent, {
-          width: '440px',
-          maxWidth: 'none',
-          panelClass: 'dialog-xxl'
-        });
-  }
+  // adicionarServico() {
+  //   const ref = this.dialog.open(ServicoAdicionalDialogComponent, {
+  //         width: '440px',
+  //         maxWidth: 'none',
+  //         panelClass: 'dialog-xxl'
+  //       });
+  // }
 
   efetuarOrcamento() {
     const ref = this.dialog.open(ConfirmarOrcamentoDialogComponent, {
