@@ -33,7 +33,6 @@ import {
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class PagSolicitacoesComponent {
   private chamadoService = inject(ChamadoService);
   opcaoData = signal<'HOJE' | 'DATA' | 'TODOS'>('TODOS');
@@ -46,6 +45,7 @@ export class PagSolicitacoesComponent {
   });
 
   chamdados: Signal<ChamadoItem[]> = computed(() => {
+    this.chamadoService.chamadosSignal();
     if (this.data_inicial() && this.data_fim()) {
       return this.chamadoService.listarFiltroData(
         this.data_inicial(),
