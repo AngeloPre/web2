@@ -34,7 +34,7 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 
-export class PagSolicitacoesComponent implements OnInit {
+export class PagSolicitacoesComponent {
   private chamadoService = inject(ChamadoService);
   opcaoData = signal<'HOJE' | 'DATA' | 'TODOS'>('TODOS');
   data_inicial = signal<string>('');
