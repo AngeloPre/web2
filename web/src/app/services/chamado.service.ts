@@ -2,7 +2,6 @@ import { Injectable, signal } from '@angular/core';
 import { MockServices } from '../model/interfaces/mock-services';
 import { ChamadoItem } from '../model/chamado.type';
 import { StatusConcertoEnum } from '../model/enums/chamado-status.enum';
-import { CategoriaEquipamento } from '../model/enums/categoria-equipamento';
 
 export const LS_Chamado = 'Chamado';
 
