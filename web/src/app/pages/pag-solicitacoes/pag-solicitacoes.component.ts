@@ -44,7 +44,7 @@ export class PagSolicitacoesComponent {
     end: new FormControl<Date | null>(null),
   });
 
-  chamdados: Signal<ChamadoItem[]> = computed(() => {
+  chamados: Signal<ChamadoItem[]> = computed(() => {
     this.chamadoService.chamadosSignal();
     if (this.data_inicial() && this.data_fim()) {
       return this.chamadoService.listarFiltroData(
