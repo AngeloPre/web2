@@ -147,7 +147,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 5',
         slug: 'descricao-do-chamado-5',
         etapas: [],
-        dataCriacao: new Date(),
+        dataCriacao: new Date('2025-09-19T10:32:00'),
         precoBase: 120.0,
       });
       this.inserir({
@@ -179,7 +179,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
       this.inserir({
         userId: 8,
         userName: 'Joaquina',
-        serviceId: 108,
+        serviceId: -1,
         serviceCategory: 'Notebook',
         status: StatusConcertoEnum.ABERTA,
         descricaoEquipamento: 'Notebook Avell',
@@ -188,6 +188,58 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         etapas: [],
         dataCriacao: new Date(),
         precoBase: 325.0,
+      });
+      this.inserir({
+        userId: 8,
+        userName: 'Joaquina',
+        serviceId: -1,
+        serviceCategory: 'Notebook',
+        status: StatusConcertoEnum.ABERTA,
+        descricaoEquipamento: 'Notebook Lenovo',
+        descricaoFalha: 'Descrição do chamado 9',
+        slug: 'descricao-do-chamado-9',
+        etapas: [],
+        dataCriacao: new Date(),
+        precoBase: 1200.0,
+      });
+      this.inserir({
+        userId: 8,
+        userName: 'João',
+        serviceId: -1,
+        serviceCategory: 'Impressora',
+        status: StatusConcertoEnum.ABERTA,
+        descricaoEquipamento: 'Impressora HP',
+        descricaoFalha: 'Descrição do chamado 10',
+        slug: 'descricao-do-chamado-10',
+        etapas: [],
+        dataCriacao: new Date(),
+        precoBase: 1200.0,
+      });
+      this.inserir({
+        userId: 8,
+        userName: 'Joana',
+        serviceId: -1,
+        serviceCategory: 'Desktop',
+        status: StatusConcertoEnum.ABERTA,
+        descricaoEquipamento: 'Desktop Alienware',
+        descricaoFalha: 'Descrição do chamado 11',
+        slug: 'descricao-do-chamado-11',
+        etapas: [],
+        dataCriacao: new Date('2025-09-18T11:32:00'),
+        precoBase: 1200.0,
+      });
+      this.inserir({
+        userId: 8,
+        userName: 'Joana',
+        serviceId: -1,
+        serviceCategory: 'Teclado',
+        status: StatusConcertoEnum.ABERTA,
+        descricaoEquipamento: 'Teclado Redragon',
+        descricaoFalha: 'Descrição do chamado 12',
+        slug: 'descricao-do-chamado-12',
+        etapas: [],
+        dataCriacao: new Date(),
+        precoBase: 1200.0,
       });
     }
   }
