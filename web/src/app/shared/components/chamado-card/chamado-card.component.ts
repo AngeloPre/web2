@@ -16,6 +16,5 @@ import { VisualizarButtonCardComponent } from '../visualizar-button-card/visuali
 })
 export class ChamadoCardComponent {
   chamados = input.required<Array<ChamadoItem>>();
-  
   chamadosStatus = StatusConcertoEnum;
 }

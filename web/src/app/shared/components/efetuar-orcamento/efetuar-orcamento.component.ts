@@ -11,8 +11,6 @@ import { ConfirmarOrcamentoDialogComponent } from '../dialogs/confirmar-orcament
 import { NgxCurrencyDirective } from 'ngx-currency';
 import { ServicosAdicionaisComponent } from '../servicos-adicionais/servicos-adicionais.component';
 import { ChamadoItem } from '@/app/model/chamado.type';
-import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
-import { ChamadoService } from '@/app/services/chamado.service';
 import { Router } from '@angular/router';
 
 
@@ -25,14 +23,13 @@ import { Router } from '@angular/router';
 
 export class EfetuarOrcamentoComponent {
   private dialog = inject(MatDialog);
-  private chamadoService = inject(ChamadoService);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
-  chamado = input.required<ChamadoItem | undefined>();
-  precoBase = signal(0);
-  adicionais = 50;
-  total = computed(() => this.precoBase() + this.adicionais);
 
+  chamado = input.required<ChamadoItem>();
+  precoBase = signal(0);
+  total = computed(() => this.precoBase());
+  
   adicionarServico() {
     const ref = this.dialog.open(ServicoAdicionalDialogComponent, {
           width: '440px',
@@ -45,18 +42,12 @@ export class EfetuarOrcamentoComponent {
     const ref = this.dialog.open(ConfirmarOrcamentoDialogComponent, {
           width: '440px',
           maxWidth: 'none',
-          panelClass: 'dialog-xxl'
+          panelClass: 'dialog-xxl',
+          data: { chamado: this.chamado(), precoBase: this.precoBase() }
         });
 
     ref.afterClosed().subscribe(resultado => {
-      if (resultado && resultado.saved && this.chamado()) {
-        const chamadoAtualizado: ChamadoItem = {
-          ...this.chamado()!,
-          preco: this.total(),
-          comentario: resultado.comentario,
-          status: StatusConcertoEnum.ORCADA 
-        };
-        this.chamadoService.atualizar(chamadoAtualizado);
+      if (resultado && resultado.saved) {
         this.snackBar.open('Orçamento efetuado com sucesso!', 'Fechar', { duration: 3000 });
         this.router.navigate(['/funcionario']);
       }

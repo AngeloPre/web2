@@ -14,7 +14,9 @@
 
     <!-- Componente de preview do chamado -->
     <div class="mt-8 bg-white rounded-lg overflow-hidden border border-none">
-        <app-efetuar-orcamento [chamado]="chamado()"></app-efetuar-orcamento>
+        @if (chamado()) {
+            <app-efetuar-orcamento [chamado]="chamado()!"></app-efetuar-orcamento>
+        }
     </div>
 </div>
 

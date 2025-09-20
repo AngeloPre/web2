@@ -1,5 +1,5 @@
 import { ChamadoCardComponent } from '@/app/shared/components/chamado-card/chamado-card.component';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, signal } from '@angular/core';
 import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { ChamadoItem } from '@/app/model/chamado.type';
 //Temporário
@@ -15,7 +15,12 @@ export class PagInicialFuncionarioComponent implements OnInit {
   private chamadoService = inject(ChamadoService);
 
   chamadosMock = signal<ChamadoItem[]>([]);
-
+  chamadosStatusAberto = computed(() =>
+    this.chamadosMock().filter(
+      chamado => chamado.status === StatusConcertoEnum.ABERTA
+    )
+  );
+  
   ngOnInit(): void {
     this.atualizarTela();
     console.log(this.chamadoService.listarPorStatus(StatusConcertoEnum.ABERTA));

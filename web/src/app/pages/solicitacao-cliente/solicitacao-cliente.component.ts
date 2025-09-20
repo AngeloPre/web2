@@ -60,7 +60,8 @@ export class SolicitacaoClienteComponent {
     descricaoEquipamento: '',
     descricaoFalha: '',
     slug: 'slug',
-    data: new Date(),
+    dataCriacao: new Date(),
+    precoBase: 0
   };
 
   criarChamado(): void {
