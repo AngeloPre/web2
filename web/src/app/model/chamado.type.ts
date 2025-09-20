@@ -9,7 +9,9 @@ export type ChamadoItem = {
   descricaoEquipamento: string;
   descricaoFalha: string;
   slug: string;
-  data: Date;
-  preco?: number;
+  dataCriacao: Date;
+  dataResposta?: Date;
   comentario?: string;
+  precoBase: number;
+  precoAdicional?: number;
 };
