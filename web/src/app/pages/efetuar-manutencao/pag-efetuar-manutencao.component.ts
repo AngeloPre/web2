@@ -19,6 +19,7 @@ export class PagEfetuarManutencaoComponent {
   constructor(
     private route: ActivatedRoute
   ) {
+    this.salvarChamado = this.salvarChamado.bind(this);
     this.atualizarTela();
   }
 
@@ -31,5 +32,10 @@ export class PagEfetuarManutencaoComponent {
         this.chamado.set(this.chamadoService.buscarPorID(chamadoId));
       }
     });
+  }
+
+  salvarChamado(chamadoItem: ChamadoItem): void {
+    this.chamadoService.atualizar(chamadoItem);
+    this.atualizarTela();
   }
 }

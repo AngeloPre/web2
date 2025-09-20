@@ -61,6 +61,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-1',
         data: new Date(),
+        etapas: []
       });
       this.inserir({
         userId: 2,
@@ -72,6 +73,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-2',
         data: new Date(),
+        etapas: []
       });
       this.inserir({
         userId: 3,
@@ -83,6 +85,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 3',
         slug: 'descricao-do-chamado-3',
         data: new Date(),
+        etapas: []
       });
       this.inserir({
         userId: 4,
@@ -94,6 +97,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 4',
         slug: 'descricao-do-chamado-4',
         data: new Date(),
+        etapas: []
       });
       this.inserir({
         userId: 5,
@@ -105,6 +109,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 5',
         slug: 'descricao-do-chamado-5',
         data: new Date(),
+        etapas: []
       });
       this.inserir({
         userId: 6,
@@ -116,6 +121,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 6',
         slug: 'descricao-do-chamado-6',
         data: new Date(),
+        etapas: []
       });
       this.inserir({
         userId: 7,
@@ -127,6 +133,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 7',
         slug: 'descricao-do-chamado-7',
         data: new Date(),
+        etapas: []
       });
       this.inserir({
         userId: 8,
@@ -138,6 +145,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoFalha: 'Descrição do chamado 8',
         slug: 'descricao-do-chamado-8',
         data: new Date(),
+        etapas: []
       });
     }
   }
