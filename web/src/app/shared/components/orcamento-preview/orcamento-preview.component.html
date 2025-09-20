@@ -1,29 +1,29 @@
 <div class="grid gap-6 md:[grid-template-columns:minmax(0,1fr)_minmax(320px,35%)]">
   <div class="min-w-0">
     <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
-      <p class="text-sm text-figma-gray-300">00004</p>
-      <h2 class="text-xl font-semibold mt-1">Backup não está funcionando</h2>
+      <p class="text-sm text-figma-gray-300">{{ chamado().serviceId }}</p>
+      <h2 class="text-xl font-semibold mt-1">{{ chamado().descricaoEquipamento }}</h2>
 
       <div class="mt-4">
         <p class="text-sm font-semibold text-figma-gray-300">Descrição</p>
         <p class="mt-1 text-figma-gray-600">
-          O sistema de backup automático parou de funcionar. Última execução bem-sucedida foi há uma semana.
+          {{ chamado().descricaoFalha }}
         </p>
       </div>
 
       <div class="mt-4">
         <p class="text-sm font-semibold text-figma-gray-300">Categoria</p>
-        <p class="mt-1">Recuperação de Dados</p>
+        <p class="mt-1">{{ chamado().serviceCategory }}</p>
       </div>
 
       <div class="mt-4 grid grid-cols-2 gap-6">
         <div>
           <p class="text-sm font-semibold text-figma-gray-300">Criado em</p>
-          <p class="mt-1">12/04/25 09:12</p>
+          <p class="mt-1">{{ chamado().dataCriacao | date:'dd/MM/yy, HH:mm' }}</p>
         </div>
         <div>
           <p class="text-sm font-semibold text-figma-gray-300">Respondido em</p>
-          <p class="mt-1">12/04/25 15:20</p>
+          <p class="mt-1">{{ chamado().dataResposta | date:'dd/MM/yy, HH:mm' }}</p>
         </div>
       </div>
 
@@ -32,14 +32,14 @@
         <div class="mt-2 flex items-center gap-3">
           <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">AC</div>
           <div>
-            <p class="font-medium leading-tight">André Costa</p>
+            <p class="font-medium leading-tight">{{ chamado().userName }}</p>
             <p class="text-xs text-figma-gray-300">andre.costa&#64;example.com</p>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="mt-6 bg-white rounded-lg border border-figma-gray-200 p-0 overflow-hidden">
+    <!-- <div class="mt-6 bg-white rounded-lg border border-figma-gray-200 p-0 overflow-hidden">
       <mat-expansion-panel class="shadow-none">
         <mat-expansion-panel-header>
           <span class="font-medium">Serviços adicionais</span>
@@ -57,7 +57,7 @@
           </ul>
         </div>
       </mat-expansion-panel>
-    </div>
+    </div> -->
   </div>
 
   <aside class="bg-white rounded-lg border border-figma-gray-200 p-6 flex flex-col">
@@ -70,7 +70,7 @@
       </div>
     </div>
 
-    <div class="mt-6 space-y-2">
+    <!-- <div class="mt-6 space-y-2">
       <p class="text-sm font-semibold text-figma-gray-300">Valores</p>
       <div class="flex items-center justify-between">
         <span>Preço base</span>
@@ -80,13 +80,13 @@
         <span>Adicionais</span>
         <span>R$ 195,00</span>
       </div>
-    </div>
+    </div> -->
 
-    <mat-divider class="my-4"></mat-divider>
+    <!-- <mat-divider class="my-4"></mat-divider> -->
 
-    <div class="flex items-center justify-between font-semibold">
+    <div class="flex items-center justify-between font-semibold mt-4">
       <span>Total</span>
-      <span>R$ 395,00</span>
+      <span>{{ chamado().precoBase | currency:'BRL'}}</span>
     </div>
 
     <div class="mt-auto pt-4 flex flex-col gap-2">

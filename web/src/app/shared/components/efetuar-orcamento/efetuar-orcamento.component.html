@@ -2,29 +2,25 @@
 
     <div class="min-w-0">
         <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
-            <p class="text-sm text-figma-gray-300">00004</p>
-            <h2 class="text-xl font-semibold mt-1">Backup não está funcionando</h2>
+            <p class="text-sm text-figma-gray-300">{{ chamado().serviceId }}</p>
+            <h2 class="text-xl font-semibold mt-1">{{ chamado().descricaoEquipamento }}</h2>
 
             <div class="mt-4">
                 <p class="text-sm font-semibold text-figma-gray-300">Descrição</p>
                 <p class="mt-1 text-figma-gray-600">
-                    O sistema de backup automático parou de funcionar. Última execução bem-sucedida foi há uma semana.
+                    {{ chamado().descricaoFalha }}
                 </p>
             </div>
 
             <div class="mt-4">
                 <p class="text-sm font-semibold text-figma-gray-300">Categoria</p>
-                <p class="mt-1">Recuperação de Dados</p>
+                <p class="mt-1">{{ chamado().serviceCategory }}</p>
             </div>
 
             <div class="mt-4 grid grid-cols-2 gap-6">
                 <div>
                     <p class="text-sm font-semibold text-figma-gray-300">Criado em</p>
-                    <p class="mt-1">12/04/25 09:12</p>
-                </div>
-                <div>
-                    <p class="text-sm font-semibold text-figma-gray-300">Respondido em</p>
-                    <p class="mt-1">12/04/25 15:20</p>
+                    <p class="mt-1">{{ chamado().dataCriacao | date:'dd/MM/yy, HH:mm' }}</p>
                 </div>
             </div>
 
@@ -33,7 +29,7 @@
                 <div class="mt-2 flex items-center gap-3">
                     <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">AC</div>
                     <div>
-                        <p class="font-medium leading-tight">Andre Costa</p>
+                        <p class="font-medium leading-tight">{{ chamado().userName }}</p>
                         <p class="text-xs text-figma-gray-300">andre.costa&#64;example.com</p>
                     </div>
                 </div>
@@ -41,7 +37,7 @@
         </div>
 
     <!--Serviços adicionais -->
-        <div class="px-6 py-6 mt-6 bg-white rounded-lg border border-figma-gray-200 overflow-hidden">
+        <!-- <div class="px-6 py-6 mt-6 bg-white rounded-lg border border-figma-gray-200 overflow-hidden">
             <header class="flex items-center justify-between">
                 <p class="text-sm font-semibold text-figma-gray-500">Serviços adicionais</p>
                 <button
@@ -54,7 +50,7 @@
                 </button>
             </header>
             <app-servicos-adicionais/>
-        </div>
+        </div> -->
     </div>
 
 
@@ -77,17 +73,19 @@
                 <input
                     matInput
                     placeholder="R$ 0,00"
+                    [ngModel]="precoBase()"
+                    (ngModelChange)="precoBase.set($event)"
                     [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }"
                     class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent" />
             </div>
             <div class="mt-4 space-y-2 text-sm">
-                <div class="flex items-center justify-between">
+                <!-- <div class="flex items-center justify-between">
                     <p class="font-normal">Adicionais</p>
-                    <span>R$195,00</span>
-                </div>
+                    <span>{{adicionais | currency:'BRL'}}</span>
+                </div> -->
                 <div class="flex items-center justify-between font-semibold">
                     <span>Total</span>
-                    <span>R$195,00</span>
+                    <span>{{ total() | currency:'BRL' }}</span>
                 </div>
             </div>
         </div>
@@ -97,6 +95,7 @@
                 color="primary"
                 type="button"
                 class="w-full mt-6 h-12 btn-inline"
+                [disabled]="!precoBase()"
                 (click)="efetuarOrcamento()">
                 <img src="assets/svg/clock-2.svg" alt="" class="block align-middle">
                 <span class="leading-none">

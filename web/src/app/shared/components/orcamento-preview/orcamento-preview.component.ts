@@ -1,5 +1,5 @@
-import { Component, inject } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, inject, input, Output } from '@angular/core';
+import { CommonModule, CurrencyPipe } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -7,6 +7,8 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { RejectReasonDialogComponent } from '../dialogs/reject-reason-dialog/reject-reason-dialog.component';
 import { ApproveConfirmDialogComponent } from '../dialogs/approve-confirm-dialog/approve-confirm-dialog.component';
+import { Router } from '@angular/router';
+import { ChamadoItem } from '@/app/model/chamado.type';
 
 @Component({
   selector: 'app-orcamento-preview',
@@ -24,22 +26,29 @@ import { ApproveConfirmDialogComponent } from '../dialogs/approve-confirm-dialog
 })
 export class OrcamentoPreviewComponent {
   private dialog = inject(MatDialog);
-  private snack  = inject(MatSnackBar);
+  private snackBar = inject(MatSnackBar);
+  private router = inject(Router);
+
+  chamado = input.required<ChamadoItem>();
 
   aprovar() {
     const ref = this.dialog.open(ApproveConfirmDialogComponent, {
       width: '500px',
       maxWidth: 'none',
-      panelClass: 'dialog-xxl'
+      panelClass: 'dialog-xxl',
+      data: { chamado: this.chamado() }
     });
     ref.afterClosed().subscribe((ok: boolean) => {
       if (ok) {
-        // TODO: chamar API de aprovação
-        this.snack.open('Orçamento aprovado', 'OK', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center',
-          panelClass: ['snack-top', 'snack-success'],
+        const snack = this.snackBar.open(
+          'Serviço Aprovado', 'OK',{
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snack-top', 'snack-success']}
+        );
+        snack.afterDismissed().subscribe(() => {
+          this.router.navigate(['/cliente']);
         });
       }
     });
@@ -49,18 +58,22 @@ export class OrcamentoPreviewComponent {
     const ref = this.dialog.open(RejectReasonDialogComponent, {
       width: '500px',
       maxWidth: 'none',
-      panelClass: 'dialog-xxl'
+      panelClass: 'dialog-xxl',
+      data: { chamado: this.chamado() }
     });
     ref.afterClosed().subscribe((res?: { reason: string }) => {
       if (res?.reason) {
-        // TODO: enviar motivo
-        this.snack.open('Orçamento rejeitado', 'Fechar', {
-          duration: 4000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center',
-          panelClass: ['snack-top', 'snack-danger'],
+        const snack = this.snackBar.open(
+          'Serviço Rejeitado', 'Fechar',{
+            duration: 4000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snack-top', 'snack-danger']
+        });
+        snack.afterDismissed().subscribe(() => {
+          this.router.navigate(['/cliente']);
         });
       }
     });
-  }
+  } 
 }

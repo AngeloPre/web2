@@ -1,4 +1,3 @@
-import { CategoriaEquipamento } from './enums/categoria-equipamento';
 import { StatusConcertoEnum } from './enums/chamado-status.enum';
 import { EtapaHistorico } from './etapa-historico.type';
 
@@ -11,6 +10,10 @@ export type ChamadoItem = {
   descricaoEquipamento: string;
   descricaoFalha: string;
   slug: string;
-  data: Date;
   etapas: EtapaHistorico[]
+  dataCriacao: Date;
+  dataResposta?: Date;
+  comentario?: string;
+  precoBase: number;
+  precoAdicional?: number;
 };

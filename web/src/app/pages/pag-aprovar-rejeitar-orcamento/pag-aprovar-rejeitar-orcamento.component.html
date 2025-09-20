@@ -4,8 +4,10 @@
     <img src="assets/svg/arrow-left.svg" alt=""/>
     <span>Voltar</span>
   </a>
-  <h1 class="text-3xl font-bold text-brand-dark" >Orçamento referente ao chamado </h1>
+  <h1 class="text-3xl font-bold text-brand-dark" >Orçamento referente ao chamado #{{ chamado()?.serviceId }}</h1>
   <div class="mt-8 bg-white rounded-lg overflow-hidden border border-none">
-    <app-orcamento-preview></app-orcamento-preview>
+    @if (chamado()) {
+          <app-orcamento-preview [chamado]="chamado()!"></app-orcamento-preview>
+        }
   </div>
 </div>

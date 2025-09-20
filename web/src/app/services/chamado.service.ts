@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { MockServices } from '../model/interfaces/mock-services';
-import { ChamadoItem } from '../model/chamado-list.type';
+import { ChamadoItem } from '../model/chamado.type';
 import { StatusConcertoEnum } from '../model/enums/chamado-status.enum';
 import { CategoriaEquipamento } from '../model/enums/categoria-equipamento';
 
@@ -29,7 +29,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
   listarEmOrdemCrescente(): ChamadoItem[] {
     const chamados = this.listarTodos();
     return chamados.sort(
-      (a, b) => new Date(a.data).getTime() - new Date(b.data).getTime()
+      (a, b) => new Date(a.dataCriacao).getTime() - new Date(b.dataCriacao).getTime()
     );
   }
   listarFiltroData(data_inicial: string, data_final: string): ChamadoItem[] {
@@ -38,8 +38,8 @@ export class ChamadoService implements MockServices<ChamadoItem> {
 
     return this.listarEmOrdemCrescente().filter(
       (chamado) =>
-        new Date(chamado.data).getTime() >= dt_i &&
-        new Date(chamado.data).getTime() <= dt_f
+        new Date(chamado.dataCriacao).getTime() >= dt_i &&
+        new Date(chamado.dataCriacao).getTime() <= dt_f
     );
   }
   inserir(elemento: ChamadoItem): void {
@@ -68,90 +68,99 @@ export class ChamadoService implements MockServices<ChamadoItem> {
   }
 
   constructor() {
-    if (this.listarTodos().length === 0) {
+    const existentes = this.listarTodos();
+    this.serviceID = 100 + (existentes.length + 1);
+    if (existentes.length === 0) {
       this.inserir({
         userId: 1,
         userName: 'João',
-        serviceId: 101,
+        serviceId: -1,
         serviceCategory: CategoriaEquipamento.NOTEBOOK,
         status: StatusConcertoEnum.FINALIZADA,
         descricaoEquipamento: 'Notebook Dell',
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-1',
         etapas: [],
-        data: new Date('2025-09-13T03:24:00'),
+        dataCriacao: new Date('2025-09-13T03:24:00'),
+        precoBase: 250.00
       });
       this.inserir({
         userId: 2,
         userName: 'João',
-        serviceId: 102,
+        serviceId: -1,
         serviceCategory: CategoriaEquipamento.IMPRESSORA,
         status: StatusConcertoEnum.PAGA,
         descricaoEquipamento: 'Impressora HP',
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-2',
         etapas: [],
-        data: new Date('2025-09-12T03:24:00'),
+        dataCriacao: new Date('2025-09-12T03:24:00'),
+        precoBase: 395.00
       });
       this.inserir({
         userId: 3,
         userName: 'José',
-        serviceId: 103,
+        serviceId: -1,
         serviceCategory: CategoriaEquipamento.MOUSE,
         status: StatusConcertoEnum.ARRUMADA,
         descricaoEquipamento: 'Mouse Razer',
         descricaoFalha: 'Descrição do chamado 3',
         slug: 'descricao-do-chamado-3',
         etapas: [],
-        data: new Date('2025-09-11T03:24:00'),
+        dataCriacao: new Date('2025-09-11T03:24:00'),
+        precoBase: 75.00
       });
       this.inserir({
         userId: 4,
         userName: 'José',
-        serviceId: 104,
+        serviceId: -1,
         serviceCategory: CategoriaEquipamento.DESKTOP,
         status: StatusConcertoEnum.REDIRECIONADA,
         descricaoEquipamento: 'Desktop Dell',
         descricaoFalha: 'Descrição do chamado 4',
         slug: 'descricao-do-chamado-4',
         etapas: [],
-        data: new Date('2025-09-10T03:24:00'),
+        dataCriacao: new Date('2025-09-10T03:24:00'),
+        precoBase: 450.00
       });
       this.inserir({
         userId: 5,
         userName: 'Joana',
-        serviceId: 105,
+        serviceId: -1,
         serviceCategory: CategoriaEquipamento.TECLADO,
         status: StatusConcertoEnum.APROVADA,
         descricaoEquipamento: 'Teclado Logitec',
         descricaoFalha: 'Descrição do chamado 5',
         slug: 'descricao-do-chamado-5',
-        data: new Date(),
-        etapas: []
+        etapas: [],
+        dataCriacao: new Date(),
+        precoBase: 120.00
       });
       this.inserir({
         userId: 6,
         userName: 'Joana',
-        serviceId: 106,
+        serviceId: -1,
         serviceCategory: CategoriaEquipamento.IMPRESSORA,
         status: StatusConcertoEnum.REJEITADA,
         descricaoEquipamento: 'Impressora Epson',
         descricaoFalha: 'Descrição do chamado 6',
         slug: 'descricao-do-chamado-6',
-        data: new Date(),
-        etapas: []
+        etapas: [],
+        dataCriacao: new Date(),
+        precoBase: 420.00
       });
       this.inserir({
         userId: 7,
         userName: 'Joaquina',
-        serviceId: 107,
+        serviceId: -1,
         serviceCategory: CategoriaEquipamento.DESKTOP,
         status: StatusConcertoEnum.ORCADA,
         descricaoEquipamento: 'Desktop Customizado',
         descricaoFalha: 'Descrição do chamado 7',
         slug: 'descricao-do-chamado-7',
-        data: new Date(),
-        etapas: []
+        dataCriacao: new Date(),
+        etapas: [],
+        precoBase: 780.00
       });
       this.inserir({
         userId: 8,
@@ -162,8 +171,9 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         descricaoEquipamento: 'Notebook Avell',
         descricaoFalha: 'Descrição do chamado 8',
         slug: 'descricao-do-chamado-8',
-        data: new Date(),
-        etapas: []
+        etapas: [],
+        dataCriacao: new Date(),
+        precoBase: 325.00
       });
     }
   }

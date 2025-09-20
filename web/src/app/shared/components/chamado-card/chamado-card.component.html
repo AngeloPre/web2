@@ -17,7 +17,7 @@
             <!--data de criação-->
             <div class="mt-4 flex items-center justify-between text-sm">
                 <span class="text-figma-gray-500">Aberto em:</span>
-                <span class="text-figma-gray-600">{{ chamado.data | date:'d/MM/yy, H:mm' }}</span>
+                <span class="text-figma-gray-600">{{ chamado.dataCriacao | date:'d/MM/yy, H:mm' }}</span>
             </div>
 
             <!--linha divisória-->
@@ -35,5 +35,7 @@
                 <app-status-icon [status]="chamado.status" />
             </div>
         </mat-card>
-    }
+    }@empty {
+        <p>Nenhum chamado encontrado</p>
+        }   
 </div>

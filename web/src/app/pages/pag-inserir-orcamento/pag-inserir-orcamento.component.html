@@ -9,12 +9,14 @@
 
     <!-- Título -->
     <h1 class="text-3xl font-bold text-brand-dark">
-        Inserir orçamento referente ao chamado #xxxx
+        Inserir orçamento referente ao chamado #{{ chamado()?.serviceId }}
     </h1>
 
     <!-- Componente de preview do chamado -->
     <div class="mt-8 bg-white rounded-lg overflow-hidden border border-none">
-        <app-efetuar-orcamento></app-efetuar-orcamento>
+        @if (chamado()) {
+            <app-efetuar-orcamento [chamado]="chamado()!"></app-efetuar-orcamento>
+        }
     </div>
 </div>
 
