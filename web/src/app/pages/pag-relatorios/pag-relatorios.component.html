@@ -1,0 +1,39 @@
+<div class="mt-6 page-shell">
+  <h1 class="text-3xl font-bold text-brand-dark" >Relatórios de Receitas</h1>
+  <h2 class="mt-4 text-xl font-lato">Selecione o tipo de relatório:</h2>
+  <div class="min-h-36">
+    <div class="mt-4 space-x-4">
+      @if (tipoRelatorio() === "Periodo") {
+      <button mat-flat-button> Período </button>
+      } @else {
+      <button mat-stroked-button (click)="mudarTipoRelatorio('Periodo')"> Período </button>}
+      @if (tipoRelatorio() === "Categoria") {
+      <button mat-flat-button> Categoria </button>
+      } @else {
+      <button mat-stroked-button (click)="mudarTipoRelatorio('Categoria')"> Categoria </button>}
+    </div>
+    <div class="mt-4">
+        @switch (tipoRelatorio()) {
+        @case ("Periodo") {
+        <!-- Calendario -->
+        <mat-form-field>
+          <mat-label>Escolha o período</mat-label>
+          <mat-date-range-input [formGroup]="range" [rangePicker]="picker">
+            <input matStartDate formControlName="start" placeholder="Data Inicio">
+            <input matEndDate formControlName="end" placeholder="Data Fim">
+          </mat-date-range-input>
+          <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-date-range-picker #picker></mat-date-range-picker>
+        </mat-form-field>
+        }
+        @case ("Categoria") {}
+      }
+    </div>
+  </div>
+
+  <div>
+    <button
+    mat-flat-button
+    (click)="gerarPDF()"> Gerar Relatório </button>
+  </div>
+</div>

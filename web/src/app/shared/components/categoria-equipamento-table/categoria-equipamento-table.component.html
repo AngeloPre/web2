@@ -31,14 +31,18 @@
       @for (categoria of categorias(); track categoria.id) {
         <tr class="hover:bg-figma-gray-200">
         <td class="px-8 py-4">
-          <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+          <p class="block font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900">
             {{ categoria.name }}
           </p>
         </td>
         <td class="px-8 py-4">
-          <p class="block-b font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900">
-            {{ categoria.baseValue }}
-          </p>
+          <input
+            type="text"
+            class="block-b font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900 bg-transparent border-0 p-0 pointer-events-none select-none w-full"
+            [ngModel]="(categoria.baseValue) / 100"
+            [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'start', allowNegative: false }"
+            readonly
+          />
         </td>
         <td class="px-4 py-4">
             <app-status-ativo-inativo [status]="categoria.isActive"/>
@@ -58,7 +62,7 @@
             </button>
           }
           
-          <button class="aspect-square rounded p-2">
+          <button class="aspect-square rounded p-2" (click)="editar(categoria)">
             <img src="assets/svg/pen-line.svg" class="h-5 w-5"/>
           </button>
         </td>
@@ -77,7 +81,7 @@
               <p class="text-figma-gray-300 text-sm">Crie categorias para visualizar aqui.</p>
             </div>
             <button mat-flat-button class="btn-inline" (click)="novo()">
-              <img src="assets/svg/plus.svg" />
+              <img src="assets/svg/plus.svg" class="w-5 h-5"/>
               Criar categoria
             </button>
           </div>

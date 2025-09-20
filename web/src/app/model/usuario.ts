@@ -1,24 +1,21 @@
 import { Role } from "../core/store/user-role/user-role.store";
 import { Endereco } from "./endereco";
+import { StatusAtivoInativo } from "./enums/status-ativo-inativo.enum";
 
 export abstract class Usuario {
   public id: number;
-  public cpf: string;
   public nome: string;
   public email: string;
   public senha: string;
-  public telefone: string;
-  public endereco: Endereco;
+  public status: StatusAtivoInativo;
 
   abstract readonly role: Role;
 
-  constructor(id: number, cpf: string, nome: string, email: string, senha: string, telefone: string, endereco: Endereco) {
+  constructor(id: number, nome: string, email: string, senha: string, status: StatusAtivoInativo) {
     this.id = id;
-    this.cpf = cpf;
     this.nome = nome;
     this.email = email;
     this.senha = senha;
-    this.telefone = telefone;
-    this.endereco = endereco;
+    this.status = status;
   }
 }

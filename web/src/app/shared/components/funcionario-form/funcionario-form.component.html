@@ -1,0 +1,101 @@
+<a mat-button class="figma-ghost"
+    [routerLink]="['/funcionario/funcionarios']">
+  <img src="assets/svg/arrow-left.svg" alt=""/>
+  <span>Voltar</span>
+</a>
+<h1 class="text-3xl font-bold text-brand-dark" >Perfil do funcionário</h1>
+
+<div class="flex justify-between items-center mt-3">
+  <div class="flex items-center gap-3">
+    <!-- <img
+      [src]="avatarPreview || 'assets/user_placeholder.jpg'"
+      alt="Avatar"
+      class="h-10 w-10 rounded-full object-cover"
+    /> -->
+
+    <div class="h-10 w-10 rounded-full bg-[url('assets/user_placeholder.jpg')] bg-cover bg-center"></div>
+    <input #avatarInput type="file" accept="image/*" class="hidden" (change)="onAvatarChange($event)" />
+
+    <button type="button"
+            class="inline-flex items-center rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-sm shadow-sm hover:bg-gray-50"
+            (click)="avatarInput.click()">
+      <mat-icon fontIcon="upload" class="mr-2 !text-base"></mat-icon>
+      Nova imagem
+    </button>
+    @if (funcionario().id !== 0) {
+      <button type="button"
+              class="inline-flex items-center rounded-lg border border-red-200 px-2.5 py-1.5 text-sm text-red-600 hover:bg-red-50"
+              (click)="confirmarExcluir()">
+        <mat-icon fontIcon="delete" class="!text-base"></mat-icon>
+      </button>
+    }
+  </div>
+
+  <div class="flex gap-2">
+    <button mat-stroked-button [routerLink]="['/funcionario/funcionarios']">Cancelar</button>
+    <button mat-flat-button (click)="salvarFuncionario()">Salvar</button>
+  </div>
+</div>
+<h1 class="text-3xl font-bold text-brand-dark" ></h1>
+<div class="grid grid-cols-2 gap-4">
+  <div class="mt-5 p-7 border border-figma-gray-200 rounded-xl">
+    <h1 class="text-3xl font-bold font-lato text-figma-gray-500">Dados para login</h1>
+    <p class="text-base font-lato text-figma-gray-400 mt-2">Defina as informações de acesso ao sistema</p>
+
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="">
+      <mat-form-field class="w-full">
+        <mat-label class="text-sm font-lato">E-MAIL</mat-label>
+        <input  matInput
+        placeholder="exemplo@email.com"
+        [(ngModel)]="funcionario().email"
+        name="email"
+        type="email"
+        email="true"
+        required
+        class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400">
+        @if (funcionario().email) {
+          <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('email')">
+            <mat-icon class="mr-3">close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label>SENHA</mat-label>
+        <input matInput
+        type="password"
+        [(ngModel)]="funcionario().senha" name="senha" required>
+        @if (funcionario().senha) {
+          <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('senha')">
+            <mat-icon class="mr-3">close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+    </form>
+  </div>
+  <div class="mt-5 p-7 border border-figma-gray-200 rounded-xl">
+    <h1 class="text-3xl font-bold font-lato text-figma-gray-500">Dados pessoais</h1>
+    <p class="text-base font-lato text-figma-gray-400 mt-2">Defina as informações do perfil do funcionário</p>
+
+    <form #f="ngForm" (ngSubmit)="onSubmit(f)" class="">
+
+      <mat-form-field class="w-full">
+        <mat-label>NOME</mat-label>
+        <input matInput placeholder="Digite o nome completo" [(ngModel)]="funcionario().nome" name="nome" required>
+        @if (funcionario().nome) {
+          <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('nome')">
+            <mat-icon class="mr-3">close</mat-icon>
+          </button>
+        }
+      </mat-form-field>
+
+      <mat-form-field class="w-full">
+        <mat-label class="text-sm font-lato">Data de nascimento</mat-label>
+        <input matInput [matDatepicker]="picker" [(ngModel)]="funcionario().dataNascimento" name="dataNascimento">
+        <mat-hint>DD/MM/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+      </mat-form-field>
+    </form>
+  </div>
+</div>

@@ -6,7 +6,7 @@ export type ChamadoItem = {
   userId: number;
   userName: string;
   serviceId: number;
-  serviceCategory: CategoriaEquipamento;
+  serviceCategory: string;
   status: StatusConcertoEnum;
   descricaoEquipamento: string;
   descricaoFalha: string;

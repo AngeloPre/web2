@@ -34,6 +34,7 @@
                   [(ngModel)]="cliente.email"
                   name="email"
                   type="email"
+                  email="true"
                   required
                   class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400">
           @if (cliente.email) {
@@ -149,7 +150,7 @@
     <mat-step>
       <div class="flex flex-col gap-3 mt-3">
         <ng-template matStepLabel>Revisão</ng-template>
-  
+
         <div class="flex flex-col gap-1 text-sm">
           <div><strong>CPF:</strong> {{ cliente.cpf }}</div>
           <div><strong>Nome:</strong> {{ cliente.nome }}</div>
@@ -159,7 +160,7 @@
           <div><strong>Logradouro:</strong> {{ cliente.endereco.logradouro }}, {{ cliente.endereco.numero }}</div>
           <div><strong>Bairro/Cidade/UF:</strong> {{ cliente.endereco.bairro }} - {{ cliente.endereco.cidade }} / {{ cliente.endereco.uf }}</div>
         </div>
-  
+
         <div class="flex flex-col gap-2">
           <button mat-button matStepperPrevious type="button" class="figma-ghost">Voltar</button>
           <button mat-flat-button class="w-full font-lato" type="submit">Cadastrar</button>
