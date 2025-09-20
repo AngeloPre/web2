@@ -1,12 +1,15 @@
+import { Component, EventEmitter, inject, input, Output } from '@angular/core';
 import { CategoriaEquipamento } from '@/app/model/enums/categoria-equipamento';
+import { DatePipe } from '@angular/common';
+import { ChamadoItem } from '@/app/model/chamado.type';
 import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { EtapaHistorico, Tecnico } from '@/app/model/etapa-historico.type';
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
+
 
 @Component({
     selector: 'app-historico',
@@ -16,12 +19,15 @@ import { StatusIconComponent } from '../status-icon/status-icon.component';
         CommonModule,
         MatButtonModule,
         MatDividerModule,
-        MatExpansionModule
+        MatExpansionModule,
+        DatePipe
     ],
     templateUrl: './historico.component.html',
     styles: `:host { display:block; }`
 })
 export class HistoricoComponent {
+    chamado = input.required<ChamadoItem>();
+
     statusFinal: StatusConcertoEnum = StatusConcertoEnum.FINALIZADA;
     StatusConcertoEnum = StatusConcertoEnum; //para que o html possa acessar
 

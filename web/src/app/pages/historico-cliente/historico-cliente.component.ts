@@ -2,7 +2,9 @@ import { HistoricoComponent } from '@/app/shared/components/historico/historico.
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Component } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
+import { ChamadoService } from '@/app/services/chamado.service';
+import { ChamadoItem } from '@/app/model/chamado.type';
 
 @Component({
     selector: 'app-historico-cliente',
@@ -11,7 +13,11 @@ import { Component } from '@angular/core';
     styles: ``
 })
 
-export class HistoricoClienteComponent {
+export class HistoricoClienteComponent implements OnInit {
+
+    private chamadoService = inject(ChamadoService);
+    
+    chamado = signal<ChamadoItem | undefined>(undefined);
     constructor(
         private route: ActivatedRoute
     ) {
@@ -23,4 +29,11 @@ export class HistoricoClienteComponent {
             const orderId = params.get('id');
         });
     }
+
+    ngOnInit(): void {
+    const serviceId = this.route.snapshot.paramMap.get('id');
+    if (serviceId) {
+      this.chamado.set(this.chamadoService.buscarPorID(+serviceId))
+    }
+  }
 }

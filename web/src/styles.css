@@ -184,3 +184,11 @@ body {
 .stepper-py .mat-horizontal-stepper-header {
   padding-block: 12px !important;
 }
+
+.mat-expansion-panel-header.flex-between .mat-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 15px;
+  width: 100%;
+}
