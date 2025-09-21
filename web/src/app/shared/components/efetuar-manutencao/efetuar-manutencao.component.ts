@@ -11,6 +11,7 @@ import { ConfirmarModalComponent } from '../confirmar-modal/confirmar-modal.comp
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RedirecionarModalComponent } from '../redirecionar-modal/redirecionar-modal.component';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
     selector: 'app-efetuar-manutencao',
@@ -21,6 +22,7 @@ import { RedirecionarModalComponent } from '../redirecionar-modal/redirecionar-m
 export class EfetuarManutencaoComponent {
     private dialog = inject(MatDialog);
     private router = inject(Router);
+    private snackBar = inject(MatSnackBar);
     chamado = input<ChamadoItem>();
     salvarChamado = input.required<(item: ChamadoItem) => void>();
     descricaoManutencao: string = '';
@@ -96,10 +98,13 @@ export class EfetuarManutencaoComponent {
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.efetuarManutencao();
-
-                setTimeout(() => {
-                    this.router.navigate(['/funcionario/solicitacoes']);
-                }, 2000);
+                this.snackBar.open('Manutenção concluída com sucesso!', 'Fechar', { 
+                    duration: 3000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center',
+                    panelClass: ['snack-top', 'snack-success']
+                });
+                this.router.navigate(['/funcionario/solicitacoes']);
             } 
         });
     }
@@ -117,10 +122,13 @@ export class EfetuarManutencaoComponent {
             if (result) {
                 const salvarChamado = this.salvarChamado();
                 salvarChamado(result);
-
-                setTimeout(() => {
-                    this.router.navigate(['/funcionario/solicitacoes']);
-                }, 2000);
+                this.snackBar.open('Manutenção redirecionada com sucesso!', 'Fechar', { 
+                    duration: 3000,
+                    verticalPosition: 'top',
+                    horizontalPosition: 'center',
+                    panelClass: ['snack-top', 'snack-success']
+                });
+                this.router.navigate(['/funcionario/solicitacoes']);
             }
         });
     }
