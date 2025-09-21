@@ -11,7 +11,7 @@ import { authGuard } from './core/guards/auth/auth.guard';
 import { PagInicialFuncionarioComponent } from './pages/pag-inicial-funcionario/pag-inicial-funcionario.component';
 import { PagAprovarRejeitarOrcamentoComponent } from './pages/pag-aprovar-rejeitar-orcamento/pag-aprovar-rejeitar-orcamento.component';
 import { UserRole } from './core/store/user-role/user-role.store';
-import { HistoricoClienteComponent } from './pages/historico-cliente/historico-cliente.component';
+import { HistoricoClienteComponent } from './pages/pag-historico-cliente/historico-cliente.component';
 import { PagInserirOrcamentoComponent } from './pages/pag-inserir-orcamento/pag-inserir-orcamento.component';
 import { PagCategoriaEquipamentoComponent } from './pages/pag-categoria-equipamento/pag-categoria-equipamento.component';
 import { PagSolicitacoesComponent } from './pages/pag-solicitacoes/pag-solicitacoes.component';
