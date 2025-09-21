@@ -1,4 +1,4 @@
-import { StatusConcertoEnum } from './enums/chamado-status.enum';
+import { StatusConsertoEnum } from './enums/chamado-status.enum';
 import { EtapaHistorico } from './etapa-historico.type';
 import { Funcionario } from './funcionario';
 
@@ -7,7 +7,7 @@ export type ChamadoItem = {
   userName: string;
   serviceId: number;
   serviceCategory: string;
-  status: StatusConcertoEnum;
+  status: StatusConsertoEnum;
   descricaoEquipamento: string;
   descricaoFalha: string;
   slug: string;

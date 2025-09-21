@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { MockServices } from '../model/interfaces/mock-services';
 import { ChamadoItem } from '../model/chamado.type';
-import { StatusConcertoEnum } from '../model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '../model/enums/chamado-status.enum';
 
 export const LS_Chamado = 'Chamado';
 
@@ -25,7 +25,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
     const chamados = localStorage[LS_Chamado];
     return chamados ? JSON.parse(chamados) : [];
   }
-  listarPorStatus(status: StatusConcertoEnum): ChamadoItem[] {
+  listarPorStatus(status: StatusConsertoEnum): ChamadoItem[] {
     const chamados = localStorage[LS_Chamado];
     const lista: ChamadoItem[] = JSON.parse(chamados);
     return lista.filter((chamado) => chamado.status === status);
@@ -89,7 +89,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'João',
         serviceId: -1,
         serviceCategory: 'Notebook',
-        status: StatusConcertoEnum.FINALIZADA,
+        status: StatusConsertoEnum.FINALIZADA,
         descricaoEquipamento: 'Notebook Dell',
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-1',
@@ -102,7 +102,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'João',
         serviceId: -1,
         serviceCategory: 'Impressora',
-        status: StatusConcertoEnum.PAGA,
+        status: StatusConsertoEnum.PAGA,
         descricaoEquipamento: 'Impressora HP',
         descricaoFalha: 'Descrição do chamado 2',
         slug: 'descricao-do-chamado-2',
@@ -115,7 +115,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'José',
         serviceId: -1,
         serviceCategory: 'Mouse',
-        status: StatusConcertoEnum.ARRUMADA,
+        status: StatusConsertoEnum.ARRUMADA,
         descricaoEquipamento: 'Mouse Razer',
         descricaoFalha: 'Descrição do chamado 3',
         slug: 'descricao-do-chamado-3',
@@ -128,7 +128,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'José',
         serviceId: -1,
         serviceCategory: 'Desktop',
-        status: StatusConcertoEnum.REDIRECIONADA,
+        status: StatusConsertoEnum.REDIRECIONADA,
         descricaoEquipamento: 'Desktop Dell',
         descricaoFalha: 'Descrição do chamado 4',
         slug: 'descricao-do-chamado-4',
@@ -141,7 +141,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'Joana',
         serviceId: -1,
         serviceCategory: 'Teclado',
-        status: StatusConcertoEnum.APROVADA,
+        status: StatusConsertoEnum.APROVADA,
         descricaoEquipamento: 'Teclado Logitec',
         descricaoFalha: 'Descrição do chamado 5',
         slug: 'descricao-do-chamado-5',
@@ -154,7 +154,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'Joana',
         serviceId: -1,
         serviceCategory: 'Impressora',
-        status: StatusConcertoEnum.REJEITADA,
+        status: StatusConsertoEnum.REJEITADA,
         descricaoEquipamento: 'Impressora Epson',
         descricaoFalha: 'Descrição do chamado 6',
         slug: 'descricao-do-chamado-6',
@@ -167,7 +167,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'Joaquina',
         serviceId: -1,
         serviceCategory: 'Desktop',
-        status: StatusConcertoEnum.ORCADA,
+        status: StatusConsertoEnum.ORCADA,
         descricaoEquipamento: 'Desktop Customizado',
         descricaoFalha: 'Descrição do chamado 7',
         slug: 'descricao-do-chamado-7',
@@ -180,7 +180,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'Joaquina',
         serviceId: -1,
         serviceCategory: 'Notebook',
-        status: StatusConcertoEnum.ABERTA,
+        status: StatusConsertoEnum.ABERTA,
         descricaoEquipamento: 'Notebook Avell',
         descricaoFalha: 'Descrição do chamado 8',
         slug: 'descricao-do-chamado-8',
@@ -193,7 +193,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'Joaquina',
         serviceId: -1,
         serviceCategory: 'Notebook',
-        status: StatusConcertoEnum.ABERTA,
+        status: StatusConsertoEnum.ABERTA,
         descricaoEquipamento: 'Notebook Lenovo',
         descricaoFalha: 'Descrição do chamado 9',
         slug: 'descricao-do-chamado-9',
@@ -206,7 +206,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'João',
         serviceId: -1,
         serviceCategory: 'Impressora',
-        status: StatusConcertoEnum.ABERTA,
+        status: StatusConsertoEnum.ABERTA,
         descricaoEquipamento: 'Impressora HP',
         descricaoFalha: 'Descrição do chamado 10',
         slug: 'descricao-do-chamado-10',
@@ -219,7 +219,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'Joana',
         serviceId: -1,
         serviceCategory: 'Desktop',
-        status: StatusConcertoEnum.ABERTA,
+        status: StatusConsertoEnum.ABERTA,
         descricaoEquipamento: 'Desktop Alienware',
         descricaoFalha: 'Descrição do chamado 11',
         slug: 'descricao-do-chamado-11',
@@ -232,7 +232,7 @@ export class ChamadoService implements MockServices<ChamadoItem> {
         userName: 'Joana',
         serviceId: -1,
         serviceCategory: 'Teclado',
-        status: StatusConcertoEnum.ABERTA,
+        status: StatusConsertoEnum.ABERTA,
         descricaoEquipamento: 'Teclado Redragon',
         descricaoFalha: 'Descrição do chamado 12',
         slug: 'descricao-do-chamado-12',

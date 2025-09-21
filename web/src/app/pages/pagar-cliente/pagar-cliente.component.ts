@@ -12,7 +12,7 @@ import {
   RouterModule,
 } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 
 @Component({
   selector: 'app-pagar-cliente',
@@ -42,7 +42,7 @@ export class PagarClienteComponent implements OnInit {
 
   pagar(): void {
     if (this.chamado) {
-      this.chamado.status = StatusConcertoEnum.PAGA;
+      this.chamado.status = StatusConsertoEnum.PAGA;
       this.chamadoService.atualizar(this.chamado);
       this.router.navigate(['/cliente']);
     }

@@ -1,4 +1,4 @@
-import { StatusConcertoEnum } from './enums/chamado-status.enum';
+import { StatusConsertoEnum } from './enums/chamado-status.enum';
 
 export type Tecnico = {
   nome: string;
@@ -19,7 +19,7 @@ export type EtapaHistorico = {
   serviceId: number, //id do chamado
   dataCriado: Date;
   tecnico: Tecnico;
-  status: StatusConcertoEnum;
+  status: StatusConsertoEnum;
   redirecionamento?: Redirecionamento;
   manutencao?: Manutencao;
   orcamento?: number;

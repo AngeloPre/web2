@@ -6,7 +6,7 @@ import {
   output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { ResgatarServicoComponent } from '../resgatar-servico/resgatar-servico.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 
@@ -19,7 +19,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class VisualizarButtonComponent {
-  status = input.required<StatusConcertoEnum>();
+  status = input.required<StatusConsertoEnum>();
   id = input.required<number>();
   slug = input<string>();
   readonly dialog = inject(MatDialog);
@@ -38,5 +38,5 @@ export class VisualizarButtonComponent {
     });
   }
 
-  chamadosStatus = StatusConcertoEnum;
+  chamadosStatus = StatusConsertoEnum;
 }
