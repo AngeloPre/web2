@@ -33,7 +33,6 @@ import {
   styles: ``,
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-
 export class PagSolicitacoesComponent {
   private chamadoService = inject(ChamadoService);
   opcaoData = signal<'HOJE' | 'DATA' | 'TODOS'>('TODOS');
@@ -45,7 +44,8 @@ export class PagSolicitacoesComponent {
     end: new FormControl<Date | null>(null),
   });
 
-  chamdados: Signal<ChamadoItem[]> = computed(() => {
+  chamados: Signal<ChamadoItem[]> = computed(() => {
+    this.chamadoService.chamadosSignal();
     if (this.data_inicial() && this.data_fim()) {
       return this.chamadoService.listarFiltroData(
         this.data_inicial(),
@@ -74,10 +74,10 @@ export class PagSolicitacoesComponent {
     }
   }
 
-  mudancaDatepicker(range: any) {
-    if (range.value.start && range.value.end) {
-      this.data_inicial.set(range.value.start);
-      this.data_fim.set(range.value.end);
+  mudancaDatepicker() {
+    if (this.range.value.start && this.range.value.end) {
+      this.data_inicial.set(this.range.value.start.toDateString());
+      this.data_fim.set(this.range.value.end.toDateString());
     }
   }
 }

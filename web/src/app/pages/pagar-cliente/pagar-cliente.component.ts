@@ -2,7 +2,7 @@ import { ChamadoItem } from '@/app/model/chamado.type';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { StatusIconComponent } from '@/app/shared/components/status-icon/status-icon.component';
 import { ConfirmarModalComponent } from '@/app/shared/components/confirmar-modal/confirmar-modal.component';
-import { DatePipe } from '@angular/common';
+import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
@@ -22,6 +22,7 @@ import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
     MatButtonModule,
     StatusIconComponent,
     DatePipe,
+    CurrencyPipe,
   ],
   templateUrl: './pagar-cliente.component.html',
   styles: ``,

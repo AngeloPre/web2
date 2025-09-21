@@ -21,7 +21,6 @@ import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { Router } from '@angular/router';
-import { CategoriaEquipamento } from '@/app/model/enums/categoria-equipamento';
 
 @Component({
   selector: 'app-solicitacao-cliente',
@@ -62,7 +61,7 @@ export class SolicitacaoClienteComponent {
     slug: 'slug',
     etapas: [],
     dataCriacao: new Date(),
-    precoBase: 0
+    precoBase: 0,
   };
 
   criarChamado(): void {

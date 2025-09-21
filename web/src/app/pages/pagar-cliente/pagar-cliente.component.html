@@ -35,7 +35,7 @@
     <div class="w-[35%] bg-white rounded-lg overflow-hidden border border-figma-gray-200">
       <div class="p-8 flex flex-col justify-between">
         <p class="text-figma-gray-400 font-semibold">Valor</p>
-        <p class="mt-2 font-bold text-2xl">R$ 4000</p>
+        <p class="mt-2 font-bold text-2xl">{{ chamado.precoBase | currency }}</p>
         <button
         (click)="abrirModal()"
         mat-flat-button

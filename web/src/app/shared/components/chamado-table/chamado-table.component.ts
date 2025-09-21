@@ -6,6 +6,7 @@ import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { VisualizarButtonComponent } from '../visualizar-button/visualizar-button.component';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
 import { LimiteCaracteresPipe } from '../../pipes/limite-caracteres.pipe';
+import { MatButtonModule } from '@angular/material/button';
 
 @Component({
   selector: 'app-chamado-table',
@@ -15,6 +16,8 @@ import { LimiteCaracteresPipe } from '../../pipes/limite-caracteres.pipe';
     StatusIconComponent,
     RouterLink,
     LimiteCaracteresPipe,
+    MatButtonModule,
+    RouterLink,
   ],
   templateUrl: './chamado-table.component.html',
   styles: ``,
