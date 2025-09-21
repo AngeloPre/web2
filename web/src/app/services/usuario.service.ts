@@ -148,12 +148,11 @@ export class UsuarioService implements MockServices<Usuario> {
     const usuarios = localStorage[LS_USUARIO];
     return usuarios ? JSON.parse(usuarios) : [];
   }
-  listarTodosFuncionarios(): Usuario[] {
+  listarTodosFuncionarios(): Funcionario[] {
     const funcionarios = this.listarTodos().filter(funcionario => {
-      // console.log(funcionario.role.name)
       return funcionario.role.name === 'employee';
     });
-    return funcionarios;
+    return funcionarios as Funcionario[];
   }
   inserir(elemento: Usuario): void {
     const usuarios = this.listarTodos();
