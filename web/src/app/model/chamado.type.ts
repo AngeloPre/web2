@@ -1,5 +1,6 @@
 import { StatusConcertoEnum } from './enums/chamado-status.enum';
 import { EtapaHistorico } from './etapa-historico.type';
+import { Funcionario } from './funcionario';
 
 export type ChamadoItem = {
   userId: number;
@@ -15,5 +16,5 @@ export type ChamadoItem = {
   dataResposta?: Date;
   comentario?: string;
   precoBase: number;
-  precoAdicional?: number;
+  funcionario?: Funcionario;
 };
