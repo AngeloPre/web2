@@ -15,7 +15,7 @@ import { HistoricoClienteComponent } from './pages/historico-cliente/historico-c
 import { PagInserirOrcamentoComponent } from './pages/pag-inserir-orcamento/pag-inserir-orcamento.component';
 import { PagCategoriaEquipamentoComponent } from './pages/pag-categoria-equipamento/pag-categoria-equipamento.component';
 import { PagSolicitacoesComponent } from './pages/pag-solicitacoes/pag-solicitacoes.component';
-import { PagEfetuarManutencaoComponent } from './pages/efetuar-manutencao/pag-efetuar-manutencao.component';
+import { PagEfetuarManutencaoComponent } from './pages/pag-efetuar-manutencao/pag-efetuar-manutencao.component';
 import { PagarClienteComponent } from './pages/pagar-cliente/pagar-cliente.component';
 import { PagCadastroFuncionarioComponent } from './pages/pag-cadastro-funcionario/pag-cadastro-funcionario.component';
 import { PagListarFuncionariosComponent } from './pages/pag-listar-funcionarios/pag-listar-funcionarios.component';

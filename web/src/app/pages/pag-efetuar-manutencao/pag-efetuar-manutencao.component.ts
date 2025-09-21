@@ -38,4 +38,5 @@ export class PagEfetuarManutencaoComponent {
     this.chamadoService.atualizar(chamadoItem);
     this.atualizarTela();
   }
+
 }

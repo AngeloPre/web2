@@ -1,4 +1,4 @@
-import { Component, input, output } from '@angular/core';
+import { Component, inject, input, output } from '@angular/core';
 import { ChamadoItem } from '@/app/model/chamado.type';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
 import { DataHoraPipe } from '../../pipes/data-hora.pipe';
@@ -7,6 +7,10 @@ import { MatButton } from '@angular/material/button';
 import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { EtapaHistorico, Manutencao, Redirecionamento, Tecnico } from '@/app/model/etapa-historico.type';
 import { FormsModule } from '@angular/forms';
+import { ConfirmarModalComponent } from '../confirmar-modal/confirmar-modal.component';
+import { MatDialog } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { RedirecionarModalComponent } from '../redirecionar-modal/redirecionar-modal.component';
 
 @Component({
     selector: 'app-efetuar-manutencao',
@@ -15,9 +19,10 @@ import { FormsModule } from '@angular/forms';
     styles: ``
 })
 export class EfetuarManutencaoComponent {
+    private dialog = inject(MatDialog);
+    private router = inject(Router);
     chamado = input<ChamadoItem>();
     salvarChamado = input.required<(item: ChamadoItem) => void>();
-
     descricaoManutencao: string = '';
     orientacoesCliente: string = '';
 
@@ -81,5 +86,42 @@ export class EfetuarManutencaoComponent {
             const salvarChamado = this.salvarChamado();
             salvarChamado(novoChamado);
         }
+    }
+
+    abrirModalConfirmacao(): void {
+        const dialogRef = this.dialog.open(ConfirmarModalComponent, {
+            data: { titulo: 'Deseja concluir a manutenção?', confirmacao: 'Concluir' },
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            if (result) {
+                this.efetuarManutencao();
+
+                setTimeout(() => {
+                    this.router.navigate(['/funcionario/solicitacoes']);
+                }, 2000);
+            } 
+        });
+    }
+
+    abrirModalRedirecionamento(): void {
+        const chamadoAtual = this.chamado();
+        if (!chamadoAtual) return;
+
+        const dialogRef = this.dialog.open(RedirecionarModalComponent, {
+            width: '400px',
+            data: { chamado: chamadoAtual}
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            if (result) {
+                const salvarChamado = this.salvarChamado();
+                salvarChamado(result);
+
+                setTimeout(() => {
+                    this.router.navigate(['/funcionario/solicitacoes']);
+                }, 2000);
+            }
+        });
     }
 }
