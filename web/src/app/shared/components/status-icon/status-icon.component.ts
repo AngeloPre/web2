@@ -1,5 +1,5 @@
 import { Component, input } from '@angular/core';
-import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 
 @Component({
   selector: 'app-status-icon',
@@ -8,6 +8,6 @@ import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
   styles: ``,
 })
 export class StatusIconComponent {
-  status = input.required<StatusConcertoEnum>();
-  chamadosStatus = StatusConcertoEnum;
+  status = input.required<StatusConsertoEnum>();
+  chamadosStatus = StatusConsertoEnum;
 }

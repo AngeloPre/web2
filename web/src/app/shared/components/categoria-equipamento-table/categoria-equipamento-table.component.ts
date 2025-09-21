@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { StatusAtivoInativoComponent } from '../status-ativo-inativo/status-ativo-inativo.component';
 import { CategoriaEquipamento } from '@/app/model/categoria-equipamento.type';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfirmarModalComponent } from '@/app/shared/components/confirmar-modal/confirmar-modal.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -19,57 +20,72 @@ import { NgxCurrencyDirective } from 'ngx-currency';
 })
 export class CategoriaEquipamentoTableComponent {
   private dialog = inject(MatDialog);
-  private snack  = inject(MatSnackBar);
+  private snack = inject(MatSnackBar);
   private categoriasService = inject(CategoriaEquipamentoService);
   categorias = this.categoriasService.signalCategorias;
   novo() {
-      const ref = this.dialog.open(NovaCategoriaEquipamentoComponent, {
-        width: '500px',
-        maxWidth: 'none',
-        panelClass: 'dialog-xxl'
-      });
-      ref.afterClosed().subscribe((ok: boolean) => {
-        if (ok) {
-          this.snack.open('Criada nova categoria de equipamento', 'OK', {
-            duration: 3000,
-            verticalPosition: 'top',
-            horizontalPosition: 'center',
-            panelClass: ['snack-top', 'snack-success'],
-          });
-        }
-      });
-    }
-    
-    editar(categoria: CategoriaEquipamento) {
-      const ref = this.dialog.open(NovaCategoriaEquipamentoComponent, {
-        width: '500px',
-        maxWidth: 'none',
-        panelClass: 'dialog-xxl',
-        data: { categoria } // <-- envia a categoria para edição
-      });
-      ref.afterClosed().subscribe((ok: boolean) => {
-        if (ok) {
-          this.snack.open('Categoria atualizada', 'OK', {
-            duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
-            panelClass: ['snack-top','snack-success']
-          });
-        }
-      });
-    }
+    const ref = this.dialog.open(NovaCategoriaEquipamentoComponent, {
+      width: '500px',
+      maxWidth: 'none',
+      panelClass: 'dialog-xxl'
+    });
+    ref.afterClosed().subscribe((ok: boolean) => {
+      if (ok) {
+        this.snack.open('Criada nova categoria de equipamento', 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          panelClass: ['snack-top', 'snack-success'],
+        });
+      }
+    });
+  }
 
-    toggle(categoria: CategoriaEquipamento) {
+  editar(categoria: CategoriaEquipamento) {
+    const ref = this.dialog.open(NovaCategoriaEquipamentoComponent, {
+      width: '500px',
+      maxWidth: 'none',
+      panelClass: 'dialog-xxl',
+      data: { categoria } // <-- envia a categoria para edição
+    });
+    ref.afterClosed().subscribe((ok: boolean) => {
+      if (ok) {
+        this.snack.open('Categoria atualizada', 'OK', {
+          duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
+          panelClass: ['snack-top', 'snack-success']
+        });
+      }
+    });
+  }
+
+  toggle(categoria: CategoriaEquipamento) {
     if (categoria.isActive === StatusAtivoInativo.ATIVO) {
       this.categoriasService.desativar(categoria.id);
       this.snack.open('Categoria desativada', 'OK', {
         duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
-        panelClass: ['snack-top','snack-success']
+        panelClass: ['snack-top', 'snack-success']
       });
     } else {
       this.categoriasService.reativar(categoria.id);
       this.snack.open('Categoria reativada', 'OK', {
         duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
-        panelClass: ['snack-top','snack-success']
+        panelClass: ['snack-top', 'snack-success']
       });
     }
   }
+  abrirModal(categoria: CategoriaEquipamento): void {
+    const isAtivo = categoria.isActive === StatusAtivoInativo.ATIVO;
+    const acao = isAtivo ? 'Desativar' : 'Reativar';
+    const dialogRef = this.dialog.open(ConfirmarModalComponent, {
+      data: {
+        titulo: `Deseja realmente ${acao.toLowerCase()} essa categoria?`,
+        confirmacao: acao,
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((ok) => {
+      if (ok) this.toggle(categoria);
+    });
+  }
+
 }

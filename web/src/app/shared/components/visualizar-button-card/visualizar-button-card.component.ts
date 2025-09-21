@@ -1,4 +1,4 @@
-import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { Component, inject, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ConfirmarModalComponent } from '@/app/shared/components/confirmar-modal/confirmar-modal.component';
@@ -15,7 +15,7 @@ import { ChamadoService } from '@/app/services/chamado.service';
 export class VisualizarButtonCardComponent {
   id = input.required<number>();
   slug = input<string>();
-  status = input.required<StatusConcertoEnum>();
+  status = input.required<StatusConsertoEnum>();
   private dialog = inject(MatDialog);
   private chamadoService = inject(ChamadoService);
 
@@ -27,7 +27,7 @@ export class VisualizarButtonCardComponent {
   finalizar() {
     let chamado = this.chamadoService.buscarPorID(this.id());
     if (chamado) {
-      chamado.status = StatusConcertoEnum.FINALIZADA;
+      chamado.status = StatusConsertoEnum.FINALIZADA;
       this.chamadoService.atualizar(chamado);
     }
   }
@@ -42,5 +42,5 @@ export class VisualizarButtonCardComponent {
     });
   }
 
-  chamadosStatus = StatusConcertoEnum;
+  chamadosStatus = StatusConsertoEnum;
 }

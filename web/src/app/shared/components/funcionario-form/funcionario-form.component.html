@@ -33,7 +33,11 @@
 
   <div class="flex gap-2">
     <button mat-stroked-button [routerLink]="['/funcionario/funcionarios']">Cancelar</button>
-    <button mat-flat-button (click)="salvarFuncionario()">Salvar</button>
+    <button mat-flat-button
+            [disabled]="!funcionario().email.trim() || !funcionario().senha.trim() || !funcionario().nome.trim()"
+            (click)="salvarFuncionario()">
+            Salvar
+    </button>
   </div>
 </div>
 <h1 class="text-3xl font-bold text-brand-dark" ></h1>
@@ -50,7 +54,7 @@
         [(ngModel)]="funcionario().email"
         name="email"
         type="email"
-        email="true"
+        email
         required
         class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400">
         @if (funcionario().email) {
