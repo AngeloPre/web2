@@ -51,12 +51,12 @@
         <td class="px-6 py-4 flex justify-end gap-2">
           @if (categoria.isActive === 'Ativo') {
             
-            <button class="flex gap-2 items-center" (click)="toggle(categoria)">
+            <button class="flex gap-2 items-center" (click)="abrirModal(categoria)">
               <img src="assets/svg/ban.svg" class="w-5"/>
               <span>Desativar</span>
             </button>
           } @else {
-            <button class="flex gap-2 items-center" (click)="toggle(categoria)">
+            <button class="flex gap-2 items-center" (click)="abrirModal(categoria)">
               <img src="assets/svg/circle-check.svg" class="h-5 w-5"/>
               <span>Reativar</span>
             </button>

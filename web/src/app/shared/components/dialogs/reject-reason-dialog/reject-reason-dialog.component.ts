@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { ChamadoItem } from '@/app/model/chamado.type';
-import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 
 @Component({
   selector: 'app-reject-reason-dialog',
@@ -24,7 +24,7 @@ export class RejectReasonDialogComponent {
   rejeitarOrcamento(): void{
     const chamadoAtualizado: ChamadoItem = {
       ...this.data.chamado,
-      status:StatusConcertoEnum.REJEITADA
+      status:StatusConsertoEnum.REJEITADA
     }
     
     this.chamadoService.atualizar(chamadoAtualizado);

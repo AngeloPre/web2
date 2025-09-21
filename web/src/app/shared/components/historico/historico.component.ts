@@ -1,7 +1,7 @@
 import { Component, EventEmitter, inject, input, Output } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { ChamadoItem } from '@/app/model/chamado.type';
-import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { EtapaHistorico, Tecnico } from '@/app/model/etapa-historico.type';
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
@@ -26,8 +26,8 @@ import { StatusIconComponent } from '../status-icon/status-icon.component';
 export class HistoricoComponent {
   chamado = input.required<ChamadoItem>();
 
-  statusFinal: StatusConcertoEnum = StatusConcertoEnum.FINALIZADA;
-  StatusConcertoEnum = StatusConcertoEnum; //para que o html possa acessar
+  statusFinal: StatusConsertoEnum = StatusConsertoEnum.FINALIZADA;
+  StatusConsertoEnum = StatusConsertoEnum; //para que o html possa acessar
 
   etapas: EtapaHistorico[] = [
     {
@@ -35,14 +35,14 @@ export class HistoricoComponent {
       serviceId: 1,
       dataCriado: new Date(2025, 2, 12, 9, 12), //ano, mes, dia, hora, minuto
       tecnico: { nome: 'Ramon Alves' } as Tecnico,
-      status: StatusConcertoEnum.ABERTA,
+      status: StatusConsertoEnum.ABERTA,
     } as EtapaHistorico,
     {
       id: 2,
       serviceId: 1,
       dataCriado: new Date(2025, 2, 13, 9, 12),
       tecnico: { nome: 'Ramon Alves' } as Tecnico,
-      status: StatusConcertoEnum.ORCADA,
+      status: StatusConsertoEnum.ORCADA,
       orcamento: 120.0,
     } as EtapaHistorico,
     {
@@ -50,7 +50,7 @@ export class HistoricoComponent {
       serviceId: 1,
       dataCriado: new Date(2025, 2, 14, 9, 12),
       tecnico: { nome: 'Ramon Alves' } as Tecnico,
-      status: StatusConcertoEnum.REJEITADA,
+      status: StatusConsertoEnum.REJEITADA,
       orcamento: 120.0,
       motivoRejeicao: 'Este preço não condiz com o serviço solicitado.',
     } as EtapaHistorico,
@@ -59,7 +59,7 @@ export class HistoricoComponent {
       serviceId: 1,
       dataCriado: new Date(2025, 2, 15, 9, 12),
       tecnico: { nome: 'Ramon Alves' } as Tecnico,
-      status: StatusConcertoEnum.ORCADA,
+      status: StatusConsertoEnum.ORCADA,
       orcamento: 100.0,
     } as EtapaHistorico,
     {
@@ -67,7 +67,7 @@ export class HistoricoComponent {
       serviceId: 1,
       dataCriado: new Date(2025, 2, 16, 9, 12),
       tecnico: { nome: 'Ramon Alves' } as Tecnico,
-      status: StatusConcertoEnum.APROVADA,
+      status: StatusConsertoEnum.APROVADA,
       orcamento: 100.0,
     } as EtapaHistorico,
     {
@@ -75,7 +75,7 @@ export class HistoricoComponent {
       serviceId: 1,
       dataCriado: new Date(2025, 2, 16, 9, 12),
       tecnico: { nome: 'Ramon Alves' } as Tecnico,
-      status: StatusConcertoEnum.REDIRECIONADA,
+      status: StatusConsertoEnum.REDIRECIONADA,
       orcamento: 100.0,
     } as EtapaHistorico,
     {
@@ -83,7 +83,7 @@ export class HistoricoComponent {
       serviceId: 1,
       dataCriado: new Date(2025, 2, 17, 9, 12),
       tecnico: { nome: 'Ramon Alves' } as Tecnico,
-      status: StatusConcertoEnum.ARRUMADA,
+      status: StatusConsertoEnum.ARRUMADA,
       orcamento: 100.0,
     } as EtapaHistorico,
     {
@@ -91,7 +91,7 @@ export class HistoricoComponent {
       serviceId: 1,
       dataCriado: new Date(2025, 2, 17, 9, 12),
       tecnico: { nome: 'Ramon Alves' } as Tecnico,
-      status: StatusConcertoEnum.PAGA,
+      status: StatusConsertoEnum.PAGA,
       orcamento: 100.0,
     } as EtapaHistorico,
     {
@@ -99,7 +99,7 @@ export class HistoricoComponent {
       serviceId: 1,
       dataCriado: new Date(2025, 2, 18, 9, 12),
       tecnico: { nome: 'Ramon Alves' } as Tecnico,
-      status: StatusConcertoEnum.FINALIZADA,
+      status: StatusConsertoEnum.FINALIZADA,
       orcamento: 100.0,
     } as EtapaHistorico,
   ];

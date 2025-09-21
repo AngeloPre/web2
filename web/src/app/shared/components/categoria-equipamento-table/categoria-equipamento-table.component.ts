@@ -2,6 +2,7 @@ import { Component, inject } from '@angular/core';
 import { StatusAtivoInativoComponent } from '../status-ativo-inativo/status-ativo-inativo.component';
 import { CategoriaEquipamento } from '@/app/model/categoria-equipamento.type';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfirmarModalComponent } from '@/app/shared/components/confirmar-modal/confirmar-modal.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
@@ -58,18 +59,33 @@ export class CategoriaEquipamentoTableComponent {
     }
 
     toggle(categoria: CategoriaEquipamento) {
-    if (categoria.isActive === StatusAtivoInativo.ATIVO) {
-      this.categoriasService.desativar(categoria.id);
-      this.snack.open('Categoria desativada', 'OK', {
-        duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
-        panelClass: ['snack-top','snack-success']
+      if (categoria.isActive === StatusAtivoInativo.ATIVO) {
+        this.categoriasService.desativar(categoria.id);
+        this.snack.open('Categoria desativada', 'OK', {
+          duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
+          panelClass: ['snack-top','snack-success']
+        });
+      } else {
+        this.categoriasService.reativar(categoria.id);
+        this.snack.open('Categoria reativada', 'OK', {
+          duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
+          panelClass: ['snack-top','snack-success']
+        });
+      }
+    }
+    abrirModal(categoria: CategoriaEquipamento): void {
+      const isAtivo = categoria.isActive === StatusAtivoInativo.ATIVO;
+      const acao = isAtivo ? 'Desativar' : 'Reativar';
+      const dialogRef = this.dialog.open(ConfirmarModalComponent, {
+        data: {
+          titulo: `Deseja realmente ${acao.toLowerCase()} essa categoria?`,
+          confirmacao: acao,
+        },
       });
-    } else {
-      this.categoriasService.reativar(categoria.id);
-      this.snack.open('Categoria reativada', 'OK', {
-        duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
-        panelClass: ['snack-top','snack-success']
+  
+      dialogRef.afterClosed().subscribe((ok) => {
+        if (ok) this.toggle(categoria);
       });
     }
-  }
+
 }

@@ -4,7 +4,7 @@ import { StatusIconComponent } from '../status-icon/status-icon.component';
 import { DataHoraPipe } from '../../pipes/data-hora.pipe';
 import { MatLabel } from '@angular/material/form-field';
 import { MatButton } from '@angular/material/button';
-import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { EtapaHistorico, Manutencao, Redirecionamento, Tecnico } from '@/app/model/etapa-historico.type';
 import { FormsModule } from '@angular/forms';
 
@@ -36,7 +36,7 @@ export class EfetuarManutencaoComponent {
                 serviceId: chamado.serviceId,
                 dataCriado: new Date(),
                 tecnico: tecnicoAtual,
-                status: StatusConcertoEnum.REDIRECIONADA,
+                status: StatusConsertoEnum.REDIRECIONADA,
                 redirecionamento
             };
             const etapas = chamado.etapas && chamado.etapas.length > 0
@@ -44,7 +44,7 @@ export class EfetuarManutencaoComponent {
                 : [etapaRedirecionamento]
             const novoChamado: ChamadoItem = {
                 ...chamado,
-                status: StatusConcertoEnum.REDIRECIONADA,
+                status: StatusConsertoEnum.REDIRECIONADA,
                 etapas
             };
             console.log("redirecionada", novoChamado);
@@ -66,7 +66,7 @@ export class EfetuarManutencaoComponent {
                 serviceId: chamado.serviceId,
                 dataCriado: new Date(),
                 tecnico: tecnicoAtual,
-                status: StatusConcertoEnum.ARRUMADA,
+                status: StatusConsertoEnum.ARRUMADA,
                 manutencao
             };
             const etapas = chamado.etapas && chamado.etapas.length > 0
@@ -74,7 +74,7 @@ export class EfetuarManutencaoComponent {
                 : [etapaManutencao]
             const novoChamado: ChamadoItem = {
                 ...chamado,
-                status: StatusConcertoEnum.ARRUMADA,
+                status: StatusConsertoEnum.ARRUMADA,
                 etapas
             };
             console.log("efetuada", novoChamado);

@@ -2,7 +2,7 @@ import { Component, inject, OnInit, signal } from '@angular/core';
 import { ChamadoItem } from '@/app/model/chamado.type';
 import { ChamadoTableComponent } from '@/app/shared/components/chamado-table/chamado-table.component';
 //Temporário
-import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { ChamadoService } from '@/app/services/chamado.service';
 
 @Component({
@@ -23,7 +23,7 @@ export class PagInicialClienteComponent implements OnInit {
     this.chamadosMock2.set(this.chamadoService.listarEmOrdemCrescente());
   }
 
-  btnAtualizar(event: { id: number; statusNovo: StatusConcertoEnum }): void {
+  btnAtualizar(event: { id: number; statusNovo: StatusConsertoEnum }): void {
     console.log(event.id);
     let chamadoToUpdate = this.chamadoService.buscarPorID(event.id);
     if (chamadoToUpdate) {
