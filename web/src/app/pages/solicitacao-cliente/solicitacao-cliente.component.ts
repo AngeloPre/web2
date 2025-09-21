@@ -17,7 +17,7 @@ import { CategoriaEquipamentoService } from '@/app/services/categoria-equipament
 import { ConfirmarModalComponent } from '@/app/shared/components/confirmar-modal/confirmar-modal.component';
 import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
 import { ChamadoItem } from '@/app/model/chamado.type';
-import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { Router } from '@angular/router';
@@ -55,7 +55,7 @@ export class SolicitacaoClienteComponent {
     userName: 'Joao da Silva',
     serviceId: -1,
     serviceCategory: '',
-    status: StatusConcertoEnum.ABERTA,
+    status: StatusConsertoEnum.ABERTA,
     descricaoEquipamento: '',
     descricaoFalha: '',
     slug: 'slug',

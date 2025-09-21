@@ -1,5 +1,5 @@
 import { ChamadoItem } from '@/app/model/chamado.type';
-import { StatusConcertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -19,18 +19,18 @@ export class ConfirmarOrcamentoDialogComponent {
   public dados: { chamado: ChamadoItem, precoBase: number } = inject(MAT_DIALOG_DATA)
   comentario = '';
 
-  constructor(public dialogRef: MatDialogRef<ConfirmarOrcamentoDialogComponent>) {}  
+  constructor(public dialogRef: MatDialogRef<ConfirmarOrcamentoDialogComponent>) { }
 
-  salvarOrcamento(){
+  salvarOrcamento() {
 
     const chamadoAtualizado: ChamadoItem = {
       ...this.dados.chamado,
       precoBase: this.dados.precoBase,
       dataResposta: new Date(),
       comentario: this.comentario,
-      status: StatusConcertoEnum.ORCADA 
+      status: StatusConsertoEnum.ORCADA
     };
     this.chamadoService.atualizar(chamadoAtualizado);
-    this.dialogRef.close({saved: true});
+    this.dialogRef.close({ saved: true });
   }
 }

@@ -1,4 +1,4 @@
-export enum StatusConcertoEnum {
+export enum StatusConsertoEnum {
   ABERTA = 'Aberta',
   ORCADA = 'Orçada',
   REJEITADA = 'Rejeitada',

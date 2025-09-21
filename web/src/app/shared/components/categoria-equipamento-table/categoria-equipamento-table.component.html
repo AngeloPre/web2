@@ -3,7 +3,7 @@
       <col />
       <col />
       <col class="w-32"/>
-      <col class="w-56"/> 
+      <col class="w-56"/>
     </colgroup>
     <thead>
       <tr>
@@ -50,18 +50,18 @@
         </td>
         <td class="px-6 py-4 flex justify-end gap-2">
           @if (categoria.isActive === 'Ativo') {
-            
-            <button class="flex gap-2 items-center" (click)="toggle(categoria)">
+
+            <button class="flex gap-2 items-center" (click)="abrirModal(categoria)">
               <img src="assets/svg/ban.svg" class="w-5"/>
               <span>Desativar</span>
             </button>
           } @else {
-            <button class="flex gap-2 items-center" (click)="toggle(categoria)">
+            <button class="flex gap-2 items-center" (click)="abrirModal(categoria)">
               <img src="assets/svg/circle-check.svg" class="h-5 w-5"/>
               <span>Reativar</span>
             </button>
           }
-          
+
           <button class="aspect-square rounded p-2" (click)="editar(categoria)">
             <img src="assets/svg/pen-line.svg" class="h-5 w-5"/>
           </button>
