@@ -82,14 +82,25 @@
           <mat-form-field>
             <mat-label>CEP</mat-label>
             <input matInput placeholder="Digite seu cep"
-                   [(ngModel)]="cliente.endereco.cep" name="cep"
+                   [(ngModel)]="cliente.endereco.cep"
+                   name="cep"
+                   #cepModel="ngModel"
                    mask="00.000-000"
                    required
-                   (blur)="buscarCep(cliente.endereco.cep)">
+                   [ngModelOptions]="{ updateOn: 'change' }"
+                   (change)="buscarCep(cepModel)"
+                   cepValido>
             @if (cliente.endereco.cep) {
               <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('cep')">
                 <mat-icon class="mr-3">close</mat-icon>
               </button>
+            }
+
+            @if (cepModel?.errors?.['required']) {
+              <mat-error>CEP é obrigatório.</mat-error>
+            }
+            @if (cepModel?.errors?.['cepInvalido']) {
+              <mat-error>CEP não encontrado.</mat-error>
             }
           </mat-form-field>
 
