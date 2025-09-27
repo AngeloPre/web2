@@ -1,11 +1,10 @@
-import { Usuario } from '@/app/model/usuario';
+import { Usuario } from '@model/usuario';
 import { Component, inject, input, output, } from '@angular/core';
 import { StatusAtivoInativoComponent } from "../status-ativo-inativo/status-ativo-inativo.component";
 import { Router, RouterLink } from '@angular/router';
 import { ConfirmarModalComponent } from '../confirmar-modal/confirmar-modal.component';
-import { Funcionario } from '@/app/model/funcionario';
 import { MatDialog } from '@angular/material/dialog';
-import { UsuarioService } from '@/app/services/usuario.service';
+import { UsuarioService } from '@services/usuario.service';
 
 @Component({
   selector: 'app-funcionarios-table',

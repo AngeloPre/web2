@@ -1,10 +1,9 @@
-import { Funcionario } from '@/app/model/funcionario';
-import { Usuario } from '@/app/model/usuario';
-import { UsuarioService } from '@/app/services/usuario.service';
-import { FuncionariosTableComponent } from '@/app/shared/components/funcionarios-table/funcionarios-table.component';
+import { Usuario } from '@model/usuario';
+import { UsuarioService } from '@services/usuario.service';
+import { FuncionariosTableComponent } from '@shared/components/funcionarios-table/funcionarios-table.component';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButton } from "@angular/material/button";
-import { RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-pag-listar-funcionarios',

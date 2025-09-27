@@ -1,9 +1,9 @@
-import { ChamadoCardComponent } from '@/app/shared/components/chamado-card/chamado-card.component';
+import { ChamadoCardComponent } from '@shared/components/chamado-card/chamado-card.component';
 import { Component, computed, inject, OnInit, signal } from '@angular/core';
-import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
-import { ChamadoItem } from '@/app/model/chamado.type';
+import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
+import { ChamadoItem } from '@model/chamado.type';
 //Temporário
-import { ChamadoService } from '@/app/services/chamado.service';
+import { ChamadoService } from '@services/chamado.service';
 
 @Component({
   selector: 'app-pag-inicial-funcionario',

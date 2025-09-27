@@ -1,14 +1,13 @@
 import { Component, inject } from '@angular/core';
 import { StatusAtivoInativoComponent } from '../status-ativo-inativo/status-ativo-inativo.component';
-import { CategoriaEquipamento } from '@/app/model/categoria-equipamento.type';
-import { MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ConfirmarModalComponent } from '@/app/shared/components/confirmar-modal/confirmar-modal.component';
+import { CategoriaEquipamento } from '@model/categoria-equipamento.type';
+import { ConfirmarModalComponent } from '@shared/components/confirmar-modal/confirmar-modal.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatButtonModule } from '@angular/material/button';
 import { NovaCategoriaEquipamentoComponent } from '../dialogs/nova-categoria-equipamento/nova-categoria-equipamento.component';
-import { CategoriaEquipamentoService } from '@/app/services/categoria-equipamento.service';
-import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
+import { CategoriaEquipamentoService } from '@services/categoria-equipamento.service';
+import { StatusAtivoInativo } from '@model/enums/status-ativo-inativo.enum';
 import { FormsModule } from '@angular/forms';
 import { NgxCurrencyDirective } from 'ngx-currency';
 

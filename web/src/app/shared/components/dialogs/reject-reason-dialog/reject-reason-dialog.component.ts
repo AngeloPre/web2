@@ -4,9 +4,9 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
-import { ChamadoService } from '@/app/services/chamado.service';
-import { ChamadoItem } from '@/app/model/chamado.type';
-import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { ChamadoService } from '@services/chamado.service';
+import { ChamadoItem } from '@model/chamado.type';
+import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 
 @Component({
   selector: 'app-reject-reason-dialog',

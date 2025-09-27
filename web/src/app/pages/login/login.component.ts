@@ -1,4 +1,4 @@
-import { LoginFormComponent } from '@/app/shared/components/login-form/login-form.component';
+import { LoginFormComponent } from '@shared/components/login-form/login-form.component';
 import { Component } from '@angular/core';
 
 @Component({
