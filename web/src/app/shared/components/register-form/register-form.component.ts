@@ -1,3 +1,4 @@
+import { EmailUnicoDirective } from '@/app/directives/email-unico.directive';
 import { Cliente } from '@/app/model/cliente';
 import { Endereco } from '@/app/model/endereco';
 import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
@@ -7,7 +8,7 @@ import { UsuarioService } from '@/app/services/usuario.service';
 import { ViacepService } from '@/app/services/viacep.service';
 import { fromViaCep } from '@/app/util/mapper/endereco-mapper';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { AbstractControl, FormsModule, NgForm, NgModel } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -29,7 +30,9 @@ import { catchError } from 'rxjs';
     RouterLink,
     MatSelectModule,
     MatStepperModule,
-    NgxMaskDirective],
+    NgxMaskDirective,
+    EmailUnicoDirective
+  ],
 
   templateUrl: './register-form.component.html',
   styles: ``,
