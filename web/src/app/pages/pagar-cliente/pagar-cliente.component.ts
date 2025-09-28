@@ -1,7 +1,7 @@
-import { ChamadoItem } from '@/app/model/chamado.type';
-import { ChamadoService } from '@/app/services/chamado.service';
-import { StatusIconComponent } from '@/app/shared/components/status-icon/status-icon.component';
-import { ConfirmarModalComponent } from '@/app/shared/components/confirmar-modal/confirmar-modal.component';
+import { ChamadoItem } from '@model/chamado.type';
+import { ChamadoService } from '@services/chamado.service';
+import { StatusIconComponent } from '@shared/components/status-icon/status-icon.component';
+import { ConfirmarModalComponent } from '@shared/components/confirmar-modal/confirmar-modal.component';
 import { CurrencyPipe, DatePipe } from '@angular/common';
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';

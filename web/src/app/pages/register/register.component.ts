@@ -1,4 +1,4 @@
-import { RegisterFormComponent } from '@/app/shared/components/register-form/register-form.component';
+import { RegisterFormComponent } from '@shared/components/register-form/register-form.component';
 import { Component } from '@angular/core';
 
 @Component({

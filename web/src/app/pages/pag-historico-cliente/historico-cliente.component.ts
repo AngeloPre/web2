@@ -1,10 +1,10 @@
-import { HistoricoComponent } from '@/app/shared/components/historico/historico.component';
+import { HistoricoComponent } from '@shared/components/historico/historico.component';
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ChamadoService } from '@/app/services/chamado.service';
-import { ChamadoItem } from '@/app/model/chamado.type';
+import { ChamadoService } from '@services/chamado.service';
+import { ChamadoItem } from '@model/chamado.type';
 
 @Component({
     selector: 'app-historico-cliente',

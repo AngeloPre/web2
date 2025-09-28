@@ -1,11 +1,9 @@
-import { CategoriaEquipamentoTableComponent } from '@/app/shared/components/categoria-equipamento-table/categoria-equipamento-table.component';
+import { CategoriaEquipamentoTableComponent } from '@shared/components/categoria-equipamento-table/categoria-equipamento-table.component';
 import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { CategoriaEquipamentoService } from '@/app/services/categoria-equipamento.service';
-import { CategoriaEquipamento } from '@/app/model/categoria-equipamento.type';
-import { NovaCategoriaEquipamentoComponent } from '@/app/shared/components/dialogs/nova-categoria-equipamento/nova-categoria-equipamento.component';
+import { NovaCategoriaEquipamentoComponent } from '@shared/components/dialogs/nova-categoria-equipamento/nova-categoria-equipamento.component';
 
 @Component({
   selector: 'app-pag-categoria-equipamento',

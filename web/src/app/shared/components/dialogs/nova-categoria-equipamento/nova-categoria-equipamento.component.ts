@@ -5,10 +5,10 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { FormsModule } from '@angular/forms';
 import { NgxCurrencyDirective } from "ngx-currency";
-import { CategoriaEquipamento } from '@/app/model/categoria-equipamento.type';
-import { CategoriaEquipamentoService } from '@/app/services/categoria-equipamento.service';
+import { CategoriaEquipamento } from '@model/categoria-equipamento.type';
+import { CategoriaEquipamentoService } from '@services/categoria-equipamento.service';
 import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
-import { SlugifyService } from '@/app/services/slugify.service';
+import { SlugifyService } from '@services/slugify.service';
 
 @Component({
   selector: 'app-nova-categoria-equipamento',

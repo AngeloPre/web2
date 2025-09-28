@@ -1,7 +1,7 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ChamadoItem } from '@/app/model/chamado.type';
 import { ActivatedRoute, RouterLink } from '@angular/router';
-import { ChamadoService } from '@/app/services/chamado.service';
+import { ChamadoService } from '@services/chamado.service';
 import { EfetuarManutencaoComponent } from '@/app/shared/components/efetuar-manutencao/efetuar-manutencao.component';
 import { MatButtonModule } from '@angular/material/button';
 

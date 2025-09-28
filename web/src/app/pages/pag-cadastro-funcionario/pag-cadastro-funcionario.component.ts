@@ -1,6 +1,6 @@
-import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
-import { Funcionario } from '@/app/model/funcionario';
-import { FuncionarioFormComponent } from '@/app/shared/components/funcionario-form/funcionario-form.component';
+import { StatusAtivoInativo } from '@model/enums/status-ativo-inativo.enum';
+import { Funcionario } from '@model/funcionario';
+import { FuncionarioFormComponent } from '@shared/components/funcionario-form/funcionario-form.component';
 import { Component } from '@angular/core';
 
 @Component({

@@ -1,7 +1,7 @@
 import { Funcionario } from '@/app/model/funcionario';
 import { ChamadoItem } from '@/app/model/chamado.type';
-import { ChamadoService } from '@/app/services/chamado.service';
-import { UsuarioService } from '@/app/services/usuario.service';
+import { ChamadoService } from '@services/chamado.service';
+import { UsuarioService } from '@services/usuario.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';

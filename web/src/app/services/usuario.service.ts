@@ -1,13 +1,12 @@
 import { inject, Injectable } from '@angular/core';
-import { MockServices } from '../model/interfaces/mock-services';
-import { Usuario } from '../model/usuario';
-import { Funcionario } from '../model/funcionario';
-import { Endereco } from '../model/endereco';
-import { toUF } from '../model/enums/uf';
-import { Cliente } from '../model/cliente';
+import { MockServices } from '@model/interfaces/mock-services';
+import { Usuario } from '@model/usuario';
+import { Funcionario } from '@model/funcionario';
+import { Endereco } from '@model/endereco';
+import { toUF } from '@model/enums/uf';
+import { Cliente } from '@model/cliente';
 import { GeradorsenhaService } from './geradorsenha.service';
-import { StatusAtivoInativo } from '../model/enums/status-ativo-inativo.enum';
-import { EMPLOYEE_ROLE } from '../model/roles';
+import { StatusAtivoInativo } from '@model/enums/status-ativo-inativo.enum';
 
 export const LS_USUARIO = "Usuario";
 
