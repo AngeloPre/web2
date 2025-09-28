@@ -1,3 +1,5 @@
+import { CepValidoDirective } from '@/app/directives/cep-valido.directive';
+import { EmailUnicoDirective } from '@/app/directives/email-unico.directive';
 import { Cliente } from '@model/cliente';
 import { Endereco } from '@model/endereco';
 import { StatusAtivoInativo } from '@model/enums/status-ativo-inativo.enum';
@@ -7,7 +9,7 @@ import { UsuarioService } from '@services/usuario.service';
 import { ViacepService } from '@services/viacep.service';
 import { fromViaCep } from '@/app/util/mapper/endereco-mapper';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
-import { FormsModule, NgForm } from '@angular/forms';
+import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
@@ -16,7 +18,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
 import { RouterLink } from '@angular/router';
 import { NgxMaskDirective } from 'ngx-mask';
-import { catchError } from 'rxjs';
+import { catchError, EMPTY } from 'rxjs';
 
 @Component({
   selector: 'app-register-form',
@@ -29,7 +31,10 @@ import { catchError } from 'rxjs';
     RouterLink,
     MatSelectModule,
     MatStepperModule,
-    NgxMaskDirective],
+    NgxMaskDirective,
+    EmailUnicoDirective,
+    CepValidoDirective
+  ],
 
   templateUrl: './register-form.component.html',
   styles: ``,
@@ -85,10 +90,9 @@ export class RegisterFormComponent {
     (this.cliente.endereco as any)[path] = '';
   }
 
-  buscarCep(cep: string) {
-    const limpo = (cep || '').replace(/\D/g, '');//tira qualquer dígito que naõ seja um número
+  buscarCep(cepModel: NgModel) {
+    const limpo = (cepModel.value || '').toString().replace(/\D/g, '');//tira qualquer dígito que naõ seja um número
     if (limpo.length !== 8) return;
-
     this.viacepService.getCepFromViaCep(limpo).pipe(
       catchError((erro) => {
         console.log(erro);

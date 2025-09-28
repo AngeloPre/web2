@@ -33,14 +33,26 @@
                   placeholder="exemplo@email.com"
                   [(ngModel)]="cliente.email"
                   name="email"
+                  #emailModel="ngModel"
                   type="email"
-                  email="true"
+                  email
                   required
+                  [ngModelOptions]="{ updateOn: 'change' }"
+                  emailUnico
                   class="placeholder:font-lato placeholder:text-sm placeholder:text-figma-gray-400">
           @if (cliente.email) {
             <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparCampo('email')">
               <mat-icon class="mr-3">close</mat-icon>
             </button>
+          }
+          @if (emailModel?.errors?.['required']) {
+            <mat-error>E-mail é obrigatório.</mat-error>
+          }
+          @if (emailModel?.errors?.['email']) {
+            <mat-error>Formato de e-mail inválido.</mat-error>
+          }
+          @if (emailModel?.errors?.['jaExisteEmail']) {
+            <mat-error>Este e-mail já está cadastrado.</mat-error>
           }
         </mat-form-field>
 
@@ -70,14 +82,25 @@
           <mat-form-field>
             <mat-label>CEP</mat-label>
             <input matInput placeholder="Digite seu cep"
-                   [(ngModel)]="cliente.endereco.cep" name="cep"
+                   [(ngModel)]="cliente.endereco.cep"
+                   name="cep"
+                   #cepModel="ngModel"
                    mask="00.000-000"
                    required
-                   (blur)="buscarCep(cliente.endereco.cep)">
+                   [ngModelOptions]="{ updateOn: 'change' }"
+                   (change)="buscarCep(cepModel)"
+                   cepValido>
             @if (cliente.endereco.cep) {
               <button matSuffix matIconButton aria-label="Clear" type="button" (click)="limparEnderecoCampo('cep')">
                 <mat-icon class="mr-3">close</mat-icon>
               </button>
+            }
+
+            @if (cepModel?.errors?.['required']) {
+              <mat-error>CEP é obrigatório.</mat-error>
+            }
+            @if (cepModel?.errors?.['cepInvalido']) {
+              <mat-error>CEP não encontrado.</mat-error>
             }
           </mat-form-field>
 

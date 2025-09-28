@@ -167,8 +167,10 @@ export class UsuarioService implements MockServices<Usuario> {
   }
 
   buscarPorEmail(email: string): Usuario | undefined {
+    const alvo = (email || '').trim().toLowerCase();
     const usuarios = this.listarTodos();
-    return this.nenhumUsuario() ? undefined : usuarios.find((usuario) => usuario.email === email);
+    if (this.nenhumUsuario()) return undefined;
+    return usuarios.find(u => (u.email || '').trim().toLowerCase() === alvo);
   }
 
   atualizar(elemento: Usuario): void {
