@@ -11,22 +11,12 @@ import { ChamadoService } from '@services/chamado.service';
   templateUrl: './pag-inicial-funcionario.component.html',
   styles: ``,
 })
-export class PagInicialFuncionarioComponent implements OnInit {
+export class PagInicialFuncionarioComponent {
   private chamadoService = inject(ChamadoService);
 
-  chamadosMock = signal<ChamadoItem[]>([]);
   chamadosStatusAberto = computed(() =>
-    this.chamadosMock().filter(
-      chamado => chamado.status === StatusConsertoEnum.ABERTA
-    )
+    this.chamadoService
+      .chamadosSignal()
+      .filter((chamado) => chamado.status === StatusConsertoEnum.ABERTA)
   );
-
-  ngOnInit(): void {
-    this.atualizarTela();
-    console.log(this.chamadoService.listarPorStatus(StatusConsertoEnum.ABERTA));
-  }
-
-  atualizarTela(): void {
-    this.chamadosMock.set(this.chamadoService.listarPorStatus(StatusConsertoEnum.ABERTA));
-  }
 }

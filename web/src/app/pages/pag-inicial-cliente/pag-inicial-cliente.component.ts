@@ -1,8 +1,5 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ChamadoItem } from '@model/chamado.type';
 import { ChamadoTableComponent } from '@shared/components/chamado-table/chamado-table.component';
-//Temporário
-import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 import { ChamadoService } from '@services/chamado.service';
 
 @Component({
@@ -11,27 +8,8 @@ import { ChamadoService } from '@services/chamado.service';
   templateUrl: './pag-inicial-cliente.component.html',
   styles: ``,
 })
-export class PagInicialClienteComponent implements OnInit {
+export class PagInicialClienteComponent {
   private chamadoService = inject(ChamadoService);
-  chamadosMock2 = signal<ChamadoItem[]>([]);
 
-  ngOnInit(): void {
-    this.atualizarTela();
-  }
-
-  atualizarTela(): void {
-    this.chamadosMock2.set(this.chamadoService.listarEmOrdemCrescente());
-  }
-
-  btnAtualizar(event: { id: number; statusNovo: StatusConsertoEnum }): void {
-    console.log(event.id);
-    let chamadoToUpdate = this.chamadoService.buscarPorID(event.id);
-    if (chamadoToUpdate) {
-      chamadoToUpdate.status = event.statusNovo;
-      this.chamadoService.atualizar(chamadoToUpdate);
-      this.atualizarTela();
-    } else {
-      console.log('chamado nao encontrado');
-    }
-  }
+  chamadosMock = this.chamadoService.chamadosSignal;
 }
