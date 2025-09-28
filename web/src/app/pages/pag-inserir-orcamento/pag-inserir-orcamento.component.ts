@@ -1,9 +1,9 @@
-import { EfetuarOrcamentoComponent } from '@/app/shared/components/efetuar-orcamento/efetuar-orcamento.component';
+import { EfetuarOrcamentoComponent } from '@shared/components/efetuar-orcamento/efetuar-orcamento.component';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
-import { ChamadoService } from '@/app/services/chamado.service';
-import { ChamadoItem } from '@/app/model/chamado.type';
+import { ChamadoService } from '@services/chamado.service';
+import { ChamadoItem } from '@model/chamado.type';
 
 @Component({
   selector: 'app-pag-inserir-orcamento',

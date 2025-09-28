@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { EnderecoViaCep } from '../model/endereco-viacep-type';
+import { EnderecoViaCep } from '@model/endereco-viacep-type';
 
 @Injectable({
   providedIn: 'root'

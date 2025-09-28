@@ -1,10 +1,10 @@
-import { Cliente } from '@/app/model/cliente';
-import { Endereco } from '@/app/model/endereco';
-import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
-import { UF } from '@/app/model/enums/uf';
-import { EmailjsService } from '@/app/services/emailjs.service';
-import { UsuarioService } from '@/app/services/usuario.service';
-import { ViacepService } from '@/app/services/viacep.service';
+import { Cliente } from '@model/cliente';
+import { Endereco } from '@model/endereco';
+import { StatusAtivoInativo } from '@model/enums/status-ativo-inativo.enum';
+import { UF } from '@model/enums/uf';
+import { EmailjsService } from '@services/emailjs.service';
+import { UsuarioService } from '@services/usuario.service';
+import { ViacepService } from '@services/viacep.service';
 import { fromViaCep } from '@/app/util/mapper/endereco-mapper';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms';

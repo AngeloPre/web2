@@ -1,12 +1,10 @@
-import { OrcamentoPreviewComponent } from '@/app/shared/components/orcamento-preview/orcamento-preview.component';
+import { OrcamentoPreviewComponent } from '@shared/components/orcamento-preview/orcamento-preview.component';
 import { MatButtonModule } from '@angular/material/button';
 import { Router, RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Component, inject, OnInit, signal } from '@angular/core';
-import { ChamadoService } from '@/app/services/chamado.service';
-import { ChamadoItem } from '@/app/model/chamado.type';
-import { MatSnackBar } from '@angular/material/snack-bar';
-import { CurrencyPipe } from '@angular/common';
+import { ChamadoService } from '@services/chamado.service';
+import { ChamadoItem } from '@model/chamado.type';
 
 @Component({
   selector: 'app-pag-aprovar-rejeitar-orcamento',

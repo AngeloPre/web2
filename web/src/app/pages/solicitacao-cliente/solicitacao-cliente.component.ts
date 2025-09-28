@@ -13,13 +13,13 @@ import { MatButton } from '@angular/material/button';
 import { MatFormField } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { CategoriaEquipamentoService } from '@/app/services/categoria-equipamento.service';
-import { ConfirmarModalComponent } from '@/app/shared/components/confirmar-modal/confirmar-modal.component';
-import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
-import { ChamadoItem } from '@/app/model/chamado.type';
-import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { CategoriaEquipamentoService } from '@services/categoria-equipamento.service';
+import { ConfirmarModalComponent } from '@shared/components/confirmar-modal/confirmar-modal.component';
+import { StatusAtivoInativo } from '@model/enums/status-ativo-inativo.enum';
+import { ChamadoItem } from '@model/chamado.type';
+import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 import { FormsModule, NgForm } from '@angular/forms';
-import { ChamadoService } from '@/app/services/chamado.service';
+import { ChamadoService } from '@services/chamado.service';
 import { Router } from '@angular/router';
 
 @Component({

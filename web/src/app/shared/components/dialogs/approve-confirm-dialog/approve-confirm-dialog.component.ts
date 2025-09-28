@@ -2,7 +2,7 @@ import { Component, inject, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ChamadoItem } from '@/app/model/chamado.type';
-import { ChamadoService } from '@/app/services/chamado.service';
+import { ChamadoService } from '@services/chamado.service';
 import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 
 @Component({

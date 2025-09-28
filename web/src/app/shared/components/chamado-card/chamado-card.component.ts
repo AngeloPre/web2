@@ -1,10 +1,10 @@
 import { Component, input } from '@angular/core';
 import { MatCardModule } from '@angular/material/card';
-import { ChamadoItem } from '@/app/model/chamado.type';
+import { ChamadoItem } from '@model/chamado.type';
 import { DatePipe } from '@angular/common';
-import { LimiteCaracteresPipe } from '@/app/shared/pipes/limite-caracteres.pipe';
+import { LimiteCaracteresPipe } from '@shared/pipes/limite-caracteres.pipe';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
-import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 import { VisualizarButtonCardComponent } from '../visualizar-button-card/visualizar-button-card.component';
 
 

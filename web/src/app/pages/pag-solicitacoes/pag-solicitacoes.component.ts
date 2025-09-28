@@ -1,4 +1,4 @@
-import { ChamadoCardComponent } from '@/app/shared/components/chamado-card/chamado-card.component';
+import { ChamadoCardComponent } from '@shared/components/chamado-card/chamado-card.component';
 import {
   ChangeDetectionStrategy,
   Component,
@@ -7,10 +7,10 @@ import {
   Signal,
   signal,
 } from '@angular/core';
-import { ChamadoItem } from '@/app/model/chamado.type';
+import { ChamadoItem } from '@model/chamado.type';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatButton } from '@angular/material/button';
-import { ChamadoService } from '@/app/services/chamado.service';
+import { ChamadoService } from '@services/chamado.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FormControl,

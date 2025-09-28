@@ -1,4 +1,4 @@
-import { Funcionario } from '@/app/model/funcionario';
+import { Funcionario } from '@model/funcionario';
 import { Component, inject, input, OnInit } from '@angular/core';
 import { Form, FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -9,7 +9,7 @@ import { MatFormField, MatInput, MatInputModule, MatLabel } from '@angular/mater
 import { Router, RouterLink } from '@angular/router';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
-import { UsuarioService } from '@/app/services/usuario.service';
+import { UsuarioService } from '@services/usuario.service';
 import { ConfirmarModalComponent } from '../confirmar-modal/confirmar-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 

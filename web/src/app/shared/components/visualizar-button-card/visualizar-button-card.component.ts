@@ -1,9 +1,9 @@
-import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 import { Component, inject, input, output } from '@angular/core';
 import { RouterLink } from '@angular/router';
-import { ConfirmarModalComponent } from '@/app/shared/components/confirmar-modal/confirmar-modal.component';
+import { ConfirmarModalComponent } from '@shared/components/confirmar-modal/confirmar-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ChamadoService } from '@/app/services/chamado.service';
+import { ChamadoService } from '@services/chamado.service';
 
 @Component({
   selector: 'app-visualizar-button-card',

@@ -1,6 +1,6 @@
-import { ChamadoItem } from '@/app/model/chamado.type';
-import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
-import { ChamadoService } from '@/app/services/chamado.service';
+import { ChamadoItem } from '@model/chamado.type';
+import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
+import { ChamadoService } from '@services/chamado.service';
 import { Component, inject } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';

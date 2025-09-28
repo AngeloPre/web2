@@ -6,10 +6,10 @@ import {
   signal,
 } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { CategoriaEquipamentoService } from '@/app/services/categoria-equipamento.service';
+import { CategoriaEquipamentoService } from '@services/categoria-equipamento.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { PdfServiceService } from '@/app/services/pdf-service.service';
+import { PdfServiceService } from '@services/pdf-service.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FormControl,

@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import { MockServices } from '../model/interfaces/mock-services';
-import { CategoriaEquipamento } from '../model/categoria-equipamento.type';
-import { StatusAtivoInativo } from '../model/enums/status-ativo-inativo.enum';
+import { MockServices } from '@model/interfaces/mock-services';
+import { CategoriaEquipamento } from '@model/categoria-equipamento.type';
+import { StatusAtivoInativo } from '@model/enums/status-ativo-inativo.enum';
 
 export const LS_CategoriaEquipamento = 'CategoriaEquipamento';
 
