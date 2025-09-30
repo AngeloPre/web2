@@ -192,3 +192,8 @@ body {
   padding-inline: 15px;
   width: 100%;
 }
+
+.scroll-minimalista {
+  scrollbar-width: thin; 
+  scrollbar-color: #d1d5db transparent; 
+}
