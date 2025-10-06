@@ -21,12 +21,17 @@ import { PagCadastroFuncionarioComponent } from './pages/pag-cadastro-funcionari
 import { PagListarFuncionariosComponent } from './pages/pag-listar-funcionarios/pag-listar-funcionarios.component';
 import { PagEditarFuncionarioComponent } from './pages/pag-editar-funcionario/pag-editar-funcionario.component';
 import { PagRelatoriosComponent } from './pages/pag-relatorios/pag-relatorios.component';
+import { WrapperLandingPageComponent } from './layouts/wrapper-landing-page/wrapper-landing-page.component';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
 
-  { path: '', component: HomeComponent, pathMatch: 'full' },
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  {
+    path: '',
+    component: WrapperLandingPageComponent,
+    title: 'Home',
+    children: [{ path: '', component: HomeComponent, pathMatch: 'full' }],
+  },
   {
     path: 'login',
     component: WrapperLoginRegisterComponent,
