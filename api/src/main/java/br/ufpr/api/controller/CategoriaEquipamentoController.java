@@ -46,8 +46,9 @@ public class CategoriaEquipamentoController {
         CategoriaEquipamento existingCategoriaEquipamento = service.getCategoriaEquipamentoById(id);
         if (existingCategoriaEquipamento != null) {
             existingCategoriaEquipamento.setNome(updatedCategoriaEquipamento.getNome());
-            existingCategoriaEquipamento.setDescricao(updatedCategoriaEquipamento.getDescricao());
+            existingCategoriaEquipamento.setPrecoBase(updatedCategoriaEquipamento.getPrecoBase());
             existingCategoriaEquipamento.setStatus(updatedCategoriaEquipamento.isStatus());
+            existingCategoriaEquipamento.setDescricao(updatedCategoriaEquipamento.getDescricao());
             return service.addNewCategoriaEquipamento(existingCategoriaEquipamento);
         } else {
             return null;
