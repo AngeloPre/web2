@@ -22,7 +22,13 @@ public class CategoriaEquipamentoService {
         return (List<CategoriaEquipamento>) categoriaEquipamentoRepo.findAll();
     }
 
-    public CategoriaEquipamento getBySlug(String slug) {
+    public CategoriaEquipamento getCategoriaEquipamentoBySlug(String slug) {
         return categoriaEquipamentoRepo.findBySlug(slug);
     }
+
+    public CategoriaEquipamento getCategoriaEquipamentoById(Integer id) {
+        return categoriaEquipamentoRepo.findById(id).orElse(null);
+    }
+
+
 }

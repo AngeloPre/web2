@@ -10,7 +10,7 @@ import { UsuarioService } from '@services/usuario.service';
   selector: 'app-funcionarios-table',
   imports: [StatusAtivoInativoComponent, RouterLink],
   templateUrl: './funcionarios-table.component.html',
-  styles: ``
+  styles: `:host {overflow-y: auto; max-height: 75vh; display: block;}`
 })
 export class FuncionariosTableComponent {
   private dialog = inject(MatDialog);

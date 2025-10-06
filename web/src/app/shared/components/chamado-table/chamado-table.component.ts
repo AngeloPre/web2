@@ -19,7 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
     RouterLink,
   ],
   templateUrl: './chamado-table.component.html',
-  styles: ``,
+  styles: `:host {overflow-y: auto; max-height: 75vh; display: block;}`,
 })
 export class ChamadoTableComponent {
   chamados = input.required<Array<ChamadoItem>>();
