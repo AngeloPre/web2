@@ -61,6 +61,10 @@ jobs:
           server.forward-headers-strategy=framework
           spring.jpa.hibernate.ddl-auto=create
           app.security.csrf.disabled=true
+          spring.flyway.enabled=false
+          spring.security.user.name=admin
+          spring.security.user.password=admin
+          spring.security.user.roles=ADMIN
           EOF
 
       - name: Deploy and Run Application
