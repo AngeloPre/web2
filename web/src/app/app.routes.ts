@@ -24,6 +24,8 @@ import { PagRelatoriosComponent } from './pages/pag-relatorios/pag-relatorios.co
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
+
+  { path: '', component: HomeComponent, pathMatch: 'full' },
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   {
     path: 'login',

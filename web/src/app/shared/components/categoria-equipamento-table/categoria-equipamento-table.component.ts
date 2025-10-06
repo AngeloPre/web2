@@ -15,7 +15,7 @@ import { NgxCurrencyDirective } from 'ngx-currency';
   selector: 'app-categoria-equipamento-table',
   imports: [StatusAtivoInativoComponent, MatButtonModule, MatDialogModule, MatSnackBarModule, FormsModule, NgxCurrencyDirective],
   templateUrl: './categoria-equipamento-table.component.html',
-  styles: ``
+  styles: `:host {overflow-y: auto; max-height: 72vh; display: block;}`
 })
 export class CategoriaEquipamentoTableComponent {
   private dialog = inject(MatDialog);

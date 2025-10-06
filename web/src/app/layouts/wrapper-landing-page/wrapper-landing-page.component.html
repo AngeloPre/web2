@@ -1,0 +1,74 @@
+<header class="relative flex">
+  <div class="flex">
+    <div class="flex left-0 w-64 bg-brand-base rounded-br-xl items-center justify-center">
+      <img src="assets/logo.png" alt="logo" class="h-12 w-12 shrink-0 ">
+        <div class="min-w-0" >
+            <span class="font-cinzel font-semibold text-brand-light" >Phoenix</span>
+            <span class="font-orbitron font-medium text-brand-light">LAB</span>
+        </div>
+    </div>
+  </div>
+
+  <!-- Barra superior -->
+  <nav class="bg-white shadow flex w-full">
+    <div class="mx-auto w-full px-4">
+      <div class="flex h-20 items-center justify-evenly">
+
+        <!-- Menu desktop -->
+        <ul class="hidden md:flex items-center gap-6">
+          <li><a class="text-gray-700 hover:text-brand-light font-medium" href="#">Home</a></li>
+          <li><a class="text-gray-700 hover:text-brand-light font-medium" href="#">About Us</a></li>
+          <li><a class="text-gray-700 hover:text-brand-light font-medium" href="#">Services</a></li>
+          <li><a class="text-gray-700 hover:text-brand-light font-medium" href="#">Pricing</a></li>
+          <li><a class="text-gray-700 hover:text-brand-light font-medium" href="#">Contact Us</a></li>
+          <li><a class="block py-2 text-gray-700 hover:text-brand-light" routerLink="/login">Login</a></li>
+        </ul>
+
+        <!-- Telefone (desktop) -->
+        <div class="hidden md:flex items-center gap-3 pr-1 hover:text-brand-light">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+          class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path stroke-linecap="round" stroke-linejoin="round"
+            d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a1.5 1.5 0 0 0 1.5-1.5v-2.318a1.5 1.5 0 0 0-1.116-1.45l-3.13-.782a1.5 1.5 0 0 0-1.622.694l-.53.884a12.036 12.036 0 0 1-5.39-5.39l.884-.53a1.5 1.5 0 0 0 .694-1.622l-.782-3.13A1.5 1.5 0 0 0 7.568 3.75H5.25A3 3 0 0 0 2.25 6.75Z" />
+          </svg>
+          <a href="tel:1234567890" class="text-gray-900 font-semibold tracking-wide">123 - 456 - 7890</a>
+        </div>
+
+      <!-- Botão mobile -->
+      <button type="button"
+        class="md:hidden inline-flex items-center justify-center rounded-md p-2 text-gray-600 hover:bg-gray-100"
+        (click)="toggleMobile()" aria-label="Open main menu">
+        @if (!mobileOpen) {
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+          class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+            d="M3.75 6.75h16.5M3.75 12h16.5M3.75 17.25h16.5"/>
+          </svg>
+        }
+        @if (mobileOpen) {
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+          class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="1.5">
+            <path stroke-linecap="round" stroke-linejoin="round"
+            d="M6 18 18 6M6 6l12 12"/>
+          </svg>
+        }
+      </button>
+    </div>
+  </div>
+
+  <!-- Menu mobile -->
+  @if (mobileOpen) {
+    <div class="md:hidden border-t">
+      <div class="space-y-1 px-4 py-3">
+        <a class="block py-2 text-gray-700 hover:text-brand-light" href="#">Home</a>
+        <a class="block py-2 text-gray-700 hover:text-brand-light" href="#">About Us</a>
+        <a class="block py-2 text-gray-700 hover:text-brand-light" href="#">Services</a>
+        <a class="block py-2 text-gray-700 hover:text-brand-light" href="#">Pricing</a>
+        <a class="block py-2 text-gray-700 hover:text-brand-light" href="#">Contact Us</a>
+        <a class="block py-2 text-gray-700 hover:text-brand-light" routerLink="/login">Login</a>
+        <a class="block py-2 font-semibold text-gray-900" href="tel:1234567890">123 - 456 - 7890</a>
+      </div>
+    </div>
+  }
+  </nav>
+</header>
