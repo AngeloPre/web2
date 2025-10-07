@@ -5,8 +5,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import br.ufpr.api.model.CategoriaEquipamento;
-import br.ufpr.api.repo.CategoriaEquipamentoRepo;
+import br.ufpr.api.model.entity.CategoriaEquipamento;
+import br.ufpr.api.repository.CategoriaEquipamentoRepo;
 
 @Service
 public class CategoriaEquipamentoService {

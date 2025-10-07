@@ -1,4 +1,4 @@
-package br.ufpr.api.model;
+package br.ufpr.api.model.entity;
 
 import java.time.Instant;
 
