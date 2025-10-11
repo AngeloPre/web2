@@ -5,6 +5,7 @@ import br.ufpr.api.repository.FuncionarioRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class FuncionarioService {
     public Optional<Funcionario> findById(Long id) {
         return employeeRepository.findById(id);
     }
-    public Optional<Funcionario> findByEmail(String email) {
+    public UserDetails findByEmail(String email) {
         return employeeRepository.findByEmail(email);
     }
     public boolean existsByEmail(String email) {
