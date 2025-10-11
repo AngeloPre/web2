@@ -1,26 +1,64 @@
-<app-wrapper-landing-page/>
-
 <div class="flex flex-col">
-  <div class="min-h-dvh flex items-center
-           bg-[linear-gradient(to_bottom,rgba(0,0,0,.50),rgba(0,0,0,.25)),url('assets/man-at-work.jpg')]
+  <!-- HERO -->
+  <div
+    class="relative overflow-hidden min-h-[calc(100dvh-5rem)] flex items-center
+           bg-[linear-gradient(to_bottom,rgba(0,0,0,.70),rgba(0,0,0,.25)),url('assets/man-at-work.jpg')]
            bg-cover bg-center">
     <div class="mx-auto max-w-5xl px-6">
-      <p class="text-white/80 mb-3 text-lg">Any Computer Problems?</p>
+      <p class="text-white/80 mb-3 font-sans font-black text-lg">Any Computer Problems?</p>
       <h1 class="text-white font-extrabold text-5xl sm:text-6xl leading-tight">We Will Help</h1>
-      <p class="text-white/80 mt-4 max-w-xl">Aenean vulputate eleifend tellus...</p>
+      <p class="text-white/80 mt-4 font-sans font-black max-w-xl">Aenean vulputate eleifend tellus...</p>
       <a href="#contato"
-         class="inline-block mt-6 px-6 py-3 rounded-full bg-blue-600 hover:bg-blue-500 text-white font-semibold">
+         class="inline-block mt-6 rounded-full bg-brand-dark p-4 hover:bg-blue-500 text-white font-semibold">
         Contact Us
       </a>
     </div>
+
+    <div class="pointer-events-none absolute inset-x-0 bottom-0 leading-[0] translate-y-[1px]">
+      <svg class="block w-full h-40"
+           viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
+        <path
+          d="M600,112.77C268.63,112.77,0,65.52,0,7.23V120H1200V7.23C1200,65.52,931.37,112.77,600,112.77Z"
+          class="fill-white"></path>
+      </svg>
+    </div>
+
   </div>
-
-  <div>
-    <svg class="block w-full h-28 sm:h-40 md:h-56"
-        viewBox="0 0 1200 120" preserveAspectRatio="none" aria-hidden="true">
-      <path d="M0,0 C300,120 900,120 1200,0 L1200,120 L0,120 Z" class="fill-white"></path>
-    </svg>
-  </div>
-
-
+  <section class="relative bg-white">
+    <div class="min-h-[100dvh] pt-40 flex items-center">
+      <div class="mx-auto max-w-6xl px-6 w-full">
+        <div class="grid gap-10 md:grid-cols-2 items-center">
+          <div>
+            <p class="text-brand-dark/70 font-semibold">We Are Computer Repair</p>
+            <h2 class="mt-2 text-3xl sm:text-4xl font-extrabold text-gray-900">What We Offer</h2>
+            <p class="mt-4 text-gray-600 max-w-prose">
+              Pellentesque efficitur iaculis massa, at pretium turpis tristique eon…
+            </p>
+            <a href="#contato"
+               class="inline-block mt-6 rounded-full bg-brand-dark px-6 py-3 hover:bg-blue-500 text-white font-semibold">
+              Contact Us
+            </a>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <div class="rounded-2xl border p-6">
+              <h3 class="font-semibold text-gray-800">Laptop Repair</h3>
+              <p class="mt-2 text-sm text-gray-600">Descrição curta do serviço…</p>
+            </div>
+            <div class="rounded-2xl border p-6">
+              <h3 class="font-semibold text-gray-800">Smartphone Repair</h3>
+              <p class="mt-2 text-sm text-gray-600">Descrição curta do serviço…</p>
+            </div>
+            <div class="rounded-2xl border p-6">
+              <h3 class="font-semibold text-gray-800">Computer Repair</h3>
+              <p class="mt-2 text-sm text-gray-600">Descrição curta do serviço…</p>
+            </div>
+            <div class="rounded-2xl border p-6">
+              <h3 class="font-semibold text-gray-800">Game Console Repair</h3>
+              <p class="mt-2 text-sm text-gray-600">Descrição curta do serviço…</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
 </div>
