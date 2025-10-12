@@ -73,6 +73,7 @@ export class CategoriaEquipamentoTableComponent {
 
   toggle(categoria: CategoriaEquipamento) {
     if (categoria.status) {
+      if (categoria.categoryId)
       this.categoriasService.desativar(categoria.categoryId).subscribe(() => {
         this.snack.open('Categoria desativada', 'OK', {
           duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
@@ -81,6 +82,7 @@ export class CategoriaEquipamentoTableComponent {
         this.reload();
       });
     } else {
+      if (categoria.categoryId)
       this.categoriasService.reativar(categoria.categoryId).subscribe(() => {
         this.snack.open('Categoria reativada', 'OK', {
           duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
