@@ -4,6 +4,7 @@ import br.ufpr.api.model.enums.RoleUsuario;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -17,6 +18,7 @@ import java.util.List;
 @Data
 @Table(name = "tbl_usuario")
 @EqualsAndHashCode(of = "id")
+@NoArgsConstructor
 public abstract class Usuario implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -32,6 +34,24 @@ public abstract class Usuario implements UserDetails {
     private RoleUsuario role;
     @Column(nullable = false)
     private String senha;
+
+    protected Usuario(String cpf, String nome, String email, RoleUsuario role, String senha) {
+        this.cpf = cpf;
+        this.nome = nome;
+        this.email = email;
+        this.role = role;
+        this.senha = senha;
+    }
+
+    @Override
+    public String getPassword() {
+        return this.senha;
+    }
+
+    @Override
+    public String getUsername() {
+        return this.email;
+    }
 
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority(this.role.getRole()));
