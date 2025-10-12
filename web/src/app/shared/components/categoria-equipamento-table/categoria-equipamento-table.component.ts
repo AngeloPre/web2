@@ -25,14 +25,10 @@ export class CategoriaEquipamentoTableComponent {
   readonly StatusAtivoInativo = StatusAtivoInativo;
 
   constructor() {
-    this.reload();
+    this.categoriasService.refresh().subscribe();
   }
 
-  private reload() {
-    this.categoriasService.listarTodos().subscribe(list => {
-      this.categoriasService.signalCategorias.set(list);
-    });
-  }
+  private reload() { this.categoriasService.refresh().subscribe(); }
 
   novo() {
     const ref = this.dialog.open(NovaCategoriaEquipamentoComponent, {
