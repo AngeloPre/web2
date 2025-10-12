@@ -1,10 +1,9 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { Observable, map, switchMap } from 'rxjs';
+import { Observable, map, switchMap, tap } from 'rxjs';
 
 import { ApiServices } from '../model/interfaces/api-services';
 import { CategoriaEquipamento } from '@model/categoria-equipamento.type';
-import { StatusAtivoInativo } from '@model/enums/status-ativo-inativo.enum';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +21,15 @@ export class CategoriaEquipamentoService implements ApiServices<CategoriaEquipam
 
   signalCategorias = signal<CategoriaEquipamento[]>([]);
 
-  constructor(private httpClient: HttpClient) {}
+  constructor(private httpClient: HttpClient) {
+    this.refresh().subscribe();
+  }
+
+  refresh(): Observable<CategoriaEquipamento[]> {
+    return this.listarTodos().pipe(
+      tap(list => this.signalCategorias.set(list))
+    );
+  }
 
   listarTodos(): Observable<CategoriaEquipamento[]> {
     return this.httpClient.get<CategoriaEquipamento[]>(
@@ -50,6 +57,8 @@ export class CategoriaEquipamentoService implements ApiServices<CategoriaEquipam
       this.BASE_URL,
       elemento,
       this.httpOptions
+    ).pipe(
+      tap(created => this.signalCategorias.update(list => [...list, created]))
     );
   }
 
@@ -58,6 +67,10 @@ export class CategoriaEquipamentoService implements ApiServices<CategoriaEquipam
       `${this.BASE_URL}/${elemento.categoryId!}`,
       elemento,
       this.httpOptions
+    ).pipe(
+      tap(updated => this.signalCategorias.update(list =>
+        list.map(c => c.categoryId === updated.categoryId ? updated : c)
+      ))
     );
   }
 
@@ -65,6 +78,8 @@ export class CategoriaEquipamentoService implements ApiServices<CategoriaEquipam
     return this.httpClient.delete<void>(
       `${this.BASE_URL}/${id}`,
       this.httpOptions
+    ).pipe(
+      tap(() => this.signalCategorias.update(list => list.filter(c => c.categoryId !== id)))
     );
   }
 
