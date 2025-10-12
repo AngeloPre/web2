@@ -72,9 +72,10 @@ export class CategoriaEquipamentoTableComponent {
   }
 
   toggle(categoria: CategoriaEquipamento) {
+    const id = categoria.categoryId;
     if (categoria.status) {
-      if (categoria.categoryId){
-        this.categoriasService.desativar(categoria.categoryId).subscribe(() => {
+      if (id){
+        this.categoriasService.desativar(id).subscribe(() => {
           this.snack.open('Categoria desativada', 'OK', {
             duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
             panelClass: ['snack-top', 'snack-success']
@@ -83,8 +84,8 @@ export class CategoriaEquipamentoTableComponent {
         })
       };
     } else {
-      if (categoria.categoryId){
-        this.categoriasService.reativar(categoria.categoryId).subscribe(() => {
+      if (id){
+        this.categoriasService.reativar(id).subscribe(() => {
           this.snack.open('Categoria reativada', 'OK', {
             duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
             panelClass: ['snack-top', 'snack-success']
