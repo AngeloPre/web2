@@ -5,17 +5,24 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Entity
 @Data
 @Table(name = "tbl_funcionario")
+@EqualsAndHashCode(callSuper = true)
+@NoArgsConstructor
 public class Funcionario extends Usuario {
     @Column(nullable = false)
     private Date aniversario;
 
-    public Funcionario() {
-        this.setRole(RoleUsuario.FUNCIONARIO);
+    public Funcionario(String cpf, String nome, String email, String senha,
+            Date aniversario) {
+        super(cpf, nome, email, RoleUsuario.FUNCIONARIO, senha);
+        this.aniversario = aniversario;
     }
+    
 }

@@ -5,6 +5,7 @@ import br.ufpr.api.repository.ClienteRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -30,7 +31,7 @@ public class ClienteService {
     public Optional<Cliente> findById(Long id) {
         return clientRepository.findById(id);
     }
-    public Optional<Cliente> findByEmail(String email) {
+    public UserDetails findByEmail(String email) {
         return clientRepository.findByEmail(email);
     }
 
