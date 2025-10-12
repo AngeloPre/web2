@@ -17,42 +17,42 @@ public class CategoriaEquipamento {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "categoria_id")
-    private Integer categoriaId;
+    @Column(name = "category_id")
+    private Integer categoryId;
 
-    @Column(name = "nome", length = 255, nullable = false, unique = true)
-    private String nome;
+    @Column(name = "name", length = 255, nullable = false, unique = true)
+    private String name;
 
     @Column(name = "slug", length = 120, nullable = false, unique = true)
     private String slug;
 
-    @Column(name = "preco_base", nullable = false)
-    private Long precoBase;
+    @Column(name = "base_value", nullable = false)
+    private Long baseValue;
 
     @Column(name = "status", nullable = false)
     private boolean status;
 
     @CreationTimestamp
-    @Column(name = "criado_em", nullable = false, updatable = false)
-    private Instant criadoEm;
+    @Column(name = "created_at", nullable = false, updatable = false)
+    private Instant createdAt;
 
-    @Column(name = "descricao", columnDefinition = "TEXT")
-    private String descricao;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
-    public Integer getCategoriaId() {
-        return categoriaId;
+    public Integer getCategoryId() {
+        return categoryId;
     }
 
-    public void setCategoriaId(Integer categoriaId) {
-        this.categoriaId = categoriaId;
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getSlug() {
@@ -63,12 +63,12 @@ public class CategoriaEquipamento {
         this.slug = slug;
     }
 
-    public Long getPrecoBase() {
-        return precoBase;
+    public Long getBaseValue() {
+        return baseValue;
     }
 
-    public void setPrecoBase(Long precoBase) {
-        this.precoBase = precoBase;
+    public void setBaseValue(Long baseValue) {
+        this.baseValue = baseValue;
     }
 
     public boolean isStatus() {
@@ -79,20 +79,22 @@ public class CategoriaEquipamento {
         this.status = status;
     }
 
-    public Instant getCriadoEm() {
-        return criadoEm;
+    public Instant getCreatedAt() {
+        return createdAt;
     }
 
-    public void setCriadoEm(Instant criadoEm) {
-        this.criadoEm = criadoEm;
+    public void setCreatedAt(Instant createdAt) {
+        this.createdAt = createdAt;
     }
 
-    public String getDescricao() {
-        return descricao;
+    public String getDescription() {
+        return description;
     }
 
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDescription(String description) {
+        this.description = description;
     }
+
+    
 
 }

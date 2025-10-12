@@ -14,7 +14,7 @@ public class CategoriaEquipamentoService {
     private CategoriaEquipamentoRepo categoriaEquipamentoRepo;
 
     public CategoriaEquipamento addNewCategoriaEquipamento(CategoriaEquipamento categoriaEquipamento) {
-        categoriaEquipamento.setSlug(categoriaEquipamento.getNome().toLowerCase().replace(" ", "-"));
+        categoriaEquipamento.setSlug(categoriaEquipamento.getName().toLowerCase().replace(" ", "-"));
         return categoriaEquipamentoRepo.save(categoriaEquipamento);
     }
 
