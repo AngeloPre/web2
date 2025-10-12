@@ -31,7 +31,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
                 .requestMatchers(HttpMethod.GET, "/auth/test").hasAnyAuthority("CLIENTE", "FUNCIONARIO")
-                .requestMatchers(HttpMethod.POST, "/categoria-equipamento").permitAll()
+                .requestMatchers("/categoria-equipamento").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
