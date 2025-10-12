@@ -47,7 +47,7 @@ export class SolicitacaoClienteComponent {
   categorias = computed(() =>
     this.catEquipamentoService
       .signalCategorias()
-      .filter((cat) => cat.isActive === StatusAtivoInativo.ATIVO)
+      .filter((cat) => !!cat.status)
   );
 
   pedido: ChamadoItem = {

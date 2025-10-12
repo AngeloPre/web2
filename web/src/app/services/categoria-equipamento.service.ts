@@ -55,7 +55,7 @@ export class CategoriaEquipamentoService implements ApiServices<CategoriaEquipam
 
   atualizar(elemento: CategoriaEquipamento): Observable<CategoriaEquipamento> {
     return this.httpClient.put<CategoriaEquipamento>(
-      `${this.BASE_URL}/${elemento.categoryId}`,
+      `${this.BASE_URL}/${elemento.categoryId!}`,
       elemento,
       this.httpOptions
     );
