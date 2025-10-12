@@ -13,17 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMethod;
-
-
-@CrossOrigin(
-    origins = "https://angelopre.github.io",
-    allowedHeaders = { "Authorization", "Content-Type" },
-    methods = { RequestMethod.GET, RequestMethod.POST, RequestMethod.PUT, RequestMethod.DELETE, RequestMethod.OPTIONS },
-    allowCredentials = "true",
-    maxAge = 3600
-)
 @RestController
 public class CategoriaEquipamentoController {
     @Autowired
