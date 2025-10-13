@@ -18,7 +18,8 @@ public class EtapaHistorico {
     public EtapaHistorico () {
 
     }
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)

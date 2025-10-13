@@ -22,13 +22,21 @@ import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Entity
 @Table(name = "tbl_chamado")
+@Getter
+@Setter
+@AllArgsConstructor
+@NoArgsConstructor
 public class Chamado {
 
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
@@ -67,13 +75,11 @@ public class Chamado {
   private String comentario;
 
   @Column(name = "preco_base", nullable = false, precision = 12, scale = 2)
-
   private BigDecimal precoBase;
-  @OneToMany(
-      mappedBy = "chamado",
+
+  @OneToMany(mappedBy = "chamado",
       cascade = CascadeType.ALL, //esse cara derruba todas as associações que ficarem orfãs
-      orphanRemoval = true
-  )
+      orphanRemoval = true )
   @OrderBy("criadoEm ASC")
   private List<EtapaHistorico> etapas = new ArrayList<>();
 }
