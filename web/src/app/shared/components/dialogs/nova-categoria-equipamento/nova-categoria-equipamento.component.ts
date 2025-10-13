@@ -7,7 +7,6 @@ import { FormsModule } from '@angular/forms';
 import { NgxCurrencyDirective } from "ngx-currency";
 import { CategoriaEquipamento } from '@model/categoria-equipamento.type';
 import { CategoriaEquipamentoService } from '@services/categoria-equipamento.service';
-import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
 import { SlugifyService } from '@services/slugify.service';
 
 @Component({
@@ -21,7 +20,6 @@ export class NovaCategoriaEquipamentoComponent {
   categoria = '';
   valor = '';
   isEdit = false;
-  editingId?: number;
   constructor(
     private ref: MatDialogRef<NovaCategoriaEquipamentoComponent>,
     @Inject(MAT_DIALOG_DATA) public data: { categoria?: CategoriaEquipamento } | null,
@@ -31,7 +29,6 @@ export class NovaCategoriaEquipamentoComponent {
     const categoria = data?.categoria;
     if (categoria) {
       this.isEdit = true;
-      this.editingId = categoria.id;
       this.categoria = categoria.name;
       this.valor = (categoria.baseValue / 100).toString();
     }
@@ -41,21 +38,22 @@ export class NovaCategoriaEquipamentoComponent {
 
   send() {
     const valorCentavos = Math.round(Number(this.valor) * 100);
-    const base: CategoriaEquipamento = {
-      id: this.isEdit ? (this.editingId as number) : this.categoriasService.peekNextId(),
-      name: this.categoria.trim(),
-      slug: this.slug.make(this.categoria),
-      baseValue: valorCentavos,
-      isActive: this.isEdit ? (this.data!.categoria!.isActive) : StatusAtivoInativo.ATIVO,
-      createdAt: this.isEdit ? (this.data!.categoria!.createdAt) : new Date(),
-      description: this.data?.categoria?.description
-    };
-
-    if (this.isEdit) {
-      this.categoriasService.atualizar(base);
+    if (this.isEdit && this.data?.categoria) {
+      const payload: CategoriaEquipamento = {
+        ...this.data.categoria,
+        name: this.categoria.trim(),
+        slug: this.slug.make(this.categoria),
+        baseValue: valorCentavos,
+      };
+      this.categoriasService.atualizar(payload).subscribe(() => this.ref.close(true));
     } else {
-      this.categoriasService.inserir(base);
+      const payload: CategoriaEquipamento = {
+        name: this.categoria.trim(),
+        slug: this.slug.make(this.categoria),
+        baseValue: valorCentavos,
+        status: true,
+      };
+      this.categoriasService.inserir(payload).subscribe(() => this.ref.close(true));
     }
-    this.ref.close(true);
   }
 }

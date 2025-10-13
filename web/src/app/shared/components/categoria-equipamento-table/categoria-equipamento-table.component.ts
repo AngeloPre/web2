@@ -22,6 +22,14 @@ export class CategoriaEquipamentoTableComponent {
   private snack = inject(MatSnackBar);
   private categoriasService = inject(CategoriaEquipamentoService);
   categorias = this.categoriasService.signalCategorias;
+  readonly StatusAtivoInativo = StatusAtivoInativo;
+
+  constructor() {
+    this.categoriasService.refresh().subscribe();
+  }
+
+  private reload() { this.categoriasService.refresh().subscribe(); }
+
   novo() {
     const ref = this.dialog.open(NovaCategoriaEquipamentoComponent, {
       width: '500px',
@@ -36,6 +44,7 @@ export class CategoriaEquipamentoTableComponent {
           horizontalPosition: 'center',
           panelClass: ['snack-top', 'snack-success'],
         });
+        this.reload();
       }
     });
   }
@@ -53,27 +62,37 @@ export class CategoriaEquipamentoTableComponent {
           duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
           panelClass: ['snack-top', 'snack-success']
         });
+        this.reload();
       }
     });
   }
 
   toggle(categoria: CategoriaEquipamento) {
-    if (categoria.isActive === StatusAtivoInativo.ATIVO) {
-      this.categoriasService.desativar(categoria.id);
-      this.snack.open('Categoria desativada', 'OK', {
-        duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
-        panelClass: ['snack-top', 'snack-success']
-      });
+    const id = categoria.categoryId;
+    if (categoria.status) {
+      if (id){
+        this.categoriasService.desativar(id).subscribe(() => {
+          this.snack.open('Categoria desativada', 'OK', {
+            duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
+            panelClass: ['snack-top', 'snack-success']
+          });
+          this.reload();
+        })
+      };
     } else {
-      this.categoriasService.reativar(categoria.id);
-      this.snack.open('Categoria reativada', 'OK', {
-        duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
-        panelClass: ['snack-top', 'snack-success']
-      });
+      if (id){
+        this.categoriasService.reativar(id).subscribe(() => {
+          this.snack.open('Categoria reativada', 'OK', {
+            duration: 2500, verticalPosition: 'top', horizontalPosition: 'center',
+            panelClass: ['snack-top', 'snack-success']
+          });
+          this.reload();
+        })
+      };
     }
   }
   abrirModal(categoria: CategoriaEquipamento): void {
-    const isAtivo = categoria.isActive === StatusAtivoInativo.ATIVO;
+    const isAtivo = categoria.status;
     const acao = isAtivo ? 'Desativar' : 'Reativar';
     const dialogRef = this.dialog.open(ConfirmarModalComponent, {
       data: {

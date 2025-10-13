@@ -28,7 +28,7 @@
       </tr>
     </thead>
     <tbody>
-      @for (categoria of categorias(); track categoria.id) {
+      @for (categoria of categorias(); track categoria.categoryId) {
         <tr class="hover:bg-figma-gray-200">
         <td class="px-8 py-4">
           <p class="block font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900">
@@ -45,12 +45,10 @@
           />
         </td>
         <td class="px-4 py-4">
-            <app-status-ativo-inativo [status]="categoria.isActive"/>
-            <!-- <app-status-icon [status]="chamado.status" /> -->
+          <app-status-ativo-inativo [status]="categoria.status ? StatusAtivoInativo.ATIVO : StatusAtivoInativo.INATIVO"/>
         </td>
         <td class="px-6 py-4 flex justify-end gap-2">
-          @if (categoria.isActive === 'Ativo') {
-
+          @if (categoria.status) {
             <button class="flex gap-2 items-center" (click)="abrirModal(categoria)">
               <img src="assets/svg/ban.svg" class="w-5"/>
               <span>Desativar</span>

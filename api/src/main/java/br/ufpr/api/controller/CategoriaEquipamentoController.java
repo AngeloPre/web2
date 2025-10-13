@@ -13,9 +13,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
-
 @RestController
 public class CategoriaEquipamentoController {
     @Autowired
@@ -45,10 +42,10 @@ public class CategoriaEquipamentoController {
     public CategoriaEquipamento updateCategoriaEquipamento(@PathVariable Integer id, @RequestBody CategoriaEquipamento updatedCategoriaEquipamento) {
         CategoriaEquipamento existingCategoriaEquipamento = service.getCategoriaEquipamentoById(id);
         if (existingCategoriaEquipamento != null) {
-            existingCategoriaEquipamento.setNome(updatedCategoriaEquipamento.getNome());
-            existingCategoriaEquipamento.setPrecoBase(updatedCategoriaEquipamento.getPrecoBase());
+            existingCategoriaEquipamento.setName(updatedCategoriaEquipamento.getName());
+            existingCategoriaEquipamento.setBaseValue(updatedCategoriaEquipamento.getBaseValue());
             existingCategoriaEquipamento.setStatus(updatedCategoriaEquipamento.isStatus());
-            existingCategoriaEquipamento.setDescricao(updatedCategoriaEquipamento.getDescricao());
+            existingCategoriaEquipamento.setDescription(updatedCategoriaEquipamento.getDescription());
             return service.addNewCategoriaEquipamento(existingCategoriaEquipamento);
         } else {
             return null;
