@@ -7,7 +7,7 @@ target/
 *.h2.db
 *.class
 out/
-
+.tool-versions
 ### STS ###
 .apt_generated
 .classpath
