@@ -65,6 +65,7 @@ jobs:
           spring.security.user.name=admin
           spring.security.user.password=admin
           spring.security.user.roles=ADMIN
+          api.security.token.secret=${{ secrets.JWT_SECRET }}
           EOF
 
       - name: Deploy and Run Application
