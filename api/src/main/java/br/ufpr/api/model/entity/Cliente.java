@@ -1,6 +1,5 @@
 package br.ufpr.api.model.entity;
 
-import br.ufpr.api.model.enums.RoleUsuario;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
@@ -17,8 +16,26 @@ public class Cliente extends Usuario {
     @Column(nullable = false)
     private String telefone;
 
-    public Cliente(String cpf, String nome, String email, String senha, String telefone) {
-        super(cpf, nome, email, RoleUsuario.CLIENTE, senha);
-        this.telefone = telefone;
-    }
+    @Column(nullable = false)
+    private String cep;
+
+    @Column(nullable = false)
+    private String logradouro;
+
+    @Column (nullable = true)
+    private String complemento;
+
+    @Column(nullable = false)
+    private String bairro;
+
+    @Column(nullable = false)
+    private String cidade; 
+
+    @Column(nullable = false, length = 2) 
+    private String uf;
+
+    @Column(nullable = false)
+    private String numero;
+
+
 }
