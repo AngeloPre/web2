@@ -26,9 +26,9 @@ class FuncionarioController {
     }
 
     @Autowired
-    final FuncionarioService funcionarioService;
+    private FuncionarioService funcionarioService;
     @Autowired
-    final ChamadoService chamadoService;
+    private ChamadoService chamadoService;
 
     @GetMapping
     public ResponseEntity<BaseResponse> getTodosFuncionarios() throws Exception {
