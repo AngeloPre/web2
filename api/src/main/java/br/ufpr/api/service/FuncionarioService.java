@@ -25,22 +25,22 @@ public class FuncionarioService {
     public void deleteById(Long id) {
         employeeRepository.deleteById(id);
     }
-    public List<Funcionario> findAll() {
+    public List<Funcionario> getTodos() {
         return employeeRepository.findAll();
     }
-    public Optional<Funcionario> findById(Long id) {
+    public Optional<Funcionario> encontrarPorId(Long id) {
         return employeeRepository.findById(id);
     }
-    public UserDetails findByEmail(String email) {
+    public UserDetails encontrarPorEmail(String email) {
         return employeeRepository.findByEmail(email);
     }
-    public boolean existsByEmail(String email) {
+    public boolean existePorEmail(String email) {
         return employeeRepository.existsByEmail(email);
     }
-    public boolean existsByCpf(String cpf) {
+    public boolean existePorCpf(String cpf) {
         return employeeRepository.existsByCpf(cpf);
     }
-    public boolean existsById(Long id) {
+    public boolean existePorId(Long id) {
         return employeeRepository.existsById(id);
     }
 }
