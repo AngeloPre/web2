@@ -46,9 +46,4 @@ public class AuthorizationService implements UserDetailsService{
 
         return false;
     }
-
-    public void addCommonUser(String email, String encryptedPass){
-        Cliente cl = new Cliente("123456789", "Da Silva", email, encryptedPass, "9999-9999");
-        this.clienteRepository.save(cl);
-    }
 }
