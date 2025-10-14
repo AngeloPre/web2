@@ -4,14 +4,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.ufpr.api.dto.ClienteRegisterDTO;
 import br.ufpr.api.dto.LoginDTO;
 import br.ufpr.api.dto.LoginResponseDTO;
 import br.ufpr.api.model.entity.Usuario;
-import br.ufpr.api.service.AuthorizationService;
+import br.ufpr.api.service.ClienteService;
 import br.ufpr.api.service.TokenService;
 import jakarta.validation.Valid;
 
@@ -27,13 +27,10 @@ public class LoginController {
     private AuthenticationManager authenticationManager;
 
     @Autowired
-    private AuthorizationService authorizationService;
-
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @Autowired
     private TokenService tokenService;
+
+    @Autowired
+    private ClienteService clienteService;
 
     @PostMapping("/login")
     public LoginResponseDTO login(@RequestBody @Valid LoginDTO data) {
@@ -46,19 +43,17 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(@RequestBody @Valid LoginDTO data) {
-        if (this.authorizationService.existsByEmail(data.email())) return ResponseEntity.badRequest().build(); 
-        
-        String encryptedPass = this.passwordEncoder.encode(data.password());
-        this.authorizationService.addCommonUser(data.email(), encryptedPass);
-
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> register(@RequestBody @Valid ClienteRegisterDTO data) {
+        try {
+            clienteService.registrarCliente(data);
+            return ResponseEntity.status(201).body("cliente registrado!");
+        } catch (IllegalStateException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
+        }
     }
     
     @GetMapping("/test")
     public String testResponse() {
         return "Rota Protegida";
     }
-    
-    
 }
