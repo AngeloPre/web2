@@ -2,7 +2,12 @@
   <img alt="projeto web2" src=".github/maintenance.png" width="80%">
 </p>
 
+<div align="center">
+
 [![Deploy Angular to GitHub Pages](https://github.com/AngeloPre/web2/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/AngeloPre/web2/actions/workflows/deploy-gh-pages.yml)
+[![Build and Deploy Backend](https://github.com/AngeloPre/web2/actions/workflows/backend_deploy.yml/badge.svg)](https://github.com/AngeloPre/web2/actions/workflows/backend_deploy.yml)
+
+</div>
 
 ## Frontend
 ```bash
@@ -90,5 +95,5 @@ Ou copie:
 http://localhost:8080/swagger-ui/index.html
 ```
 
-- Login: admin
-- Senha: admin
+Swagger disponível também em:
+[Clique aqui](https://java-web2.tail041186.ts.net/swagger-ui/index.html)
