@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.ufpr.api.model.entity.Cliente;
 import br.ufpr.api.repository.ClienteRepository;
 import br.ufpr.api.repository.FuncionarioRepository;
 
