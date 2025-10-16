@@ -70,6 +70,8 @@ jobs:
           spring.security.user.password=admin
           spring.security.user.roles=ADMIN
           api.security.token.secret=${{ secrets.JWT_SECRET }}
+          spring.mail.properties.mail.smtp.auth=true
+          spring.mail.properties.mail.smtp.starttls.enable=true
           EOF
 
       - name: Deploy and Run Application
