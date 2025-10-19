@@ -12,8 +12,10 @@
       alt="Avatar"
       class="h-10 w-10 rounded-full object-cover"
     /> -->
-
-    <div class="h-10 w-10 rounded-full bg-[url('assets/user_placeholder.jpg')] bg-cover bg-center"></div>
+    
+    <div class="h-10 w-10 rounded-full flex items-center">
+      <img src="assets/svg/users.svg" alt="" width="50"/>
+    </div>
     <input #avatarInput type="file" accept="image/*" class="hidden" (change)="onAvatarChange($event)" />
 
     <button type="button"
