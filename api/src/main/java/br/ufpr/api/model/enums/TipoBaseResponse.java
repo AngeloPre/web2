@@ -10,5 +10,9 @@ public enum TipoBaseResponse {
     TipoBaseResponse(String value) {
         this.value = value;
     }
+
+    String getTipoBaseResponse() {
+        return this.value;
+    }
 }
 

@@ -8,14 +8,12 @@ import br.ufpr.api.service.FuncionarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.UUID;
 
 @RestController
-@RequestMapping(value = "funcionario", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = "funcionario", produces = "application/json")
 class FuncionarioController {
     @ControllerAdvice
     public class GlobalExceptionHandler { //interceptador de exceções

@@ -11,8 +11,6 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTCreationException;
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
-
 import br.ufpr.api.model.entity.Usuario;
 
 @Service
@@ -36,13 +34,14 @@ public class TokenService {
         }
     }
 
-    public DecodedJWT validateToken(String token) {
+    public String validateToken(String token) {
         try {
             Algorithm alg = Algorithm.HMAC256(secret);
             return JWT.require(alg)
                     .withIssuer("example")
                     .build()
-                    .verify(token);
+                    .verify(token)
+                    .getSubject();
         } catch (JWTVerificationException ex) {
             return null;
         }

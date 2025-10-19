@@ -4,6 +4,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,8 +54,8 @@ public class LoginController {
         }
     }
     
-    @GetMapping("/test")
-    public String testResponse() {
-        return "Rota Protegida";
+    @GetMapping("/me")
+    public String testResponse(@AuthenticationPrincipal UserDetails activeUser) {
+        return "Você é: " + activeUser.getUsername();
     }
 }
