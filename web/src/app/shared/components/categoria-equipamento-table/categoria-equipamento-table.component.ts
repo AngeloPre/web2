@@ -1,5 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { StatusAtivoInativoComponent } from '../status-ativo-inativo/status-ativo-inativo.component';
+import { RiveLoaderComponent } from '@shared/components/rive-loader/rive-loader.component';
 import { CategoriaEquipamento } from '@model/categoria-equipamento.type';
 import { ConfirmarModalComponent } from '@shared/components/confirmar-modal/confirmar-modal.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -13,14 +14,14 @@ import { NgxCurrencyDirective } from 'ngx-currency';
 
 @Component({
   selector: 'app-categoria-equipamento-table',
-  imports: [StatusAtivoInativoComponent, MatButtonModule, MatDialogModule, MatSnackBarModule, FormsModule, NgxCurrencyDirective],
+  imports: [StatusAtivoInativoComponent, MatButtonModule, MatDialogModule, MatSnackBarModule, FormsModule, NgxCurrencyDirective, RiveLoaderComponent],
   templateUrl: './categoria-equipamento-table.component.html',
   styles: `:host {overflow-y: auto; max-height: 72vh; display: block;}`
 })
 export class CategoriaEquipamentoTableComponent {
   private dialog = inject(MatDialog);
   private snack = inject(MatSnackBar);
-  private categoriasService = inject(CategoriaEquipamentoService);
+  protected categoriasService = inject(CategoriaEquipamentoService);
   categorias = this.categoriasService.signalCategorias;
   readonly StatusAtivoInativo = StatusAtivoInativo;
 
@@ -54,7 +55,7 @@ export class CategoriaEquipamentoTableComponent {
       width: '500px',
       maxWidth: 'none',
       panelClass: 'dialog-xxl',
-      data: { categoria } // <-- envia a categoria para edição
+      data: { categoria }
     });
     ref.afterClosed().subscribe((ok: boolean) => {
       if (ok) {

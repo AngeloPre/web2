@@ -48,6 +48,10 @@ Links Uteis Frontend:
 
 [Referência de Design página 404](https://github.com/AngeloPre/web2/blob/main/web/src/app/pages/404.md)
 
+[Implementação de loading](https://rive.app/docs/runtimes/web/rive-parameters)
+
+[Gerenciamento de Estado com NGRX para rotas](https://angular.love/mastering-state-management-in-angular-with-ngrx-and-signals-scalable-predictable-performant)
+
 ## Backend
 
 Para compilar o backend use o comando:

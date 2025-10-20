@@ -28,62 +28,88 @@
       </tr>
     </thead>
     <tbody>
-      @for (categoria of categorias(); track categoria.categoryId) {
-        <tr class="hover:bg-figma-gray-200">
-        <td class="px-8 py-4">
-          <p class="block font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900">
-            {{ categoria.name }}
-          </p>
-        </td>
-        <td class="px-8 py-4">
-          <input
-            type="text"
-            class="block-b font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900 bg-transparent border-0 p-0 pointer-events-none select-none w-full"
-            [ngModel]="(categoria.baseValue) / 100"
-            [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'start', allowNegative: false }"
-            readonly
-          />
-        </td>
-        <td class="px-4 py-4">
-          <app-status-ativo-inativo [status]="categoria.status ? StatusAtivoInativo.ATIVO : StatusAtivoInativo.INATIVO"/>
-        </td>
-        <td class="px-6 py-4 flex justify-end gap-2">
-          @if (categoria.status) {
-            <button class="flex gap-2 items-center" (click)="abrirModal(categoria)">
-              <img src="assets/svg/ban.svg" class="w-5"/>
-              <span>Desativar</span>
-            </button>
-          } @else {
-            <button class="flex gap-2 items-center" (click)="abrirModal(categoria)">
-              <img src="assets/svg/circle-check.svg" class="h-5 w-5"/>
-              <span>Reativar</span>
-            </button>
-          }
-
-          <button class="aspect-square rounded p-2" (click)="editar(categoria)">
-            <img src="assets/svg/pen-line.svg" class="h-5 w-5"/>
-          </button>
-        </td>
-        </tr>
-      } @empty {
-      <tr>
-        <td colspan="4" class="py-2">
-          <div class="flex flex-col items-center justify-center text-center gap-3 py-6">
-            <img
-              src="assets/empty-categories.gif"
-              alt="Nenhuma categoria cadastrada"
-              class="h-96 opacity-96"
+      @defer (when !categoriasService.loading()) {
+        @for (categoria of categorias(); track categoria.categoryId) {
+          <tr class="hover:bg-figma-gray-200">
+          <td class="px-8 py-4">
+            <p class="block font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900">
+              {{ categoria.name }}
+            </p>
+          </td>
+          <td class="px-8 py-4">
+            <input
+              type="text"
+              class="block-b font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900 bg-transparent border-0 p-0 pointer-events-none select-none w-full"
+              [ngModel]="(categoria.baseValue) / 100"
+              [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'start', allowNegative: false }"
+              readonly
             />
-            <div>
-              <p class="text-figma-gray-500 font-semibold">Nenhuma categoria cadastrada</p>
-              <p class="text-figma-gray-300 text-sm">Crie categorias para visualizar aqui.</p>
-            </div>
-            <button mat-flat-button class="btn-inline" (click)="novo()">
-              <img src="assets/svg/plus.svg" class="w-5 h-5"/>
-              Criar categoria
+          </td>
+          <td class="px-4 py-4">
+            <app-status-ativo-inativo [status]="categoria.status ? StatusAtivoInativo.ATIVO : StatusAtivoInativo.INATIVO"/>
+          </td>
+          <td class="px-6 py-4 flex justify-end gap-2">
+            @if (categoria.status) {
+              <button class="flex gap-2 items-center" (click)="abrirModal(categoria)">
+                <img src="assets/svg/ban.svg" class="w-5"/>
+                <span>Desativar</span>
+              </button>
+            } @else {
+              <button class="flex gap-2 items-center" (click)="abrirModal(categoria)">
+                <img src="assets/svg/circle-check.svg" class="h-5 w-5"/>
+                <span>Reativar</span>
+              </button>
+            }
+
+            <button class="aspect-square rounded p-2" (click)="editar(categoria)">
+              <img src="assets/svg/pen-line.svg" class="h-5 w-5"/>
             </button>
+          </td>
+          </tr>
+        } @empty {
+        <tr>
+          <td colspan="4" class="py-2">
+            <div class="flex flex-col items-center justify-center text-center gap-3 py-6">
+              <img
+                src="assets/empty-categories.gif"
+                alt="Nenhuma categoria cadastrada"
+                class="h-96 opacity-96"
+              />
+              <div>
+                <p class="text-figma-gray-500 font-semibold">Nenhuma categoria cadastrada</p>
+                <p class="text-figma-gray-300 text-sm">Crie categorias para visualizar aqui.</p>
+              </div>
+              <button mat-flat-button class="btn-inline" (click)="novo()">
+                <img src="assets/svg/plus.svg" class="w-5 h-5"/>
+                Criar categoria
+              </button>
+            </div>
+          </td>
+        </tr>
+      } 
+    } @placeholder {
+      <tr>
+        <td colspan="4" class="py-6">
+          <div class="loading-wrap">
+            <app-rive-loader
+              src="assets/miner_loading_bar.riv"
+              stateMachine="State Machine 1"
+              progressInput="Number 1"
+              [durationMs]="4000"
+              [from]="0"
+              [to]="100"
+              [width]="560"
+              [height]="200">
+            </app-rive-loader>
           </div>
         </td>
+      </tr>
+    } @loading {
+      <tr class="animate-pulse">
+        <td class="px-8 py-4"><div class="h-4 w-48 bg-white rounded"></div></td>
+        <td class="px-8 py-4"><div class="h-4 w-32 bg-white rounded"></div></td>
+        <td class="px-4 py-4"><div class="h-4 w-20 bg-white rounded"></div></td>
+        <td class="px-6 py-4"><div class="h-4 w-24 bg-white rounded ml-auto"></div></td>
       </tr>
     }
     </tbody>

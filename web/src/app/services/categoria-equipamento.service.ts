@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
-import { Observable, map, switchMap, tap } from 'rxjs';
+import { Observable, map, switchMap, tap, finalize, delay } from 'rxjs';
 
 import { ApiServices } from '../model/interfaces/api-services';
 import { CategoriaEquipamento } from '@model/categoria-equipamento.type';
@@ -14,19 +14,22 @@ export class CategoriaEquipamentoService implements ApiServices<CategoriaEquipam
   private readonly httpOptions = {
     headers: new HttpHeaders({
     'Content-Type': 'application/json',
-    'Authorization': 'Basic ' + btoa('admin:admin'),
     })
   };
 
   signalCategorias = signal<CategoriaEquipamento[]>([]);
+  loading = signal(false);
 
   constructor(private httpClient: HttpClient) {
     this.refresh().subscribe();
   }
 
   refresh(): Observable<CategoriaEquipamento[]> {
+    this.loading.set(true);
     return this.listarTodos().pipe(
-      tap(list => this.signalCategorias.set(list))
+      delay(4000),
+      tap(list => this.signalCategorias.set(list)),
+      finalize(() => this.loading.set(false))
     );
   }
 
