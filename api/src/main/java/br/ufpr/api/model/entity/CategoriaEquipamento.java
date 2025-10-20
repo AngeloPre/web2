@@ -1,5 +1,6 @@
 package br.ufpr.api.model.entity;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 import org.hibernate.annotations.CreationTimestamp;
@@ -27,7 +28,7 @@ public class CategoriaEquipamento {
     private String slug;
 
     @Column(name = "base_value", nullable = false)
-    private Long baseValue;
+    private BigDecimal baseValue;
 
     @Column(name = "status", nullable = false)
     private boolean status;
@@ -63,11 +64,11 @@ public class CategoriaEquipamento {
         this.slug = slug;
     }
 
-    public Long getBaseValue() {
+    public BigDecimal getBaseValue() {
         return baseValue;
     }
 
-    public void setBaseValue(Long baseValue) {
+    public void setBaseValue(BigDecimal baseValue) {
         this.baseValue = baseValue;
     }
 

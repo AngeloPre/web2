@@ -5,8 +5,12 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.ufpr.api.dto.EquipamentoCreateDTO;
+import br.ufpr.api.dto.EquipamentoUpdateDTO;
 import br.ufpr.api.model.entity.CategoriaEquipamento;
 import br.ufpr.api.service.CategoriaEquipamentoService;
+import jakarta.validation.Valid;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,8 +23,13 @@ public class CategoriaEquipamentoController {
     private CategoriaEquipamentoService service;
 
     @PostMapping("/categoria-equipamento")
-    public CategoriaEquipamento addNewCategoriaEquipamento(@RequestBody CategoriaEquipamento newCategoriaEquipamento) {
-        return service.addNewCategoriaEquipamento(newCategoriaEquipamento);
+    public CategoriaEquipamento addNewCategoriaEquipamento(@RequestBody @Valid EquipamentoCreateDTO cat) {
+        CategoriaEquipamento c = new CategoriaEquipamento();
+        c.setName(cat.name());
+        c.setBaseValue(cat.baseValue());
+        c.setDescription(cat.description());
+        c.setStatus(true);
+        return service.addNewCategoriaEquipamento(c);
     }
 
     @GetMapping("/categoria-equipamento")
@@ -39,13 +48,13 @@ public class CategoriaEquipamentoController {
     }
 
     @PutMapping("categoria-equipamento/{id}")
-    public CategoriaEquipamento updateCategoriaEquipamento(@PathVariable Integer id, @RequestBody CategoriaEquipamento updatedCategoriaEquipamento) {
+    public CategoriaEquipamento updateCategoriaEquipamento(@PathVariable Integer id, @RequestBody @Valid EquipamentoUpdateDTO cat) {
         CategoriaEquipamento existingCategoriaEquipamento = service.getCategoriaEquipamentoById(id);
         if (existingCategoriaEquipamento != null) {
-            existingCategoriaEquipamento.setName(updatedCategoriaEquipamento.getName());
-            existingCategoriaEquipamento.setBaseValue(updatedCategoriaEquipamento.getBaseValue());
-            existingCategoriaEquipamento.setStatus(updatedCategoriaEquipamento.isStatus());
-            existingCategoriaEquipamento.setDescription(updatedCategoriaEquipamento.getDescription());
+            existingCategoriaEquipamento.setName(cat.name());
+            existingCategoriaEquipamento.setBaseValue(cat.baseValue());
+            if (cat.status() != null) existingCategoriaEquipamento.setStatus(cat.status().booleanValue());
+            existingCategoriaEquipamento.setDescription(cat.description());
             return service.addNewCategoriaEquipamento(existingCategoriaEquipamento);
         } else {
             return null;
