@@ -5,8 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufpr.api.dto.EquipamentoCreateDTO;
-import br.ufpr.api.dto.EquipamentoUpdateDTO;
+import br.ufpr.api.dto.EquipamentoCreateUpdateDTO;
 import br.ufpr.api.model.entity.CategoriaEquipamento;
 import br.ufpr.api.service.CategoriaEquipamentoService;
 import jakarta.validation.Valid;
@@ -23,12 +22,12 @@ public class CategoriaEquipamentoController {
     private CategoriaEquipamentoService service;
 
     @PostMapping("/categoria-equipamento")
-    public CategoriaEquipamento addNewCategoriaEquipamento(@RequestBody @Valid EquipamentoCreateDTO cat) {
+    public CategoriaEquipamento addNewCategoriaEquipamento(@RequestBody @Valid EquipamentoCreateUpdateDTO cat) {
         CategoriaEquipamento c = new CategoriaEquipamento();
         c.setName(cat.name());
         c.setBaseValue(cat.baseValue());
         c.setDescription(cat.description());
-        c.setStatus(true);
+        c.setStatus(cat.status());
         return service.addNewCategoriaEquipamento(c);
     }
 
@@ -48,7 +47,7 @@ public class CategoriaEquipamentoController {
     }
 
     @PutMapping("categoria-equipamento/{id}")
-    public CategoriaEquipamento updateCategoriaEquipamento(@PathVariable Integer id, @RequestBody @Valid EquipamentoUpdateDTO cat) {
+    public CategoriaEquipamento updateCategoriaEquipamento(@PathVariable Integer id, @RequestBody @Valid EquipamentoCreateUpdateDTO cat) {
         CategoriaEquipamento existingCategoriaEquipamento = service.getCategoriaEquipamentoById(id);
         if (existingCategoriaEquipamento != null) {
             existingCategoriaEquipamento.setName(cat.name());
