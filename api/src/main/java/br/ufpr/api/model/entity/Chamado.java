@@ -37,14 +37,14 @@ public class Chamado {
 
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+  private Integer id;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
   @JoinColumn(name = "cliente_id", nullable = false)
   private Cliente cliente;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
-  @JoinColumn(name = "funcionario_id")
+  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @JoinColumn(name = "funcionario_id", nullable = true)
   private Funcionario funcionario;
 
   @ManyToOne(fetch = FetchType.LAZY, optional = false)
