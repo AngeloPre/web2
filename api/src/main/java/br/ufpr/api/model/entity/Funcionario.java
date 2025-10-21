@@ -19,9 +19,9 @@ public class Funcionario extends Usuario {
     @Column(nullable = false)
     private LocalDate aniversario;
 
-    public Funcionario(String cpf, String nome, String email, String senha,
+    public Funcionario(String nome, String email, String senha,
             LocalDate aniversario) {
-        super(cpf, nome, email, RoleUsuario.FUNCIONARIO, senha);
+        super(nome, email, RoleUsuario.FUNCIONARIO, senha);
         this.aniversario = aniversario;
     }
     

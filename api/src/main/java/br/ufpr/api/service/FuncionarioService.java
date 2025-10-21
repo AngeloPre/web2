@@ -37,9 +37,6 @@ public class FuncionarioService {
     public boolean existePorEmail(String email) {
         return employeeRepository.existsByEmail(email);
     }
-    public boolean existePorCpf(String cpf) {
-        return employeeRepository.existsByCpf(cpf);
-    }
     public boolean existePorId(Long id) {
         return employeeRepository.existsById(id);
     }
