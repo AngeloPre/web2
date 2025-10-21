@@ -11,7 +11,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 @Service
@@ -22,6 +21,13 @@ public class ClienteService {
     private final PasswordEncoder passwordEncoder;
     private final EmailService emailService;
 
+    //para inserir novo cliente pelo admin
+    @Transactional
+    public Cliente criarCliente(Cliente cliente) {
+        return clienteRepository.save(cliente);
+    }
+
+    //autocadastro do cliente
     @Transactional
     public Cliente registrarCliente(ClienteRegisterDTO data) {
         if(clienteRepository.existsByCpf(data.cpf())){
@@ -53,19 +59,24 @@ public class ClienteService {
 
         return clienteSaved;
     }
+
     @Transactional
     public void deleteById(Long id) {
         clienteRepository.deleteById(id);
     }
+
     public List<Cliente> findAll() {
         return clienteRepository.findAll();
     }
-    public Optional<Cliente> findById(Long id) {
-        return clienteRepository.findById(id);
+
+    public Cliente findById(Long id) {
+        return clienteRepository.findById(id).orElse(null);
     }
+
     public UserDetails findByEmail(String email) {
         return clienteRepository.findByEmail(email);
     }
+
     public boolean existsById(Long id) {
         return clienteRepository.existsById(id);
     }
