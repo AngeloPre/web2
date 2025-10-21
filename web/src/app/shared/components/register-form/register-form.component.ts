@@ -50,15 +50,6 @@ export class RegisterFormComponent {
 
   cliente = new Cliente(1, '052.333.719-45', 'Marcos Renato', 'renato@email.com', "", '(41)-9 9999-8888', this.novoEndereco(), StatusAtivoInativo.ATIVO)
 
-  // cliente: Cliente = new Cliente(
-  //   '', // id
-  //   '', // cpf
-  //   '', // nome
-  //   '', // email
-  //   '', // telefone
-  //   this.novoEndereco()
-  // );
-
   constructor(private cdr: ChangeDetectorRef) {
 
   }
@@ -71,7 +62,7 @@ export class RegisterFormComponent {
       bairro: '',
       cidade: '',
       estado: '',
-      uf: (this.listaUfs[0] as UF) // default
+      uf: (this.listaUfs[0] as UF)
     };
   }
   onSubmit(form: NgForm) {
