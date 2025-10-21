@@ -6,4 +6,5 @@ import br.ufpr.api.model.entity.CategoriaEquipamento;
 
 public interface CategoriaEquipamentoRepo extends CrudRepository<CategoriaEquipamento, Integer> {
     public CategoriaEquipamento findBySlug(String slug);
+    public boolean existsBySlug(String slug);
 }

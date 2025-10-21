@@ -8,7 +8,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Data
@@ -17,10 +17,10 @@ import java.util.Date;
 @NoArgsConstructor
 public class Funcionario extends Usuario {
     @Column(nullable = false)
-    private Date aniversario;
+    private LocalDate aniversario;
 
     public Funcionario(String cpf, String nome, String email, String senha,
-            Date aniversario) {
+            LocalDate aniversario) {
         super(cpf, nome, email, RoleUsuario.FUNCIONARIO, senha);
         this.aniversario = aniversario;
     }
