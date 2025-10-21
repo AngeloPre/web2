@@ -32,7 +32,6 @@ public class SeedService {
         if (!funcionarioRepository.existsByEmail("admino@admin.com"))
         {
             Funcionario f = new Funcionario();
-            f.setCpf("11111111119");
             f.setAniversario(LocalDate.now());
             f.setRole(RoleUsuario.FUNCIONARIO);
             f.setEmail("admino@admin.com");

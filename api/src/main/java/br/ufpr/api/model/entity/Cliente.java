@@ -13,6 +13,9 @@ import lombok.NoArgsConstructor;
 @Table(name = "tbl_cliente")
 @NoArgsConstructor
 public class Cliente extends Usuario {
+    @Column(nullable = false, length = 11)
+    private String cpf;
+    
     @Column(nullable = false)
     private String telefone;
 

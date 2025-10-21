@@ -9,11 +9,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ClienteRepository extends JpaRepository<Cliente, Long> {
-    //Cliente save(Cliente client);
     boolean existsByCpf(String cpf);
     boolean existsByEmail(String email);
-    //Optional<Cliente> findById(Long id);
-    //Optional<Cliente> findByEmail(String email);
-    //void deleteById(Long id);
     UserDetails findByEmail(String email);
 }

@@ -24,8 +24,6 @@ public abstract class Usuario implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 11)
-    private String cpf;
     @Column(nullable = false)
     private String nome;
     @Column(nullable = false)
@@ -35,8 +33,7 @@ public abstract class Usuario implements UserDetails {
     @Column(nullable = false)
     private String senha;
 
-    protected Usuario(String cpf, String nome, String email, RoleUsuario role, String senha) {
-        this.cpf = cpf;
+    protected Usuario(String nome, String email, RoleUsuario role, String senha) {
         this.nome = nome;
         this.email = email;
         this.role = role;

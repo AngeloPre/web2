@@ -11,5 +11,4 @@ import org.springframework.stereotype.Repository;
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Long> {
     UserDetails findByEmail(String email);
     boolean existsByEmail(String email);
-    boolean existsByCpf(String cpf);
 }
