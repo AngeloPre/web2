@@ -42,6 +42,7 @@ public class SecurityConfig {
                 .requestMatchers("/categoria-equipamento/**").permitAll()
                 .requestMatchers("/chamados/**").permitAll()
                 .requestMatchers("/defaults/**").permitAll()
+                .requestMatchers("/cliente/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
