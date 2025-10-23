@@ -7,8 +7,8 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 public record ChamadoCreateUpdateDTO(
-    @NotNull Long clienteId,
-    Long funcionarioId,                 // opcional
+    @NotNull Integer clienteId,
+    Integer funcionarioId,                 // opcional
     @NotNull Integer categoriaId,
     @NotBlank String descricaoEquipamento,
     @NotBlank String descricaoFalha,
