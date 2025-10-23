@@ -6,27 +6,19 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import br.ufpr.api.repository.ClienteRepository;
-import br.ufpr.api.repository.FuncionarioRepository;
+import br.ufpr.api.repository.UsuarioRepository;
 
 @Service
 public class AuthorizationService implements UserDetailsService{
 
     @Autowired
-    ClienteRepository clienteRepository;
-
-    @Autowired
-    FuncionarioRepository funcionarioRepository;
+    private UsuarioRepository usuarioRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        UserDetails user = clienteRepository.findByEmail(username);
+        UserDetails user = usuarioRepository.findByEmail(username);
         
-        if (user == null) {
-            user = funcionarioRepository.findByEmail(username);
-        }
-
         if (user == null) {
             throw new UsernameNotFoundException("User not found with email: " + username);
         }
@@ -35,14 +27,10 @@ public class AuthorizationService implements UserDetailsService{
     }
 
     public boolean existsByEmail(String login){
-        UserDetails user = clienteRepository.findByEmail(login);
+        UserDetails user = usuarioRepository.findByEmail(login);
 
         if (user != null) return true;
         
-        user = funcionarioRepository.findByEmail(login);
-
-        if (user != null) return true;
-
         return false;
     }
 }

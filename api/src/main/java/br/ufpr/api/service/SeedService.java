@@ -15,6 +15,7 @@ import br.ufpr.api.model.entity.Funcionario;
 import br.ufpr.api.model.enums.RoleUsuario;
 import br.ufpr.api.repository.CategoriaEquipamentoRepo;
 import br.ufpr.api.repository.FuncionarioRepository;
+import br.ufpr.api.repository.UsuarioRepository;
 
 @Service
 public class SeedService {
@@ -23,20 +24,24 @@ public class SeedService {
     PasswordEncoder passwordEncoder;
 
     @Autowired
+    UsuarioRepository usuarioRepository;
+
+    @Autowired 
     FuncionarioRepository funcionarioRepository;
 
     @Autowired
     CategoriaEquipamentoRepo categoriaEquipamentoRepo;
 
     public Funcionario createAdminUser() {
-        if (!funcionarioRepository.existsByEmail("admino@admin.com"))
+        if (!usuarioRepository.existsByEmail("admino@admin.com"))
         {
             Funcionario f = new Funcionario();
-            f.setAniversario(LocalDate.now());
+            f.setDataNascimento(LocalDate.now());
             f.setRole(RoleUsuario.FUNCIONARIO);
             f.setEmail("admino@admin.com");
             f.setNome("admino");
             f.setSenha(passwordEncoder.encode("1234"));
+            f.setStatus(true);
         
             return funcionarioRepository.save(f);
         }

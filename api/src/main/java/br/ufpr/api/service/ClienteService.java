@@ -1,83 +1,96 @@
 package br.ufpr.api.service;
 
-import br.ufpr.api.dto.ClienteRegisterDTO;
-import br.ufpr.api.model.entity.Cliente;
-import br.ufpr.api.model.enums.RoleUsuario;
-import br.ufpr.api.repository.ClienteRepository;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Random;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import br.ufpr.api.model.entity.Cliente;
+import br.ufpr.api.repository.ClienteRepository;
+import br.ufpr.api.repository.UsuarioRepository;
+import jakarta.persistence.EntityNotFoundException;
+
 @Service
-@RequiredArgsConstructor
 public class ClienteService {
+    @Autowired
+    private ClienteRepository clienteRepository;
 
-    private final ClienteRepository clienteRepository;
-    private final PasswordEncoder passwordEncoder;
-    private final EmailService emailService;
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
-    //para inserir novo cliente pelo admin
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
+    @Autowired
+    private EmailService emailService;
+
     @Transactional
-    public Cliente criarCliente(Cliente cliente) {
-        return clienteRepository.save(cliente);
-    }
-
-    //autocadastro do cliente
-    @Transactional
-    public Cliente registrarCliente(ClienteRegisterDTO data) {
-        if(clienteRepository.existsByCpf(data.cpf())){
-            throw new IllegalArgumentException("CPF ja cadastrado");
+    public Cliente autocadastroCliente(Cliente cliente){
+        if(clienteRepository.existsByCpf(cliente.getCpf())){
+            throw new IllegalArgumentException("ERRO: CPF já cadastrado");
         }
-        if(clienteRepository.existsByEmail(data.email())){
-            throw new IllegalArgumentException("Email ja cadastrado");
+        if(usuarioRepository.existsByEmail(cliente.getEmail())){
+            throw new IllegalArgumentException("ERRO: Email já cadastrado");
         }
-        
-        String senhaRandom = String.valueOf(new Random().nextInt(9000) + 1000);
 
-        Cliente cliente = new Cliente();
-        cliente.setNome(data.nome());
-        cliente.setCpf(data.cpf());
-        cliente.setEmail(data.email());
-        cliente.setTelefone(data.telefone());
-        cliente.setRole(RoleUsuario.CLIENTE);
-        cliente.setSenha(passwordEncoder.encode(senhaRandom));
-        cliente.setCep(data.cep());
-        cliente.setLogradouro(data.logradouro());
-        cliente.setComplemento(data.complemento());
-        cliente.setBairro(data.bairro());
-        cliente.setCidade(data.cidade());
-        cliente.setUf(data.uf());
-        cliente.setNumero(data.numero());
+        String senha = String.format("%04d", new Random().nextInt(10000));
+        cliente.setSenha(passwordEncoder.encode(senha));
+        cliente.setStatus(true);
 
-        Cliente clienteSaved = clienteRepository.save(cliente);
-        emailService.enviarSenhaDeCadastro(clienteSaved.getEmail(), senhaRandom);
+        Cliente newCliente = clienteRepository.save(cliente);
 
-        return clienteSaved;
+        try{
+            emailService.enviarSenhaDeCadastro(newCliente.getEmail(), senha);
+        } catch (Exception e){
+            throw new IllegalStateException("ERRO: Não foi possível enviar o email de cadastro");
+        }
+
+        return newCliente;
     }
 
-    @Transactional
-    public void deleteById(Long id) {
-        clienteRepository.deleteById(id);
-    }
-
-    public List<Cliente> findAll() {
+    @Transactional(readOnly = true)
+    public List<Cliente> getAllClientes(){
         return clienteRepository.findAll();
     }
 
-    public Cliente findById(Long id) {
-        return clienteRepository.findById(id).orElse(null);
+    @Transactional(readOnly = true)
+    public Cliente buscarPorId(Integer id) {
+        return clienteRepository.findById(id)
+            .orElseThrow(() -> new EntityNotFoundException("ERRO: Cliente não encontrado"));
     }
 
-    public UserDetails findByEmail(String email) {
-        return clienteRepository.findByEmail(email);
+    @Transactional
+    public Cliente updateCliente(Integer id, Cliente clienteAtualizado){
+        Cliente clienteExistente = buscarPorId(id);
+
+        if (!clienteExistente.getEmail().equals(clienteAtualizado.getEmail()) &&
+            usuarioRepository.existsByEmail(clienteAtualizado.getEmail())) {
+            throw new IllegalArgumentException("ERRO: Email já cadastrado");
+        }
+
+        if (!clienteExistente.getCpf().equals(clienteAtualizado.getCpf()) &&
+            clienteRepository.existsByCpf(clienteAtualizado.getCpf())) {
+            throw new IllegalArgumentException("ERRO: CPF já cadastrado");
+        }
+
+        clienteExistente.setNome(clienteAtualizado.getNome());
+        clienteExistente.setEmail(clienteAtualizado.getEmail());
+        clienteExistente.setCpf(clienteAtualizado.getCpf());
+        clienteExistente.setSenha(passwordEncoder.encode(clienteAtualizado.getSenha()));
+        clienteExistente.setTelefone(clienteAtualizado.getTelefone());
+        clienteExistente.setEndereco(clienteAtualizado.getEndereco());
+        clienteExistente.setStatus(clienteAtualizado.isStatus());
+
+        return clienteRepository.save(clienteExistente);
     }
 
-    public boolean existsById(Long id) {
-        return clienteRepository.existsById(id);
+    public void deleteCliente(Integer id){
+        Cliente cliente = buscarPorId(id);
+        cliente.setStatus(false);
+        clienteRepository.save(cliente);
     }
+
 }
