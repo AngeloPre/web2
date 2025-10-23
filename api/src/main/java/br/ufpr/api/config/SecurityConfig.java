@@ -34,15 +34,22 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
+                //endpoints publicos
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
-                .requestMatchers(HttpMethod.GET, "/auth/test").hasAnyAuthority("CLIENTE", "FUNCIONARIO")
-                .requestMatchers("/categoria-equipamento/**").permitAll()
-                .requestMatchers("/chamados/**").permitAll()
+
+                //endpoints privados (apenas funcionarios)
+                .requestMatchers("/funcionario/**").hasAuthority("FUNCIONARIO")
+                .requestMatchers("/categoria-equipamento/**").hasAuthority("FUNCIONARIO")
+                
+                //endpoints para CLIENTE ou FUNCIONARIO
+                .requestMatchers("/cliente/**").hasAnyAuthority("FUNCIONARIO", "CLIENTE")
+                .requestMatchers(HttpMethod.GET, "/auth/me").hasAnyAuthority("CLIENTE", "FUNCIONARIO")
+                .requestMatchers("/chamados/**").hasAnyAuthority("CLIENTE", "FUNCIONARIO")
+
                 .requestMatchers("/defaults/**").permitAll()
-                .requestMatchers("/cliente/**").permitAll()
                 .anyRequest().authenticated()
             )
             .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
@@ -62,7 +69,11 @@ public class SecurityConfig {
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        config.setAllowedOrigins(List.of("https://angelopre.github.io"));
+        config.setAllowedOrigins(List.of(
+            "https://angelopre.github.io",
+            "http://localhost:4200",
+            "http://localhost:8080"
+            ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
