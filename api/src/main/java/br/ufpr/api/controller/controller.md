@@ -1,11 +1,11 @@
-## JSON para testar POSTS:
+## JSON para testar POST (autocadastro) do CLIENTE:
 
 POST /auth/register -> inserir cliente
 
 {
   "nome": "Beiraldo da Silva Romuldo",
   "cpf": "33344455566",
-  "email": "inseriremail@parareceberasenha.com",
+  "email": "emailparaweb2@gmail.com",
   "telefone": "21966554433",
   "endereco": {
     "cep": "81520-260",
@@ -18,11 +18,20 @@ POST /auth/register -> inserir cliente
   }
 }
 
-POST /funcionario -> inserir funcionario
+
+
+
+## JSON para testar login funcionario
+
+Esse é o funcionario criado pelo seed service
+
+POST /auth/login -> realizar login
+
 {
-  "nome": "Funcionario Silva",
-  "email": "funcionario.teste@empresa.com",
-  "senha": "umaSenhaQualquer123",
-  "dataNascimento": "1995-10-20"
+    "email": "admino@admin.com",
+    "senha": "1234"
 }
 
+Depois de fazer o login, basta copiar o token do response body e inserir no começo da pagina do swagger na box **Authorize**.
+Isso te dará acesso para testar os endpoints que estão restritos para a role FUNCIONARIO.
+O mesmo processo é feito para o cliente.
