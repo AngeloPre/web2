@@ -24,3 +24,13 @@ Onde lançar: na camada de service quando uma regra falha (ex.: recurso não exi
 **O que o super(msg) faz?**
 
 - Chama o construtor da classe-mãe (RuntimeException(String message)), guardando o texto em getMessage().
+
+## GlobalExceptionHandler
+- Criado o GlobalExceptionHandler para gerenciar os erros de maneira geral.
+como funciona: ele fica "escutando" o que acontece nos controllers.
+quando o service é chamado e lança uma exception, essa classe intercepta a exceção e procura o metodo que foi definido na classe para lidar com a exceção correspondente, retornando um código adequado.
+
+exemplo: estourou um EntityNotFoundException no controller de funcionario ao tentar buscar um id especifico, a classe possui o metodo handleEntityNotFound para lidar com essa exceção, retornando o codigo 404 (NOT_FOUND) para todos os casos desse tipo
+
+**inserir mais métodos conforme a necessidade**
+

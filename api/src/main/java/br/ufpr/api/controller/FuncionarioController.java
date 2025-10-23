@@ -1,63 +1,57 @@
 package br.ufpr.api.controller;
 
-import br.ufpr.api.model.entity.Chamado;
-import br.ufpr.api.model.entity.Funcionario;
-import br.ufpr.api.model.responses.BaseResponse;
-import br.ufpr.api.service.ChamadoService;
-import br.ufpr.api.service.FuncionarioService;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import br.ufpr.api.model.entity.Funcionario;
+import br.ufpr.api.service.FuncionarioService;
+import jakarta.validation.Valid;
+
+
 
 @RestController
-@RequestMapping(value = "funcionario", produces = "application/json")
-class FuncionarioController {
-    @ControllerAdvice
-    public class GlobalExceptionHandler { //interceptador de exceções
-        @ExceptionHandler({ Exception.class })
-        public ResponseEntity<BaseResponse> lidarExcessaoGenerica(Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new BaseResponse(ex.getMessage()));
-        }
-    }
-
+public class FuncionarioController {
     @Autowired
-    private FuncionarioService funcionarioService;
-    @Autowired
-    private ChamadoService chamadoService;
+    private FuncionarioService service;
 
-    @GetMapping
-    public ResponseEntity<BaseResponse> getTodosFuncionarios() throws Exception {
-        try {
-            List<Funcionario> funcionarios = funcionarioService.getTodos();
-            return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse(funcionarios));
-        } catch (Exception e) {
-            throw new Exception("Erro ao buscar funcionários.");
-        }
+    @GetMapping("/funcionario")
+    public ResponseEntity<List<Funcionario>> listarTodosFuncionarios(){
+        List<Funcionario> funcionarios = service.getAllFuncionarios();
+        return ResponseEntity.ok(funcionarios);
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<BaseResponse> getFuncionario(@PathVariable Long id) throws Exception {
-        try{
-            var optional = funcionarioService.encontrarPorId(id);
-            if(optional.isEmpty()){
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new BaseResponse("Funcionário não encontrado."));
-            }
-            return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse(optional.get()));
-        } catch (Exception e) {
-            throw new Exception("Erro ao buscar funcionário.");
-        }
+    @GetMapping("/funcionario/{id}")
+    public ResponseEntity<Funcionario> buscarFuncionarioPorId(@PathVariable Integer id) {
+        Funcionario funcionario = service.buscarPorId(id);
+        return ResponseEntity.ok(funcionario);
     }
 
-    @GetMapping("/home")
-    public ResponseEntity<BaseResponse> getHomeFuncionario() throws Exception {
-        try {
-            List<Chamado> chamados = chamadoService.getAllChamados(); //filtrar chamados em aberto
-            return ResponseEntity.status(HttpStatus.OK).body(new BaseResponse(chamados));
-        } catch (Exception e) {
-            throw new Exception("Erro ao buscar pedidos.");
-        }
+    @PostMapping("/funcionario")
+    public ResponseEntity<Funcionario> inserirFuncionario(@Valid @RequestBody Funcionario funcionario){
+        Funcionario newFuncionario = service.addNewFuncionario(funcionario);
+        return new ResponseEntity<>(newFuncionario, HttpStatus.CREATED);
     }
+
+    @PutMapping("/funcionario/{id}")
+    public ResponseEntity<Funcionario> atualizarFuncionario(@PathVariable Integer id, @Valid @RequestBody Funcionario funcionarioAtualizado){
+        Funcionario updatedFuncionario = service.updateFuncionario(id, funcionarioAtualizado);
+        return ResponseEntity.ok(updatedFuncionario);
+    }
+    
+    @DeleteMapping("/funcionario/{id}")
+    public ResponseEntity<Void> deletarFuncionario(@PathVariable Integer id) {
+        service.deleteFuncionario(id); //desativa o funcionário
+        return ResponseEntity.noContent().build();
+    }
+    
 }

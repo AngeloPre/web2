@@ -1,15 +1,12 @@
 package br.ufpr.api.repository;
 
-import br.ufpr.api.model.entity.Cliente;
+import java.util.Optional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Repository;
 
-//import java.util.Optional;
+import br.ufpr.api.model.entity.Cliente;
 
-@Repository
-public interface ClienteRepository extends JpaRepository<Cliente, Long> {
+public interface ClienteRepository extends JpaRepository<Cliente, Integer>{
     boolean existsByCpf(String cpf);
-    boolean existsByEmail(String email);
-    UserDetails findByEmail(String email);
+    Optional<Cliente> findByCpf(String cpf);
 }
