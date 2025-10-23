@@ -1,44 +1,55 @@
 package br.ufpr.api.model.entity;
 
+import br.ufpr.api.model.enums.RoleUsuario;
 import jakarta.persistence.Column;
+import jakarta.persistence.Embedded;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.Data;
-import lombok.EqualsAndHashCode;
-import lombok.NoArgsConstructor;
+import jakarta.persistence.PrimaryKeyJoinColumn;
 
 @Entity
-@Data
-@EqualsAndHashCode(callSuper = true)
 @Table(name = "tbl_cliente")
-@NoArgsConstructor
+@PrimaryKeyJoinColumn(name = "user_id")
 public class Cliente extends Usuario {
-    @Column(nullable = false, length = 11)
+
+    @Column(name = "cpf", length = 11, nullable = false, unique = true)
     private String cpf;
-    
-    @Column(nullable = false)
+
+    @Column(name = "telefone", length = 15, nullable = false)
     private String telefone;
 
-    @Column(nullable = false)
-    private String cep;
+    @Embedded
+    private Endereco endereco;
 
-    @Column(nullable = false)
-    private String logradouro;
+    public Cliente(){
+        this.setRole(RoleUsuario.CLIENTE);
+    }
 
-    @Column (nullable = true)
-    private String complemento;
+    //GETTERS E SETTERS
 
-    @Column(nullable = false)
-    private String bairro;
+    public String getCpf() {
+        return cpf;
+    }
 
-    @Column(nullable = false)
-    private String cidade; 
+    public void setCpf(String cpf) {
+        this.cpf = cpf;
+    }
 
-    @Column(nullable = false, length = 2) 
-    private String uf;
+    public String getTelefone() {
+        return telefone;
+    }
 
-    @Column(nullable = false)
-    private String numero;
+    public void setTelefone(String telefone) {
+        this.telefone = telefone;
+    }
 
+    public Endereco getEndereco() {
+        return endereco;
+    }
+
+    public void setEndereco(Endereco endereco) {
+        this.endereco = endereco;
+    }
 
 }
+
