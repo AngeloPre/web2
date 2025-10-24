@@ -1,12 +1,13 @@
 package br.ufpr.api.exception;
 
-import jakarta.persistence.EntityNotFoundException;
+import org.springframework.http.HttpMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ControllerAdvice;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
-@ControllerAdvice 
+@RestControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(IllegalArgumentException.class)
@@ -14,13 +15,14 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST); // ERRO 400
     }
 
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleEntityNotFound(EntityNotFoundException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.NOT_FOUND); // ERRO 404
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public ResponseEntity<String> handleNotReadable(HttpMessageNotReadableException ex) {
+        return new ResponseEntity<>(ex.getMessage(), HttpStatus.BAD_REQUEST); // ERRO 400
     }
 
-    @ExceptionHandler(IllegalStateException.class)
-    public ResponseEntity<String> handleIllegalState(IllegalStateException ex) {
-        return new ResponseEntity<>(ex.getMessage(), HttpStatus.CONFLICT); // ERRO 409
+    @ExceptionHandler(ApiException.class)
+    public ResponseEntity<String> handleApiException(ApiException ex) {
+        return new ResponseEntity<String>(ex.getMessage(), ex.geHttpStatus());
     }
+
 }
