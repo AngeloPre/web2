@@ -36,9 +36,6 @@ public class CategoriaEquipamento {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
 
-    @Column(name = "description", columnDefinition = "TEXT")
-    private String description;
-
     public Integer getCategoryId() {
         return categoryId;
     }
@@ -86,15 +83,5 @@ public class CategoriaEquipamento {
     public void setCreatedAt(Instant createdAt) {
         this.createdAt = createdAt;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    
 
 }

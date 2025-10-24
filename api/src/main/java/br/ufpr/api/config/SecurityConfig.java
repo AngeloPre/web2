@@ -42,7 +42,7 @@ public class SecurityConfig {
 
                 //endpoints privados (apenas funcionarios)
                 .requestMatchers("/funcionario/**").hasAuthority("FUNCIONARIO")
-                .requestMatchers("/categoria-equipamento/**").hasAuthority("FUNCIONARIO")
+                //.requestMatchers("/categoria-equipamento/**").hasAuthority("FUNCIONARIO")
                 
                 //endpoints para CLIENTE ou FUNCIONARIO
                 .requestMatchers("/cliente/**").hasAnyAuthority("FUNCIONARIO", "CLIENTE")
