@@ -34,6 +34,21 @@
       <button mat-stroked-button (click)="mudarFiltro('DATA')"> DATA </button>}
     </div>
     <div class="mt-2">
-        <app-chamado-card [chamados]="chamados()"/>
+        @if (loading()) {
+            <div class="loading-wrap">
+                <app-rive-loader
+                    src="assets/miner_loading_bar.riv"
+                    stateMachine="State Machine 1"
+                    progressInput="Number 1"
+                    [durationMs]="4000"
+                    [from]="0"
+                    [to]="100"
+                    [width]="560"
+                    [height]="200">
+                </app-rive-loader>
+            </div>
+        } @else {
+            <app-chamado-card [chamados]="chamados()"/>
+        }
     </div>
 </div>

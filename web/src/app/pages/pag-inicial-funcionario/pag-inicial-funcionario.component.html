@@ -1,6 +1,21 @@
 <div class="mt-6 page-shell">
     <h1 class="text-3xl font-bold text-brand-dark">Solicitações em Aberto</h1>
     <div class="mt-8">
-        <app-chamado-card [chamados]="chamadosStatusAberto()" />
+        @if (loading()) {
+            <div class="loading-wrap">
+                <app-rive-loader
+                    src="assets/miner_loading_bar.riv"
+                    stateMachine="State Machine 1"
+                    progressInput="Number 1"
+                    [durationMs]="4000"
+                    [from]="0"
+                    [to]="100"
+                    [width]="560"
+                    [height]="200">
+                </app-rive-loader>
+            </div>
+        } @else {
+            <app-chamado-card [chamados]="chamadosStatusAberto()" />
+        }
     </div>
 </div>

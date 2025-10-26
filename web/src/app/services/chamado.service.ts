@@ -32,6 +32,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
 
   refresh(params?: { status?: StatusConsertoEnum | string; dataInicio?: Date | string; dataFim?: Date |  string }): Observable<ChamadoItem[]> {
     this.loading.set(true);
+    this.chamadosSignal.set([]);
     return this.listarTodos(params).pipe(
       tap(list => this.chamadosSignal.set(list)),
       finalize(() => this.loading.set(false))
