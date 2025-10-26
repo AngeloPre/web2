@@ -16,6 +16,7 @@ import {
   FormsModule,
   ReactiveFormsModule,
 } from '@angular/forms';
+import { RiveLoaderComponent } from '@shared/components/rive-loader/rive-loader.component';
 
 @Component({
   selector: 'app-pag-solicitacoes',
@@ -26,6 +27,7 @@ import {
     MatDatepickerModule,
     FormsModule,
     ReactiveFormsModule,
+    RiveLoaderComponent,
   ],
   templateUrl: './pag-solicitacoes.component.html',
   styles: ``,
@@ -43,6 +45,7 @@ export class PagSolicitacoesComponent {
   });
 
   chamados = this.chamadoService.chamadosSignal;
+  loading = this.chamadoService.loading;
   constructor() {
     effect(() => {
       const modo = this.opcaoData();
