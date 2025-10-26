@@ -27,12 +27,12 @@ public class CategoriaEquipamentoController {
     public List<CategoriaEquipamento> getAllCategoriasEquipamento() {
         return service.getAllCategoriasEquipamento();
     }
-    
+
     @GetMapping("/categoria-equipamento/slug/{slug}")
     public CategoriaEquipamento getCategoriaEquipamentoBySlug(@PathVariable String slug) {
         return service.getCategoriaEquipamentoBySlug(slug);
     }
-    
+
     @GetMapping("/categoria-equipamento/{id}")
     public CategoriaEquipamento getCategoriaEquipamentoById(@PathVariable Integer id) {
         return service.getCategoriaEquipamentoById(id);
@@ -51,5 +51,5 @@ public class CategoriaEquipamentoController {
             return null;
         }
     }
-    
+
 }

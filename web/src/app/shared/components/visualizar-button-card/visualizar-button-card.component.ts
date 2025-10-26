@@ -4,6 +4,7 @@ import { RouterLink } from '@angular/router';
 import { ConfirmarModalComponent } from '@shared/components/confirmar-modal/confirmar-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ChamadoService } from '@services/chamado.service';
+import { catchError, map, of, switchMap } from 'rxjs';
 
 @Component({
   selector: 'app-visualizar-button-card',
@@ -24,12 +25,17 @@ export class VisualizarButtonCardComponent {
     this.btnClicked.emit(this.id());
   }
 
-  finalizar() {
-    let chamado = this.chamadoService.buscarPorID(this.id());
-    if (chamado) {
-      chamado.status = StatusConsertoEnum.FINALIZADA;
-      this.chamadoService.atualizar(chamado);
-    }
+  finalizar(): void {
+    const id = this.id();
+
+    this.chamadoService.buscarPorId(id).pipe(
+      map(ch => ({ ...ch, status: StatusConsertoEnum.FINALIZADA })),
+      switchMap(ch => this.chamadoService.atualizar(ch)),
+      catchError(err => {
+        console.error(err);
+        return of(null);
+      })
+    ).subscribe();
   }
 
   abrirModal(): void {

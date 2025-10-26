@@ -1,19 +1,23 @@
 package br.ufpr.api.controller;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpr.api.dto.ChamadoCreateUpdateDTO;
 import br.ufpr.api.dto.ChamadoDTO;
 import br.ufpr.api.model.entity.Chamado;
+import br.ufpr.api.model.enums.StatusConserto;
 import br.ufpr.api.service.ChamadoService;
 import jakarta.validation.Valid;
 
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,11 +30,20 @@ public class ChamadoController {
     @PostMapping("/chamados")
     public ChamadoDTO addNewCategoriaEquipamento(@RequestBody ChamadoCreateUpdateDTO newChamado) {
         return service.addNewChamado(newChamado);
+
     }
 
     @GetMapping("/chamados")
-    public List<Chamado> getAllChamados() {
-        return service.getAllChamados();
+    public List<ChamadoDTO> getChamados(
+        @RequestParam(required = false) StatusConserto status,
+        @RequestParam(required = false, name = "dataInicio")
+        @DateTimeFormat(pattern = "dd/MM/yyyy")
+        LocalDate dataInicio,
+        @RequestParam(required = false, name = "dataFim")
+        @DateTimeFormat(pattern = "dd/MM/yyyy")
+        LocalDate dataFim) {
+
+        return service.buscarChamados(status, dataInicio, dataFim);
     }
 
     @GetMapping("/chamados/slug/{slug}")

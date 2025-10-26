@@ -1,11 +1,14 @@
+import { Cliente } from './cliente';
 import { StatusConsertoEnum } from './enums/chamado-status.enum';
 import { EtapaHistorico } from './etapa-historico.type';
 import { Funcionario } from './funcionario';
 
 export type ChamadoItem = {
-  userId: number;
-  userName: string;
+  id: number;
+  userId?: number;
+  userName?: string;
   serviceId: number;
+  cliente?: Cliente;
   serviceCategory: string;
   status: StatusConsertoEnum;
   descricaoEquipamento: string;

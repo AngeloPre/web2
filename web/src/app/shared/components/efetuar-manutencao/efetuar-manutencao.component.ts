@@ -98,14 +98,14 @@ export class EfetuarManutencaoComponent {
         dialogRef.afterClosed().subscribe((result) => {
             if (result) {
                 this.efetuarManutencao();
-                this.snackBar.open('Manutenção concluída com sucesso!', 'Fechar', { 
+                this.snackBar.open('Manutenção concluída com sucesso!', 'Fechar', {
                     duration: 3000,
                     verticalPosition: 'top',
                     horizontalPosition: 'center',
                     panelClass: ['snack-top', 'snack-success']
                 });
                 this.router.navigate(['/funcionario/solicitacoes']);
-            } 
+            }
         });
     }
 
@@ -122,7 +122,7 @@ export class EfetuarManutencaoComponent {
             if (result) {
                 const salvarChamado = this.salvarChamado();
                 salvarChamado(result);
-                this.snackBar.open('Manutenção redirecionada com sucesso!', 'Fechar', { 
+                this.snackBar.open('Manutenção redirecionada com sucesso!', 'Fechar', {
                     duration: 3000,
                     verticalPosition: 'top',
                     horizontalPosition: 'center',

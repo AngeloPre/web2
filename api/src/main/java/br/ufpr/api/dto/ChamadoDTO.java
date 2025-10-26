@@ -6,8 +6,8 @@ import java.time.Instant;
 public record ChamadoDTO(
     Integer id,
     String slug,
-    String clienteNome,
-    String funcionarioNome,
+    ClienteDTO cliente,
+    FuncionarioDTO funcionario,
     String categoriaNome,
     String descricaoEquipamento,
     String descricaoFalha,
@@ -15,6 +15,5 @@ public record ChamadoDTO(
     String comentario,
     String status,
     Instant dataCriacao,
-    Instant dataResposta) {
-
-}
+    Instant dataResposta
+) {}

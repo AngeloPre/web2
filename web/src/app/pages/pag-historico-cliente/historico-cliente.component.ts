@@ -16,7 +16,7 @@ import { ChamadoItem } from '@model/chamado.type';
 export class HistoricoClienteComponent implements OnInit {
 
     private chamadoService = inject(ChamadoService);
-    
+
     chamado = signal<ChamadoItem | undefined>(undefined);
     constructor(
         private route: ActivatedRoute
@@ -33,7 +33,9 @@ export class HistoricoClienteComponent implements OnInit {
     ngOnInit(): void {
     const serviceId = this.route.snapshot.paramMap.get('id');
     if (serviceId) {
-      this.chamado.set(this.chamadoService.buscarPorID(+serviceId))
+      this.chamadoService.buscarPorId(+serviceId).subscribe(c => {
+        this.chamado.set(c);
+      })
     }
   }
 }

@@ -39,15 +39,15 @@ public class Chamado {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Integer id;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "cliente_id", nullable = false)
   private Cliente cliente;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = true)
+  @ManyToOne(fetch = FetchType.EAGER, optional = true)
   @JoinColumn(name = "funcionario_id", nullable = true)
   private Funcionario funcionario;
 
-  @ManyToOne(fetch = FetchType.LAZY, optional = false)
+  @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "categoria_id", nullable = false)
   private CategoriaEquipamento categoriaEquipamento;
 
@@ -77,9 +77,9 @@ public class Chamado {
   @Column(name = "preco_base", nullable = false, precision = 12, scale = 2)
   private BigDecimal precoBase;
 
-  @OneToMany(mappedBy = "chamado",
+  @OneToMany(mappedBy = "chamado", fetch = FetchType.EAGER,
       cascade = CascadeType.ALL, //esse cara derruba todas as associações que ficarem orfãs
       orphanRemoval = true )
-  @OrderBy("criadoEm ASC")
+  @OrderBy("data_criacao ASC")
   private List<EtapaHistorico> etapas = new ArrayList<>();
 }
