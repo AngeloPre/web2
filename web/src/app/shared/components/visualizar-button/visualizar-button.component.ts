@@ -3,13 +3,13 @@ import {
   Component,
   inject,
   input,
-  output,
 } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 import { ResgatarServicoComponent } from '../resgatar-servico/resgatar-servico.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ChamadoService } from '@/app/services/chamado.service';
+import { filter, switchMap, tap } from 'rxjs';
 
 @Component({
   selector: 'app-visualizar-button',
@@ -28,14 +28,16 @@ export class VisualizarButtonComponent {
 
   abrirModal(): void {
     const dialogRef = this.dialog.open(ResgatarServicoComponent);
-    const chamado = this.chamadoService.buscarPorID(this.id());
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result === 'resgatar' && chamado) {
-        chamado.status = StatusConsertoEnum.APROVADA;
-        this.chamadoService.atualizar(chamado);
-      }
-    });
+    dialogRef.afterClosed().pipe(
+      filter(result => result === 'resgatar'),
+      switchMap(() => this.chamadoService.buscarPorId(this.id())),
+      switchMap(chamado => this.chamadoService.atualizar({
+        ...chamado,
+        status: StatusConsertoEnum.APROVADA
+      })),
+      tap(() => this.chamadoService.refresh().subscribe())
+    ).subscribe();
   }
 
   chamadosStatus = StatusConsertoEnum;

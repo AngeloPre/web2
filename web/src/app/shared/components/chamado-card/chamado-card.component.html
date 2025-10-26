@@ -27,9 +27,9 @@
             <div class="flex justify-between">
                 <div class="flex items-center gap-2">
                     <div class=" inline-flex w-8 h-8 items-center justify-center bg-brand-dark rounded-full">
-                        <span class="text-white font-lato font-normal text-sm tracking-wider" >J</span>
+                        <span class="text-white font-lato font-normal text-sm tracking-wider" >{{ chamado.cliente?.nome?.charAt(0) }}</span>
                     </div>
-                    <span class="text-figma-gray-600">{{ chamado.userName }}</span>
+                    <span class="text-figma-gray-600">{{ chamado.cliente?.nome }}</span>
                 </div>
 
                 <app-status-icon [status]="chamado.status" />
@@ -37,5 +37,5 @@
         </mat-card>
     }@empty {
         <p>Nenhum chamado encontrado</p>
-        }   
+        }
 </div>

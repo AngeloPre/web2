@@ -1,6 +1,6 @@
 import { OrcamentoPreviewComponent } from '@shared/components/orcamento-preview/orcamento-preview.component';
 import { MatButtonModule } from '@angular/material/button';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { ChamadoService } from '@services/chamado.service';
@@ -22,8 +22,9 @@ export class PagAprovarRejeitarOrcamentoComponent implements OnInit {
 
   ngOnInit(): void {
     const serviceId = this.route.snapshot.paramMap.get('id');
-    if (serviceId) {
-      this.chamado.set(this.chamadoService.buscarPorID(+serviceId))
+    if (serviceId) {this.chamadoService.buscarPorId(+serviceId).subscribe(c => {
+        this.chamado.set(c);
+      })
     }
   }
 }
