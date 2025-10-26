@@ -34,24 +34,23 @@ public class SecurityConfig {
             .sessionManagement(sm -> sm.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
             .cors(Customizer.withDefaults())
             .authorizeHttpRequests(auth -> auth
-                // endpoints públicos
+                // públicos
                 .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
                 .requestMatchers("/v3/api-docs/**", "/swagger-ui/**", "/swagger-ui.html").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/login").permitAll()
                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 
-                // liberar categoria temporariamente
+                // liberar categoria e chamados temporariamente
                 .requestMatchers(HttpMethod.GET, "/categoria-equipamento/**").permitAll()
+                .requestMatchers(HttpMethod.GET, "/chamados/**").permitAll()
 
-                // endpoints privados (apenas funcionários)
+                // privados
                 .requestMatchers("/funcionario/**").hasAuthority("FUNCIONARIO")
 
-                // endpoints cliente/funcionário
+                // cliente/funcionário
                 .requestMatchers("/cliente/**").hasAnyAuthority("FUNCIONARIO", "CLIENTE")
                 .requestMatchers(HttpMethod.GET, "/auth/me").hasAnyAuthority("CLIENTE", "FUNCIONARIO")
-                .requestMatchers("/chamados/**").hasAnyAuthority("CLIENTE", "FUNCIONARIO")
 
-                // outros públicos
                 .requestMatchers("/defaults/**").permitAll()
                 .anyRequest().authenticated()
             )
