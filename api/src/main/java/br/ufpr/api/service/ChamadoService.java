@@ -1,5 +1,9 @@
 package br.ufpr.api.service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,9 +11,13 @@ import org.springframework.stereotype.Service;
 
 import br.ufpr.api.dto.ChamadoCreateUpdateDTO;
 import br.ufpr.api.dto.ChamadoDTO;
+import br.ufpr.api.dto.ClienteDTO;
+import br.ufpr.api.dto.EnderecoDTO;
+import br.ufpr.api.dto.FuncionarioDTO;
 import br.ufpr.api.model.entity.CategoriaEquipamento;
 import br.ufpr.api.model.entity.Chamado;
 import br.ufpr.api.model.entity.Cliente;
+import br.ufpr.api.model.entity.Endereco;
 import br.ufpr.api.model.entity.Funcionario;
 import br.ufpr.api.model.enums.StatusConserto;
 import br.ufpr.api.repository.CategoriaEquipamentoRepo;
@@ -50,7 +58,7 @@ public class ChamadoService {
         ch.setPrecoBase(dto.precoBase());
         ch.setComentario(dto.comentario());
 
-        // status inicial normalmente é ABERTA (RF004) — defina onde faz sentido (controller/service)
+        // status inicial é ABERTA (RF004)
         ch.setStatus(StatusConserto.ABERTA);
 
         ch.setSlug(slugify(dto.descricaoFalha()));
@@ -59,8 +67,25 @@ public class ChamadoService {
         return toDTO(saved);
     }
 
-    public List<Chamado> getAllChamados() {
-        return chamadoRepository.findAllByOrderByDataCriacaoAsc();
+    public List<ChamadoDTO> buscarChamados(StatusConserto status,
+    LocalDate dataInicio,
+    LocalDate dataFim) {
+        ZoneId zone = ZoneId.of("America/Sao_Paulo");
+
+        var inicio = (dataInicio != null)
+        ? dataInicio.atStartOfDay(zone).toInstant()
+        : Instant.EPOCH;
+
+        var fim = (dataFim != null)
+        ? dataFim.plusDays(1).atStartOfDay(zone).minusNanos(1).toInstant()
+        : Instant.now();
+
+        if (status != null) {
+            return toDTO(chamadoRepository
+            .findByStatusAndDataCriacaoBetweenOrderByDataCriacaoAsc(status, inicio, fim));
+        }
+        return toDTO(chamadoRepository
+        .findByDataCriacaoBetweenOrderByDataCriacaoAsc(inicio, fim));
     }
 
     public Chamado getChamadoBySlug(String slug) {
@@ -88,14 +113,13 @@ public class ChamadoService {
         }
 
         ch.setCliente(cliente);                    // sempre tem cliente
-        ch.setFuncionario(funcionario);            // pode ser null
+        ch.setFuncionario(funcionario);            // pode nao ter um (quando criada)
         ch.setCategoriaEquipamento(categoria);
         ch.setDescricaoEquipamento(dto.descricaoEquipamento());
         ch.setDescricaoFalha(dto.descricaoFalha());
         ch.setPrecoBase(dto.precoBase());
         ch.setComentario(dto.comentario());
 
-        //PUT não mexe em status/dataCriacao/dataResposta/etapas.
         ch.setSlug(slugify(dto.descricaoFalha()));
 
         var saved = chamadoRepository.save(ch);
@@ -106,8 +130,8 @@ public class ChamadoService {
         return new ChamadoDTO(
         c.getId(),
         c.getSlug(),
-        c.getCliente() != null ? c.getCliente().getNome() : null,
-        c.getFuncionario() != null ? c.getFuncionario().getNome() : null,
+        toClienteDTO(c.getCliente()),
+        toFuncionarioDTO(c.getFuncionario()),
         c.getCategoriaEquipamento() != null ? c.getCategoriaEquipamento().getName() : null,
         c.getDescricaoEquipamento(),
         c.getDescricaoFalha(),
@@ -117,6 +141,44 @@ public class ChamadoService {
         c.getDataCriacao(),
         c.getDataResposta()
         );
+    }
+
+    private static ClienteDTO toClienteDTO(Cliente c) {
+        if (c == null) return null;
+        return new ClienteDTO(
+        c.getIdUsuario(),
+        c.getNome(),
+        c.getEmail(),
+        c.getTelefone(),
+        c.getCpf(),
+        toEnderecoDTO(c.getEndereco())
+        );
+    }
+
+    private static FuncionarioDTO toFuncionarioDTO(Funcionario f) {
+        if (f == null) return null;
+        return new FuncionarioDTO(
+        f.getIdUsuario(),
+        f.getNome(),
+        f.getEmail(),
+        f.getDataNascimento()
+        );
+    }
+
+    private static EnderecoDTO toEnderecoDTO(Endereco e) {
+        if (e == null) return null;
+        return new EnderecoDTO(
+        e.getCep(), e.getLogradouro(), e.getNumero(),
+        e.getBairro(), e.getCidade(), e.getUf()
+        );
+    }
+
+    private static List<ChamadoDTO> toDTO(List<Chamado> listaChamados) {
+        List<ChamadoDTO> lista = new ArrayList<>();
+        for (Chamado chamado : listaChamados) {
+            lista.add(toDTO(chamado));
+        }
+        return lista;
     }
 
     private static String slugify(String s) {
