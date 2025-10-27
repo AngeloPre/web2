@@ -28,7 +28,7 @@ export class CategoriaEquipamentoService implements ApiServices<CategoriaEquipam
   refresh(): Observable<CategoriaEquipamento[]> {
     this.loading.set(true);
     return this.listarTodos().pipe(
-      delay(4000),
+      delay(1000),
       tap(list => this.signalCategorias.set(list)),
       finalize(() => this.loading.set(false))
     );

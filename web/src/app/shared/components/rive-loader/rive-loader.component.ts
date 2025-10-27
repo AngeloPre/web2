@@ -23,7 +23,7 @@ export class RiveLoaderComponent implements AfterViewInit, OnDestroy {
   @Input() artboard?: string;
   @Input() stateMachine: string = 'State Machine 1';
   @Input() progressInput: string = 'Number 1'; 
-  @Input() durationMs = 4000;
+  @Input() durationMs = 1000;
   @Input() from = 0;
   @Input() to = 100;
   @Input() width = 560;

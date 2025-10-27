@@ -4,7 +4,7 @@ import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 import { API_URL } from './CONSTANTES';
 import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
 import { ApiServices } from '../model/interfaces/api-services';
-import { catchError, finalize, map, Observable, of, tap, throwError } from 'rxjs';
+import { catchError, finalize, map, Observable, of, tap, throwError, delay } from 'rxjs';
 import { ChamadoApi, mapCliente, mapFuncionario } from '../dto/api.dto';
 
 export const LS_Chamado = 'Chamado';
@@ -34,6 +34,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     this.loading.set(true);
     this.chamadosSignal.set([]);
     return this.listarTodos(params).pipe(
+      delay(1000),
       tap(list => this.chamadosSignal.set(list)),
       finalize(() => this.loading.set(false))
     );
