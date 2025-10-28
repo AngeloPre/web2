@@ -4,13 +4,14 @@ import { Observable, map, switchMap, tap, finalize, delay } from 'rxjs';
 
 import { ApiServices } from '../model/interfaces/api-services';
 import { CategoriaEquipamento } from '@model/categoria-equipamento.type';
+import { API_URL } from './CONSTANTES';
 
 @Injectable({
   providedIn: 'root'
 })
 export class CategoriaEquipamentoService implements ApiServices<CategoriaEquipamento> {
-  BASE_URL = "https://java-web2.tail041186.ts.net/categoria-equipamento";
-  
+  BASE_URL = `${API_URL}/categoria-equipamento`;
+
   private readonly httpOptions = {
     headers: new HttpHeaders({
     'Content-Type': 'application/json',
@@ -27,7 +28,7 @@ export class CategoriaEquipamentoService implements ApiServices<CategoriaEquipam
   refresh(): Observable<CategoriaEquipamento[]> {
     this.loading.set(true);
     return this.listarTodos().pipe(
-      delay(4000),
+      delay(1000),
       tap(list => this.signalCategorias.set(list)),
       finalize(() => this.loading.set(false))
     );
@@ -40,7 +41,7 @@ export class CategoriaEquipamentoService implements ApiServices<CategoriaEquipam
     );
   }
 
-  buscarPorID(id: number): Observable<CategoriaEquipamento> {
+  buscarPorId(id: number): Observable<CategoriaEquipamento> {
     return this.httpClient.get<CategoriaEquipamento>(
       `${this.BASE_URL}/${id}`,
       this.httpOptions
@@ -86,14 +87,14 @@ export class CategoriaEquipamentoService implements ApiServices<CategoriaEquipam
   }
 
   desativar(id: number): Observable<CategoriaEquipamento> {
-    return this.buscarPorID(id).pipe(
+    return this.buscarPorId(id).pipe(
       map(c => ({ ...c, status: false })),
       switchMap(c => this.atualizar(c))
     );
   }
 
   reativar(id: number): Observable<CategoriaEquipamento> {
-    return this.buscarPorID(id).pipe(
+    return this.buscarPorId(id).pipe(
       map(c => ({ ...c, status: true })),
       switchMap(c => this.atualizar(c))
     );

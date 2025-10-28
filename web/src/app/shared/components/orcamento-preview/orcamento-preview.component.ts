@@ -65,7 +65,7 @@ export class OrcamentoPreviewComponent {
       if (res?.reason) {
         const snack = this.snackBar.open(
           'Serviço Rejeitado', 'Fechar',{
-            duration: 4000,
+            duration: 1000,
             verticalPosition: 'top',
             horizontalPosition: 'center',
             panelClass: ['snack-top', 'snack-danger']

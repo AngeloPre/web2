@@ -22,7 +22,7 @@ public class EtapaHistorico {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "chamado_id", nullable = false)
     private Chamado chamado;
 
@@ -37,11 +37,11 @@ public class EtapaHistorico {
     @Column(name = "data_criacao", nullable = false, updatable = false)
     private Instant dataCriacao;
 
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "funcionario_id", nullable = false)
     private Funcionario funcionario;
 
-    @OneToOne(fetch = FetchType.LAZY, optional = false)
+    @OneToOne(fetch = FetchType.EAGER, optional = false)
     @JoinColumn(name = "orcamento_id", nullable = false)
     private Orcamento orcamento;
 

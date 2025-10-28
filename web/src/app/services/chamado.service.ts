@@ -1,604 +1,177 @@
-import { Injectable, signal } from '@angular/core';
-import { MockServices } from '@model/interfaces/mock-services';
+import { inject, Injectable, signal } from '@angular/core';
 import { ChamadoItem } from '@model/chamado.type';
 import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
-import { EtapaHistorico, Tecnico } from '@model/etapa-historico.type';
+import { API_URL } from './CONSTANTES';
+import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import { ApiServices } from '../model/interfaces/api-services';
+import { catchError, finalize, map, Observable, of, tap, throwError, delay } from 'rxjs';
+import { ChamadoApi, mapCliente, mapFuncionario } from '../dto/api.dto';
 
 export const LS_Chamado = 'Chamado';
 
 @Injectable({
   providedIn: 'root',
 })
-export class ChamadoService implements MockServices<ChamadoItem> {
-  private _chamadoSignal = signal<ChamadoItem[]>(this.listarTodos());
+export class ChamadoService implements ApiServices<ChamadoItem> {
+  BASE_URL = `${API_URL}/chamados`;
+  httpClient: HttpClient = inject(HttpClient);
+  chamadosSignal = signal<ChamadoItem[]>([]);
   private serviceID = 100;
+  loading = signal(false);
 
-  private persistirAtualizar(chamados: ChamadoItem[]): void {
-    localStorage[LS_Chamado] = JSON.stringify(chamados);
-    this._chamadoSignal.set(chamados);
+  private readonly httpOptions = {
+    // observe: "response" as "response",
+    headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+    })
+  };
+
+  constructor() {
+    this.refresh().subscribe();
   }
 
-  get chamadosSignal() {
-    return this._chamadoSignal.asReadonly();
+  refresh(params?: { status?: StatusConsertoEnum | string; dataInicio?: Date | string; dataFim?: Date |  string }): Observable<ChamadoItem[]> {
+    this.loading.set(true);
+    this.chamadosSignal.set([]);
+    return this.listarTodos(params).pipe(
+      delay(1000),
+      tap(list => this.chamadosSignal.set(list)),
+      finalize(() => this.loading.set(false))
+    );
   }
 
-  listarTodos(): ChamadoItem[] {
-    const chamados = localStorage[LS_Chamado];
-    return chamados ? JSON.parse(chamados) : [];
+
+  listarTodos(params?: {
+    status?: StatusConsertoEnum | string;
+    dataInicio?: Date | string;
+    dataFim?: Date | string;
+  }): Observable<ChamadoItem[]> {
+    let httpParams = new HttpParams();
+
+    if (params?.status) {
+      httpParams = httpParams.set('status', this.toApiStatus(params.status));
+    }
+    if (params?.dataInicio) {
+      httpParams = httpParams.set('dataInicio', this.converterData(params.dataInicio));
+    }
+    if (params?.dataFim) {
+      httpParams = httpParams.set('dataFim', this.converterData(params.dataFim));
+    }
+
+    return this.httpClient.get<ChamadoApi[]>(
+      this.BASE_URL,
+      { ...this.httpOptions, params: httpParams }
+    ).pipe(
+      map(list => this.adaptarLista(list)),
+      catchError(err => {
+        if (err.status === 404) return of<ChamadoItem[]>([]);
+        return throwError(() => err);
+      })
+    );
   }
-  listarPorStatus(status: StatusConsertoEnum): ChamadoItem[] {
-    const chamados = localStorage[LS_Chamado];
-    const lista: ChamadoItem[] = JSON.parse(chamados);
-    return lista.filter((chamado) => chamado.status === status);
-  }
+
   listarPorUser(userId: number): ChamadoItem[] {
     const chamados = localStorage[LS_Chamado];
     const lista: ChamadoItem[] = JSON.parse(chamados);
     return lista.filter((chamado) => chamado.userId === userId);
   }
-  listarEmOrdemCrescente(): ChamadoItem[] {
-    const chamados = this.listarTodos();
-    return chamados.sort(
-      (a, b) =>
-        new Date(a.dataCriacao).getTime() - new Date(b.dataCriacao).getTime()
-    );
-  }
-  listarFiltroData(data_inicial: string, data_final: string): ChamadoItem[] {
-    const dt_i = new Date(data_inicial).setHours(0, 0, 0, 0);
-    const dt_f = new Date(data_final).setHours(23, 59, 59, 0);
 
-    return this.listarEmOrdemCrescente().filter(
-      (chamado) =>
-        new Date(chamado.dataCriacao).getTime() >= dt_i &&
-        new Date(chamado.dataCriacao).getTime() <= dt_f
+  inserir(elemento: ChamadoItem): Observable<ChamadoItem> {
+    return this.httpClient.post<ChamadoItem>(
+      this.BASE_URL,
+      elemento,
+      this.httpOptions
+    ).pipe(
+      tap(created => this.chamadosSignal.update(list => [...list, created]))
     );
-  }
-  inserir(elemento: ChamadoItem): void {
-    const chamados = this.listarTodos();
-    elemento.serviceId = this.serviceID++;
-    chamados.push(elemento);
-    localStorage[LS_Chamado] = JSON.stringify(chamados);
-    this.persistirAtualizar(chamados);
-  }
-  buscarPorID(id: number): ChamadoItem | undefined {
-    const chamados = this.listarTodos();
-    return chamados.find((chamado) => chamado.serviceId === id);
-  }
-  atualizar(elemento: ChamadoItem): void {
-    let chamados = this.listarTodos();
-    chamados = chamados.map((chamado) =>
-      chamado.serviceId === elemento.serviceId ? elemento : chamado
-    );
-    localStorage[LS_Chamado] = JSON.stringify(chamados);
-    this.persistirAtualizar(chamados);
-  }
-  remover(elemento: ChamadoItem): void {
-    let chamados = this.listarTodos();
-    chamados = chamados.filter(
-      (chamado) => chamado.serviceId !== elemento.serviceId
-    );
-    localStorage[LS_Chamado] = JSON.stringify(chamados);
-    this.persistirAtualizar(chamados);
   }
 
-  constructor() {
-    const existentes = this.listarTodos();
-    this.serviceID = 100 + (existentes.length + 1);
-    if (existentes.length === 0) {
-      this.inserir({
-        userId: 1,
-        userName: 'João',
-        serviceId: -1,
-        serviceCategory: 'Notebook',
-        status: StatusConsertoEnum.FINALIZADA,
-        descricaoEquipamento: 'Notebook Dell',
-        descricaoFalha: 'Descrição do chamado 2',
-        slug: 'descricao-do-chamado-1',
-        etapas: [
-          {
-            id: 1,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 12, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ABERTA,
-          } as EtapaHistorico,
-          {
-            id: 2,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 13, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 120.0,
-          } as EtapaHistorico,
-          {
-            id: 3,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 14, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.REJEITADA,
-            orcamento: 120.0,
-            motivoRejeicao: 'Este preço não condiz com o serviço solicitado.',
-          } as EtapaHistorico,
-          {
-            id: 4,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 15, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 5,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 16, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.APROVADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 6,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 16, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.REDIRECIONADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 7,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 17, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ARRUMADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 8,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 17, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.PAGA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 9,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 18, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.FINALIZADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-        ],
-        dataCriacao: new Date('2025-09-13T03:24:00'),
-        precoBase: 250.0,
-      });
-      this.inserir({
-        userId: 2,
-        userName: 'João',
-        serviceId: -1,
-        serviceCategory: 'Impressora',
-        status: StatusConsertoEnum.PAGA,
-        descricaoEquipamento: 'Impressora HP',
-        descricaoFalha: 'Descrição do chamado 2',
-        slug: 'descricao-do-chamado-2',
-        etapas: [
-          {
-            id: 1,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 12, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ABERTA,
-          } as EtapaHistorico,
-          {
-            id: 2,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 13, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 120.0,
-          } as EtapaHistorico,
-          {
-            id: 3,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 14, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.REJEITADA,
-            orcamento: 120.0,
-            motivoRejeicao: 'Este preço não condiz com o serviço solicitado.',
-          } as EtapaHistorico,
-          {
-            id: 4,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 15, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 5,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 16, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.APROVADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 6,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 16, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.REDIRECIONADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 7,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 17, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ARRUMADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 8,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 17, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.PAGA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-        ],
-        dataCriacao: new Date('2025-09-12T03:24:00'),
-        precoBase: 395.0,
-      });
-      this.inserir({
-        userId: 3,
-        userName: 'José',
-        serviceId: -1,
-        serviceCategory: 'Mouse',
-        status: StatusConsertoEnum.ARRUMADA,
-        descricaoEquipamento: 'Mouse Razer',
-        descricaoFalha: 'Descrição do chamado 3',
-        slug: 'descricao-do-chamado-3',
-        etapas: [
-          {
-            id: 1,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 12, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ABERTA,
-          } as EtapaHistorico,
-          {
-            id: 2,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 13, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 120.0,
-          } as EtapaHistorico,
-          {
-            id: 3,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 14, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.REJEITADA,
-            orcamento: 120.0,
-            motivoRejeicao: 'Este preço não condiz com o serviço solicitado.',
-          } as EtapaHistorico,
-          {
-            id: 4,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 15, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 5,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 16, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.APROVADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 6,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 16, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.REDIRECIONADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 7,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 17, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ARRUMADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-        ],
-        dataCriacao: new Date('2025-09-11T03:24:00'),
-        precoBase: 75.0,
-      });
-      this.inserir({
-        userId: 4,
-        userName: 'José',
-        serviceId: -1,
-        serviceCategory: 'Desktop',
-        status: StatusConsertoEnum.REDIRECIONADA,
-        descricaoEquipamento: 'Desktop Dell',
-        descricaoFalha: 'Descrição do chamado 4',
-        slug: 'descricao-do-chamado-4',
-        etapas: [
-          {
-            id: 1,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 12, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ABERTA,
-          } as EtapaHistorico,
-          {
-            id: 2,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 13, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 120.0,
-          } as EtapaHistorico,
-          {
-            id: 3,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 14, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.REJEITADA,
-            orcamento: 120.0,
-            motivoRejeicao: 'Este preço não condiz com o serviço solicitado.',
-          } as EtapaHistorico,
-          {
-            id: 4,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 15, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 5,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 16, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.APROVADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 6,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 16, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.REDIRECIONADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-        ],
-        dataCriacao: new Date('2025-09-10T03:24:00'),
-        precoBase: 450.0,
-      });
-      this.inserir({
-        userId: 5,
-        userName: 'Joana',
-        serviceId: -1,
-        serviceCategory: 'Teclado',
-        status: StatusConsertoEnum.APROVADA,
-        descricaoEquipamento: 'Teclado Logitec',
-        descricaoFalha: 'Descrição do chamado 5',
-        slug: 'descricao-do-chamado-5',
-        etapas: [
-          {
-            id: 1,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 12, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ABERTA,
-          } as EtapaHistorico,
-          {
-            id: 2,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 13, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 120.0,
-          } as EtapaHistorico,
-          {
-            id: 3,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 14, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.REJEITADA,
-            orcamento: 120.0,
-            motivoRejeicao: 'Este preço não condiz com o serviço solicitado.',
-          } as EtapaHistorico,
-          {
-            id: 4,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 15, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-          {
-            id: 5,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 16, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.APROVADA,
-            orcamento: 100.0,
-          } as EtapaHistorico,
-        ],
-        dataCriacao: new Date('2025-09-19T10:32:00'),
-        precoBase: 120.0,
-      });
-      this.inserir({
-        userId: 6,
-        userName: 'Joana',
-        serviceId: -1,
-        serviceCategory: 'Impressora',
-        status: StatusConsertoEnum.REJEITADA,
-        descricaoEquipamento: 'Impressora Epson',
-        descricaoFalha: 'Descrição do chamado 6',
-        slug: 'descricao-do-chamado-6',
-        etapas: [
-          {
-            id: 1,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 12, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ABERTA,
-          } as EtapaHistorico,
-          {
-            id: 2,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 13, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 120.0,
-          } as EtapaHistorico,
-          {
-            id: 3,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 14, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.REJEITADA,
-            orcamento: 120.0,
-            motivoRejeicao: 'Este preço não condiz com o serviço solicitado.',
-          } as EtapaHistorico,
-        ],
-        dataCriacao: new Date(),
-        precoBase: 420.0,
-      });
-      this.inserir({
-        userId: 7,
-        userName: 'Joaquina',
-        serviceId: -1,
-        serviceCategory: 'Desktop',
-        status: StatusConsertoEnum.ORCADA,
-        descricaoEquipamento: 'Desktop Customizado',
-        descricaoFalha: 'Descrição do chamado 7',
-        slug: 'descricao-do-chamado-7',
-        dataCriacao: new Date(),
-        etapas: [
-          {
-            id: 1,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 12, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ABERTA,
-          } as EtapaHistorico,
-          {
-            id: 2,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 13, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ORCADA,
-            orcamento: 120.0,
-          } as EtapaHistorico,
-        ],
-        precoBase: 780.0,
-      });
-      this.inserir({
-        userId: 8,
-        userName: 'Joaquina',
-        serviceId: -1,
-        serviceCategory: 'Notebook',
-        status: StatusConsertoEnum.ABERTA,
-        descricaoEquipamento: 'Notebook Avell',
-        descricaoFalha: 'Descrição do chamado 8',
-        slug: 'descricao-do-chamado-8',
-        etapas: [
-          {
-            id: 1,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 12, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ABERTA,
-          } as EtapaHistorico,
-        ],
-        dataCriacao: new Date(),
-        precoBase: 325.0,
-      });
-      this.inserir({
-        userId: 8,
-        userName: 'Joaquina',
-        serviceId: -1,
-        serviceCategory: 'Notebook',
-        status: StatusConsertoEnum.ABERTA,
-        descricaoEquipamento: 'Notebook Lenovo',
-        descricaoFalha: 'Descrição do chamado 9',
-        slug: 'descricao-do-chamado-9',
-        etapas: [
-          {
-            id: 1,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 12, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ABERTA,
-          } as EtapaHistorico,
-        ],
-        dataCriacao: new Date(),
-        precoBase: 1200.0,
-      });
-      this.inserir({
-        userId: 8,
-        userName: 'João',
-        serviceId: -1,
-        serviceCategory: 'Impressora',
-        status: StatusConsertoEnum.ABERTA,
-        descricaoEquipamento: 'Impressora HP',
-        descricaoFalha: 'Descrição do chamado 10',
-        slug: 'descricao-do-chamado-10',
-        etapas: [],
-        dataCriacao: new Date(),
-        precoBase: 1200.0,
-      });
-      this.inserir({
-        userId: 8,
-        userName: 'Joana',
-        serviceId: -1,
-        serviceCategory: 'Desktop',
-        status: StatusConsertoEnum.ABERTA,
-        descricaoEquipamento: 'Desktop Alienware',
-        descricaoFalha: 'Descrição do chamado 11',
-        slug: 'descricao-do-chamado-11',
-        etapas: [
-          {
-            id: 1,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 12, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ABERTA,
-          } as EtapaHistorico,
-        ],
-        dataCriacao: new Date('2025-09-18T11:32:00'),
-        precoBase: 1200.0,
-      });
-      this.inserir({
-        userId: 8,
-        userName: 'Joana',
-        serviceId: -1,
-        serviceCategory: 'Teclado',
-        status: StatusConsertoEnum.ABERTA,
-        descricaoEquipamento: 'Teclado Redragon',
-        descricaoFalha: 'Descrição do chamado 12',
-        slug: 'descricao-do-chamado-12',
-        etapas: [
-          {
-            id: 1,
-            serviceId: 1,
-            dataCriado: new Date(2025, 2, 12, 9, 12),
-            tecnico: { nome: 'Ramon Alves' } as Tecnico,
-            status: StatusConsertoEnum.ABERTA,
-          } as EtapaHistorico,
-        ],
-        dataCriacao: new Date(),
-        precoBase: 1200.0,
-      });
-    }
+  buscarPorId(id: number): Observable<ChamadoItem> {
+    return this.httpClient.get<ChamadoItem>(
+      `${this.BASE_URL}/${id}`,
+      this.httpOptions
+    );
+  }
+
+  atualizar(chamado: ChamadoItem): Observable<ChamadoItem> {
+    return this.httpClient.put<ChamadoItem>(
+      `${this.BASE_URL}/${chamado.serviceId}`,
+      chamado,
+      this.httpOptions
+    ).pipe(
+      tap(updated => {
+        this.chamadosSignal.update(list =>
+          list.map(c => c.serviceId === updated.serviceId ? updated : c)
+        );
+      })
+    );
+  }
+
+  remover(id: number): Observable<void> {
+    return this.httpClient.delete<void>(
+      `${this.BASE_URL}/${id}`,
+      this.httpOptions
+    ).pipe(
+      tap(() => this.chamadosSignal.update(list => list.filter(c => c.id !== id)))
+    );
+  }
+
+  private converterData(date: Date | string): string {
+    const d = (typeof date === 'string') ? new Date(date) : date;
+    const dd = String(d.getDate()).padStart(2, '0');
+    const mm = String(d.getMonth() + 1).padStart(2, '0');
+    const yyyy = d.getFullYear();
+    return `${dd}/${mm}/${yyyy}`;
+  }
+
+  private adaptarDadosApi
+  (listaChamados: ChamadoItem[]): ChamadoItem[] {
+    return (listaChamados ?? []).map(chamado => ({
+      ...chamado,
+      status: this.fromApiStatus(chamado.status),
+      dataCriacao: new Date(chamado.dataCriacao as unknown as string),
+      dataResposta: chamado.dataResposta ? new Date(chamado.dataResposta as unknown as string) : undefined
+    }));
+  }
+
+  private fromApiStatus(s: string | null | undefined): StatusConsertoEnum {
+    const key = (s ?? '').toUpperCase() as keyof typeof StatusConsertoEnum;
+    return StatusConsertoEnum[key];
+  }
+
+  private adaptarUm(dto: ChamadoApi): ChamadoItem {
+    const cliente = mapCliente(dto.cliente);
+
+    return {
+      id: dto.id,
+      serviceId: dto.id,
+      serviceCategory: dto.categoriaNome,
+
+      status: this.fromApiStatus(dto.status),
+      descricaoEquipamento: dto.descricaoEquipamento,
+      descricaoFalha: dto.descricaoFalha,
+      slug: dto.slug,
+      etapas: [],
+
+      dataCriacao: new Date(dto.dataCriacao),
+      dataResposta: dto.dataResposta ? new Date(dto.dataResposta) : undefined,
+
+      comentario: dto.comentario ?? undefined,
+      precoBase: dto.precoBase,
+
+      funcionario: mapFuncionario(dto.funcionario),
+      cliente: cliente,
+    };
+  }
+
+  private adaptarLista(list: ChamadoApi[]): ChamadoItem[] {
+    return (list ?? []).map(this.adaptarUm.bind(this));
+  }
+
+  private toApiStatus(s: StatusConsertoEnum | string): string {
+    if (typeof s === 'string' && (s as any) in StatusConsertoEnum) return s;
+
+    const entry = Object.entries(StatusConsertoEnum).find(([, v]) => v === s);
+    return entry?.[0] ?? String(s).toUpperCase();
   }
 }

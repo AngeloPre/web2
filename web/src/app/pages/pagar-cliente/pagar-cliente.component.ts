@@ -3,7 +3,7 @@ import { ChamadoService } from '@services/chamado.service';
 import { StatusIconComponent } from '@shared/components/status-icon/status-icon.component';
 import { ConfirmarModalComponent } from '@shared/components/confirmar-modal/confirmar-modal.component';
 import { CurrencyPipe, DatePipe } from '@angular/common';
-import { Component, inject, OnInit } from '@angular/core';
+import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import {
   ActivatedRoute,
@@ -32,20 +32,35 @@ export class PagarClienteComponent implements OnInit {
   private router = inject(Router);
   private chamadoService = inject(ChamadoService);
   private dialog = inject(MatDialog);
-  chamado: ChamadoItem | undefined = undefined;
+
+  chamado = signal<ChamadoItem | undefined>(undefined);
 
   ngOnInit(): void {
     let serviceID = +this.route.snapshot.params['id'];
-    this.chamado = this.chamadoService.buscarPorID(serviceID);
+    this.chamadoService.buscarPorId(serviceID).subscribe( c => {
+      this.chamado.set(c);
+    });
     console.log(this.chamado);
   }
 
   pagar(): void {
-    if (this.chamado) {
-      this.chamado.status = StatusConsertoEnum.PAGA;
-      this.chamadoService.atualizar(this.chamado);
-      this.router.navigate(['/cliente']);
-    }
+    const atual = this.chamado();
+    if (!atual) return;
+
+    const payload: ChamadoItem = {
+      ...atual,
+      status: StatusConsertoEnum.PAGA
+    };
+
+    this.chamadoService.atualizar(payload).subscribe({
+      next: salvo => {
+        this.chamado.set(salvo);
+        this.router.navigate(['/cliente']);
+      },
+      error: (e) => {
+        console.error(e);
+      }
+    });
   }
 
   abrirModal(): void {

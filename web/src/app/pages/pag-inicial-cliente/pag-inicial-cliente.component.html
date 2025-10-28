@@ -1,6 +1,21 @@
 <div class="mt-6 page-shell">
   <h1 class="text-3xl font-bold text-brand-dark" >Meus Chamados</h1>
   <div class="mt-8 bg-white rounded-lg overflow-hidden border border-figma-gray-200">
-    <app-chamado-table [chamados]="chamadosMock()" />
+    @if (loading()) {
+      <div class="loading-wrap">
+        <app-rive-loader
+          src="assets/miner_loading_bar.riv"
+          stateMachine="State Machine 1"
+          progressInput="Number 1"
+          [durationMs]="1000"
+          [from]="0"
+          [to]="100"
+          [width]="560"
+          [height]="200">
+        </app-rive-loader>
+      </div>
+    } @else {
+      <app-chamado-table [chamados]="chamadosRequest()" />
+    }
   </div>
 </div>

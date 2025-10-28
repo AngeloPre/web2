@@ -51,6 +51,7 @@ export class SolicitacaoClienteComponent {
   );
 
   pedido: ChamadoItem = {
+    id: 0,
     userId: 0,
     userName: 'Joao da Silva',
     serviceId: -1,

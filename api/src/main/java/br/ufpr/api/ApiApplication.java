@@ -19,11 +19,17 @@ public class ApiApplication {
     CommandLineRunner run(SeedService seedService) {
         return args -> {
             System.out.println("Executando SeedService");
-        
-            seedService.createDefaultFuncionarios(); 
-            
-            seedService.createDefaultClientes(); 
-            
+
+            seedService.createDefaultFuncionarios();
+
+            seedService.createDefaultClientes();
+
+            seedService.createDefaultEquipments();
+
+            seedService.createAdminUser();
+
+            seedService.createDefaultChamados();
+
             System.out.println("Banco de dados populado com sucesso!!!");
         };
     }

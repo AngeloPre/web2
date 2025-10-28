@@ -1,5 +1,7 @@
 package br.ufpr.api.service;
 
+import java.math.BigDecimal;
+import java.time.Instant;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
@@ -10,12 +12,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import br.ufpr.api.dto.ChamadoCreateUpdateDTO;
 import br.ufpr.api.model.entity.CategoriaEquipamento;
+import br.ufpr.api.model.entity.Chamado;
 import br.ufpr.api.model.entity.Cliente;
 import br.ufpr.api.model.entity.Endereco;
 import br.ufpr.api.model.entity.Funcionario;
 import br.ufpr.api.model.enums.RoleUsuario;
+import br.ufpr.api.model.enums.StatusConserto;
 import br.ufpr.api.repository.CategoriaEquipamentoRepo;
+import br.ufpr.api.repository.ChamadoRepository;
 import br.ufpr.api.repository.ClienteRepository;
 import br.ufpr.api.repository.FuncionarioRepository;
 import br.ufpr.api.repository.UsuarioRepository;
@@ -24,12 +30,15 @@ import br.ufpr.api.repository.UsuarioRepository;
 public class SeedService {
 
     @Autowired
+    ChamadoService chamadoService;
+
+    @Autowired
     PasswordEncoder passwordEncoder;
 
     @Autowired
     UsuarioRepository usuarioRepository;
 
-    @Autowired 
+    @Autowired
     FuncionarioRepository funcionarioRepository;
 
     @Autowired
@@ -37,6 +46,11 @@ public class SeedService {
 
     @Autowired
     ClienteRepository clienteRepository;
+
+    @Autowired
+    ChamadoRepository chamadoRepository;
+
+
 
     public Funcionario createAdminUser() {
         if (!usuarioRepository.existsByEmail("admino@admin.com"))
@@ -48,7 +62,7 @@ public class SeedService {
             f.setNome("admino");
             f.setSenha(passwordEncoder.encode("1234"));
             f.setStatus(true);
-        
+
             return funcionarioRepository.save(f);
         }
         return null;
@@ -77,23 +91,92 @@ public class SeedService {
             Funcionario maria = new Funcionario();
             maria.setNome("Maria");
             maria.setEmail("maria@empresa.com");
-            maria.setSenha(passwordEncoder.encode("1234")); 
+            maria.setSenha(passwordEncoder.encode("1234"));
             maria.setDataNascimento(LocalDate.of(1990, 1, 15));
             maria.setRole(RoleUsuario.FUNCIONARIO);
             maria.setStatus(true);
             funcionarioRepository.save(maria);
         }
-        
+
         if (!usuarioRepository.existsByEmail("mario@empresa.com")) {
             Funcionario mario = new Funcionario();
             mario.setNome("Mário");
             mario.setEmail("mario@empresa.com");
-            mario.setSenha(passwordEncoder.encode("4567")); 
+            mario.setSenha(passwordEncoder.encode("4567"));
             mario.setDataNascimento(LocalDate.of(1985, 5, 20));
             mario.setRole(RoleUsuario.FUNCIONARIO);
             mario.setStatus(true);
             funcionarioRepository.save(mario);
         }
+    }
+
+    public void createDefaultChamados() {
+
+        Cliente joao = (Cliente) usuarioRepository.findByEmail("joao@cliente.com");
+        Cliente jose = (Cliente) usuarioRepository.findByEmail("jose@cliente.com");
+        Cliente joana = (Cliente) usuarioRepository.findByEmail("joana@cliente.com");
+        CategoriaEquipamento notebook =  categoriaEquipamentoRepo.findBySlug("notebook");
+        CategoriaEquipamento impressora =  categoriaEquipamentoRepo.findBySlug("impressora");
+        CategoriaEquipamento desktop = categoriaEquipamentoRepo.findBySlug("desktop");
+
+        Funcionario mario = (Funcionario) usuarioRepository.findByEmail("mario@empresa.com");
+        Funcionario maria = (Funcionario) usuarioRepository.findByEmail("maria@empresa.com");
+
+        ChamadoCreateUpdateDTO c1 = new ChamadoCreateUpdateDTO(
+        joao.getIdUsuario(), null, notebook.getCategoryId(),
+        "Notebook Dell", "Tela piscando", new BigDecimal("250.00"), "Cliente relata falha ao ligar"
+        );
+        chamadoService.addNewChamado(c1);
+
+        //ORÇADA
+        ChamadoCreateUpdateDTO c2 = new ChamadoCreateUpdateDTO(
+        jose.getIdUsuario(), mario.getIdUsuario(), impressora.getCategoryId(),
+        "Impressora HP", "Não puxa papel", new BigDecimal("180.00"), null
+        );
+        var r2 = chamadoService.addNewChamado(c2);
+        setStatus(r2.id(), StatusConserto.ORCADA, maria); // opcional: define funcionário
+
+        //APROVADA
+        ChamadoCreateUpdateDTO c3 = new ChamadoCreateUpdateDTO(
+        joana.getIdUsuario(), mario.getIdUsuario(), desktop.getCategoryId(),
+        "Desktop Office", "HD ruidoso", new BigDecimal("350.00"), null
+        );
+        var r3 = chamadoService.addNewChamado(c3);
+        setStatus(r3.id(), StatusConserto.APROVADA, maria);
+
+        //ARRUMADA
+        ChamadoCreateUpdateDTO c4 = new ChamadoCreateUpdateDTO(
+        jose.getIdUsuario(), maria.getIdUsuario(), notebook.getCategoryId(),
+        "Notebook Lenovo", "Bateria não carrega", new BigDecimal("420.00"), null
+        );
+        var r4 = chamadoService.addNewChamado(c4);
+        setStatus(r4.id(), StatusConserto.ARRUMADA, mario);
+
+        //PAGA
+        ChamadoCreateUpdateDTO c5 = new ChamadoCreateUpdateDTO(
+        joao.getIdUsuario(), maria.getIdUsuario(), impressora.getCategoryId(),
+        "Impressora Epson", "Erro desconhecido", new BigDecimal("260.00"), null
+        );
+        var r5 = chamadoService.addNewChamado(c5);
+        setStatus(r5.id(), StatusConserto.PAGA, maria); // também marca dataResposta
+
+        //FINALIZADA
+        ChamadoCreateUpdateDTO c6 = new ChamadoCreateUpdateDTO(
+        joana.getIdUsuario(), maria.getIdUsuario(), desktop.getCategoryId(),
+        "Desktop Gamer", "Sem vídeo", new BigDecimal("500.00"), "Cabo de vídeo testado"
+        );
+        var r6 = chamadoService.addNewChamado(c6);
+        setStatus(r6.id(), StatusConserto.FINALIZADA, mario);
+    }
+
+    private void setStatus(Integer chamadoId, StatusConserto status, Funcionario responsavel) {
+        Chamado chamado = chamadoRepository.findById(chamadoId).orElse(null);
+        chamado.setFuncionario(responsavel);
+        chamado.setStatus(status);
+        if (status == StatusConserto.PAGA) {
+            chamado.setDataResposta(Instant.now());
+        }
+        chamadoRepository.save(chamado);
     }
 
     public void createDefaultClientes() {
@@ -105,9 +188,9 @@ public class SeedService {
             joao.setTelefone("41911111111");
             joao.setRole(RoleUsuario.CLIENTE);
             joao.setStatus(true);
-            
-            joao.setSenha(passwordEncoder.encode("0123")); 
-            
+
+            joao.setSenha(passwordEncoder.encode("0123"));
+
             Endereco endJoao = new Endereco();
             endJoao.setCep("80000001");
             endJoao.setLogradouro("Rua Fictícia 1");
@@ -116,7 +199,7 @@ public class SeedService {
             endJoao.setCidade("Curitiba");
             endJoao.setUf("PR");
             joao.setEndereco(endJoao);
-            
+
             clienteRepository.save(joao);
         }
 
@@ -128,7 +211,7 @@ public class SeedService {
             jose.setTelefone("41922222222");
             jose.setRole(RoleUsuario.CLIENTE);
             jose.setStatus(true);
-            
+
             jose.setSenha(passwordEncoder.encode("3210"));
 
             Endereco endJose = new Endereco();

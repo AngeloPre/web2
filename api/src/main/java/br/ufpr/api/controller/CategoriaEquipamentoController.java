@@ -40,13 +40,13 @@ public class CategoriaEquipamentoController {
             .stream().map(c -> service.toDto(c)).collect(Collectors.toList());
         return new ResponseEntity<>(categorias, HttpStatus.OK);
     }
-    
+
     @GetMapping("/categoria-equipamento/slug/{slug}")
     public ResponseEntity<EquipamentoDTO> getCategoriaEquipamentoBySlug(@PathVariable String slug) {
         CategoriaEquipamento cat = service.getCategoriaEquipamentoBySlug(slug);
         return new ResponseEntity<>(service.toDto(cat), HttpStatus.OK);
     }
-    
+
     @GetMapping("/categoria-equipamento/{id}")
     public ResponseEntity<EquipamentoDTO> getCategoriaEquipamentoById(@PathVariable @Valid Integer id) {
         CategoriaEquipamento cat = service.getCategoriaEquipamentoById(id);
@@ -62,5 +62,5 @@ public class CategoriaEquipamentoController {
         CategoriaEquipamento cat =  service.updateCategoriaEquipamento(id, equipamento);
         return new ResponseEntity<>(service.toDto(cat), HttpStatus.OK);
     }
-    
+
 }
