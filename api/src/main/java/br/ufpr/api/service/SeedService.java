@@ -115,9 +115,9 @@ public class SeedService {
         Cliente joao = (Cliente) usuarioRepository.findByEmail("joao@cliente.com");
         Cliente jose = (Cliente) usuarioRepository.findByEmail("jose@cliente.com");
         Cliente joana = (Cliente) usuarioRepository.findByEmail("joana@cliente.com");
-        CategoriaEquipamento notebook =  categoriaEquipamentoRepo.findBySlug("notebook");
-        CategoriaEquipamento impressora =  categoriaEquipamentoRepo.findBySlug("impressora");
-        CategoriaEquipamento desktop = categoriaEquipamentoRepo.findBySlug("desktop");
+        CategoriaEquipamento notebook =  categoriaEquipamentoRepo.findBySlug("notebook").orElse(null);
+        CategoriaEquipamento impressora =  categoriaEquipamentoRepo.findBySlug("impressora").orElse(null);
+        CategoriaEquipamento desktop = categoriaEquipamentoRepo.findBySlug("desktop").orElse(null);
 
         Funcionario mario = (Funcionario) usuarioRepository.findByEmail("mario@empresa.com");
         Funcionario maria = (Funcionario) usuarioRepository.findByEmail("maria@empresa.com");
