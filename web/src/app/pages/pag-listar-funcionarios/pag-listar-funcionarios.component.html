@@ -7,6 +7,21 @@
       </button>
   </div>
   <div class="mt-8 bg-white rounded-lg overflow-hidden border border-figma-gray-200">
-    <app-funcionarios-table [usuarios]="funcionarioMock()" (deleted)="onDeleted()"/>
+    @if (loading()) {
+      <div class="loading-wrap">
+        <app-rive-loader
+          src="assets/miner_loading_bar.riv"
+          stateMachine="State Machine 1"
+          progressInput="Number 1"
+          [durationMs]="1000"
+          [from]="0"
+          [to]="100"
+          [width]="560"
+          [height]="200">
+        </app-rive-loader>
+      </div>
+    } @else {
+      <app-funcionarios-table [funcionarios]="funcionarios()" (deleted)="onDeleted()"/>
+    }
   </div>
 </div>

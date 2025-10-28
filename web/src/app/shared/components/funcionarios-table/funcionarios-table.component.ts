@@ -1,10 +1,10 @@
-import { Usuario } from '@model/usuario';
-import { Component, inject, input, output, } from '@angular/core';
 import { StatusAtivoInativoComponent } from "../status-ativo-inativo/status-ativo-inativo.component";
+import { Component, inject, input, output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { ConfirmarModalComponent } from '../confirmar-modal/confirmar-modal.component';
 import { MatDialog } from '@angular/material/dialog';
-import { UsuarioService } from '@services/usuario.service';
+import { Funcionario } from '@/app/model/funcionario';
+import { FuncionarioService } from '@/app/services/funcionario.service';
 
 @Component({
   selector: 'app-funcionarios-table',
@@ -14,23 +14,21 @@ import { UsuarioService } from '@services/usuario.service';
 })
 export class FuncionariosTableComponent {
   private dialog = inject(MatDialog);
-  usuarios = input.required<Usuario[]>();
-  usuarioService = inject(UsuarioService);
+  private funcionarioService = inject(FuncionarioService);
+  funcionarios = input.required<Funcionario[]>();
   router = inject(Router);
   deleted = output<number>();
 
   confirmarExcluir(id: number) {
-    const funcionario = this.usuarioService.buscarPorID(id);
-    if (!funcionario) return;
-
     this.dialog.open(ConfirmarModalComponent, {
-      data: { titulo: `Deseja excluir o(a) funcionário(a) ${funcionario?.nome}?`, confirmacao: 'Excluir' },
+      data: { titulo: 'Deseja excluir o(a) funcionário(a)', confirmacao: 'Excluir' },
       width: '360px'
     }).afterClosed().subscribe(ok => {
       if (!ok) return;
-
-      this.usuarioService.remover(funcionario);
-      this.deleted.emit(id);
+      this.funcionarioService.remover(id).subscribe({
+        next: () => this.deleted.emit(id),
+        error: (err) => console.error('Erro ao remover funcionário', err)
+      });
     });
   }
 }

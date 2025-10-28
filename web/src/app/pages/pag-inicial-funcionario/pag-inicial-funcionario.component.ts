@@ -1,10 +1,11 @@
 import { ChamadoCardComponent } from '@shared/components/chamado-card/chamado-card.component';
 import { RiveLoaderComponent } from '@shared/components/rive-loader/rive-loader.component';
-import { Component, computed, effect, inject, OnInit, signal } from '@angular/core';
+import { Component, computed, effect, inject } from '@angular/core';
 import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 import { ChamadoItem } from '@model/chamado.type';
 //Temporário
 import { ChamadoService } from '@services/chamado.service';
+import { FuncionarioService } from '@/app/services/funcionario.service';
 
 @Component({
   selector: 'app-pag-inicial-funcionario',
@@ -14,11 +15,13 @@ import { ChamadoService } from '@services/chamado.service';
 })
 export class PagInicialFuncionarioComponent {
   private chamadoService = inject(ChamadoService);
-  loading = this.chamadoService.loading;
+  private funcionarioService = inject(FuncionarioService);
+  loading = computed(() => this.chamadoService.loading() || this.funcionarioService.loading());
 
   constructor() {
     effect(() => {
       this.chamadoService.refresh({ status: StatusConsertoEnum.ABERTA }).subscribe();
+      this.funcionarioService.refresh().subscribe();
     });
   }
 

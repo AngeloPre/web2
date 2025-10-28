@@ -45,7 +45,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.GET, "/chamados/**").permitAll()
 
                 // privados
-                .requestMatchers("/funcionario/**").hasAuthority("FUNCIONARIO")
+                .requestMatchers("/funcionario/**").permitAll()
 
                 // cliente/funcionário
                 .requestMatchers("/cliente/**").hasAnyAuthority("FUNCIONARIO", "CLIENTE")
