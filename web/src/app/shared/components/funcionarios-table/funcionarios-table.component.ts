@@ -4,7 +4,7 @@ import { Router, RouterLink } from '@angular/router';
 import { ConfirmarModalComponent } from '../confirmar-modal/confirmar-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Funcionario } from '@/app/model/funcionario';
-import { FuncionarioService } from '@/app/services/funcionario-service';
+import { FuncionarioService } from '@/app/services/funcionario.service';
 
 @Component({
   selector: 'app-funcionarios-table',
@@ -15,32 +15,20 @@ import { FuncionarioService } from '@/app/services/funcionario-service';
 export class FuncionariosTableComponent {
   private dialog = inject(MatDialog);
   private funcionarioService = inject(FuncionarioService);
-  funcionarios = input.required<Funcionario[]>(); // use Funcionario type
+  funcionarios = input.required<Funcionario[]>();
   router = inject(Router);
   deleted = output<number>();
 
   confirmarExcluir(id: number) {
-    this.funcionarioService.buscarPorId(id).subscribe({
-      next: (funcionario) => {
-        if (!funcionario) return;
-
-        const dialogRef = this.dialog.open(ConfirmarModalComponent, {
-          data: { titulo: `Deseja excluir o(a) funcionário(a) ${funcionario.nome}?`, confirmacao: 'Excluir' },
-          width: '360px'
-        });
-
-        dialogRef.afterClosed().subscribe(ok => {
-          if (!ok) return;
-
-          this.funcionarioService.remover(id).subscribe({
-            next: () => this.deleted.emit(id),
-            error: (err) => console.error('Erro ao remover funcionário', err)
-          });
-        });
-      },
-      error: (err) => {
-        console.error('Erro ao buscar funcionário', err);
-      }
+    this.dialog.open(ConfirmarModalComponent, {
+      data: { titulo: 'Deseja excluir o(a) funcionário(a)', confirmacao: 'Excluir' },
+      width: '360px'
+    }).afterClosed().subscribe(ok => {
+      if (!ok) return;
+      this.funcionarioService.remover(id).subscribe({
+        next: () => this.deleted.emit(id),
+        error: (err) => console.error('Erro ao remover funcionário', err)
+      });
     });
   }
 }

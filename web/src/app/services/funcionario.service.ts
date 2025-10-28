@@ -27,6 +27,7 @@ export class FuncionarioService implements ApiServices<Funcionario> {
 
   refresh(): Observable<Funcionario[]> {
     this.loading.set(true);
+    this.signalFuncionarios.set([]);
     return this.listarTodos().pipe(
       delay(1000),
       tap(list => this.signalFuncionarios.set(list)),

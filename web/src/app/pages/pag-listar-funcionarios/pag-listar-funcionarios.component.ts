@@ -1,10 +1,11 @@
 import { Usuario } from '@model/usuario';
 import { UsuarioService } from '@services/usuario.service';
 import { FuncionariosTableComponent } from '@shared/components/funcionarios-table/funcionarios-table.component';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit } from '@angular/core';
 import { MatButton } from "@angular/material/button";
 import { RouterLink } from '@angular/router';
-import { FuncionarioService } from '@/app/services/funcionario-service';
+import { RiveLoaderComponent } from '@shared/components/rive-loader/rive-loader.component';
+import { FuncionarioService } from '@/app/services/funcionario.service';
 import { Funcionario } from '@/app/model/funcionario';
 
 @Component({
@@ -13,6 +14,7 @@ import { Funcionario } from '@/app/model/funcionario';
     FuncionariosTableComponent,
     MatButton,
     RouterLink,
+    RiveLoaderComponent,
   ],
   templateUrl: './pag-listar-funcionarios.component.html',
   styles: ``
@@ -20,17 +22,14 @@ import { Funcionario } from '@/app/model/funcionario';
 export class PagListarFuncionariosComponent implements OnInit {
   funcionarioService = inject(FuncionarioService);
 
-  funcionarios = signal<Funcionario[]>([]);
+  funcionarios = this.funcionarioService.signalFuncionarios;
+  loading = this.funcionarioService.loading;
 
   ngOnInit(): void {
-    this.recarregarTabela();
+    this.funcionarioService.refresh().subscribe();
   }
 
-  recarregarTabela() {
-    this.funcionarioService.listarTodos().subscribe(f => {
-      this.funcionarios.set(f);
-    });
-  }
+  recarregarTabela() { this.funcionarioService.refresh().subscribe(); }
 
   onDeleted() {
     this.recarregarTabela();
