@@ -79,7 +79,6 @@ public class SeedService {
                 cat.setBaseValue(Long.valueOf(1000));
                 cat.setCreatedAt(LocalDateTime.now().toInstant(ZoneOffset.of("-03:00")));
                 cat.setStatus(true);
-                cat.setDescription(c);
 
                 listCat.add(categoriaEquipamentoRepo.save(cat));
             }
