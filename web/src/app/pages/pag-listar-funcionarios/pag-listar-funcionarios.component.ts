@@ -4,6 +4,8 @@ import { FuncionariosTableComponent } from '@shared/components/funcionarios-tabl
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { MatButton } from "@angular/material/button";
 import { RouterLink } from '@angular/router';
+import { FuncionarioService } from '@/app/services/funcionario-service';
+import { Funcionario } from '@/app/model/funcionario';
 
 @Component({
   selector: 'app-pag-listar-funcionarios',
@@ -16,16 +18,18 @@ import { RouterLink } from '@angular/router';
   styles: ``
 })
 export class PagListarFuncionariosComponent implements OnInit {
-  usuarioService = inject(UsuarioService);
+  funcionarioService = inject(FuncionarioService);
 
-  funcionarioMock = signal<Usuario[]>([]);
+  funcionarios = signal<Funcionario[]>([]);
 
   ngOnInit(): void {
     this.recarregarTabela();
   }
 
   recarregarTabela() {
-    this.funcionarioMock.set(this.usuarioService.listarTodosFuncionarios());
+    this.funcionarioService.listarTodos().subscribe(f => {
+      this.funcionarios.set(f);
+    });
   }
 
   onDeleted() {

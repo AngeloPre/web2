@@ -5,6 +5,7 @@ import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 import { ChamadoItem } from '@model/chamado.type';
 //Temporário
 import { ChamadoService } from '@services/chamado.service';
+import { FuncionarioService } from '@/app/services/funcionario-service';
 
 @Component({
   selector: 'app-pag-inicial-funcionario',
@@ -14,11 +15,13 @@ import { ChamadoService } from '@services/chamado.service';
 })
 export class PagInicialFuncionarioComponent {
   private chamadoService = inject(ChamadoService);
-  loading = this.chamadoService.loading;
+  private funcionarioService = inject(FuncionarioService);
+  loading = this.chamadoService.loading || this.funcionarioService.loading;
 
   constructor() {
     effect(() => {
       this.chamadoService.refresh({ status: StatusConsertoEnum.ABERTA }).subscribe();
+      this.funcionarioService.refresh().subscribe();
     });
   }
 
