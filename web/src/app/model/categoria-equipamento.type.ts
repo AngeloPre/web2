@@ -5,5 +5,4 @@ export type CategoriaEquipamento = {
   baseValue: number;
   status: boolean;
   createdAt?: string;
-  description?: string;
-}
+};

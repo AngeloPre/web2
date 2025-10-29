@@ -41,7 +41,7 @@ public class SecurityConfig {
                 .requestMatchers(HttpMethod.POST, "/auth/register").permitAll()
 
                 // liberar categoria e chamados temporariamente
-                .requestMatchers(HttpMethod.GET, "/categoria-equipamento/**").permitAll()
+                .requestMatchers("/categoria-equipamento/**").permitAll()
                 .requestMatchers(HttpMethod.GET, "/chamados/**").permitAll()
 
                 // privados
@@ -74,10 +74,12 @@ public class SecurityConfig {
         config.setAllowedOrigins(List.of(
             "https://angelopre.github.io",
             "http://localhost:4200",
-            "http://localhost:8080"
+            "http://localhost:8080",
+            "http://127.0.0.1:4200"
             ));
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-        config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
+        config.setAllowedHeaders(List.of("*"));
+        //config.setAllowedHeaders(List.of("Authorization", "Content-Type"));
         config.setAllowCredentials(true);
         config.setMaxAge(3600L);
 
