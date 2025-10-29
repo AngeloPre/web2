@@ -21,7 +21,10 @@ public class CategoriaEquipamentoService {
        CategoriaEquipamento cat = categoriaEquipamentoRepo.findById(id)
             .orElseThrow(() -> new ResourceNotFoundException("Equipamento não encontrado"));
         String slug = equipamentoDTO.name().toLowerCase().replace(" ", "-");
-        if (categoriaEquipamentoRepo.existsBySlug(slug)) throw new ResourceConflictException("Equipamento já existe");
+        CategoriaEquipamento existCat = categoriaEquipamentoRepo.findBySlug(slug).orElse(null);
+        // Evita atualização que deixa um nome repetido
+        if (existCat != null && existCat.getCategoryId() != id) 
+            throw new ResourceConflictException("Equipamento já existe");
         cat.setName(equipamentoDTO.name());
         cat.setBaseValue(equipamentoDTO.baseValue());
         cat.setSlug(slug);

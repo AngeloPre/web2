@@ -6,7 +6,7 @@ import java.util.stream.Collectors;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+//import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpr.api.dto.EquipamentoCreateUpdateDTO;
@@ -28,7 +28,7 @@ public class CategoriaEquipamentoController {
     private CategoriaEquipamentoService service;
 
     @PostMapping("/categoria-equipamento")
-    @PreAuthorize("hasAuthority('FUNCIONARIO')")
+    //@PreAuthorize("hasAuthority('FUNCIONARIO')")
     public ResponseEntity<EquipamentoDTO> addNewCategoriaEquipamento(@RequestBody @Valid EquipamentoCreateUpdateDTO newCategoriaEquipamento) {
         CategoriaEquipamento newCat = service.createCategoriaEquipamento(newCategoriaEquipamento);
         return new ResponseEntity<>(service.toDto(newCat) ,HttpStatus.CREATED);
@@ -53,8 +53,8 @@ public class CategoriaEquipamentoController {
         return new ResponseEntity<>(service.toDto(cat), HttpStatus.OK);
     }
 
-    @PutMapping("categoria-equipamento/{id}")
-    @PreAuthorize("hasAuthority('FUNCIONARIO')")
+    @PutMapping("/categoria-equipamento/{id}")
+    //@PreAuthorize("hasAuthority('FUNCIONARIO')")
     public ResponseEntity<EquipamentoDTO> updateCategoriaEquipamento(
         @PathVariable Integer id, 
         @RequestBody @Valid EquipamentoCreateUpdateDTO equipamento) 
