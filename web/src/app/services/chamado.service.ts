@@ -2,9 +2,23 @@ import { inject, Injectable, signal } from '@angular/core';
 import { ChamadoItem } from '@model/chamado.type';
 import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 import { API_URL } from './CONSTANTES';
-import { HttpClient, HttpHeaders, HttpParams, HttpResponse } from '@angular/common/http';
+import {
+  HttpClient,
+  HttpHeaders,
+  HttpParams,
+  HttpResponse,
+} from '@angular/common/http';
 import { ApiServices } from '../model/interfaces/api-services';
-import { catchError, finalize, map, Observable, of, tap, throwError, delay } from 'rxjs';
+import {
+  catchError,
+  finalize,
+  map,
+  Observable,
+  of,
+  tap,
+  throwError,
+  delay,
+} from 'rxjs';
 import { ChamadoApi, mapCliente, mapFuncionario } from '../dto/api.dto';
 
 export const LS_Chamado = 'Chamado';
@@ -23,23 +37,24 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     // observe: "response" as "response",
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-    })
+    }),
   };
 
-  constructor() {
-    this.refresh().subscribe();
-  }
+  constructor() {}
 
-  refresh(params?: { status?: StatusConsertoEnum | string; dataInicio?: Date | string; dataFim?: Date |  string }): Observable<ChamadoItem[]> {
+  refresh(params?: {
+    status?: StatusConsertoEnum | string;
+    dataInicio?: Date | string;
+    dataFim?: Date | string;
+  }): Observable<ChamadoItem[]> {
     this.loading.set(true);
     this.chamadosSignal.set([]);
     return this.listarTodos(params).pipe(
       delay(1000),
-      tap(list => this.chamadosSignal.set(list)),
+      tap((list) => this.chamadosSignal.set(list)),
       finalize(() => this.loading.set(false))
     );
   }
-
 
   listarTodos(params?: {
     status?: StatusConsertoEnum | string;
@@ -52,22 +67,30 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
       httpParams = httpParams.set('status', this.toApiStatus(params.status));
     }
     if (params?.dataInicio) {
-      httpParams = httpParams.set('dataInicio', this.converterData(params.dataInicio));
+      httpParams = httpParams.set(
+        'dataInicio',
+        this.converterData(params.dataInicio)
+      );
     }
     if (params?.dataFim) {
-      httpParams = httpParams.set('dataFim', this.converterData(params.dataFim));
+      httpParams = httpParams.set(
+        'dataFim',
+        this.converterData(params.dataFim)
+      );
     }
 
-    return this.httpClient.get<ChamadoApi[]>(
-      this.BASE_URL,
-      { ...this.httpOptions, params: httpParams }
-    ).pipe(
-      map(list => this.adaptarLista(list)),
-      catchError(err => {
-        if (err.status === 404) return of<ChamadoItem[]>([]);
-        return throwError(() => err);
+    return this.httpClient
+      .get<ChamadoApi[]>(this.BASE_URL, {
+        ...this.httpOptions,
+        params: httpParams,
       })
-    );
+      .pipe(
+        map((list) => this.adaptarLista(list)),
+        catchError((err) => {
+          if (err.status === 404) return of<ChamadoItem[]>([]);
+          return throwError(() => err);
+        })
+      );
   }
 
   listarPorUser(userId: number): ChamadoItem[] {
@@ -77,13 +100,13 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   }
 
   inserir(elemento: ChamadoItem): Observable<ChamadoItem> {
-    return this.httpClient.post<ChamadoItem>(
-      this.BASE_URL,
-      elemento,
-      this.httpOptions
-    ).pipe(
-      tap(created => this.chamadosSignal.update(list => [...list, created]))
-    );
+    return this.httpClient
+      .post<ChamadoItem>(this.BASE_URL, elemento, this.httpOptions)
+      .pipe(
+        tap((created) =>
+          this.chamadosSignal.update((list) => [...list, created])
+        )
+      );
   }
 
   buscarPorId(id: number): Observable<ChamadoItem> {
@@ -94,43 +117,47 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   }
 
   atualizar(chamado: ChamadoItem): Observable<ChamadoItem> {
-    return this.httpClient.put<ChamadoItem>(
-      `${this.BASE_URL}/${chamado.serviceId}`,
-      chamado,
-      this.httpOptions
-    ).pipe(
-      tap(updated => {
-        this.chamadosSignal.update(list =>
-          list.map(c => c.serviceId === updated.serviceId ? updated : c)
-        );
-      })
-    );
+    return this.httpClient
+      .put<ChamadoItem>(
+        `${this.BASE_URL}/${chamado.serviceId}`,
+        chamado,
+        this.httpOptions
+      )
+      .pipe(
+        tap((updated) => {
+          this.chamadosSignal.update((list) =>
+            list.map((c) => (c.serviceId === updated.serviceId ? updated : c))
+          );
+        })
+      );
   }
 
   remover(id: number): Observable<void> {
-    return this.httpClient.delete<void>(
-      `${this.BASE_URL}/${id}`,
-      this.httpOptions
-    ).pipe(
-      tap(() => this.chamadosSignal.update(list => list.filter(c => c.id !== id)))
-    );
+    return this.httpClient
+      .delete<void>(`${this.BASE_URL}/${id}`, this.httpOptions)
+      .pipe(
+        tap(() =>
+          this.chamadosSignal.update((list) => list.filter((c) => c.id !== id))
+        )
+      );
   }
 
   private converterData(date: Date | string): string {
-    const d = (typeof date === 'string') ? new Date(date) : date;
+    const d = typeof date === 'string' ? new Date(date) : date;
     const dd = String(d.getDate()).padStart(2, '0');
     const mm = String(d.getMonth() + 1).padStart(2, '0');
     const yyyy = d.getFullYear();
     return `${dd}/${mm}/${yyyy}`;
   }
 
-  private adaptarDadosApi
-  (listaChamados: ChamadoItem[]): ChamadoItem[] {
-    return (listaChamados ?? []).map(chamado => ({
+  private adaptarDadosApi(listaChamados: ChamadoItem[]): ChamadoItem[] {
+    return (listaChamados ?? []).map((chamado) => ({
       ...chamado,
       status: this.fromApiStatus(chamado.status),
       dataCriacao: new Date(chamado.dataCriacao as unknown as string),
-      dataResposta: chamado.dataResposta ? new Date(chamado.dataResposta as unknown as string) : undefined
+      dataResposta: chamado.dataResposta
+        ? new Date(chamado.dataResposta as unknown as string)
+        : undefined,
     }));
   }
 

@@ -5,9 +5,14 @@ import { Observable, map, switchMap, tap, finalize, delay } from 'rxjs';
 import { ApiServices } from '../model/interfaces/api-services';
 import { API_URL } from './CONSTANTES';
 import { Funcionario } from '../model/funcionario';
+import {
+  dtoToFuncionario,
+  FuncionarioResponse,
+  funcionarioToDTO,
+} from '../dto/funcionario.dto';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FuncionarioService implements ApiServices<Funcionario> {
   BASE_URL = `${API_URL}/funcionario`;
@@ -15,7 +20,7 @@ export class FuncionarioService implements ApiServices<Funcionario> {
   private readonly httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
-    })
+    }),
   };
 
   signalFuncionarios = signal<Funcionario[]>([]);
@@ -30,53 +35,64 @@ export class FuncionarioService implements ApiServices<Funcionario> {
     this.signalFuncionarios.set([]);
     return this.listarTodos().pipe(
       delay(1000),
-      tap(list => this.signalFuncionarios.set(list)),
+      tap((list) => this.signalFuncionarios.set(list)),
       finalize(() => this.loading.set(false))
     );
   }
 
   listarTodos(): Observable<Funcionario[]> {
-    return this.httpClient.get<Funcionario[]>(
-      this.BASE_URL,
-      this.httpOptions
-    );
+    return this.httpClient
+      .get<FuncionarioResponse[]>(this.BASE_URL, this.httpOptions)
+      .pipe(map((dtos) => dtos.map(dtoToFuncionario)));
   }
 
   buscarPorId(id: number): Observable<Funcionario> {
-    return this.httpClient.get<Funcionario>(
-      `${this.BASE_URL}/${id}`,
-      this.httpOptions
-    );
+    return this.httpClient
+      .get<FuncionarioResponse>(`${this.BASE_URL}/${id}`, this.httpOptions)
+      .pipe(map(dtoToFuncionario));
   }
 
   inserir(elemento: Funcionario): Observable<Funcionario> {
-    return this.httpClient.post<Funcionario>(
-      this.BASE_URL,
-      elemento,
-      this.httpOptions
-    ).pipe(
-      tap(created => this.signalFuncionarios.update(list => [...list, created]))
-    );
+    return this.httpClient
+      .post<FuncionarioResponse>(
+        this.BASE_URL,
+        funcionarioToDTO(elemento),
+        this.httpOptions
+      )
+      .pipe(
+        map(dtoToFuncionario),
+        tap((created) =>
+          this.signalFuncionarios.update((list) => [...list, created])
+        )
+      );
   }
 
   atualizar(elemento: Funcionario): Observable<Funcionario> {
-    return this.httpClient.put<Funcionario>(
-      `${this.BASE_URL}/${elemento.id}`,
-      elemento,
-      this.httpOptions
-    ).pipe(
-      tap(updated => this.signalFuncionarios.update(list =>
-        list.map(f => f.id === updated.id ? updated : f)
-      ))
-    );
+    return this.httpClient
+      .put<FuncionarioResponse>(
+        `${this.BASE_URL}/${elemento.id}`,
+        funcionarioToDTO(elemento),
+        this.httpOptions
+      )
+      .pipe(
+        map(dtoToFuncionario),
+        tap((updated) =>
+          this.signalFuncionarios.update((list) =>
+            list.map((f) => (f.id === updated.id ? updated : f))
+          )
+        )
+      );
   }
 
   remover(id: number): Observable<void> {
-    return this.httpClient.delete<void>(
-      `${this.BASE_URL}/${id}`,
-      this.httpOptions
-    ).pipe(
-      tap(() => this.signalFuncionarios.update(list => list.filter(c => c.id !== id)))
-    );
+    return this.httpClient
+      .delete<void>(`${this.BASE_URL}/${id}`, this.httpOptions)
+      .pipe(
+        tap(() =>
+          this.signalFuncionarios.update((list) =>
+            list.filter((c) => c.id !== id)
+          )
+        )
+      );
   }
 }
