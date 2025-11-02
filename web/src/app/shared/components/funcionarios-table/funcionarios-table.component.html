@@ -1,4 +1,5 @@
   <table class="text-left w-full shadow-lg bg-white border-collapse">
+    <colgroup><col/><col/><col class="w-32"/><col class="w-56"/></colgroup>
     <thead>
       <tr>
         <th class="border-b border-figma-gray-200 px-8 py-4">
@@ -22,33 +23,58 @@
       </tr>
     </thead>
     <tbody>
+      @defer (when !funcionarioService.loading()) {
       @for (funcionario of funcionarios(); track funcionario.id) {
         <tr class="hover:bg-figma-gray-200">
-        <td class="px-8 py-4">
-          <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
-            {{ funcionario.nome }}
-          </p>
-        </td>
-        <td class="px-8 py-4">
-          <p class="block-b font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900">
-            {{ funcionario.email }}
-          </p>
-        </td>
-        <td class="px-4 py-4">
+          <td class="px-8 py-4">
+            <p class="block font-sans text-sm antialiased font-normal leading-normal text-blue-gray-900">
+              {{ funcionario.nome }}
+            </p>
+          </td>
+          <td class="px-8 py-4">
+            <p class="block-b font-sans text-sm antialiased font-semibold leading-normal text-blue-gray-900">
+              {{ funcionario.email }}
+            </p>
+          </td>
+          <td class="px-4 py-4">
             <app-status-ativo-inativo [status]="funcionario.status"/>
-            <!-- <app-status-icon [status]="chamado.status" /> -->
-        </td>
-        <td class="px-6 py-4 flex justify-end">
-          <button class="aspect-square rounded p-2"  [routerLink]="['/funcionario/editar-funcionario', funcionario.id]">
-            <img src="assets/svg/pen-line.svg" />
-          </button>
-        <button type="button"
-                class="inline-flex items-center rounded-lg  px-2.5 py-1.5 text-sm text-red-600 hover:bg-red-50"
-                (click)="confirmarExcluir(funcionario.id)">
-        <img src="assets/svg/trash.svg" />
-      </button>
-        </td>
+          </td>
+          <td class="px-6 py-4 flex justify-end">
+            <button class="aspect-square rounded p-2"  [routerLink]="['/funcionario/editar-funcionario', funcionario.id]">
+              <img src="assets/svg/pen-line.svg" />
+            </button>
+            <button type="button"
+                    class="inline-flex items-center rounded-lg  px-2.5 py-1.5 text-sm text-red-600 hover:bg-red-50"
+                    (click)="confirmarExcluir(funcionario.id)">
+              <img src="assets/svg/trash.svg" />
+            </button>
+          </td>
         </tr>
       }
+    } @placeholder {
+      <tr>
+        <td colspan="4" class="py-6 h-96">
+          <div class="loading-wrap">
+            <app-rive-loader
+              src="assets/miner_loading_bar.riv"
+              stateMachine="State Machine 1"
+              progressInput="Number 1"
+              [durationMs]="1000"
+              [from]="0"
+              [to]="100"
+              [width]="560"
+              [height]="200">
+            </app-rive-loader>
+          </div>
+        </td>
+      </tr>
+    } @loading {
+      <tr class="animate-pulse">
+        <td class="px-8 py-4"><div class="h-4 w-48 bg-white rounded"></div></td>
+        <td class="px-8 py-4"><div class="h-4 w-32 bg-white rounded"></div></td>
+        <td class="px-4 py-4"><div class="h-4 w-20 bg-white rounded"></div></td>
+        <td class="px-6 py-4"><div class="h-4 w-24 bg-white rounded ml-auto"></div></td>
+      </tr>
+    }
     </tbody>
   </table>
