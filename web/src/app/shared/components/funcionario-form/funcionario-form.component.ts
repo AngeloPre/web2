@@ -126,8 +126,25 @@ export class FuncionarioFormComponent {
       .subscribe((ok) => {
         if (!ok) return;
 
-        this.funcionarioService.remover(this.funcionario().id);
-        this.router.navigate(['/funcionario/funcionarios']);
+        this.funcionarioService.remover(this.funcionario().id).subscribe({
+          next: (resp) => {
+            this.snack.open(`Funcionário removido com sucesso`, 'OK', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+              panelClass: ['snack-top', 'snack-success'],
+            });
+            this.router.navigate(['/funcionario/funcionarios']);
+          },
+          error: (err) => {
+            this.snack.open(err.error, 'OK', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+              panelClass: ['snack-top', 'snack-danger'],
+            });
+          },
+        });
       });
   }
 }
