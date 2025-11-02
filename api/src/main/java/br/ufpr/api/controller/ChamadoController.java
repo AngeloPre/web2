@@ -10,7 +10,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpr.api.dto.ChamadoCreateUpdateDTO;
 import br.ufpr.api.dto.ChamadoDTO;
-import br.ufpr.api.model.entity.Chamado;
 import br.ufpr.api.model.enums.StatusConserto;
 import br.ufpr.api.service.ChamadoService;
 import jakarta.validation.Valid;
@@ -46,13 +45,8 @@ public class ChamadoController {
         return service.buscarChamados(status, dataInicio, dataFim);
     }
 
-    @GetMapping("/chamados/slug/{slug}")
-    public Chamado getChamadoBySlug(@PathVariable String slug) {
-        return service.getChamadoBySlug(slug);
-    }
-
     @GetMapping("/chamados/{id}")
-    public Chamado getChamadoById(@PathVariable Integer id) {
+    public ChamadoDTO getChamadoById(@PathVariable Integer id) {
         return service.getChamadoById(id);
     }
 

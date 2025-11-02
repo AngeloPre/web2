@@ -2,10 +2,10 @@ package br.ufpr.api.dto;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.List;
 
 public record ChamadoDTO(
     Integer id,
-    String slug,
     ClienteDTO cliente,
     FuncionarioDTO funcionario,
     String categoriaNome,
@@ -15,5 +15,7 @@ public record ChamadoDTO(
     String comentario,
     String status,
     Instant dataCriacao,
-    Instant dataResposta
+    Instant dataResposta,
+    List<EtapaHistoricoDTO> etapas,
+    OrcamentoDTO orcamento
 ) {}

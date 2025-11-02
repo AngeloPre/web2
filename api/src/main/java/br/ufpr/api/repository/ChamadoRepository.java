@@ -11,7 +11,6 @@ import br.ufpr.api.model.enums.StatusConserto;
 
 
 public interface ChamadoRepository extends CrudRepository<Chamado, Integer> {
-    public Chamado findBySlug(String slug);
     List<Chamado> findAllByOrderByDataCriacaoAsc();
 
     @EntityGraph(attributePaths = {"cliente","funcionario","categoriaEquipamento"})
