@@ -7,10 +7,15 @@ import { Component } from '@angular/core';
   selector: 'app-pag-cadastro-funcionario',
   imports: [FuncionarioFormComponent],
   templateUrl: './pag-cadastro-funcionario.component.html',
-  styles: ``
+  styles: ``,
 })
 export class PagCadastroFuncionarioComponent {
-
-  funcionario: Funcionario = new Funcionario(0, "", "", "", "", new Date(), StatusAtivoInativo.ATIVO);
-
+  funcionario: Funcionario = new Funcionario(
+    0,
+    '',
+    '',
+    '',
+    new Date(),
+    StatusAtivoInativo.ATIVO
+  );
 }

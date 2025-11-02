@@ -4,25 +4,36 @@ import { UsuarioService } from '@services/usuario.service';
 import { FuncionarioFormComponent } from '@shared/components/funcionario-form/funcionario-form.component';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { FuncionarioService } from '@/app/services/funcionario.service';
 
 @Component({
   selector: 'app-pag-editar-funcionario',
   imports: [FuncionarioFormComponent],
   templateUrl: './pag-editar-funcionario.component.html',
-  styles: ``
+  styles: ``,
 })
 export class PagEditarFuncionarioComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
-  usuarioService = inject(UsuarioService);
+  funcionarioService = inject(FuncionarioService);
+  //usuarioService = inject(UsuarioService);
   funcionarioId: any;
 
-
-  funcionario: Funcionario = new Funcionario(0, "", "", "", "", new Date(), StatusAtivoInativo.ATIVO);
+  funcionario: Funcionario = new Funcionario(
+    0,
+    '',
+    '',
+    '',
+    new Date(),
+    StatusAtivoInativo.ATIVO
+  );
 
   ngOnInit(): void {
     this.funcionarioId = Number(this.route.snapshot.paramMap.get('id'));
-    this.funcionario = this.usuarioService.buscarPorID(this.funcionarioId) as Funcionario;
+    this.funcionarioService
+      .buscarPorId(this.funcionarioId)
+      .subscribe((funcionario) => {
+        this.funcionario = funcionario;
+      });
     console.log(this.funcionario);
   }
-
 }
