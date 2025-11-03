@@ -5,16 +5,18 @@ import { ConfirmarModalComponent } from '../confirmar-modal/confirmar-modal.comp
 import { MatDialog } from '@angular/material/dialog';
 import { Funcionario } from '@/app/model/funcionario';
 import { FuncionarioService } from '@/app/services/funcionario.service';
+import { RiveLoaderComponent } from '@shared/components/rive-loader/rive-loader.component';
 
 @Component({
   selector: 'app-funcionarios-table',
-  imports: [StatusAtivoInativoComponent, RouterLink],
+  standalone: true,
+  imports: [StatusAtivoInativoComponent, RouterLink, RiveLoaderComponent],
   templateUrl: './funcionarios-table.component.html',
   styles: `:host {overflow-y: auto; max-height: 75vh; display: block;}`
 })
 export class FuncionariosTableComponent {
   private dialog = inject(MatDialog);
-  private funcionarioService = inject(FuncionarioService);
+  protected funcionarioService = inject(FuncionarioService);
   funcionarios = input.required<Funcionario[]>();
   router = inject(Router);
   deleted = output<number>();
