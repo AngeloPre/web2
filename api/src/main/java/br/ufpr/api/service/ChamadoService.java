@@ -5,6 +5,8 @@ import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,12 +15,16 @@ import br.ufpr.api.dto.ChamadoCreateUpdateDTO;
 import br.ufpr.api.dto.ChamadoDTO;
 import br.ufpr.api.dto.ClienteDTO;
 import br.ufpr.api.dto.EnderecoDTO;
+import br.ufpr.api.dto.EtapaHistoricoDTO;
 import br.ufpr.api.dto.FuncionarioDTO;
+import br.ufpr.api.dto.OrcamentoDTO;
 import br.ufpr.api.model.entity.CategoriaEquipamento;
 import br.ufpr.api.model.entity.Chamado;
 import br.ufpr.api.model.entity.Cliente;
 import br.ufpr.api.model.entity.Endereco;
+import br.ufpr.api.model.entity.EtapaHistorico;
 import br.ufpr.api.model.entity.Funcionario;
+import br.ufpr.api.model.entity.Orcamento;
 import br.ufpr.api.model.enums.StatusConserto;
 import br.ufpr.api.repository.CategoriaEquipamentoRepo;
 import br.ufpr.api.repository.ChamadoRepository;
@@ -61,8 +67,6 @@ public class ChamadoService {
         // status inicial é ABERTA (RF004)
         ch.setStatus(StatusConserto.ABERTA);
 
-        ch.setSlug(slugify(dto.descricaoFalha()));
-
         var saved = chamadoRepository.save(ch);
         return toDTO(saved);
     }
@@ -88,12 +92,8 @@ public class ChamadoService {
         .findByDataCriacaoBetweenOrderByDataCriacaoAsc(inicio, fim));
     }
 
-    public Chamado getChamadoBySlug(String slug) {
-        return chamadoRepository.findBySlug(slug);
-    }
-
-    public Chamado getChamadoById(Integer id) {
-        return chamadoRepository.findById(id).orElse(null);
+    public ChamadoDTO getChamadoById(Integer id) {
+        return toDTO(chamadoRepository.findById(id).orElse(null));
     }
 
     @Transactional
@@ -120,8 +120,6 @@ public class ChamadoService {
         ch.setPrecoBase(dto.precoBase());
         ch.setComentario(dto.comentario());
 
-        ch.setSlug(slugify(dto.descricaoFalha()));
-
         var saved = chamadoRepository.save(ch);
         return toDTO(saved);
     }
@@ -129,7 +127,6 @@ public class ChamadoService {
     private static ChamadoDTO toDTO(Chamado c) {
         return new ChamadoDTO(
         c.getId(),
-        c.getSlug(),
         toClienteDTO(c.getCliente()),
         toFuncionarioDTO(c.getFuncionario()),
         c.getCategoriaEquipamento() != null ? c.getCategoriaEquipamento().getName() : null,
@@ -139,7 +136,9 @@ public class ChamadoService {
         c.getComentario(),
         c.getStatus() != null ? c.getStatus().name() : null,
         c.getDataCriacao(),
-        c.getDataResposta()
+        c.getDataResposta(),
+        toEtapasDTO(c.getEtapas()),
+        toOrcamentoDTO(c.getOrcamento())
         );
     }
 
@@ -181,8 +180,29 @@ public class ChamadoService {
         return lista;
     }
 
-    private static String slugify(String s) {
-        return s == null ? null : s.trim().toLowerCase().replaceAll("\\s+", "-");
+    private static OrcamentoDTO toOrcamentoDTO(Orcamento o) {
+        if (o == null) return null;
+        return new OrcamentoDTO(o.getId(), o.getValor());
+    }
+
+    private static EtapaHistoricoDTO toEtapaDTO(EtapaHistorico e) {
+        if (e == null) return null;
+        return new EtapaHistoricoDTO(
+        e.getId(),
+        e.getStatus() != null ? e.getStatus().name() : null,
+        e.getComentario(),
+        e.getDataCriacao(),
+        toFuncionarioDTO(e.getFuncionario()),
+        e.getMotivoRejeicao()
+        );
+    }
+
+    private static List<EtapaHistoricoDTO> toEtapasDTO(List<EtapaHistorico> etapas) {
+        if (etapas == null || etapas.isEmpty()) return java.util.Collections.emptyList();
+        return etapas.stream()
+        .filter(Objects::nonNull)
+        .map(ChamadoService::toEtapaDTO)
+        .collect(Collectors.toList());
     }
 
 }

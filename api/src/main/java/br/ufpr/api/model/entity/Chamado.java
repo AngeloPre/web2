@@ -20,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.OneToOne;
 import jakarta.persistence.OrderBy;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -61,9 +62,6 @@ public class Chamado {
   @Column(name = "descricao_falha", columnDefinition = "TEXT", nullable = false)
   private String descricaoFalha;
 
-  @Column(name = "slug", nullable = false, length = 120, unique = true)
-  private String slug;
-
   @CreationTimestamp
   @Column(name = "data_criacao", nullable = false, updatable = false)
   private Instant dataCriacao;
@@ -80,6 +78,10 @@ public class Chamado {
   @OneToMany(mappedBy = "chamado", fetch = FetchType.EAGER,
       cascade = CascadeType.ALL, //esse cara derruba todas as associações que ficarem orfãs
       orphanRemoval = true )
-  @OrderBy("data_criacao ASC")
+  @OrderBy("dataCriacao ASC")
   private List<EtapaHistorico> etapas = new ArrayList<>();
+
+  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
+  @JoinColumn(name = "orcamento_id", nullable = true)
+  private Orcamento orcamento;
 }

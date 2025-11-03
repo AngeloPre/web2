@@ -41,10 +41,6 @@ public class EtapaHistorico {
     @JoinColumn(name = "funcionario_id", nullable = false)
     private Funcionario funcionario;
 
-    @OneToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "orcamento_id", nullable = false)
-    private Orcamento orcamento;
-
     @Column(name = "motivo_rejeicao", columnDefinition = "TEXT")
     private String motivoRejeicao;
 }

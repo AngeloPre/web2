@@ -17,7 +17,9 @@ import br.ufpr.api.model.entity.CategoriaEquipamento;
 import br.ufpr.api.model.entity.Chamado;
 import br.ufpr.api.model.entity.Cliente;
 import br.ufpr.api.model.entity.Endereco;
+import br.ufpr.api.model.entity.EtapaHistorico;
 import br.ufpr.api.model.entity.Funcionario;
+import br.ufpr.api.model.entity.Orcamento;
 import br.ufpr.api.model.enums.RoleUsuario;
 import br.ufpr.api.model.enums.StatusConserto;
 import br.ufpr.api.repository.CategoriaEquipamentoRepo;
@@ -112,71 +114,192 @@ public class SeedService {
 
     public void createDefaultChamados() {
 
-        Cliente joao = (Cliente) usuarioRepository.findByEmail("joao@cliente.com");
-        Cliente jose = (Cliente) usuarioRepository.findByEmail("jose@cliente.com");
-        Cliente joana = (Cliente) usuarioRepository.findByEmail("joana@cliente.com");
-        CategoriaEquipamento notebook =  categoriaEquipamentoRepo.findBySlug("notebook").orElse(null);
-        CategoriaEquipamento impressora =  categoriaEquipamentoRepo.findBySlug("impressora").orElse(null);
-        CategoriaEquipamento desktop = categoriaEquipamentoRepo.findBySlug("desktop").orElse(null);
+        // Clientes e categorias
+        Cliente joao     = (Cliente) usuarioRepository.findByEmail("joao@cliente.com");
+        Cliente jose     = (Cliente) usuarioRepository.findByEmail("jose@cliente.com");
+        Cliente joana    = (Cliente) usuarioRepository.findByEmail("joana@cliente.com");
+        Cliente joaquina = (Cliente) usuarioRepository.findByEmail("joaquina@cliente.com");
 
+        CategoriaEquipamento notebook  = categoriaEquipamentoRepo.findBySlug("notebook").orElse(null);
+        CategoriaEquipamento impressora= categoriaEquipamentoRepo.findBySlug("impressora").orElse(null);
+        CategoriaEquipamento desktop   = categoriaEquipamentoRepo.findBySlug("desktop").orElse(null);
+        CategoriaEquipamento mouse     = categoriaEquipamentoRepo.findBySlug("mouse").orElse(null);
+        CategoriaEquipamento teclado   = categoriaEquipamentoRepo.findBySlug("teclado").orElse(null);
+
+        // Técnicos (funcionários)
         Funcionario mario = (Funcionario) usuarioRepository.findByEmail("mario@empresa.com");
         Funcionario maria = (Funcionario) usuarioRepository.findByEmail("maria@empresa.com");
 
-        ChamadoCreateUpdateDTO c1 = new ChamadoCreateUpdateDTO(
-        joao.getIdUsuario(), null, notebook.getCategoryId(),
-        "Notebook Dell", "Tela piscando", new BigDecimal("250.00"), "Cliente relata falha ao ligar"
-        );
-        chamadoService.addNewChamado(c1);
-
-        //ORÇADA
-        ChamadoCreateUpdateDTO c2 = new ChamadoCreateUpdateDTO(
-        jose.getIdUsuario(), mario.getIdUsuario(), impressora.getCategoryId(),
-        "Impressora HP", "Não puxa papel", new BigDecimal("180.00"), null
-        );
-        var r2 = chamadoService.addNewChamado(c2);
-        setStatus(r2.id(), StatusConserto.ORCADA, maria); // opcional: define funcionário
-
-        //APROVADA
-        ChamadoCreateUpdateDTO c3 = new ChamadoCreateUpdateDTO(
-        joana.getIdUsuario(), mario.getIdUsuario(), desktop.getCategoryId(),
-        "Desktop Office", "HD ruidoso", new BigDecimal("350.00"), null
-        );
-        var r3 = chamadoService.addNewChamado(c3);
-        setStatus(r3.id(), StatusConserto.APROVADA, maria);
-
-        //ARRUMADA
-        ChamadoCreateUpdateDTO c4 = new ChamadoCreateUpdateDTO(
-        jose.getIdUsuario(), maria.getIdUsuario(), notebook.getCategoryId(),
-        "Notebook Lenovo", "Bateria não carrega", new BigDecimal("420.00"), null
-        );
-        var r4 = chamadoService.addNewChamado(c4);
-        setStatus(r4.id(), StatusConserto.ARRUMADA, mario);
-
-        //PAGA
-        ChamadoCreateUpdateDTO c5 = new ChamadoCreateUpdateDTO(
-        joao.getIdUsuario(), maria.getIdUsuario(), impressora.getCategoryId(),
-        "Impressora Epson", "Erro desconhecido", new BigDecimal("260.00"), null
-        );
-        var r5 = chamadoService.addNewChamado(c5);
-        setStatus(r5.id(), StatusConserto.PAGA, maria); // também marca dataResposta
-
-        //FINALIZADA
-        ChamadoCreateUpdateDTO c6 = new ChamadoCreateUpdateDTO(
-        joana.getIdUsuario(), maria.getIdUsuario(), desktop.getCategoryId(),
-        "Desktop Gamer", "Sem vídeo", new BigDecimal("500.00"), "Cabo de vídeo testado"
-        );
-        var r6 = chamadoService.addNewChamado(c6);
-        setStatus(r6.id(), StatusConserto.FINALIZADA, mario);
-    }
-
-    private void setStatus(Integer chamadoId, StatusConserto status, Funcionario responsavel) {
-        Chamado chamado = chamadoRepository.findById(chamadoId).orElse(null);
-        chamado.setFuncionario(responsavel);
-        chamado.setStatus(status);
-        if (status == StatusConserto.PAGA) {
-            chamado.setDataResposta(Instant.now());
+        // Opcional: criar "Ramon Alves" para refletir o mock do frontend
+        Funcionario ramon = (Funcionario) usuarioRepository.findByEmail("ramon@empresa.com");
+        if (ramon == null) {
+            ramon = new Funcionario();
+            ramon.setNome("Ramon Alves");
+            ramon.setEmail("ramon@empresa.com");
+            ramon.setSenha(passwordEncoder.encode("1234"));
+            ramon.setDataNascimento(LocalDate.of(1992, 3, 10));
+            ramon.setRole(RoleUsuario.FUNCIONARIO);
+            ramon.setStatus(true);
+            ramon = funcionarioRepository.save(ramon);
         }
-        chamadoRepository.save(chamado);
+
+        // ===== 1) João - Notebook - FINALIZADA =====
+        {
+            Chamado ch = novoChamado(joao, mario, notebook, "Notebook Dell",
+            "Descrição do chamado 2", new BigDecimal("250.00"), null);
+
+            applyStep(ch, StatusConserto.ABERTA,      ramon, at(2025,3,12,9,12), null, null, null);
+            applyStep(ch, StatusConserto.ORCADA,      ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
+            applyStep(ch, StatusConserto.REJEITADA,   ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
+            applyStep(ch, StatusConserto.ORCADA,      ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.APROVADA,    ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.REDIRECIONADA,ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.ARRUMADA,    ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.PAGA,        ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.FINALIZADA,  ramon, at(2025,3,18,9,12), null, null, new BigDecimal("100.00"));
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 2) João - Impressora - PAGA =====
+        {
+            Chamado ch = novoChamado(joao, mario, impressora, "Impressora HP",
+            "Descrição do chamado 2", new BigDecimal("395.00"), null);
+
+            applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
+            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
+            applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
+            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.APROVADA,  ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.PAGA,      ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"));
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 3) José - Mouse - ARRUMADA =====
+        {
+            Chamado ch = novoChamado(jose, ramon, mouse, "Mouse Razer",
+            "Descrição do chamado 3", new BigDecimal("75.00"), null);
+
+            applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
+            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
+            applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
+            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.APROVADA,  ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.REDIRECIONADA, ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.ARRUMADA,  ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"));
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 4) José - Desktop - REDIRECIONADA =====
+        {
+            Chamado ch = novoChamado(jose, maria, desktop, "Desktop Dell",
+            "Descrição do chamado 4", new BigDecimal("450.00"), null);
+
+            applyStep(ch, StatusConserto.ABERTA,      ramon, at(2025,3,12,9,12), null, null, null);
+            applyStep(ch, StatusConserto.ORCADA,      ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
+            applyStep(ch, StatusConserto.REJEITADA,   ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
+            applyStep(ch, StatusConserto.ORCADA,      ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.APROVADA,    ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.REDIRECIONADA,ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 5) Joana - Teclado - APROVADA =====
+        {
+            Chamado ch = novoChamado(joana, maria, teclado, "Teclado Logitec",
+            "Descrição do chamado 5", new BigDecimal("120.00"), null);
+
+            applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
+            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
+            applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
+            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"));
+            applyStep(ch, StatusConserto.APROVADA,  ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 6) Joana - Impressora - REJEITADA =====
+        {
+            Chamado ch = novoChamado(joana, maria, impressora, "Impressora Epson",
+            "Descrição do chamado 6", new BigDecimal("420.00"), null);
+
+            applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
+            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
+            applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 7) Joaquina - Desktop - ORCADA =====
+        {
+            Chamado ch = novoChamado(joaquina, maria, desktop, "Desktop Customizado",
+            "Descrição do chamado 7", new BigDecimal("780.00"), null);
+
+            applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
+            applyStep(ch, StatusConserto.ORCADA, ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 8) Joaquina - Notebook - ABERTA =====
+        {
+            Chamado ch = novoChamado(joaquina, null, notebook, "Notebook Avell",
+            "Descrição do chamado 8", new BigDecimal("325.00"), null);
+
+            applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 9) Joaquina - Notebook - ABERTA =====
+        {
+            Chamado ch = novoChamado(joaquina, null, notebook, "Notebook Lenovo",
+            "Descrição do chamado 9", new BigDecimal("1200.00"), null);
+
+            applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 10) João - Impressora - ABERTA =====
+        {
+            Chamado ch = novoChamado(joao, null, impressora, "Impressora HP",
+            "Descrição do chamado 10", new BigDecimal("1200.00"), null);
+
+            // sem etapas no mock -> adiciono ABERTA para manter histórico mínimo
+            applyStep(ch, StatusConserto.ABERTA, ramon, Instant.now(), null, null, null);
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 11) Joana - Desktop - ABERTA =====
+        {
+            Chamado ch = novoChamado(joana, null, desktop, "Desktop Alienware",
+            "Descrição do chamado 11", new BigDecimal("1200.00"), null);
+
+            applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,9,18,11,32), null, null, null);
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 12) Joana - Teclado - ABERTA =====
+        {
+            Chamado ch = novoChamado(joana, null, teclado, "Teclado Redragon",
+            "Descrição do chamado 12", new BigDecimal("1200.00"), null);
+
+            applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
+
+            chamadoRepository.save(ch);
+        }
     }
 
     public void createDefaultClientes() {
@@ -270,4 +393,66 @@ public class SeedService {
         }
     }
 
+    private Instant at(int year, int month, int day, int hour, int minute) {
+        // month: 1=Jan ... 12=Dez
+        return LocalDateTime.of(year, month, day, hour, minute).toInstant(ZoneOffset.of("-03:00"));
+    }
+    private void applyStep(Chamado ch,
+    StatusConserto status,
+    Funcionario resp,
+    Instant when,
+    String comentario,
+    String motivoRejeicao,
+    BigDecimal orcamentoSeHouver) {
+        // cria a etapa
+        EtapaHistorico e = new EtapaHistorico();
+        e.setChamado(ch);
+        e.setStatus(status);
+        e.setFuncionario(resp);
+        e.setComentario(comentario);
+        e.setMotivoRejeicao(motivoRejeicao);
+        // e.setDataCriacao(when); // @CreationTimestamp geralmente sobrescreve; manterá a ordem de inserção
+
+        ch.getEtapas().add(e);
+
+        // estado atual do chamado
+        ch.setStatus(status);
+
+        // orçamento no Chamado (1:1) - usa o valor "vigente" (ex.: o aprovado)
+        if (orcamentoSeHouver != null) {
+            if (ch.getOrcamento() == null) {
+                Orcamento o = new Orcamento();
+                o.setValor(orcamentoSeHouver);
+                ch.setOrcamento(o); // precisa CascadeType.ALL no mapeamento para persistir junto
+            } else {
+                ch.getOrcamento().setValor(orcamentoSeHouver);
+            }
+        }
+
+        if (status == StatusConserto.PAGA || status == StatusConserto.FINALIZADA) {
+            // apenas para demonstrar o preenchimento; ajuste se quiser usar "when"
+            ch.setDataResposta(Instant.now());
+        }
+    }
+
+    private Chamado novoChamado(Cliente cliente,
+    Funcionario funcionario,
+    CategoriaEquipamento categoria,
+    String descEquip,
+    String descFalha,
+    BigDecimal precoBase,
+    String comentario) {
+
+        var dto = new ChamadoCreateUpdateDTO(
+        cliente.getIdUsuario(),
+        funcionario != null ? funcionario.getIdUsuario() : null,
+        categoria.getCategoryId(),
+        descEquip,
+        descFalha,
+        precoBase,
+        comentario
+        );
+        var dtoResp = chamadoService.addNewChamado(dto);
+        return chamadoRepository.findById(dtoResp.id()).orElseThrow();
+    }
 }
