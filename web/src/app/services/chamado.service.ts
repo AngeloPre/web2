@@ -20,6 +20,7 @@ import {
   delay,
 } from 'rxjs';
 import { ChamadoApi, mapCliente, mapFuncionario } from '../dto/api.dto';
+import { Orcamento } from '../model/orcamento';
 
 export const LS_Chamado = 'Chamado';
 
@@ -40,7 +41,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     }),
   };
 
-  constructor() {}
+  constructor() { }
 
   refresh(params?: {
     status?: StatusConsertoEnum | string;
@@ -139,6 +140,18 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
         tap(() =>
           this.chamadosSignal.update((list) => list.filter((c) => c.id !== id))
         )
+      );
+  }
+
+  efetuarOrcamento(chamadoId: number, orcamento: Orcamento): Observable<ChamadoItem> {
+    return this.httpClient
+      .post<ChamadoItem>(`${this.BASE_URL}/${chamadoId}/orcamento`, orcamento, this.httpOptions)
+      .pipe(
+        tap((updated) => {
+          this.chamadosSignal.update((list) =>
+            list.map((c) => (c.serviceId === updated.serviceId ? updated : c))
+          );
+        })
       );
   }
 

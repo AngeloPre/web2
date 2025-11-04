@@ -2,6 +2,7 @@ import { Cliente } from './cliente';
 import { StatusConsertoEnum } from './enums/chamado-status.enum';
 import { EtapaHistorico } from './etapa-historico.type';
 import { Funcionario } from './funcionario';
+import { Orcamento } from './orcamento';
 
 export type ChamadoItem = {
   id: number;
@@ -20,4 +21,5 @@ export type ChamadoItem = {
   comentario?: string;
   precoBase: number;
   funcionario?: Funcionario;
+  orcamento?: Orcamento;
 };

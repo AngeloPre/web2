@@ -42,7 +42,7 @@ public class SecurityConfig {
 
                 // liberar categoria e chamados temporariamente
                 .requestMatchers("/categoria-equipamento/**").permitAll()
-                .requestMatchers(HttpMethod.GET, "/chamados/**").permitAll()
+                .requestMatchers("/chamados/**").permitAll()
 
                 // privados
                 .requestMatchers("/funcionario/**").permitAll()

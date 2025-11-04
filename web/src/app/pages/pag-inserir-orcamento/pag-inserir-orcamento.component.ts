@@ -20,7 +20,7 @@ export class PagInserirOrcamentoComponent implements OnInit {
   ngOnInit(): void {
     const serviceId = this.route.snapshot.paramMap.get('id');
     if (serviceId) {
-      this.chamadoService.buscarPorId(+serviceId).subscribe( c => {
+      this.chamadoService.buscarPorId(+serviceId).subscribe(c => {
         this.chamado.set(c);
       })
     }

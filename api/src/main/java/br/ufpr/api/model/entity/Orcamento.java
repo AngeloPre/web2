@@ -27,4 +27,7 @@ public class Orcamento {
 
     @Column(name = "valor", nullable = false, precision = 12, scale = 2)
     private BigDecimal valor;
+
+    @Column(name = "comentario", length = 255)
+    private String comentario;
 }
