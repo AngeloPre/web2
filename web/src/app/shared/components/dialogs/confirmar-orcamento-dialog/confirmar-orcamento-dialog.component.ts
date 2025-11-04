@@ -22,15 +22,6 @@ export class ConfirmarOrcamentoDialogComponent {
   constructor(public dialogRef: MatDialogRef<ConfirmarOrcamentoDialogComponent>) { }
 
   salvarOrcamento() {
-
-    const chamadoAtualizado: ChamadoItem = {
-      ...this.dados.chamado,
-      precoBase: this.dados.precoBase,
-      dataResposta: new Date(),
-      comentario: this.comentario,
-      status: StatusConsertoEnum.ORCADA
-    };
-    this.chamadoService.atualizar(chamadoAtualizado);
-    this.dialogRef.close({ saved: true });
+    this.dialogRef.close({ confirmado: true, comentario: this.comentario });
   }
 }

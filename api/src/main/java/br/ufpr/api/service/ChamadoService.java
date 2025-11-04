@@ -3,11 +3,13 @@ package br.ufpr.api.service;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+import br.ufpr.api.repository.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -26,10 +28,6 @@ import br.ufpr.api.model.entity.EtapaHistorico;
 import br.ufpr.api.model.entity.Funcionario;
 import br.ufpr.api.model.entity.Orcamento;
 import br.ufpr.api.model.enums.StatusConserto;
-import br.ufpr.api.repository.CategoriaEquipamentoRepo;
-import br.ufpr.api.repository.ChamadoRepository;
-import br.ufpr.api.repository.ClienteRepository;
-import br.ufpr.api.repository.FuncionarioRepository;
 import jakarta.transaction.Transactional;
 
 @Service
@@ -42,6 +40,8 @@ public class ChamadoService {
     private  FuncionarioRepository funcionarioRepository;
     @Autowired
     private  ClienteRepository clienteRepository;
+    @Autowired
+    private OrcamentoRepository orcamentoRepository;
 
     public ChamadoDTO addNewChamado(ChamadoCreateUpdateDTO dto) {
         Cliente cliente = clienteRepository.findById(dto.clienteId())
@@ -124,6 +124,27 @@ public class ChamadoService {
         return toDTO(saved);
     }
 
+    @Transactional
+    public ChamadoDTO efetuarOrcamento(Integer id, OrcamentoDTO dto) {
+        Chamado ch = chamadoRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Chamado não encontrado"));
+
+        Orcamento orcamento = new Orcamento();
+        orcamento.setValor(dto.valor());
+        var savedOrcamento = orcamentoRepository.save(orcamento);
+
+        ZoneId zone = ZoneId.of("America/Sao_Paulo");
+
+        ch.setOrcamento(savedOrcamento);
+        ch.setPrecoBase(savedOrcamento.getValor());
+        ch.setDataResposta(ZonedDateTime.now(zone).toInstant());
+        ch.setStatus(StatusConserto.ORCADA);
+        ch.setComentario(dto.comentario());
+
+        var savedChamado = chamadoRepository.save(ch);
+        return toDTO(savedChamado);
+    }
+
     private static ChamadoDTO toDTO(Chamado c) {
         return new ChamadoDTO(
         c.getId(),
@@ -182,7 +203,7 @@ public class ChamadoService {
 
     private static OrcamentoDTO toOrcamentoDTO(Orcamento o) {
         if (o == null) return null;
-        return new OrcamentoDTO(o.getId(), o.getValor());
+        return new OrcamentoDTO(o.getId(), o.getValor(), o.getComentario());
     }
 
     private static EtapaHistoricoDTO toEtapaDTO(EtapaHistorico e) {

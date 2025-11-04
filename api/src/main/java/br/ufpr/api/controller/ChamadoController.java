@@ -3,9 +3,11 @@ package br.ufpr.api.controller;
 import java.time.LocalDate;
 import java.util.List;
 
+import br.ufpr.api.dto.OrcamentoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpr.api.dto.ChamadoCreateUpdateDTO;
@@ -57,6 +59,14 @@ public class ChamadoController {
             ChamadoDTO dto = service.updateChamado(id, updatedChamado);
             return ResponseEntity.ok(dto);
 
+    }
+
+    @PostMapping("chamados/{id}/orcamento")
+    public ResponseEntity<ChamadoDTO> efetuarOrcamento(
+            @PathVariable Integer id,
+            @Valid @RequestBody OrcamentoDTO orcamento) {
+        ChamadoDTO dto = service.efetuarOrcamento(id, orcamento);
+        return ResponseEntity.ok(dto);
     }
 
 }

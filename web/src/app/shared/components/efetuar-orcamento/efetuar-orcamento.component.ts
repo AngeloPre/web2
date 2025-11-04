@@ -12,6 +12,8 @@ import { NgxCurrencyDirective } from 'ngx-currency';
 import { ServicosAdicionaisComponent } from '../servicos-adicionais/servicos-adicionais.component';
 import { ChamadoItem } from '@/app/model/chamado.type';
 import { Router } from '@angular/router';
+import { ChamadoService } from '@/app/services/chamado.service';
+import { Orcamento } from '@/app/model/orcamento';
 
 
 @Component({
@@ -25,23 +27,37 @@ export class EfetuarOrcamentoComponent {
   private dialog = inject(MatDialog);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
+  private chamadoService = inject(ChamadoService);
 
   chamado = input.required<ChamadoItem>();
   precoBase = signal(0);
   total = computed(() => this.precoBase());
-  
+
   efetuarOrcamento() {
     const ref = this.dialog.open(ConfirmarOrcamentoDialogComponent, {
-          width: '440px',
-          maxWidth: 'none',
-          panelClass: 'dialog-xxl',
-          data: { chamado: this.chamado(), precoBase: this.precoBase() }
+      width: '440px',
+      maxWidth: 'none',
+      panelClass: 'dialog-xxl',
+      data: { chamado: this.chamado(), precoBase: this.precoBase() }
+    });
+    ref.afterClosed().subscribe(resposta => {
+      if (resposta && resposta.confirmado) {
+        const orcamento: Orcamento = {
+          valor: this.precoBase(),
+          comentario: resposta.comentario
+        };
+        this.chamadoService.efetuarOrcamento(this.chamado().id, orcamento).subscribe(c => {
+          this.chamadoService.refresh().subscribe();
         });
 
-    ref.afterClosed().subscribe(resultado => {
-      if (resultado && resultado.saved) {
-        this.snackBar.open('Orçamento efetuado com sucesso!', 'Fechar', { duration: 3000 });
-        this.router.navigate(['/funcionario']);
+        const snack = this.snackBar.open(
+          'Orçamento Efetuado', 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          panelClass: ['snack-top', 'snack-success']
+        }
+        );
       }
     });
   }
