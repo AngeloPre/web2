@@ -63,9 +63,9 @@ public class ChamadoController {
 
     @PostMapping("chamados/{id}/orcamento")
     public ResponseEntity<ChamadoDTO> efetuarOrcamento(
-            @PathVariable Integer chamadoId,
+            @PathVariable Integer id,
             @Valid @RequestBody OrcamentoDTO orcamento) {
-        ChamadoDTO dto = service.efetuarOrcamento(chamadoId, orcamento);
+        ChamadoDTO dto = service.efetuarOrcamento(id, orcamento);
         return ResponseEntity.ok(dto);
     }
 
