@@ -6,7 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
-import { RouterLink } from '@angular/router';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router, RouterLink } from '@angular/router';
 import { UserRole } from '@core/store/user-role/user-role.store';
 
 @Component({
@@ -25,6 +26,8 @@ import { UserRole } from '@core/store/user-role/user-role.store';
 })
 export class LoginFormComponent {
   private loginService = inject(LoginService);
+  private router = inject(Router);
+  private snack = inject(MatSnackBar);
   email = '';
   password = '';
 
@@ -33,8 +36,20 @@ export class LoginFormComponent {
       email: this.email,
       password: this.password,
     };
-    this.loginService.inserir(login);
-    console.log('Tentei fazer login...');
+    this.loginService.login(login).subscribe({
+      next: () => {
+        //this.router.navigate(['/funcionario']);
+      },
+      error: () => {
+        this.snack.open('Login ou senha incorretos', 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          panelClass: ['snack-top', 'snack-danger'],
+        });
+      },
+    });
+    //console.log('Tentei fazer login...');
   }
 
   readonly userRole = inject(UserRole);
