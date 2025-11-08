@@ -5,7 +5,7 @@ import { Login } from '../model/login';
 import { Token } from '../model/token';
 import { Observable, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { UserRole } from '../core/store/user-role/user-role.store';
+import { Role, UserRole } from '../core/store/user-role/user-role.store';
 
 export const LS_Token = 'TokenLS';
 
@@ -28,6 +28,10 @@ export class LoginService {
       'Content-Type': 'application/json',
     }),
   };
+
+  currentRole(): Role | null {
+    return this.userRole.currentRole();
+  }
 
   login(login: Login): Observable<Token> {
     return this.httpClient

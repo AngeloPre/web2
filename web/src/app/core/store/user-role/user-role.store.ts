@@ -61,7 +61,7 @@ export const UserRole = signalStore(
 
   withComputed(({ role }) => ({
     isEmployee: computed(() => role()?.name === 'employee'),
-    isClient: computed(() => role()?.name === 'client'),
+    currentRole: computed(() => role()),
     dashboardPath: computed(() => {
       const currentRole = role();
       if (!currentRole) return '/login';

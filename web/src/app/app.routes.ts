@@ -22,6 +22,7 @@ import { PagListarFuncionariosComponent } from './pages/pag-listar-funcionarios/
 import { PagEditarFuncionarioComponent } from './pages/pag-editar-funcionario/pag-editar-funcionario.component';
 import { PagRelatoriosComponent } from './pages/pag-relatorios/pag-relatorios.component';
 import { WrapperLandingPageComponent } from './layouts/wrapper-landing-page/wrapper-landing-page.component';
+import { CLIENT_ROLE, EMPLOYEE_ROLE } from './model/roles';
 
 export const routes: Routes = [
   //enquanto ainda não temos landing page, encaminhamos do root pro login
@@ -48,6 +49,7 @@ export const routes: Routes = [
     path: 'cliente',
     component: MenuLateralComponent,
     canActivate: [authGuard],
+    data: { role: CLIENT_ROLE },
     providers: [{ provide: UserRole, useValue: { isEmployee: () => false } }],
     children: [
       {
@@ -83,7 +85,7 @@ export const routes: Routes = [
       {
         path: 'orcamentos/:id/:slug',
         component: PagAprovarRejeitarOrcamentoComponent,
-        title: 'Detalhe do Orçamento'
+        title: 'Detalhe do Orçamento',
       },
     ],
   },
@@ -92,6 +94,7 @@ export const routes: Routes = [
     component: MenuLateralComponent,
     providers: [{ provide: UserRole, useValue: { isEmployee: () => true } }],
     canActivate: [authGuard],
+    data: { role: EMPLOYEE_ROLE },
     children: [
       {
         path: '',
@@ -101,12 +104,12 @@ export const routes: Routes = [
       {
         path: 'orcamentos/:id/:slug',
         component: PagInserirOrcamentoComponent,
-        title: 'Efetuar Orçamento'
+        title: 'Efetuar Orçamento',
       },
       {
         path: 'solicitacoes',
         component: PagSolicitacoesComponent,
-        title: 'Todas as Solicitações'
+        title: 'Todas as Solicitações',
       },
       {
         path: 'funcionarios',
