@@ -28,6 +28,7 @@ export class LoginFormComponent {
   private loginService = inject(LoginService);
   private router = inject(Router);
   private snack = inject(MatSnackBar);
+  readonly userRole = inject(UserRole);
   email = '';
   password = '';
 
@@ -38,7 +39,13 @@ export class LoginFormComponent {
     };
     this.loginService.login(login).subscribe({
       next: () => {
-        //this.router.navigate(['/funcionario']);
+        this.snack.open('Login bem sucessido', 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          panelClass: ['snack-top', 'snack-success'],
+        });
+        this.router.navigate([this.userRole.dashboardPath()]);
       },
       error: () => {
         this.snack.open('Login ou senha incorretos', 'OK', {
@@ -51,6 +58,4 @@ export class LoginFormComponent {
     });
     //console.log('Tentei fazer login...');
   }
-
-  readonly userRole = inject(UserRole);
 }

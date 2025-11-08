@@ -1,5 +1,12 @@
+import { Token } from '@/app/model/token';
 import { inject, computed } from '@angular/core';
-import { signalStore, withState, withMethods, withComputed, patchState } from '@ngrx/signals';
+import {
+  signalStore,
+  withState,
+  withMethods,
+  withComputed,
+  patchState,
+} from '@ngrx/signals';
 import { rxMethod } from '@ngrx/signals/rxjs-interop';
 
 export interface Role {
@@ -8,31 +15,36 @@ export interface Role {
 }
 
 const STORAGE_KEY = 'role';
-const DEFAULT_ROLE: Role = { id: 1, name: 'employee' };
 
 export interface RoleState {
-  role: Role;
+  role: Role | null;
 }
 
 function isRole(value: unknown): value is Role {
-  return !!value
-    && typeof (value as any).id === 'number'
-    && typeof (value as any).name === 'string';
+  return (
+    !!value &&
+    typeof (value as any).id === 'number' &&
+    typeof (value as any).name === 'string'
+  );
 }
 
-function loadRole(): Role {
+function loadRole(): Role | null {
   const storedJson = sessionStorage.getItem(STORAGE_KEY);
-  if (!storedJson) return DEFAULT_ROLE;
+  if (!storedJson) return null;
   try {
     const parsedRole = JSON.parse(storedJson);
-    return isRole(parsedRole) ? parsedRole : DEFAULT_ROLE;
+    return isRole(parsedRole) ? parsedRole : null;
   } catch {
-    return DEFAULT_ROLE;
+    return null;
   }
 }
 
 function saveRole(role: Role) {
   sessionStorage.setItem(STORAGE_KEY, JSON.stringify(role));
+}
+
+function removeRole() {
+  sessionStorage.removeItem(STORAGE_KEY);
 }
 
 function writeRoleToStorage(role: Role) {
@@ -48,7 +60,39 @@ export const UserRole = signalStore(
   withState(initialState),
 
   withComputed(({ role }) => ({
-    isEmployee: computed(() => role().name === 'employee'),
-    dashboardPath: computed(() => (role().name === 'employee' ? '/funcionario' : '/cliente')),
+    isEmployee: computed(() => role()?.name === 'employee'),
+    isClient: computed(() => role()?.name === 'client'),
+    dashboardPath: computed(() => {
+      const currentRole = role();
+      if (!currentRole) return '/login';
+      return currentRole.name === 'employee' ? '/funcionario' : '/cliente';
+    }),
   })),
+
+  withMethods((store) => ({
+    updateRoleFromToken(token: string): void {
+      const tokenRole = mapTokenRoleToRole(token);
+
+      if (tokenRole) {
+        patchState(store, { role: tokenRole });
+        saveRole(tokenRole);
+      }
+    },
+
+    logoutUser(): void {
+      patchState(store, { role: null });
+      removeRole();
+    },
+  }))
 );
+
+export function mapTokenRoleToRole(tokenRole: string): Role | null {
+  switch (tokenRole.toUpperCase()) {
+    case 'FUNCIONARIO':
+      return { id: 1, name: 'employee' };
+    case 'CLIENTE':
+      return { id: 2, name: 'client' };
+    default:
+      return null;
+  }
+}
