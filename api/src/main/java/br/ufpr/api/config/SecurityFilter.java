@@ -25,6 +25,14 @@ public class SecurityFilter extends OncePerRequestFilter{
     private AuthorizationService authorizationService;
 
     @Override
+    protected boolean shouldNotFilter(HttpServletRequest request)
+    throws ServletException {
+        String path = request.getRequestURI();
+        return "/auth/login".equals(path) ||
+                "/auth/register".equals(path);
+    }
+
+    @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         var token = this.recoverToken(request);
