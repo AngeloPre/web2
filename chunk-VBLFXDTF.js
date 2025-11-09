@@ -1,0 +1,1 @@
+import{S as a,T as b,U as c,V as d}from"./chunk-SPEOVACB.js";import"./chunk-4T6RMSZH.js";import"./chunk-FDERIQAA.js";export{b as NGX_CURRENCY_CONFIG,c as NgxCurrencyDirective,a as NgxCurrencyInputMode,d as provideEnvironmentNgxCurrency};
