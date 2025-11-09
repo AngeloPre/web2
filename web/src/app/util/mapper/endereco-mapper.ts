@@ -10,6 +10,6 @@ export function fromViaCep(dto: EnderecoViaCep, numero: string): Endereco {
     cidade: dto.localidade,
     uf: toUF(dto.uf),
     numero,
-    complemento: dto.complemento,
+    complemento: '',
   };
 }
