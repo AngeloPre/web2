@@ -12,6 +12,9 @@ public class Endereco {
     @Column(name = "logradouro", length = 255)
     private String logradouro;
 
+    @Column(name = "complemento", length = 255)
+    private String complemento;
+
     @Column(name = "numero", length = 20)
     private String numero;
 
@@ -42,6 +45,14 @@ public class Endereco {
         this.logradouro = logradouro;
     }
 
+    public String getComplemento() {
+        return complemento;
+    }
+
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+    
     public String getNumero() {
         return numero;
     }

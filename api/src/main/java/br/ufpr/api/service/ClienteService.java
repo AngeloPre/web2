@@ -53,8 +53,9 @@ public class ClienteService {
 
         EnderecoDTO e = cliente.endereco();
         Endereco end = new Endereco();
-        end.setCep(e.cep().replaceAll("\\D",""));
+        end.setCep(e.cep());
         end.setLogradouro(e.logradouro());
+        end.setComplemento(e.complemento());
         end.setNumero(e.numero());
         end.setBairro(e.bairro());
         end.setCidade(e.cidade());

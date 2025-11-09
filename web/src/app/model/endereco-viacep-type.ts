@@ -6,7 +6,6 @@ export type EnderecoViaCep = {
   bairro: string,
   localidade: string,//é o nome da cidade
   uf: string,
-  estado: string,
   regiao: string,
   ibge: number,
   ddd: number
