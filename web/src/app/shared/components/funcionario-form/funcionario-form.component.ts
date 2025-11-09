@@ -14,7 +14,6 @@ import {
 import { Router, RouterLink } from '@angular/router';
 import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatCardModule } from '@angular/material/card';
-import { UsuarioService } from '@services/usuario.service';
 import { ConfirmarModalComponent } from '../confirmar-modal/confirmar-modal.component';
 import { MatDialog } from '@angular/material/dialog';
 import { FuncionarioService } from '@/app/services/funcionario.service';
@@ -42,7 +41,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class FuncionarioFormComponent {
   private dialog = inject(MatDialog);
   router = inject(Router);
-  //usuarioService = inject(UsuarioService);
   funcionarioService = inject(FuncionarioService);
   avatarPreview: string | null = null;
   funcionario = input.required<Funcionario>();

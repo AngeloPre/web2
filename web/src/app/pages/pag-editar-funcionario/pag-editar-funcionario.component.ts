@@ -1,6 +1,5 @@
 import { StatusAtivoInativo } from '@model/enums/status-ativo-inativo.enum';
 import { Funcionario } from '@model/funcionario';
-import { UsuarioService } from '@services/usuario.service';
 import { FuncionarioFormComponent } from '@shared/components/funcionario-form/funcionario-form.component';
 import { Component, inject, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';

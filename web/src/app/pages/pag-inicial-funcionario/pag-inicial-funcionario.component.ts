@@ -2,8 +2,6 @@ import { ChamadoCardComponent } from '@shared/components/chamado-card/chamado-ca
 import { RiveLoaderComponent } from '@shared/components/rive-loader/rive-loader.component';
 import { Component, computed, effect, inject } from '@angular/core';
 import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
-import { ChamadoItem } from '@model/chamado.type';
-//Temporário
 import { ChamadoService } from '@services/chamado.service';
 import { FuncionarioService } from '@/app/services/funcionario.service';
 

@@ -25,8 +25,6 @@ import { WrapperLandingPageComponent } from './layouts/wrapper-landing-page/wrap
 import { CLIENT_ROLE, EMPLOYEE_ROLE } from './model/roles';
 
 export const routes: Routes = [
-  //enquanto ainda não temos landing page, encaminhamos do root pro login
-
   {
     path: '',
     component: WrapperLandingPageComponent,
