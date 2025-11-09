@@ -9,10 +9,10 @@ public class Endereco {
     @Column(name = "cep", length = 9)
     private String cep; 
 
-    @Column(name = "logradouro", length = 255)
+    @Column(name = "logradouro", length = 50)
     private String logradouro;
 
-    @Column(name = "complemento", length = 255)
+    @Column(name = "complemento", length = 50)
     private String complemento;
 
     @Column(name = "numero", length = 20)

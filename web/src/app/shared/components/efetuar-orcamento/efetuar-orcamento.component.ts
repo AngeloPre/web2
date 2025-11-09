@@ -1,9 +1,9 @@
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { DatePipe, CurrencyPipe } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from "@angular/material/input";
-import { FormsModule } from "@angular/forms";
-import { MatButton } from "@angular/material/button";
+import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { MatButton } from '@angular/material/button';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { ServicoAdicionalDialogComponent } from '../dialogs/servico-adicional-dialog/servico-adicional-dialog.component';
@@ -15,18 +15,24 @@ import { Router } from '@angular/router';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { Orcamento } from '@/app/model/orcamento';
 
-
 @Component({
   selector: 'app-efetuar-orcamento',
-  imports: [MatFormFieldModule, MatInputModule, FormsModule, MatButton, NgxCurrencyDirective, DatePipe, CurrencyPipe],
+  imports: [
+    MatFormFieldModule,
+    MatInputModule,
+    FormsModule,
+    MatButton,
+    NgxCurrencyDirective,
+    DatePipe,
+    CurrencyPipe,
+  ],
   templateUrl: './efetuar-orcamento.component.html',
-  styles: ``
+  styles: ``,
 })
-
 export class EfetuarOrcamentoComponent {
   private dialog = inject(MatDialog);
   private router = inject(Router);
-  private snackBar = inject(MatSnackBar);
+  private snack = inject(MatSnackBar);
   private chamadoService = inject(ChamadoService);
 
   chamado = input.required<ChamadoItem>();
@@ -38,26 +44,35 @@ export class EfetuarOrcamentoComponent {
       width: '440px',
       maxWidth: 'none',
       panelClass: 'dialog-xxl',
-      data: { chamado: this.chamado(), precoBase: this.precoBase() }
+      data: { chamado: this.chamado(), precoBase: this.precoBase() },
     });
-    ref.afterClosed().subscribe(resposta => {
+    ref.afterClosed().subscribe((resposta) => {
       if (resposta && resposta.confirmado) {
         const orcamento: Orcamento = {
           valor: this.precoBase(),
-          comentario: resposta.comentario
+          comentario: resposta.comentario,
         };
-        this.chamadoService.efetuarOrcamento(this.chamado().id, orcamento).subscribe(c => {
-          this.chamadoService.refresh().subscribe();
-        });
-
-        const snack = this.snackBar.open(
-          'Orçamento Efetuado', 'OK', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center',
-          panelClass: ['snack-top', 'snack-success']
-        }
-        );
+        this.chamadoService
+          .efetuarOrcamento(this.chamado().id, orcamento)
+          .subscribe({
+            next: () => {
+              this.snack.open('Orçamento efetuado', 'OK', {
+                duration: 3000,
+                verticalPosition: 'top',
+                horizontalPosition: 'center',
+                panelClass: ['snack-top', 'snack-success'],
+              });
+              this.router.navigate(['/funcionario']);
+            },
+            error: (err) => {
+              this.snack.open(err.error, 'OK', {
+                duration: 3000,
+                verticalPosition: 'top',
+                horizontalPosition: 'center',
+                panelClass: ['snack-top', 'snack-danger'],
+              });
+            },
+          });
       }
     });
   }

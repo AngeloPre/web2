@@ -21,6 +21,13 @@ import {
 } from 'rxjs';
 import { ChamadoApi, mapCliente, mapFuncionario } from '../dto/api.dto';
 import { Orcamento } from '../model/orcamento';
+import {
+  ChamadoCreateApi,
+  ChamadoResponseApi,
+  chamadoToDTO,
+  dtoToChamado,
+} from '../dto/chamado.dto';
+import { orcamentoToDTO } from '../dto/orcamento.dto';
 
 export const LS_Chamado = 'Chamado';
 
@@ -41,7 +48,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     }),
   };
 
-  constructor() { }
+  constructor() {}
 
   refresh(params?: {
     status?: StatusConsertoEnum | string;
@@ -64,6 +71,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   }): Observable<ChamadoItem[]> {
     let httpParams = new HttpParams();
 
+    // Query params ?status=...&dataInicio=...&dataFim=...
     if (params?.status) {
       httpParams = httpParams.set('status', this.toApiStatus(params.status));
     }
@@ -81,12 +89,12 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     }
 
     return this.httpClient
-      .get<ChamadoApi[]>(this.BASE_URL, {
+      .get<ChamadoResponseApi[]>(this.BASE_URL, {
         ...this.httpOptions,
         params: httpParams,
       })
       .pipe(
-        map((list) => this.adaptarLista(list)),
+        map((dtos) => dtos.map(dtoToChamado)),
         catchError((err) => {
           if (err.status === 404) return of<ChamadoItem[]>([]);
           return throwError(() => err);
@@ -94,16 +102,21 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
       );
   }
 
-  listarPorUser(userId: number): ChamadoItem[] {
-    const chamados = localStorage[LS_Chamado];
-    const lista: ChamadoItem[] = JSON.parse(chamados);
-    return lista.filter((chamado) => chamado.userId === userId);
-  }
+  // listarPorUser(userId: number): ChamadoItem[] {
+  //   const chamados = localStorage[LS_Chamado];
+  //   const lista: ChamadoItem[] = JSON.parse(chamados);
+  //   return lista.filter((chamado) => chamado.userId === userId);
+  // }
 
   inserir(elemento: ChamadoItem): Observable<ChamadoItem> {
     return this.httpClient
-      .post<ChamadoItem>(this.BASE_URL, elemento, this.httpOptions)
+      .post<ChamadoResponseApi>(
+        this.BASE_URL,
+        chamadoToDTO(elemento),
+        this.httpOptions
+      )
       .pipe(
+        map(dtoToChamado),
         tap((created) =>
           this.chamadosSignal.update((list) => [...list, created])
         )
@@ -111,10 +124,9 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   }
 
   buscarPorId(id: number): Observable<ChamadoItem> {
-    return this.httpClient.get<ChamadoItem>(
-      `${this.BASE_URL}/${id}`,
-      this.httpOptions
-    );
+    return this.httpClient
+      .get<ChamadoResponseApi>(`${this.BASE_URL}/${id}`, this.httpOptions)
+      .pipe(map(dtoToChamado));
   }
 
   atualizar(chamado: ChamadoItem): Observable<ChamadoItem> {
@@ -143,10 +155,18 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
       );
   }
 
-  efetuarOrcamento(chamadoId: number, orcamento: Orcamento): Observable<ChamadoItem> {
+  efetuarOrcamento(
+    chamadoId: number,
+    orcamento: Orcamento
+  ): Observable<ChamadoItem> {
     return this.httpClient
-      .post<ChamadoItem>(`${this.BASE_URL}/${chamadoId}/orcamento`, orcamento, this.httpOptions)
+      .post<ChamadoResponseApi>(
+        `${this.BASE_URL}/${chamadoId}/orcamento`,
+        orcamentoToDTO(orcamento),
+        this.httpOptions
+      )
       .pipe(
+        map(dtoToChamado),
         tap((updated) => {
           this.chamadosSignal.update((list) =>
             list.map((c) => (c.serviceId === updated.serviceId ? updated : c))
@@ -179,7 +199,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     return StatusConsertoEnum[key];
   }
 
-  private adaptarUm(dto: ChamadoApi): ChamadoItem {
+  /* private adaptarUm(dto: ChamadoApi): ChamadoItem {
     const cliente = mapCliente(dto.cliente);
 
     return {
@@ -202,11 +222,11 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
       funcionario: mapFuncionario(dto.funcionario),
       cliente: cliente,
     };
-  }
+  }*/
 
-  private adaptarLista(list: ChamadoApi[]): ChamadoItem[] {
+  /*  private adaptarLista(list: ChamadoApi[]): ChamadoItem[] {
     return (list ?? []).map(this.adaptarUm.bind(this));
-  }
+  }*/
 
   private toApiStatus(s: StatusConsertoEnum | string): string {
     if (typeof s === 'string' && (s as any) in StatusConsertoEnum) return s;

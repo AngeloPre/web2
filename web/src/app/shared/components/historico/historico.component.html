@@ -40,9 +40,9 @@
                 <div class="mt-2 flex items-center gap-3">
                     <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">AC</div>
                     <div>
-                        <p class="font-medium leading-tight">{{ chamado().cliente?.nome }}</p>
+                        <p class="font-medium leading-tight">{{ chamado().cliente }}</p>
                         <p class="text-xs text-figma-gray-300">
-                            {{ chamado().cliente?.nome?.toLowerCase() }}
+                            {{ chamado().cliente.toLowerCase() }}
                             <span>&#64; email.com</span>
                         </p>
                     </div>
@@ -55,7 +55,7 @@
 
 
     <div>
-        @for (etapa of chamado().etapas; track etapa.id) {
+        @for (etapa of etapas; track etapa.id) {
             <div class="min-w-0 mb-8">
                 <mat-expansion-panel class="shadow-none">
                     <mat-expansion-panel-header class="flex-between">
@@ -71,10 +71,12 @@
                             <span>Criado em</span>
                             <span>{{ etapa.dataCriado | date:'dd/MM/yy, HH:mm'}}</span>
                         </li>
-                        <li class="flex items-center justify-between py-3">
-                            <span>Técnico responsável</span>
-                            <span>{{ etapa.tecnico.nome }}</span>
-                        </li>
+                        @if (etapa.tecnico) {
+                          <li class="flex items-center justify-between py-3">
+                          <span>Técnico responsável</span>
+                          <span>{{ etapa.tecnico.nome }}</span>
+                          </li>
+                        }
                         @if (etapa.orcamento != null) {
                             <li class="flex items-center justify-between py-3">
                                 <span>Valor do orçamento</span>

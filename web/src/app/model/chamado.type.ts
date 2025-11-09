@@ -9,17 +9,17 @@ export type ChamadoItem = {
   userId?: number;
   userName?: string;
   serviceId: number;
-  cliente?: Cliente;
+  cliente: string;
   serviceCategory: string;
   status: StatusConsertoEnum;
   descricaoEquipamento: string;
   descricaoFalha: string;
-  slug: string;
-  etapas: EtapaHistorico[]
+  slug?: string;
+  //etapas: EtapaHistorico[]
   dataCriacao: Date;
   dataResposta?: Date;
   comentario?: string;
   precoBase: number;
-  funcionario?: Funcionario;
-  orcamento?: Orcamento;
+  funcionario?: string;
+  //orcamento?: Orcamento;
 };

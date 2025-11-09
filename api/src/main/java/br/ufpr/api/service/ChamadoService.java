@@ -1,5 +1,6 @@
 package br.ufpr.api.service;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
@@ -15,13 +16,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
-import br.ufpr.api.dto.ChamadoCreateUpdateDTO;
+import br.ufpr.api.dto.ChamadoCreateDTO;
 import br.ufpr.api.dto.ChamadoDTO;
 import br.ufpr.api.dto.ClienteDTO;
 import br.ufpr.api.dto.EnderecoDTO;
 import br.ufpr.api.dto.EtapaHistoricoDTO;
 import br.ufpr.api.dto.FuncionarioDTO;
 import br.ufpr.api.dto.OrcamentoDTO;
+import br.ufpr.api.exception.ResourceConflictException;
+import br.ufpr.api.exception.ResourceForbiddenException;
+import br.ufpr.api.exception.ResourceNotFoundException;
 import br.ufpr.api.model.entity.CategoriaEquipamento;
 import br.ufpr.api.model.entity.Chamado;
 import br.ufpr.api.model.entity.Cliente;
@@ -45,26 +49,24 @@ public class ChamadoService {
     @Autowired
     private OrcamentoRepository orcamentoRepository;
 
-    public ChamadoDTO addNewChamado(ChamadoCreateUpdateDTO dto) {
-        Cliente cliente = clienteRepository.findById(dto.clienteId())
-        .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-        CategoriaEquipamento categoria = categoriaRepo.findById(dto.categoriaId())
-        .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada"));
-
-        Funcionario funcionario = null;
-        if (dto.funcionarioId() != null) {
-            funcionario = funcionarioRepository.findById(dto.funcionarioId())
-            .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado"));
+    public ChamadoDTO addNewChamado(ChamadoCreateDTO dto, UserDetails activeUser) {
+        if (!(activeUser instanceof Cliente)) {
+            throw new ResourceForbiddenException("Apenas clientes podem criar chamados");
         }
+
+        Cliente cliente = (Cliente) activeUser;
+
+        String slug = dto.categoriaNome().toLowerCase().replace(" ", "-");
+        CategoriaEquipamento categoria = categoriaRepo.findBySlug(slug)
+            .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada"));
 
         var ch = new Chamado();
         ch.setCliente(cliente);
-        ch.setFuncionario(funcionario);
+        ch.setFuncionario(null);
         ch.setCategoriaEquipamento(categoria);
         ch.setDescricaoEquipamento(dto.descricaoEquipamento());
         ch.setDescricaoFalha(dto.descricaoFalha());
-        ch.setPrecoBase(dto.precoBase());
-        ch.setComentario(dto.comentario());
+        ch.setPrecoBase(BigDecimal.valueOf(categoria.getBaseValue() / 100));
 
         // status inicial é ABERTA (RF004)
         ch.setStatus(StatusConserto.ABERTA);
@@ -110,41 +112,54 @@ public class ChamadoService {
     }
 
     @Transactional
-    public ChamadoDTO updateChamado(Integer id, ChamadoCreateUpdateDTO dto) {
+    public ChamadoDTO updateChamado(Integer id, ChamadoCreateDTO dto) {
         Chamado ch = chamadoRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Chamado não encontrado"));
 
-        Cliente cliente = clienteRepository.findById(dto.clienteId())
-        .orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
-        CategoriaEquipamento categoria = categoriaRepo.findById(dto.categoriaId())
-        .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada"));
+        //Cliente cliente = clienteRepository.findById(dto.clienteId())
+        //.orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
+        String slug = dto.categoriaNome().toLowerCase().replace(" ", "-");
+        CategoriaEquipamento categoria = categoriaRepo.findBySlug(slug)
+            .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada"));
 
         Funcionario funcionario = null;
-        if (dto.funcionarioId() != null) {
-            funcionario = funcionarioRepository.findById(dto.funcionarioId())
-            .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado"));
-        }
+        //if (dto.funcionarioId() != null) {
+        //    funcionario = funcionarioRepository.findById(dto.funcionarioId())
+        //    .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado"));
+        //}
 
-        ch.setCliente(cliente);                    // sempre tem cliente
+        //ch.setCliente(cliente);                    // sempre tem cliente
         ch.setFuncionario(funcionario);            // pode nao ter um (quando criada)
         ch.setCategoriaEquipamento(categoria);
         ch.setDescricaoEquipamento(dto.descricaoEquipamento());
         ch.setDescricaoFalha(dto.descricaoFalha());
-        ch.setPrecoBase(dto.precoBase());
-        ch.setComentario(dto.comentario());
+        //ch.setPrecoBase(dto.precoBase());
+        //ch.setComentario(dto.comentario());
 
         var saved = chamadoRepository.save(ch);
         return toDTO(saved);
     }
 
     @Transactional
-    public ChamadoDTO efetuarOrcamento(Integer id, OrcamentoDTO dto) {
+    public ChamadoDTO efetuarOrcamento(Integer id, OrcamentoDTO dto, UserDetails activeUser) {
+
+        if (!(activeUser instanceof Funcionario)) {
+            throw new ResourceForbiddenException("Ação não permitida");
+        }
+
+        Funcionario funcionario = (Funcionario) activeUser;
+
         Chamado ch = chamadoRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Chamado não encontrado"));
+                .orElseThrow(() -> new ResourceNotFoundException("Chamado não encontrado"));
+
+        if (ch.getStatus() != StatusConserto.ABERTA) {
+            throw new ResourceConflictException("Apenas um orçamento por chamado");
+        }
 
         Orcamento orcamento = new Orcamento();
         orcamento.setValor(dto.valor());
-        var savedOrcamento = orcamentoRepository.save(orcamento);
+        orcamento.setComentario(dto.comentario());
+        Orcamento savedOrcamento = orcamentoRepository.save(orcamento);
 
         ZoneId zone = ZoneId.of("America/Sao_Paulo");
 
@@ -152,27 +167,28 @@ public class ChamadoService {
         ch.setPrecoBase(savedOrcamento.getValor());
         ch.setDataResposta(ZonedDateTime.now(zone).toInstant());
         ch.setStatus(StatusConserto.ORCADA);
-        ch.setComentario(dto.comentario());
+        ch.setFuncionario(funcionario);
 
-        var savedChamado = chamadoRepository.save(ch);
+        Chamado savedChamado = chamadoRepository.save(ch);
         return toDTO(savedChamado);
     }
 
     private static ChamadoDTO toDTO(Chamado c) {
         return new ChamadoDTO(
         c.getId(),
-        toClienteDTO(c.getCliente()),
-        toFuncionarioDTO(c.getFuncionario()),
+        c.getCliente().getNome(),
+        c.getFuncionario() != null ? c.getFuncionario().getNome() : null,
         c.getCategoriaEquipamento() != null ? c.getCategoriaEquipamento().getName() : null,
         c.getDescricaoEquipamento(),
         c.getDescricaoFalha(),
         c.getPrecoBase(),
-        c.getComentario(),
+        c.getOrcamento() != null ? c.getOrcamento().getComentario() : null,
         c.getStatus() != null ? c.getStatus().name() : null,
         c.getDataCriacao(),
         c.getDataResposta(),
-        toEtapasDTO(c.getEtapas()),
-        toOrcamentoDTO(c.getOrcamento())
+        //toEtapasDTO(c.getEtapas()),
+        c.getOrcamento() != null ? c.getOrcamento().getValor() : null
+        //toOrcamentoDTO(c.getOrcamento())
         );
     }
 
@@ -212,11 +228,6 @@ public class ChamadoService {
             lista.add(toDTO(chamado));
         }
         return lista;
-    }
-
-    private static OrcamentoDTO toOrcamentoDTO(Orcamento o) {
-        if (o == null) return null;
-        return new OrcamentoDTO(o.getId(), o.getValor(), o.getComentario());
     }
 
     private static EtapaHistoricoDTO toEtapaDTO(EtapaHistorico e) {

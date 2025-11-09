@@ -69,9 +69,6 @@ public class Chamado {
   @Column(name = "data_resposta")
   private Instant dataResposta;
 
-  @Column(name = "comentario", columnDefinition = "TEXT")
-  private String comentario;
-
   @Column(name = "preco_base", nullable = false, precision = 12, scale = 2)
   private BigDecimal precoBase;
 

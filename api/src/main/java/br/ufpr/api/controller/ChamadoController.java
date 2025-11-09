@@ -6,12 +6,14 @@ import java.util.List;
 import br.ufpr.api.dto.OrcamentoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.ufpr.api.dto.ChamadoCreateUpdateDTO;
+import br.ufpr.api.dto.ChamadoCreateDTO;
 import br.ufpr.api.dto.ChamadoDTO;
 import br.ufpr.api.model.enums.StatusConserto;
 import br.ufpr.api.service.ChamadoService;
@@ -30,8 +32,11 @@ public class ChamadoController {
     private ChamadoService service;
 
     @PostMapping("/chamados")
-    public ChamadoDTO addNewCategoriaEquipamento(@RequestBody ChamadoCreateUpdateDTO newChamado) {
-        return service.addNewChamado(newChamado);
+    @PreAuthorize("hasAuthority('CLIENTE')")
+    public ChamadoDTO addNewChamado(@RequestBody ChamadoCreateDTO newChamado,
+        @AuthenticationPrincipal UserDetails activeUser) 
+    {
+        return service.addNewChamado(newChamado, activeUser);
     }
 
     @GetMapping("/chamados")
@@ -56,7 +61,7 @@ public class ChamadoController {
     @PutMapping("chamados/{id}")
     public ResponseEntity<ChamadoDTO> updateChamado(
         @PathVariable Integer id,
-        @Valid @RequestBody ChamadoCreateUpdateDTO updatedChamado) {
+        @Valid @RequestBody ChamadoCreateDTO updatedChamado) {
             ChamadoDTO dto = service.updateChamado(id, updatedChamado);
             return ResponseEntity.ok(dto);
 
@@ -65,9 +70,10 @@ public class ChamadoController {
     @PostMapping("chamados/{id}/orcamento")
     public ResponseEntity<ChamadoDTO> efetuarOrcamento(
             @PathVariable Integer id,
-            @Valid @RequestBody OrcamentoDTO orcamento) {
-        ChamadoDTO dto = service.efetuarOrcamento(id, orcamento);
-        return ResponseEntity.ok(dto);
+            @Valid @RequestBody OrcamentoDTO orcamento,
+            @AuthenticationPrincipal UserDetails activeUser) {
+        ChamadoDTO dto = service.efetuarOrcamento(id, orcamento, activeUser);
+        return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
 }

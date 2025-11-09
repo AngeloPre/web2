@@ -14,7 +14,7 @@ export interface Role {
   name: string;
 }
 
-const STORAGE_KEY = 'role';
+export const STORAGE_KEY = 'role';
 
 export interface RoleState {
   role: Role | null;
@@ -29,7 +29,7 @@ function isRole(value: unknown): value is Role {
 }
 
 function loadRole(): Role | null {
-  const storedJson = sessionStorage.getItem(STORAGE_KEY);
+  const storedJson = localStorage.getItem(STORAGE_KEY);
   if (!storedJson) return null;
   try {
     const parsedRole = JSON.parse(storedJson);
@@ -40,15 +40,15 @@ function loadRole(): Role | null {
 }
 
 function saveRole(role: Role) {
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(role));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(role));
 }
 
 function removeRole() {
-  sessionStorage.removeItem(STORAGE_KEY);
+  localStorage.removeItem(STORAGE_KEY);
 }
 
 function writeRoleToStorage(role: Role) {
-  sessionStorage.setItem(STORAGE_KEY, JSON.stringify(role));
+  localStorage.setItem(STORAGE_KEY, JSON.stringify(role));
 }
 
 const initialState: RoleState = {
@@ -61,7 +61,6 @@ export const UserRole = signalStore(
 
   withComputed(({ role }) => ({
     isEmployee: computed(() => role()?.name === 'employee'),
-    currentRole: computed(() => role()),
     dashboardPath: computed(() => {
       const currentRole = role();
       if (!currentRole) return '/login';

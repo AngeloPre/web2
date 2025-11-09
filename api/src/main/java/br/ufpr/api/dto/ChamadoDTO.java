@@ -6,8 +6,8 @@ import java.util.List;
 
 public record ChamadoDTO(
     Integer id,
-    ClienteDTO cliente,
-    FuncionarioDTO funcionario,
+    String cliente,
+    String funcionario,
     String categoriaNome,
     String descricaoEquipamento,
     String descricaoFalha,
@@ -16,6 +16,6 @@ public record ChamadoDTO(
     String status,
     Instant dataCriacao,
     Instant dataResposta,
-    List<EtapaHistoricoDTO> etapas,
-    OrcamentoDTO orcamento
+    //List<EtapaHistoricoDTO> etapas,
+    BigDecimal orcamentoValor
 ) {}
