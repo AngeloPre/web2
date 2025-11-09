@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpr.api.dto.LoginDTO;
 import br.ufpr.api.dto.LoginResponseDTO;
+import br.ufpr.api.dto.ClienteRegisterDTO;
 import br.ufpr.api.model.entity.Cliente;
 import br.ufpr.api.model.entity.Usuario;
 import br.ufpr.api.service.ClienteService;
@@ -47,9 +48,9 @@ public class LoginController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity<Cliente> register(@Valid @RequestBody Cliente novoCliente){
-        Cliente clienteCadastrado = clienteService.autocadastroCliente(novoCliente);
-        return new ResponseEntity<>(clienteCadastrado, HttpStatus.CREATED);
+    public ResponseEntity<Cliente> register(@Valid @RequestBody ClienteRegisterDTO cliente){
+        Cliente cadastrado = clienteService.autocadastroCliente(cliente);
+        return new ResponseEntity<>(cadastrado, HttpStatus.CREATED);
     }
     
     @GetMapping("/me")

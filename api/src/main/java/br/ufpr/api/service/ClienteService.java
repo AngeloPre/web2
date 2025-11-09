@@ -8,7 +8,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import br.ufpr.api.dto.ClienteRegisterDTO;
+import br.ufpr.api.dto.EnderecoDTO;
 import br.ufpr.api.model.entity.Cliente;
+import br.ufpr.api.model.entity.Endereco;
+import br.ufpr.api.model.enums.RoleUsuario;
 import br.ufpr.api.repository.ClienteRepository;
 import br.ufpr.api.repository.UsuarioRepository;
 import jakarta.persistence.EntityNotFoundException;
@@ -28,23 +32,40 @@ public class ClienteService {
     private EmailService emailService;
 
     @Transactional
-    public Cliente autocadastroCliente(Cliente cliente){
-        if(clienteRepository.existsByCpf(cliente.getCpf())){
+    public Cliente autocadastroCliente(ClienteRegisterDTO cliente){
+        if(clienteRepository.existsByCpf(cliente.cpf())){
             throw new IllegalArgumentException("ERRO: CPF já cadastrado");
         }
-        if(usuarioRepository.existsByEmail(cliente.getEmail())){
+        if(usuarioRepository.existsByEmail(cliente.email())){
             throw new IllegalArgumentException("ERRO: Email já cadastrado");
         }
 
         String senha = String.format("%04d", new Random().nextInt(10000));
-        cliente.setSenha(passwordEncoder.encode(senha));
-        cliente.setStatus(true);
+        Cliente novo = new Cliente();
+        novo.setNome(cliente.nome());
+        novo.setEmail(cliente.email().toLowerCase());
+        novo.setCpf(cliente.cpf());
+        novo.setTelefone(cliente.telefone());
+        novo.setSenha(passwordEncoder.encode(senha));
+        novo.setStatus(true);
+        // garante role de sistema (mesmo que o construtor já defina)
+        novo.setRole(RoleUsuario.CLIENTE);
 
-        Cliente newCliente = clienteRepository.save(cliente);
+        EnderecoDTO e = cliente.endereco();
+        Endereco end = new Endereco();
+        end.setCep(e.cep().replaceAll("\\D",""));
+        end.setLogradouro(e.logradouro());
+        end.setNumero(e.numero());
+        end.setBairro(e.bairro());
+        end.setCidade(e.cidade());
+        end.setUf(e.uf());
+        novo.setEndereco(end);
+
+        Cliente newCliente = clienteRepository.save(novo);
 
         try{
             emailService.enviarSenhaDeCadastro(newCliente.getEmail(), senha);
-        } catch (Exception e){
+        } catch (Exception ex){
             throw new IllegalStateException("ERRO: Não foi possível enviar o email de cadastro");
         }
 
