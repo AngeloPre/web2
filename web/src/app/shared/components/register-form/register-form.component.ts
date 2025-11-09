@@ -15,9 +15,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgxMaskDirective } from 'ngx-mask';
 import { catchError } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register-form',
@@ -32,7 +33,8 @@ import { catchError } from 'rxjs';
     MatStepperModule,
     NgxMaskDirective,
     EmailUnicoDirective,
-    CepValidoDirective
+    CepValidoDirective,
+    MatSnackBarModule
   ],
 
   templateUrl: './register-form.component.html',
@@ -42,6 +44,8 @@ import { catchError } from 'rxjs';
 export class RegisterFormComponent {
   viacepService = inject(ViacepService);
   registerService = inject(RegisterService);
+  private snack = inject(MatSnackBar);
+  private router = inject(Router);
   listaUfs = Object.values(UF);
 
   passwordVisible = false;
@@ -74,11 +78,22 @@ export class RegisterFormComponent {
 
     this.registerService.register(this.cliente).subscribe({
       next: () => {
-        alert('Cadastro realizado! Você receberá a senha por e-mail.');
+        this.snack.open('Cadastro realizado! Você receberá a senha por e-mail.', 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          panelClass: ['snack-top', 'snack-success'],
+        });
+        this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error(err);
-        alert('Falha no cadastro.');
+        this.snack.open('Falha no cadastro.', 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          panelClass: ['snack-top', 'snack-danger'],
+        });
       }
     });
   }
