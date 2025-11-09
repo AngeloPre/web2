@@ -201,7 +201,7 @@ public class ChamadoService {
     private static EnderecoDTO toEnderecoDTO(Endereco e) {
         if (e == null) return null;
         return new EnderecoDTO(
-        e.getCep(), e.getLogradouro(), e.getNumero(),
+        e.getCep(), e.getLogradouro(), e.getComplemento(), e.getNumero(),
         e.getBairro(), e.getCidade(), e.getUf()
         );
     }

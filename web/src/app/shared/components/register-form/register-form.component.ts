@@ -2,13 +2,12 @@ import { CepValidoDirective } from '@/app/directives/cep-valido.directive';
 import { EmailUnicoDirective } from '@/app/directives/email-unico.directive';
 import { Cliente } from '@model/cliente';
 import { Endereco } from '@model/endereco';
-import { StatusAtivoInativo } from '@model/enums/status-ativo-inativo.enum';
+import { Register } from '@model/register';
 import { UF } from '@model/enums/uf';
-import { EmailjsService } from '@services/emailjs.service';
-import { UsuarioService } from '@services/usuario.service';
+import { RegisterService } from '@services/register.service';
 import { ViacepService } from '@services/viacep.service';
 import { fromViaCep } from '@/app/util/mapper/endereco-mapper';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -16,9 +15,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatStepperModule } from '@angular/material/stepper';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { NgxMaskDirective } from 'ngx-mask';
-import { catchError, EMPTY } from 'rxjs';
+import { catchError } from 'rxjs';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-register-form',
@@ -33,7 +33,8 @@ import { catchError, EMPTY } from 'rxjs';
     MatStepperModule,
     NgxMaskDirective,
     EmailUnicoDirective,
-    CepValidoDirective
+    CepValidoDirective,
+    MatSnackBarModule
   ],
 
   templateUrl: './register-form.component.html',
@@ -42,13 +43,20 @@ import { catchError, EMPTY } from 'rxjs';
 })
 export class RegisterFormComponent {
   viacepService = inject(ViacepService);
-  usuarioService = inject(UsuarioService);
+  registerService = inject(RegisterService);
+  private snack = inject(MatSnackBar);
+  private router = inject(Router);
   listaUfs = Object.values(UF);
-  private email = inject(EmailjsService);
 
   passwordVisible = false;
 
-  cliente = new Cliente(1, '052.333.719-45', 'Marcos Renato', 'renato@email.com', "", '(41)-9 9999-8888', this.novoEndereco(), StatusAtivoInativo.ATIVO)
+  cliente: Register = {
+    nome: '',
+    email: '',
+    cpf: '',
+    telefone: '',
+    endereco: this.novoEndereco()
+  };
 
   constructor(private cdr: ChangeDetectorRef) {
 
@@ -58,19 +66,36 @@ export class RegisterFormComponent {
     return {
       cep: '',
       logradouro: '',
+      complemento: '',
       numero: '',
       bairro: '',
       cidade: '',
-      estado: '',
       uf: (this.listaUfs[0] as UF)
     };
   }
   onSubmit(form: NgForm) {
     if (form.invalid) return;
 
-    this.usuarioService.inserir(this.cliente);
-    this.enviarSenha(this.cliente.email, this.cliente.senha);
-    console.log('cliente do form', this.cliente);
+    this.registerService.register(this.cliente).subscribe({
+      next: () => {
+        this.snack.open('Cadastro realizado! Você receberá a senha por e-mail.', 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          panelClass: ['snack-top', 'snack-success'],
+        });
+        this.router.navigate(['/login']);
+      },
+      error: (err) => {
+        console.error(err);
+        this.snack.open('Falha no cadastro.', 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          panelClass: ['snack-top', 'snack-danger'],
+        });
+      }
+    });
   }
 
   limparCampo(path: keyof Cliente) {
@@ -97,15 +122,6 @@ export class RegisterFormComponent {
   }
 
   togglePassword(): void {
-    this.passwordVisible = !this.passwordVisible;
-  }
-  enviarSenha(email: string, senha: string) {
-    this.email.mandarSenha(email, senha).then(() => {
-      alert('Enviado!');
-    }).catch(err => {
-      console.error(err);
-      alert('Falha ao enviar');
-    });
-
+    //this.passwordVisible = !this.passwordVisible;
   }
 }
