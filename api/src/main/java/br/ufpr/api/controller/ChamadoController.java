@@ -7,7 +7,8 @@ import br.ufpr.api.dto.OrcamentoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpr.api.dto.ChamadoCreateUpdateDTO;
@@ -31,7 +32,6 @@ public class ChamadoController {
     @PostMapping("/chamados")
     public ChamadoDTO addNewCategoriaEquipamento(@RequestBody ChamadoCreateUpdateDTO newChamado) {
         return service.addNewChamado(newChamado);
-
     }
 
     @GetMapping("/chamados")
@@ -42,9 +42,10 @@ public class ChamadoController {
         LocalDate dataInicio,
         @RequestParam(required = false, name = "dataFim")
         @DateTimeFormat(pattern = "dd/MM/yyyy")
-        LocalDate dataFim) {
+        LocalDate dataFim,
+        @AuthenticationPrincipal UserDetails activeUser) {
 
-        return service.buscarChamados(status, dataInicio, dataFim);
+        return service.buscarChamados(status, dataInicio, dataFim, activeUser);
     }
 
     @GetMapping("/chamados/{id}")

@@ -10,7 +10,9 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 import br.ufpr.api.repository.*;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 import br.ufpr.api.dto.ChamadoCreateUpdateDTO;
@@ -73,8 +75,13 @@ public class ChamadoService {
 
     public List<ChamadoDTO> buscarChamados(StatusConserto status,
     LocalDate dataInicio,
-    LocalDate dataFim) {
+    LocalDate dataFim,
+    UserDetails activeUser) {
         ZoneId zone = ZoneId.of("America/Sao_Paulo");
+        Cliente c = null;
+        if (activeUser instanceof Cliente) {
+            c = (Cliente) activeUser;
+        }
 
         var inicio = (dataInicio != null)
         ? dataInicio.atStartOfDay(zone).toInstant()
@@ -84,12 +91,18 @@ public class ChamadoService {
         ? dataFim.plusDays(1).atStartOfDay(zone).minusNanos(1).toInstant()
         : Instant.now();
 
+        if (c != null) {
+            return toDTO(chamadoRepository
+                .findByClienteAndDataCriacaoBetweenOrderByDataCriacaoAsc(c, inicio, fim));
+        }
+
         if (status != null) {
             return toDTO(chamadoRepository
             .findByStatusAndDataCriacaoBetweenOrderByDataCriacaoAsc(status, inicio, fim));
         }
+        
         return toDTO(chamadoRepository
-        .findByDataCriacaoBetweenOrderByDataCriacaoAsc(inicio, fim));
+                .findByDataCriacaoBetweenOrderByDataCriacaoAsc(inicio, fim));
     }
 
     public ChamadoDTO getChamadoById(Integer id) {
