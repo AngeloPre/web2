@@ -26,6 +26,16 @@ import { StatusIconComponent } from '../status-icon/status-icon.component';
 export class HistoricoComponent {
   chamado = input.required<ChamadoItem>();
 
+  //Mock Etapas:
+  etapas: EtapaHistorico[] = [
+    {
+      id: 1,
+      serviceId: 1, //id do chamado
+      dataCriado: new Date(),
+      status: StatusConsertoEnum.ABERTA,
+    },
+  ];
+
   statusFinal: StatusConsertoEnum = StatusConsertoEnum.FINALIZADA;
   StatusConsertoEnum = StatusConsertoEnum; //para que o html possa acessar
 }

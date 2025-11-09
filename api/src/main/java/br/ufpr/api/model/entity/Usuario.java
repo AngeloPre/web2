@@ -31,10 +31,10 @@ public class Usuario implements UserDetails {
     @Column(name = "user_id")
     private Integer userId;
 
-    @Column(name = "nome", length = 255, nullable = false)
+    @Column(name = "nome", length = 100, nullable = false)
     private String nome;
 
-    @Column(name = "email", length = 255, nullable = false, unique = true) 
+    @Column(name = "email", length = 100, nullable = false, unique = true) 
     private String email;
 
     @Column(name = "senha", length = 255, nullable = false) 

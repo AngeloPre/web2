@@ -4,7 +4,11 @@ import { ChamadoService } from '@services/chamado.service';
 import { UsuarioService } from '@services/usuario.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
-import { MAT_DIALOG_DATA, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
+import {
+  MAT_DIALOG_DATA,
+  MatDialogModule,
+  MatDialogRef,
+} from '@angular/material/dialog';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
@@ -14,17 +18,17 @@ import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 @Component({
   selector: 'app-redirecionar-modal',
   imports: [
-    FormsModule, 
-    CommonModule, 
-    MatButton, 
-    MatDialogModule, 
-    MatFormField, 
-    MatLabel, 
-    MatSelect, 
-    MatOption
+    FormsModule,
+    CommonModule,
+    MatButton,
+    MatDialogModule,
+    MatFormField,
+    MatLabel,
+    MatSelect,
+    MatOption,
   ],
   templateUrl: './redirecionar-modal.component.html',
-  styles: ``
+  styles: ``,
 })
 export class RedirecionarModalComponent implements OnInit {
   funcionarios: Funcionario[] = [];
@@ -49,7 +53,7 @@ export class RedirecionarModalComponent implements OnInit {
 
   onRedirect(): void {
     if (this.selectedFuncionario && this.chamado) {
-      this.chamado.funcionario = this.selectedFuncionario;
+      this.chamado.funcionario = this.selectedFuncionario.nome;
       this.chamado.status = StatusConsertoEnum.REDIRECIONADA;
       this.chamadoService.atualizar(this.chamado);
       this.dialog.close(this.chamado);

@@ -29,10 +29,6 @@ export class LoginService {
     }),
   };
 
-  currentRole(): Role | null {
-    return this.userRole.currentRole();
-  }
-
   login(login: Login): Observable<Token> {
     return this.httpClient
       .post<Token>(this.BASE_URL, login, this.httpOptions)

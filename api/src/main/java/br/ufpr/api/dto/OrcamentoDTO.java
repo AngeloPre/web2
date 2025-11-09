@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import java.math.BigDecimal;
 
 public record OrcamentoDTO(
-    Long id,
     @NotNull BigDecimal valor,
     String comentario
 ) {}

@@ -9,10 +9,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import br.ufpr.api.dto.ChamadoCreateUpdateDTO;
+import br.ufpr.api.dto.ChamadoCreateDTO;
 import br.ufpr.api.model.entity.CategoriaEquipamento;
 import br.ufpr.api.model.entity.Chamado;
 import br.ufpr.api.model.entity.Cliente;
@@ -443,16 +444,14 @@ public class SeedService {
     BigDecimal precoBase,
     String comentario) {
 
-        var dto = new ChamadoCreateUpdateDTO(
-        cliente.getIdUsuario(),
-        funcionario != null ? funcionario.getIdUsuario() : null,
-        categoria.getCategoryId(),
+        var dto = new ChamadoCreateDTO(
+        categoria.getName(),
         descEquip,
-        descFalha,
-        precoBase,
-        comentario
+        descFalha
+        //precoBase,
+        //comentario
         );
-        var dtoResp = chamadoService.addNewChamado(dto);
+        var dtoResp = chamadoService.addNewChamado(dto, (UserDetails) cliente);
         return chamadoRepository.findById(dtoResp.id()).orElseThrow();
     }
 }
