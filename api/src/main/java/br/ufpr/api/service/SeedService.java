@@ -419,6 +419,9 @@ public class SeedService {
         // estado atual do chamado
         ch.setStatus(status);
 
+        //TODO ver funcionario lugar certo?
+        ch.setFuncionario(resp != null ? resp : null);
+
         // orçamento no Chamado (1:1) - usa o valor "vigente" (ex.: o aprovado)
         if (orcamentoSeHouver != null) {
             if (ch.getOrcamento() == null) {
