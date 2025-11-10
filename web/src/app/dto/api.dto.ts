@@ -45,7 +45,7 @@ export type OrcamentoApi = {
 
 export type ChamadoApi = {
   id: number;
-  // slug: string;
+  slug: string;
   cliente: ClienteApi;
   funcionario: FuncionarioApi;
   categoriaNome: string;

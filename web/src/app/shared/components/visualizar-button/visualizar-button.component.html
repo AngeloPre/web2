@@ -1,7 +1,7 @@
 @switch (status()) {
 @case (chamadosStatus.ORCADA) {
   <button
-    [routerLink]="['/cliente/orcamentos', id()]"
+    [routerLink]="['/cliente/orcamentos', id(), slug()]"
     class="bg-transparent font-sans text-sm hover:bg-figma-gray-300 hover:text-figma-gray-100 py-2 px-4 border border-figma-gray-600 hover:border-transparent rounded">
     Aprovar/Rejeitar Serviço
   </button>
@@ -14,7 +14,7 @@
 }
 @case (chamadosStatus.ARRUMADA) {
   <button
-    [routerLink]="['/cliente/pagar', id()]"
+    [routerLink]="['/cliente/pagar', id(), slug()]"
     class="bg-transparent font-sans text-sm hover:bg-figma-gray-300 hover:text-figma-gray-100 py-2 px-4 border border-figma-gray-600 hover:border-transparent rounded">
     Pagar
   </button>

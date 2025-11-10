@@ -43,10 +43,11 @@
         <td class="px-2 py-4">
           <app-visualizar-button
             [status]="chamado.status"
-            [id]="chamado.serviceId"/>
+            [id]="chamado.id"
+            [slug]="chamado.slug"/>
         </td>
         <td class="px-2 py-4">
-          <button class="aspect-square rounded p-2" [routerLink]="['/cliente/historico',chamado.serviceId,chamado.id]">
+          <button class="aspect-square rounded p-2" [routerLink]="['/cliente/historico',chamado.id,chamado.slug]">
             <img src="assets/svg/visualizar-icon.svg" />
           </button>
         </td>

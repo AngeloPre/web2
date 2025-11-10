@@ -1,12 +1,13 @@
 <div class="grid grid-cols-3 gap-6 max-h-[70vh] overflow-y-auto pr-4">
-    @for (chamado of chamados(); track chamado.serviceId) {
+    @for (chamado of chamados(); track chamado.id) {
         <mat-card appearance="outlined" class=" w-full h-[192px] rounded-2x1 border border-figma-gray-200 shadow-sm p-4">
             <!--header-->
             <div class="flex items-start justify-between">
                 <div class="text-xs text-figma-gray-300">{{ chamado.id }}</div>
                 <app-visualizar-button-card
                     [status]="chamado.status"
-                    [id]="chamado.id" />
+                    [id]="chamado.id"
+                    [slug]="chamado.slug" />
             </div>
 
             <!--categoria e descrição-->

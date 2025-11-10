@@ -1,7 +1,7 @@
 <div class="h-7 flex items-center justify-end">
     @switch (status()) {
         @case (chamadosStatus.ABERTA) {<!--ver se precisa do id do chamadonesta chamada do botao-->
-        <button [routerLink]="['/funcionario/orcamentos',id()]"
+        <button [routerLink]="['/funcionario/orcamentos',id(), slug()]"
             class="hover:bg-figma-gray-300 hover:text-figma-gray-100 border border-figma-gray-600 hover:border-transparent inline-flex items-center gap-2 rounded-lg bg-figma-gray-600 text-white text-xs font-medium px-4 py-1">
             Orçar
         </button>
