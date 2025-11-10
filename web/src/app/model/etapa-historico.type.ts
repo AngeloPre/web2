@@ -1,8 +1,7 @@
 import { StatusConsertoEnum } from './enums/chamado-status.enum';
-import { Funcionario } from './funcionario';
-
-//TODO: CORRIGIR TIPAGEM
-export type Tecnico = Funcionario | undefined
+export type Tecnico = {
+  nome: string;
+};
 
 export type Redirecionamento = {
   //tecnico redireciona quando não está apto

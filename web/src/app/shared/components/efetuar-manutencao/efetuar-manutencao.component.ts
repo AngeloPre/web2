@@ -52,7 +52,7 @@ export class EfetuarManutencaoComponent {
       };
       const etapaRedirecionamento: EtapaHistorico = {
         id: 1,
-        serviceId: chamado.serviceId,
+        serviceId: chamado.id,
         dataCriado: new Date(),
         tecnico: tecnicoAtual,
         status: StatusConsertoEnum.REDIRECIONADA,
@@ -82,7 +82,7 @@ export class EfetuarManutencaoComponent {
       };
       const etapaManutencao: EtapaHistorico = {
         id: 1,
-        serviceId: chamado.serviceId,
+        serviceId: chamado.id,
         dataCriado: new Date(),
         tecnico: tecnicoAtual,
         status: StatusConsertoEnum.ARRUMADA,

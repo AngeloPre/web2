@@ -8,7 +8,6 @@ export type ChamadoItem = {
   id: number;
   userId?: number;
   userName?: string;
-  serviceId: number;
   cliente: string;
   serviceCategory: string;
   status: StatusConsertoEnum;
@@ -21,5 +20,4 @@ export type ChamadoItem = {
   comentario?: string;
   precoBase: number;
   funcionario?: string;
-  //orcamento?: Orcamento;
 };

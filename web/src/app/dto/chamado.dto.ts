@@ -51,3 +51,11 @@ function fromApiStatus(s: string | null | undefined): StatusConsertoEnum {
   const key = (s ?? '').toUpperCase() as keyof typeof StatusConsertoEnum;
   return StatusConsertoEnum[key];
 }
+
+
+export function toApiStatus(s: StatusConsertoEnum | string): string {
+  if (typeof s === 'string' && (s as any) in StatusConsertoEnum) return s;
+
+  const entry = Object.entries(StatusConsertoEnum).find(([, v]) => v === s);
+  return entry?.[0] ?? String(s).toUpperCase();
+}

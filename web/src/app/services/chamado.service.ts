@@ -26,8 +26,11 @@ import {
   ChamadoResponseApi,
   chamadoToDTO,
   dtoToChamado,
+  toApiStatus,
 } from '../dto/chamado.dto';
 import { orcamentoToDTO } from '../dto/orcamento.dto';
+import { etapaCreateDTO } from '../dto/etapa.dto';
+import { EtapaHistorico } from '../model/etapa-historico.type';
 
 export const LS_Chamado = 'Chamado';
 
@@ -73,7 +76,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
 
     // Query params ?status=...&dataInicio=...&dataFim=...
     if (params?.status) {
-      httpParams = httpParams.set('status', this.toApiStatus(params.status));
+      httpParams = httpParams.set('status', toApiStatus(params.status));
     }
     if (params?.dataInicio) {
       httpParams = httpParams.set(
@@ -108,7 +111,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   //   return lista.filter((chamado) => chamado.userId === userId);
   // }
 
-  inserir(chamado: ChamadoItem): Observable<ChamadoItem> {
+  inserir(elemento: ChamadoItem): Observable<ChamadoItem> {
     return this.httpClient
       .post<ChamadoResponseApi>(
         this.BASE_URL,
@@ -175,6 +178,22 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
       );
   }
 
+  pagar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem> {
+    return this.httpClient
+      .post<ChamadoResponseApi>(
+        `${this.BASE_URL}/${chamadoId}/etapas`,
+        etapaCreateDTO(etapa),
+        this.httpOptions
+      ).pipe(
+        map(dtoToChamado),
+        tap((updated) => {
+          this.chamadosSignal.update((list) =>
+            list.map((c) => (c.id === updated.id ? updated : c))
+          );
+        })
+      );
+  }
+
   private converterData(date: Date | string): string {
     const d = typeof date === 'string' ? new Date(date) : date;
     const dd = String(d.getDate()).padStart(2, '0');
@@ -225,11 +244,4 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   /*  private adaptarLista(list: ChamadoApi[]): ChamadoItem[] {
     return (list ?? []).map(this.adaptarUm.bind(this));
   }*/
-
-  private toApiStatus(s: StatusConsertoEnum | string): string {
-    if (typeof s === 'string' && (s as any) in StatusConsertoEnum) return s;
-
-    const entry = Object.entries(StatusConsertoEnum).find(([, v]) => v === s);
-    return entry?.[0] ?? String(s).toUpperCase();
-  }
 }
