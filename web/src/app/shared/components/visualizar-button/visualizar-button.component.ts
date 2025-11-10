@@ -23,7 +23,6 @@ export class VisualizarButtonComponent {
   private chamadoService = inject(ChamadoService);
   status = input.required<StatusConsertoEnum>();
   id = input.required<number>();
-  slug = input<string>();
   readonly dialog = inject(MatDialog);
 
   abrirModal(): void {

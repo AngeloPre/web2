@@ -3,11 +3,10 @@
         <mat-card appearance="outlined" class=" w-full h-[192px] rounded-2x1 border border-figma-gray-200 shadow-sm p-4">
             <!--header-->
             <div class="flex items-start justify-between">
-                <div class="text-xs text-figma-gray-300">{{ chamado.serviceId }}</div>
+                <div class="text-xs text-figma-gray-300">{{ chamado.id }}</div>
                 <app-visualizar-button-card
                     [status]="chamado.status"
-                    [id]="chamado.serviceId"
-                    [slug]="chamado.slug" />
+                    [id]="chamado.id" />
             </div>
 
             <!--categoria e descrição-->

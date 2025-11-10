@@ -21,6 +21,9 @@ import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ChamadoService } from '@services/chamado.service';
 import { Router } from '@angular/router';
+import { Cliente } from '@/app/model/cliente';
+import { StatusAtivoInativo } from '@/app/model/enums/status-ativo-inativo.enum';
+import { UF } from '@/app/model/enums/uf';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
@@ -51,7 +54,7 @@ export class SolicitacaoClienteComponent {
   );
 
   pedido: ChamadoItem = {
-    id: 0,
+    id: -1,
     userId: 0,
     userName: '',
     serviceId: -1,
@@ -60,6 +63,8 @@ export class SolicitacaoClienteComponent {
     status: StatusConsertoEnum.ABERTA,
     descricaoEquipamento: '',
     descricaoFalha: '',
+    cliente: new Cliente(0, "", "", "", "", "", { bairro: "", cep: "", cidade: "", logradouro: "", numero: "0", uf: UF.ACRE }, StatusAtivoInativo.ATIVO),
+    etapas: [],
     slug: 'slug',
     //etapas: [],
     dataCriacao: new Date(),

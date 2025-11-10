@@ -76,7 +76,7 @@ export const routes: Routes = [
         title: 'Detalhe do Orçamento',
       },
       {
-        path: 'pagar/:id/:slug',
+        path: 'pagar/:id',
         component: PagarClienteComponent,
         title: 'Pagamento do Serviço',
       },

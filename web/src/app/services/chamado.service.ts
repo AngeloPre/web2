@@ -19,7 +19,7 @@ import {
   throwError,
   delay,
 } from 'rxjs';
-import { ChamadoApi, mapCliente, mapFuncionario } from '../dto/api.dto';
+import { ChamadoApi, clienteToApi, EtapaHistoricoApi, funcionarioToApi, mapCliente, mapFuncionario } from '../dto/api.dto';
 import { Orcamento } from '../model/orcamento';
 import {
   ChamadoCreateApi,
@@ -48,7 +48,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     }),
   };
 
-  constructor() {}
+  constructor() { }
 
   refresh(params?: {
     status?: StatusConsertoEnum | string;
@@ -108,7 +108,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   //   return lista.filter((chamado) => chamado.userId === userId);
   // }
 
-  inserir(elemento: ChamadoItem): Observable<ChamadoItem> {
+  inserir(chamado: ChamadoItem): Observable<ChamadoItem> {
     return this.httpClient
       .post<ChamadoResponseApi>(
         this.BASE_URL,
@@ -132,14 +132,14 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   atualizar(chamado: ChamadoItem): Observable<ChamadoItem> {
     return this.httpClient
       .put<ChamadoItem>(
-        `${this.BASE_URL}/${chamado.serviceId}`,
+        `${this.BASE_URL}/${chamado.id}`,
         chamado,
         this.httpOptions
       )
       .pipe(
         tap((updated) => {
           this.chamadosSignal.update((list) =>
-            list.map((c) => (c.serviceId === updated.serviceId ? updated : c))
+            list.map((c) => (c.id === updated.id ? updated : c))
           );
         })
       );
@@ -169,7 +169,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
         map(dtoToChamado),
         tap((updated) => {
           this.chamadosSignal.update((list) =>
-            list.map((c) => (c.serviceId === updated.serviceId ? updated : c))
+            list.map((c) => (c.id === updated.id ? updated : c))
           );
         })
       );
@@ -204,13 +204,11 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
 
     return {
       id: dto.id,
-      serviceId: dto.id,
       serviceCategory: dto.categoriaNome,
 
       status: this.fromApiStatus(dto.status),
       descricaoEquipamento: dto.descricaoEquipamento,
       descricaoFalha: dto.descricaoFalha,
-      slug: dto.slug,
       etapas: [],
 
       dataCriacao: new Date(dto.dataCriacao),

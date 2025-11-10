@@ -31,6 +31,7 @@ export class PagEfetuarManutencaoComponent {
       if (chamadoId !== null && !isNaN(chamadoId)) {
         this.chamadoService.buscarPorId(chamadoId).subscribe(c => {
           this.chamado.set(c);
+          console.log(this.chamado());
         });
       }
     });

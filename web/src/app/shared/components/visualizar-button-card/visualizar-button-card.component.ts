@@ -15,7 +15,6 @@ import { catchError, map, of, switchMap } from 'rxjs';
 })
 export class VisualizarButtonCardComponent {
   id = input.required<number>();
-  slug = input<string>();
   status = input.required<StatusConsertoEnum>();
   private dialog = inject(MatDialog);
   private chamadoService = inject(ChamadoService);

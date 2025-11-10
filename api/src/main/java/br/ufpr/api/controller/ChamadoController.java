@@ -22,10 +22,12 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-
+@CrossOrigin
 @RestController
 public class ChamadoController {
     @Autowired
@@ -64,6 +66,18 @@ public class ChamadoController {
         @Valid @RequestBody ChamadoCreateDTO updatedChamado) {
             ChamadoDTO dto = service.updateChamado(id, updatedChamado);
             return ResponseEntity.ok(dto);
+
+    }
+
+    // @PatchMapping("chamados/{id}?status={status}")
+    @PatchMapping("chamados/{id}")
+    public ResponseEntity<String> updateChamadoStatus(
+        @PathVariable Integer id,// @PathVariable StatusConserto status,
+        @Valid @RequestBody ChamadoCreateUpdateDTO updatedChamado) {
+            // ChamadoDTO dto = service.updateChamado(id, updatedChamado);
+
+            // return ResponseEntity.ok(dto);
+            return ResponseEntity.ok("Deu bom");
 
     }
 

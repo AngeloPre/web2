@@ -1,4 +1,4 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, inject, input, output, Signal } from '@angular/core';
 import { ChamadoItem } from '@/app/model/chamado.type';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
 import { DataHoraPipe } from '../../pipes/data-hora.pipe';
@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RedirecionarModalComponent } from '../redirecionar-modal/redirecionar-modal.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Funcionario } from '@/app/model/funcionario';
 
 @Component({
   selector: 'app-efetuar-manutencao',
