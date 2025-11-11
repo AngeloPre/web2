@@ -5,6 +5,7 @@ export type ChamadoCreateApi = {
   categoriaNome: string;
   descricaoEquipamento: string;
   descricaoFalha: string;
+  statusConcerto?: StatusConsertoEnum;
 };
 
 export type ChamadoResponseApi = {
@@ -27,6 +28,7 @@ export function chamadoToDTO(chamado: ChamadoItem): ChamadoCreateApi {
     categoriaNome: chamado.serviceCategory,
     descricaoEquipamento: chamado.descricaoEquipamento,
     descricaoFalha: chamado.descricaoFalha,
+    statusConcerto: chamado.status
   } as ChamadoCreateApi;
 }
 

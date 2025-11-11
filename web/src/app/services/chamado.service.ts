@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { ChamadoItem } from '@model/chamado.type';
+import { ChamadoItem, ChamadoUpdateDTO } from '@model/chamado.type';
 import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 import { API_URL } from './CONSTANTES';
 import {
@@ -133,13 +133,15 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   }
 
   atualizar(chamado: ChamadoItem): Observable<ChamadoItem> {
+    const dto = this.toUpdateDto(chamado);
     return this.httpClient
-      .put<ChamadoItem>(
+      .put<ChamadoResponseApi>(
         `${this.BASE_URL}/${chamado.id}`,
-        chamado,
+        dto,
         this.httpOptions
       )
       .pipe(
+        map(dtoToChamado),
         tap((updated) => {
           this.chamadosSignal.update((list) =>
             list.map((c) => (c.id === updated.id ? updated : c))
@@ -216,6 +218,16 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   private fromApiStatus(s: string | null | undefined): StatusConsertoEnum {
     const key = (s ?? '').toUpperCase() as keyof typeof StatusConsertoEnum;
     return StatusConsertoEnum[key];
+  }
+
+  private toUpdateDto(chamado: ChamadoItem): ChamadoUpdateDTO {
+    const chamadoDto: ChamadoUpdateDTO = {
+      categoriaNome: chamado.serviceCategory,
+      descricaoEquipamento: chamado.descricaoEquipamento,
+      descricaoFalha: chamado.descricaoFalha,
+      statusConcerto: chamado.status
+    }
+    return chamadoDto;
   }
 
   /* private adaptarUm(dto: ChamadoApi): ChamadoItem {

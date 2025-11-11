@@ -136,6 +136,9 @@ public class ChamadoService {
         ch.setCategoriaEquipamento(categoria);
         ch.setDescricaoEquipamento(dto.descricaoEquipamento());
         ch.setDescricaoFalha(dto.descricaoFalha());
+        if(dto.statusConcerto() != null) {
+            ch.setStatus(dto.statusConcerto());
+        }
         //ch.setPrecoBase(dto.precoBase());
         //ch.setComentario(dto.comentario());
 

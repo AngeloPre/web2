@@ -21,3 +21,10 @@ export type ChamadoItem = {
   precoBase: number;
   funcionario?: string;
 };
+
+export type ChamadoUpdateDTO = {
+  categoriaNome: string;
+  descricaoEquipamento: string;
+  descricaoFalha: string;
+  statusConcerto?: StatusConsertoEnum;
+}
