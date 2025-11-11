@@ -13,6 +13,7 @@ import {
 } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { EtapaHistorico } from '@/app/model/etapa-historico.type';
 
 @Component({
   selector: 'app-pagar-cliente',
@@ -36,8 +37,8 @@ export class PagarClienteComponent implements OnInit {
   chamado = signal<ChamadoItem | undefined>(undefined);
 
   ngOnInit(): void {
-    let serviceID = +this.route.snapshot.params['id'];
-    this.chamadoService.buscarPorId(serviceID).subscribe( c => {
+    let chamadoId = +this.route.snapshot.params['id'];
+    this.chamadoService.buscarPorId(chamadoId).subscribe(c => {
       this.chamado.set(c);
     });
     console.log(this.chamado);
@@ -47,12 +48,14 @@ export class PagarClienteComponent implements OnInit {
     const atual = this.chamado();
     if (!atual) return;
 
-    const payload: ChamadoItem = {
-      ...atual,
-      status: StatusConsertoEnum.PAGA
-    };
+    const novaEtapa: EtapaHistorico = {
+      id: -1,
+      serviceId: atual.id,
+      status: StatusConsertoEnum.PAGA,
+      dataCriado: new Date()
+    }
 
-    this.chamadoService.atualizar(payload).subscribe({
+    this.chamadoService.pagar(atual.id, novaEtapa).subscribe({
       next: salvo => {
         this.chamado.set(salvo);
         this.router.navigate(['/cliente']);

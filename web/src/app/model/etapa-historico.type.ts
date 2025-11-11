@@ -1,5 +1,4 @@
 import { StatusConsertoEnum } from './enums/chamado-status.enum';
-
 export type Tecnico = {
   nome: string;
 };

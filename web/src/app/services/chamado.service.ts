@@ -19,15 +19,18 @@ import {
   throwError,
   delay,
 } from 'rxjs';
-import { ChamadoApi, mapCliente, mapFuncionario } from '../dto/api.dto';
+import { ChamadoApi, clienteToApi, EtapaHistoricoApi, funcionarioToApi, mapCliente, mapFuncionario } from '../dto/api.dto';
 import { Orcamento } from '../model/orcamento';
 import {
   ChamadoCreateApi,
   ChamadoResponseApi,
   chamadoToDTO,
   dtoToChamado,
+  toApiStatus,
 } from '../dto/chamado.dto';
 import { orcamentoToDTO } from '../dto/orcamento.dto';
+import { etapaCreateDTO } from '../dto/etapa.dto';
+import { EtapaHistorico } from '../model/etapa-historico.type';
 
 export const LS_Chamado = 'Chamado';
 
@@ -48,7 +51,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     }),
   };
 
-  constructor() {}
+  constructor() { }
 
   refresh(params?: {
     status?: StatusConsertoEnum | string;
@@ -73,7 +76,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
 
     // Query params ?status=...&dataInicio=...&dataFim=...
     if (params?.status) {
-      httpParams = httpParams.set('status', this.toApiStatus(params.status));
+      httpParams = httpParams.set('status', toApiStatus(params.status));
     }
     if (params?.dataInicio) {
       httpParams = httpParams.set(
@@ -132,14 +135,14 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   atualizar(chamado: ChamadoItem): Observable<ChamadoItem> {
     return this.httpClient
       .put<ChamadoItem>(
-        `${this.BASE_URL}/${chamado.serviceId}`,
+        `${this.BASE_URL}/${chamado.id}`,
         chamado,
         this.httpOptions
       )
       .pipe(
         tap((updated) => {
           this.chamadosSignal.update((list) =>
-            list.map((c) => (c.serviceId === updated.serviceId ? updated : c))
+            list.map((c) => (c.id === updated.id ? updated : c))
           );
         })
       );
@@ -169,7 +172,23 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
         map(dtoToChamado),
         tap((updated) => {
           this.chamadosSignal.update((list) =>
-            list.map((c) => (c.serviceId === updated.serviceId ? updated : c))
+            list.map((c) => (c.id === updated.id ? updated : c))
+          );
+        })
+      );
+  }
+
+  pagar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem> {
+    return this.httpClient
+      .post<ChamadoResponseApi>(
+        `${this.BASE_URL}/${chamadoId}/etapas`,
+        etapaCreateDTO(etapa),
+        this.httpOptions
+      ).pipe(
+        map(dtoToChamado),
+        tap((updated) => {
+          this.chamadosSignal.update((list) =>
+            list.map((c) => (c.id === updated.id ? updated : c))
           );
         })
       );
@@ -204,13 +223,11 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
 
     return {
       id: dto.id,
-      serviceId: dto.id,
       serviceCategory: dto.categoriaNome,
 
       status: this.fromApiStatus(dto.status),
       descricaoEquipamento: dto.descricaoEquipamento,
       descricaoFalha: dto.descricaoFalha,
-      slug: dto.slug,
       etapas: [],
 
       dataCriacao: new Date(dto.dataCriacao),
@@ -227,11 +244,4 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   /*  private adaptarLista(list: ChamadoApi[]): ChamadoItem[] {
     return (list ?? []).map(this.adaptarUm.bind(this));
   }*/
-
-  private toApiStatus(s: StatusConsertoEnum | string): string {
-    if (typeof s === 'string' && (s as any) in StatusConsertoEnum) return s;
-
-    const entry = Object.entries(StatusConsertoEnum).find(([, v]) => v === s);
-    return entry?.[0] ?? String(s).toUpperCase();
-  }
 }

@@ -4,7 +4,7 @@
     <img src="assets/svg/arrow-left.svg" alt=""/>
     <span>Voltar</span>
   </a>
-  <h1 class="text-3xl font-bold text-brand-dark" >Orçamento referente ao chamado #{{ chamado()?.serviceId }}</h1>
+  <h1 class="text-3xl font-bold text-brand-dark" >Orçamento referente ao chamado #{{ chamado()?.id }}</h1>
   <div class="mt-8 bg-white rounded-lg overflow-hidden border border-none">
     @if (chamado()) {
           <app-orcamento-preview [chamado]="chamado()!"></app-orcamento-preview>

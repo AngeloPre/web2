@@ -28,6 +28,21 @@ export type FuncionarioApi = {
   dataNascimento: string;
 } | null;
 
+export type EtapaHistoricoApi = {
+  id: number;
+  status: string;
+  comentario: string | null;
+  dataCriacao: string;
+  funcionario: FuncionarioApi;
+  motivoRejeicao: string | null;
+};
+
+export type OrcamentoApi = {
+  id: number;
+  valor: number;
+} | null;
+
+
 export type ChamadoApi = {
   id: number;
   slug: string;
@@ -41,7 +56,10 @@ export type ChamadoApi = {
   status: string;
   dataCriacao: string;
   dataResposta: string | null;
+  etapas: EtapaHistoricoApi[];
+  orcamento: OrcamentoApi;
 };
+
 
 export function mapEndereco(api: EnderecoApi): Endereco {
   return {
@@ -75,4 +93,38 @@ export function mapCliente(api: ClienteApi): Cliente {
     mapEndereco(api.endereco),
     StatusAtivoInativo.ATIVO //placeholder, ver se faz sentido remover dps
   );
+}
+
+export function enderecoToApi(e: Endereco): EnderecoApi {
+  return {
+    cep: e.cep,
+    logradouro: e.logradouro,
+    numero: e.numero,
+    bairro: e.bairro,
+    cidade: e.cidade,
+    uf: e.uf,
+  };
+}
+
+export function clienteToApi(c: Cliente): ClienteApi {
+  return {
+    id: c.id,
+    nome: c.nome,
+    email: c.email,
+    telefone: c.telefone,
+    cpf: c.cpf,
+    endereco: enderecoToApi(c.endereco as Endereco),
+  };
+}
+
+export function funcionarioToApi(f?: Funcionario | null): FuncionarioApi {
+  if (!f) return null;
+  return {
+    id: f.id!,
+    nome: f.nome,
+    email: f.email,
+    dataNascimento: (f.dataNascimento instanceof Date)
+      ? f.dataNascimento.toISOString().slice(0, 10) // yyyy-mm-dd
+      : String(f.dataNascimento),
+  };
 }

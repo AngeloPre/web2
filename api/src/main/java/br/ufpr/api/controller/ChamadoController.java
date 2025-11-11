@@ -1,9 +1,12 @@
 package br.ufpr.api.controller;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 
 import br.ufpr.api.dto.OrcamentoDTO;
+import br.ufpr.api.exception.ResourceForbiddenException;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
@@ -15,6 +18,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import br.ufpr.api.dto.ChamadoCreateDTO;
 import br.ufpr.api.dto.ChamadoDTO;
+import br.ufpr.api.dto.ChamadoPatchDTO;
+import br.ufpr.api.dto.ChamadoUpdateDTO;
+import br.ufpr.api.dto.EtapaCreateDTO;
+import br.ufpr.api.dto.EtapaHistoricoDTO;
+import br.ufpr.api.model.entity.Cliente;
+import br.ufpr.api.model.entity.Funcionario;
 import br.ufpr.api.model.enums.StatusConserto;
 import br.ufpr.api.service.ChamadoService;
 import jakarta.validation.Valid;
@@ -22,10 +31,12 @@ import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
-
+@CrossOrigin
 @RestController
 public class ChamadoController {
     @Autowired
@@ -34,21 +45,21 @@ public class ChamadoController {
     @PostMapping("/chamados")
     @PreAuthorize("hasAuthority('CLIENTE')")
     public ChamadoDTO addNewChamado(@RequestBody ChamadoCreateDTO newChamado,
-        @AuthenticationPrincipal UserDetails activeUser) 
+    @AuthenticationPrincipal UserDetails activeUser)
     {
         return service.addNewChamado(newChamado, activeUser);
     }
 
     @GetMapping("/chamados")
     public List<ChamadoDTO> getChamados(
-        @RequestParam(required = false) StatusConserto status,
-        @RequestParam(required = false, name = "dataInicio")
-        @DateTimeFormat(pattern = "dd/MM/yyyy")
-        LocalDate dataInicio,
-        @RequestParam(required = false, name = "dataFim")
-        @DateTimeFormat(pattern = "dd/MM/yyyy")
-        LocalDate dataFim,
-        @AuthenticationPrincipal UserDetails activeUser) {
+    @RequestParam(required = false) StatusConserto status,
+    @RequestParam(required = false, name = "dataInicio")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    LocalDate dataInicio,
+    @RequestParam(required = false, name = "dataFim")
+    @DateTimeFormat(pattern = "dd/MM/yyyy")
+    LocalDate dataFim,
+    @AuthenticationPrincipal UserDetails activeUser) {
 
         return service.buscarChamados(status, dataInicio, dataFim, activeUser);
     }
@@ -60,20 +71,47 @@ public class ChamadoController {
 
     @PutMapping("chamados/{id}")
     public ResponseEntity<ChamadoDTO> updateChamado(
-        @PathVariable Integer id,
-        @Valid @RequestBody ChamadoCreateDTO updatedChamado) {
-            ChamadoDTO dto = service.updateChamado(id, updatedChamado);
-            return ResponseEntity.ok(dto);
+    @PathVariable Integer id,
+    @Valid @RequestBody ChamadoUpdateDTO updatedChamado,
+    @AuthenticationPrincipal UserDetails activeUser) {
+        ChamadoDTO dto = service.updateChamado(id, updatedChamado, activeUser);
+        return ResponseEntity.ok(dto);
+
+    }
+
+    @PatchMapping("chamados/{id}")
+    public ResponseEntity<String> updateChamadoStatus(
+    @PathVariable Integer id,
+    @Valid @RequestBody ChamadoPatchDTO updatedChamado,
+    @AuthenticationPrincipal UserDetails activeUser) {
+        // ChamadoDTO dto = service.updateChamado(id, updatedChamado);
+
+        // return ResponseEntity.ok(dto);
+        return ResponseEntity.ok("Deu bom");
 
     }
 
     @PostMapping("chamados/{id}/orcamento")
     public ResponseEntity<ChamadoDTO> efetuarOrcamento(
-            @PathVariable Integer id,
-            @Valid @RequestBody OrcamentoDTO orcamento,
-            @AuthenticationPrincipal UserDetails activeUser) {
+    @PathVariable Integer id,
+    @Valid @RequestBody OrcamentoDTO orcamento,
+    @AuthenticationPrincipal UserDetails activeUser) {
         ChamadoDTO dto = service.efetuarOrcamento(id, orcamento, activeUser);
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
+    }
+
+    //TODO: obter etapas
+    // @GetMapping("/chamados/{id}/etapas")
+    // public ResponseEntity<List<EtapaHistoricoDTO>> listarEtapas(@PathVariable Integer id) { return new ResponseEntity<>(new ArrayList<>())) }
+
+    @PostMapping("/chamados/{id}/etapas")
+    public ResponseEntity<ChamadoDTO> novaEtapa(@PathVariable Integer id,
+                                                @Valid @RequestBody EtapaCreateDTO dto,
+                                                @AuthenticationPrincipal UserDetails activeUser) {
+
+        ChamadoDTO atualizado = service.novaEtapa(id, dto);
+
+        return ResponseEntity.ok(atualizado);
     }
 
 }

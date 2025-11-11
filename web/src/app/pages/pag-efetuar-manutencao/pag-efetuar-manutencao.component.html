@@ -1,6 +1,6 @@
 <div class="mt-6 page-shell">
     <!-- botao para voltar -->
-    <a mat-button class="figma-ghost" 
+    <a mat-button class="figma-ghost"
         [routerLink]="['/funcionario/solicitacoes']">
         <img src="assets/svg/arrow-left.svg" alt="" />
         <span>Voltar</span>
@@ -8,7 +8,7 @@
 
     <!-- Título -->
     <h1 class="text-3xl font-bold text-brand-dark">
-        Efetuar manutenção referente ao chamado #{{ chamado()?.serviceId }}
+        Efetuar manutenção referente ao chamado #{{ chamado()?.id }}
     </h1>
 
     <!-- Componente de preview do chamado -->

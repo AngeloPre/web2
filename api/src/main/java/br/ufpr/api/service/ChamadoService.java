@@ -18,11 +18,14 @@ import org.springframework.stereotype.Service;
 
 import br.ufpr.api.dto.ChamadoCreateDTO;
 import br.ufpr.api.dto.ChamadoDTO;
+import br.ufpr.api.dto.ChamadoUpdateDTO;
 import br.ufpr.api.dto.ClienteDTO;
 import br.ufpr.api.dto.EnderecoDTO;
+import br.ufpr.api.dto.EtapaCreateDTO;
 import br.ufpr.api.dto.EtapaHistoricoDTO;
 import br.ufpr.api.dto.FuncionarioDTO;
 import br.ufpr.api.dto.OrcamentoDTO;
+import br.ufpr.api.exception.BadRequestApiException;
 import br.ufpr.api.exception.ResourceConflictException;
 import br.ufpr.api.exception.ResourceForbiddenException;
 import br.ufpr.api.exception.ResourceNotFoundException;
@@ -102,7 +105,7 @@ public class ChamadoService {
             return toDTO(chamadoRepository
             .findByStatusAndDataCriacaoBetweenOrderByDataCriacaoAsc(status, inicio, fim));
         }
-        
+
         return toDTO(chamadoRepository
                 .findByDataCriacaoBetweenOrderByDataCriacaoAsc(inicio, fim));
     }
@@ -112,7 +115,7 @@ public class ChamadoService {
     }
 
     @Transactional
-    public ChamadoDTO updateChamado(Integer id, ChamadoCreateDTO dto) {
+    public ChamadoDTO updateChamado(Integer id, ChamadoUpdateDTO dto, UserDetails activeUser) {
         Chamado ch = chamadoRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Chamado não encontrado"));
 
@@ -171,6 +174,48 @@ public class ChamadoService {
 
         Chamado savedChamado = chamadoRepository.save(ch);
         return toDTO(savedChamado);
+    }
+
+    @Transactional
+    public ChamadoDTO novaEtapa(Integer chamadoId, EtapaCreateDTO dto) {
+        Chamado chamado = chamadoRepository.findById(chamadoId)
+            .orElseThrow(() -> new ResourceNotFoundException("Chamado não encontrado"));
+
+        switch (dto.status()) {
+            case ORCADA      -> require(dto.valorOrcamento() != null, "valorOrcamento obrigatório");
+            case REJEITADA   -> require(notBlank(dto.motivoRejeicao()), "motivoRejeicao obrigatório");
+            case REDIRECIONADA -> {
+                //TODO
+            }
+            case ARRUMADA    -> require(notBlank(dto.descricaoManutencao()), "descricaoManutencao obrigatória");
+            case PAGA, FINALIZADA, ABERTA, APROVADA -> { /* sem extras obrigatórios */ }
+        }
+
+        // cria etapa
+        EtapaHistorico etapa = new EtapaHistorico();
+        etapa.setChamado(chamado);
+        etapa.setStatus(dto.status());
+        etapa.setFuncionario(chamado.getFuncionario());
+        etapa.setComentario(dto.comentario());
+        etapa.setMotivoRejeicao(dto.motivoRejeicao());
+        chamado.getEtapas().add(etapa);
+
+        // efeitos colaterais no Chamado
+        switch (dto.status()) {
+            case ORCADA -> chamado.getOrcamento().setValor(dto.valorOrcamento());
+            case REDIRECIONADA -> {
+                Funcionario destino = funcionarioRepository.findById(dto.funcionarioDestinoId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Funcionário de destino não encontrado"));
+                chamado.setFuncionario(destino);
+            }
+            case ARRUMADA -> { /*ver se precisa fazer algo*/ }
+            case PAGA, FINALIZADA -> chamado.setDataResposta(Instant.now());
+            default -> {}
+        }
+
+        chamado.setStatus(dto.status());
+        Chamado salvo = chamadoRepository.save(chamado);
+        return toDTO(salvo);
     }
 
     private static ChamadoDTO toDTO(Chamado c) {
@@ -248,6 +293,16 @@ public class ChamadoService {
         .filter(Objects::nonNull)
         .map(ChamadoService::toEtapaDTO)
         .collect(Collectors.toList());
+    }
+
+    private static void require(boolean condicao, String msg) {
+        if (!condicao) {
+            throw new BadRequestApiException(msg);
+        }
+    }
+
+    private static boolean notBlank(String s) {
+        return s != null && !s.isBlank();
     }
 
 }
