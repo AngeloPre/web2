@@ -54,7 +54,7 @@ public class LoginController {
     }
     
     @GetMapping("/me")
-    public String testResponse(@AuthenticationPrincipal UserDetails activeUser) {
-        return "Você é: " + activeUser.getUsername();
+    public ResponseEntity<String> getMe(@AuthenticationPrincipal UserDetails activeUser) {
+        return ResponseEntity.ok(activeUser.getUsername());
     }
 }

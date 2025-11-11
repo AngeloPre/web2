@@ -56,9 +56,18 @@
                     </div>
                     <!--nomeemail-->
                     <div class="min-w-0" *ngIf="isOpen">
-                        <p class="self-stretch justify-center text-sm font-normal font-lato leading-tight text-white">nomedasilva</p>
-                        <p class="self-stretch justify-center text-xs font-normal font-lato leading-none text-figma-gray-400">emaildasilva</p>
+                        <p class="self-stretch justify-center text-sm font-normal font-lato leading-tight text-white">
+                        {{ usuarioNome() }}
+                        </p>
                     </div>
+                    <!-- logout -->
+                    <button *ngIf="isOpen"
+                            mat-flat-button
+                            color="warn"
+                            class="ml-auto !text-[11px] !leading-none !px-2 !py-1 !h-7 !min-h-0"
+                            (click)="logout()">
+                        Sair
+                    </button>
                 </div>
             </div>
         </mat-drawer>

@@ -8,16 +8,21 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import { Role, UserRole } from '../core/store/user-role/user-role.store';
 
 export const LS_Token = 'TokenLS';
+export const UserName = 'UserName';
 
 export function tokenGetter() {
   return localStorage.getItem('TokenLS');
+}
+
+export function usernameGetter() {
+  return localStorage.getItem('UserName');
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  BASE_URL = `${API_URL}/auth/login`;
+  BASE_URL = `${API_URL}/auth`;
 
   httpClient: HttpClient = inject(HttpClient);
   private jwtHelper = inject(JwtHelperService);
@@ -31,7 +36,7 @@ export class LoginService {
 
   login(login: Login): Observable<Token> {
     return this.httpClient
-      .post<Token>(this.BASE_URL, login, this.httpOptions)
+      .post<Token>(`${this.BASE_URL}/login`, login, this.httpOptions)
       .pipe(
         tap((token: Token) => {
           localStorage[LS_Token] = token.Token;
@@ -47,5 +52,15 @@ export class LoginService {
     this.userRole.logoutUser();
   }
 
-  constructor() {}
+  me(): Observable<string> {
+    return this.httpClient
+      .get<string>(`${this.BASE_URL}/me`, this.httpOptions)
+      .pipe(
+        tap((username: string) => {
+          localStorage[UserName] = username;
+        })
+      )
+  }
+
+  constructor() { }
 }
