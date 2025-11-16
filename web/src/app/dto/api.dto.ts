@@ -35,6 +35,7 @@ export type EtapaHistoricoApi = {
   dataCriacao: string;
   funcionario: FuncionarioApi;
   motivoRejeicao: string | null;
+  orcamento: number | null
 };
 
 export type OrcamentoApi = {
