@@ -168,8 +168,6 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
 
     }
 
-
-
   efetuarOrcamento(
     chamadoId: number,
     orcamento: Orcamento
@@ -189,7 +187,6 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
         })
       );
   }
-
 
   criarEtapaBase(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem> {
     return this.httpClient
@@ -220,6 +217,10 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
   }
 
   resgatar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem>{
+    return this.criarEtapaBase(chamadoId, etapa);
+  }
+
+  finalizar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem>{
     return this.criarEtapaBase(chamadoId, etapa);
   }
 
@@ -263,7 +264,6 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     };
   }
 
-
   private fromApiStatus(s: string | null | undefined): StatusConsertoEnum {
     const key = (s ?? '').toUpperCase() as keyof typeof StatusConsertoEnum;
     return StatusConsertoEnum[key];
@@ -278,31 +278,4 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     }
     return chamadoDto;
   }
-
-  /* private adaptarUm(dto: ChamadoApi): ChamadoItem {
-    const cliente = mapCliente(dto.cliente);
-
-    return {
-      id: dto.id,
-      serviceCategory: dto.categoriaNome,
-
-      status: this.fromApiStatus(dto.status),
-      descricaoEquipamento: dto.descricaoEquipamento,
-      descricaoFalha: dto.descricaoFalha,
-      etapas: [],
-
-      dataCriacao: new Date(dto.dataCriacao),
-      dataResposta: dto.dataResposta ? new Date(dto.dataResposta) : undefined,
-
-      comentario: dto.comentario ?? undefined,
-      precoBase: dto.precoBase,
-
-      funcionario: mapFuncionario(dto.funcionario),
-      cliente: cliente,
-    };
-  }*/
-
-  /*  private adaptarLista(list: ChamadoApi[]): ChamadoItem[] {
-    return (list ?? []).map(this.adaptarUm.bind(this));
-  }*/
 }
