@@ -25,6 +25,7 @@
       </tr>
     </thead>
     <tbody>
+      @defer (when !chamadoService.loading()) {
       @for (chamado of chamados(); track chamado.id) {
         <tr class="hover:bg-figma-gray-200">
         <td class="px-6 py-4">
@@ -75,5 +76,30 @@
         </td>
         </tr>
       }
+    } @placeholder {
+      <tr>
+        <td colspan="4" class="py-6 h-96">
+          <div class="loading-wrap">
+            <app-rive-loader
+              src="assets/miner_loading_bar.riv"
+              stateMachine="State Machine 1"
+              progressInput="Number 1"
+              [durationMs]="1000"
+              [from]="0"
+              [to]="100"
+              [width]="560"
+              [height]="200">
+            </app-rive-loader>
+          </div>
+        </td>
+      </tr>
+    } @loading {
+      <tr class="animate-pulse">
+        <td class="px-8 py-4"><div class="h-4 w-48 bg-white rounded"></div></td>
+        <td class="px-8 py-4"><div class="h-4 w-32 bg-white rounded"></div></td>
+        <td class="px-4 py-4"><div class="h-4 w-20 bg-white rounded"></div></td>
+        <td class="px-6 py-4"><div class="h-4 w-24 bg-white rounded ml-auto"></div></td>
+      </tr>
+    }
     </tbody>
   </table>

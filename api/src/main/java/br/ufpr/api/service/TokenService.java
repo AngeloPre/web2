@@ -23,10 +23,11 @@ public class TokenService {
         try {
             Algorithm alg = Algorithm.HMAC256(secret);
             String token = JWT.create()
-                .withIssuer("example")
+                .withIssuer("web2")
                 .withSubject(user.getEmail())
                 .withExpiresAt(generateExpirationDate())
                 .withClaim("roles", user.getRole().toString())
+                .withClaim("nome", user.getNome())
                 .sign(alg);
             return token;
         } catch (JWTCreationException ex) {
@@ -38,7 +39,7 @@ public class TokenService {
         try {
             Algorithm alg = Algorithm.HMAC256(secret);
             return JWT.require(alg)
-                    .withIssuer("example")
+                    .withIssuer("web2")
                     .build()
                     .verify(token)
                     .getSubject();
