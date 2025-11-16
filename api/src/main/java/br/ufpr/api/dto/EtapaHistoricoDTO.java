@@ -1,5 +1,6 @@
 package br.ufpr.api.dto;
 
+import java.math.BigDecimal;
 import java.time.Instant;
 
 public record EtapaHistoricoDTO(
@@ -8,5 +9,6 @@ public record EtapaHistoricoDTO(
         String comentario,
         Instant dataCriacao,
         FuncionarioDTO funcionario,
-        String motivoRejeicao
+        String motivoRejeicao,
+        BigDecimal orcamento
 ) {}

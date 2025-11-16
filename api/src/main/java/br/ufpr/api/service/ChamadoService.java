@@ -74,6 +74,9 @@ public class ChamadoService {
         // status inicial é ABERTA (RF004)
         ch.setStatus(StatusConserto.ABERTA);
 
+        EtapaHistorico etapa = this.gerarEtapa(ch, StatusConserto.ABERTA);
+        ch.getEtapas().add(etapa);
+
         var saved = chamadoRepository.save(ch);
         return toDTO(saved);
     }
@@ -136,8 +139,8 @@ public class ChamadoService {
         ch.setCategoriaEquipamento(categoria);
         ch.setDescricaoEquipamento(dto.descricaoEquipamento());
         ch.setDescricaoFalha(dto.descricaoFalha());
-        if(dto.statusConcerto() != null) {
-            ch.setStatus(dto.statusConcerto());
+        if(dto.statusConserto() != null) {
+            ch.setStatus(dto.statusConserto());
         }
         //ch.setPrecoBase(dto.precoBase());
         //ch.setComentario(dto.comentario());
@@ -175,6 +178,10 @@ public class ChamadoService {
         ch.setStatus(StatusConserto.ORCADA);
         ch.setFuncionario(funcionario);
 
+        EtapaHistorico etapa = this.gerarEtapa(ch, StatusConserto.ORCADA);
+        etapa.setComentario(dto.comentario());
+        ch.getEtapas().add(etapa);
+
         Chamado savedChamado = chamadoRepository.save(ch);
         return toDTO(savedChamado);
     }
@@ -193,13 +200,8 @@ public class ChamadoService {
             case ARRUMADA    -> require(notBlank(dto.descricaoManutencao()), "descricaoManutencao obrigatória");
             case PAGA, FINALIZADA, ABERTA, APROVADA -> { /* sem extras obrigatórios */ }
         }
-
-        // cria etapa
-        EtapaHistorico etapa = new EtapaHistorico();
-        etapa.setChamado(chamado);
-        etapa.setStatus(dto.status());
-        etapa.setFuncionario(chamado.getFuncionario());
-        etapa.setComentario(dto.comentario());
+        EtapaHistorico etapa = gerarEtapa(chamado, dto.status());
+        // etapa.setComentario(dto.comentario()); //acho que esse sai fora
         etapa.setMotivoRejeicao(dto.motivoRejeicao());
         chamado.getEtapas().add(etapa);
 
@@ -219,6 +221,28 @@ public class ChamadoService {
         chamado.setStatus(dto.status());
         Chamado salvo = chamadoRepository.save(chamado);
         return toDTO(salvo);
+    }
+
+    private EtapaHistorico gerarEtapa(Chamado chamado, StatusConserto status) {
+
+        EtapaHistorico etapa = new EtapaHistorico();
+        etapa.setChamado(chamado);
+        etapa.setStatus(status);
+        etapa.setFuncionario(chamado.getFuncionario());
+        return etapa;
+    }
+
+    public List<EtapaHistoricoDTO> listarEtapas(Integer chamadoId, UserDetails activeUser) {
+        Chamado chamado = chamadoRepository.findById(chamadoId)
+            .orElseThrow(() -> new ResourceNotFoundException("Chamado não encontrado"));
+
+        if (activeUser instanceof Cliente cliente) {
+            if (!Objects.equals(chamado.getCliente().getIdUsuario(), cliente.getIdUsuario())) {
+                throw new ResourceNotFoundException();
+            }
+        }
+
+        return toEtapasDTO(chamado.getEtapas());
     }
 
     private static ChamadoDTO toDTO(Chamado c) {
@@ -286,7 +310,8 @@ public class ChamadoService {
         e.getComentario(),
         e.getDataCriacao(),
         toFuncionarioDTO(e.getFuncionario()),
-        e.getMotivoRejeicao()
+        e.getMotivoRejeicao(),
+        e.getChamado().getOrcamento().getValor()
         );
     }
 

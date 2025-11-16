@@ -6,7 +6,6 @@ import {
   HttpClient,
   HttpHeaders,
   HttpParams,
-  HttpResponse,
 } from '@angular/common/http';
 import { ApiServices } from '../model/interfaces/api-services';
 import {
@@ -19,10 +18,9 @@ import {
   throwError,
   delay,
 } from 'rxjs';
-import { ChamadoApi, clienteToApi, EtapaHistoricoApi, funcionarioToApi, mapCliente, mapFuncionario } from '../dto/api.dto';
+import { EtapaHistoricoApi, mapFuncionario } from '../dto/api.dto';
 import { Orcamento } from '../model/orcamento';
 import {
-  ChamadoCreateApi,
   ChamadoResponseApi,
   chamadoToDTO,
   dtoToChamado,
@@ -105,12 +103,6 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
       );
   }
 
-  // listarPorUser(userId: number): ChamadoItem[] {
-  //   const chamados = localStorage[LS_Chamado];
-  //   const lista: ChamadoItem[] = JSON.parse(chamados);
-  //   return lista.filter((chamado) => chamado.userId === userId);
-  // }
-
   inserir(elemento: ChamadoItem): Observable<ChamadoItem> {
     return this.httpClient
       .post<ChamadoResponseApi>(
@@ -160,6 +152,22 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
       );
   }
 
+  listarEtapas(
+    chamadoId: number
+  ): Observable<EtapaHistorico[]> {
+    return this.httpClient
+      .get<EtapaHistoricoApi[]>(
+        `${this.BASE_URL}/${chamadoId}/etapas`
+      ).pipe(
+        map((dtos) => this.fromApiEtapas(dtos, chamadoId)),
+        catchError((err) => {
+          if (err.status === 404) return of<EtapaHistorico[]>([]);
+          return throwError(() => err)
+        })
+      );
+
+    }
+
   efetuarOrcamento(
     chamadoId: number,
     orcamento: Orcamento
@@ -180,7 +188,7 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
       );
   }
 
-  pagar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem> {
+  criarEtapaBase(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem> {
     return this.httpClient
       .post<ChamadoResponseApi>(
         `${this.BASE_URL}/${chamadoId}/etapas`,
@@ -194,6 +202,26 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
           );
         })
       );
+  }
+
+  pagar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem> {
+    return this.criarEtapaBase(chamadoId, etapa);
+  }
+
+  aprovar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem>{
+    return this.criarEtapaBase(chamadoId, etapa);
+  }
+
+  rejeitar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem>{
+    return this.criarEtapaBase(chamadoId, etapa);
+  }
+
+  resgatar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem>{
+    return this.criarEtapaBase(chamadoId, etapa);
+  }
+
+  finalizar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem>{
+    return this.criarEtapaBase(chamadoId, etapa);
   }
 
   private converterData(date: Date | string): string {
@@ -215,6 +243,27 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     }));
   }
 
+  private fromApiEtapas(
+    etapas: EtapaHistoricoApi[] | null | undefined,
+    serviceId: number
+  ): EtapaHistorico[] {
+    return (etapas ?? [])
+      .map((e) => this.fromApiEtapa(e, serviceId))
+      .sort((a, b) => a.dataCriado.getTime() - b.dataCriado.getTime());
+  }
+
+  private fromApiEtapa(etapa: EtapaHistoricoApi, chamadoId: number): EtapaHistorico {
+    return {
+      id: etapa.id,
+      serviceId: chamadoId,
+      dataCriado: new Date(etapa.dataCriacao),
+      status: this.fromApiStatus(etapa.status),
+      tecnico: mapFuncionario(etapa.funcionario),
+      motivoRejeicao: etapa.motivoRejeicao ?? undefined,
+      orcamento: etapa.orcamento ?? 0
+    };
+  }
+
   private fromApiStatus(s: string | null | undefined): StatusConsertoEnum {
     const key = (s ?? '').toUpperCase() as keyof typeof StatusConsertoEnum;
     return StatusConsertoEnum[key];
@@ -229,31 +278,4 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     }
     return chamadoDto;
   }
-
-  /* private adaptarUm(dto: ChamadoApi): ChamadoItem {
-    const cliente = mapCliente(dto.cliente);
-
-    return {
-      id: dto.id,
-      serviceCategory: dto.categoriaNome,
-
-      status: this.fromApiStatus(dto.status),
-      descricaoEquipamento: dto.descricaoEquipamento,
-      descricaoFalha: dto.descricaoFalha,
-      etapas: [],
-
-      dataCriacao: new Date(dto.dataCriacao),
-      dataResposta: dto.dataResposta ? new Date(dto.dataResposta) : undefined,
-
-      comentario: dto.comentario ?? undefined,
-      precoBase: dto.precoBase,
-
-      funcionario: mapFuncionario(dto.funcionario),
-      cliente: cliente,
-    };
-  }*/
-
-  /*  private adaptarLista(list: ChamadoApi[]): ChamadoItem[] {
-    return (list ?? []).map(this.adaptarUm.bind(this));
-  }*/
 }

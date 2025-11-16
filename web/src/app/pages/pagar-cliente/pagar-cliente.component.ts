@@ -48,14 +48,14 @@ export class PagarClienteComponent implements OnInit {
     const atual = this.chamado();
     if (!atual) return;
 
-    const novaEtapa: EtapaHistorico = {
+    const paga: EtapaHistorico = {
       id: -1,
       serviceId: atual.id,
       status: StatusConsertoEnum.PAGA,
       dataCriado: new Date()
     }
 
-    this.chamadoService.pagar(atual.id, novaEtapa).subscribe({
+    this.chamadoService.pagar(atual.id, paga).subscribe({
       next: salvo => {
         this.chamado.set(salvo);
         this.router.navigate(['/cliente']);

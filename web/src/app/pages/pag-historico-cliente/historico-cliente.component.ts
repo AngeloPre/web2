@@ -2,9 +2,10 @@ import { HistoricoComponent } from '@shared/components/historico/historico.compo
 import { MatButtonModule } from '@angular/material/button';
 import { RouterLink } from '@angular/router';
 import { ActivatedRoute } from '@angular/router';
-import { Component, inject, OnInit, signal } from '@angular/core';
+import { Component, inject, OnInit, Signal, signal } from '@angular/core';
 import { ChamadoService } from '@services/chamado.service';
 import { ChamadoItem } from '@model/chamado.type';
+import { EtapaHistorico } from '@/app/model/etapa-historico.type';
 
 @Component({
     selector: 'app-historico-cliente',
@@ -18,6 +19,7 @@ export class HistoricoClienteComponent implements OnInit {
     private chamadoService = inject(ChamadoService);
 
     chamado = signal<ChamadoItem | undefined>(undefined);
+    etapas = signal<EtapaHistorico[] > ([])
     constructor(
         private route: ActivatedRoute
     ) {
@@ -36,6 +38,7 @@ export class HistoricoClienteComponent implements OnInit {
       this.chamadoService.buscarPorId(+serviceId).subscribe(c => {
         this.chamado.set(c);
       })
+      this.chamadoService.listarEtapas(+serviceId).subscribe(etapas => this.etapas.set(etapas) )
     }
   }
 }
