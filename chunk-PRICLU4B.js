@@ -1,0 +1,1 @@
+import{v as a,w as b,x as c,y as d}from"./chunk-57VMU3IW.js";import"./chunk-YW3IUMFW.js";import"./chunk-WQLYTPAN.js";import"./chunk-FDERIQAA.js";export{b as NGX_CURRENCY_CONFIG,c as NgxCurrencyDirective,a as NgxCurrencyInputMode,d as provideEnvironmentNgxCurrency};

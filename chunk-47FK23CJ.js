@@ -1,0 +1,1 @@
+var R=(A=>(A.ABERTA="Aberta",A.ORCADA="Or\xE7ada",A.REJEITADA="Rejeitada",A.APROVADA="Aprovada",A.REDIRECIONADA="Redirecionada",A.ARRUMADA="Arrumada",A.PAGA="Paga",A.FINALIZADA="Finalizada",A))(R||{});export{R as a};
