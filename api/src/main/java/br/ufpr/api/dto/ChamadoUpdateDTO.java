@@ -7,5 +7,5 @@ public record ChamadoUpdateDTO(
     @NotBlank String categoriaNome,
     @NotBlank String descricaoEquipamento,
     @NotBlank String descricaoFalha,
-    StatusConserto statusConcerto
+    StatusConserto statusConserto
 ){}

@@ -1,18 +1,16 @@
 package br.ufpr.api.controller;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 import br.ufpr.api.dto.OrcamentoDTO;
-import br.ufpr.api.exception.ResourceForbiddenException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -22,8 +20,6 @@ import br.ufpr.api.dto.ChamadoPatchDTO;
 import br.ufpr.api.dto.ChamadoUpdateDTO;
 import br.ufpr.api.dto.EtapaCreateDTO;
 import br.ufpr.api.dto.EtapaHistoricoDTO;
-import br.ufpr.api.model.entity.Cliente;
-import br.ufpr.api.model.entity.Funcionario;
 import br.ufpr.api.model.enums.StatusConserto;
 import br.ufpr.api.service.ChamadoService;
 import jakarta.validation.Valid;
@@ -100,9 +96,18 @@ public class ChamadoController {
         return new ResponseEntity<>(dto, HttpStatus.CREATED);
     }
 
-    //TODO: obter etapas
-    // @GetMapping("/chamados/{id}/etapas")
-    // public ResponseEntity<List<EtapaHistoricoDTO>> listarEtapas(@PathVariable Integer id) { return new ResponseEntity<>(new ArrayList<>())) }
+    @GetMapping("chamados/{id}/etapas")
+    public ResponseEntity<List<EtapaHistoricoDTO>> listarEtapas(@PathVariable Integer id) {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetails activeUser = (principal instanceof UserDetails u) ? u : null;
+
+        List<EtapaHistoricoDTO> etapas = service.listarEtapas(id, activeUser);
+
+        if (etapas.isEmpty()) {
+            return ResponseEntity.noContent().build();
+        }
+        return ResponseEntity.ok(etapas);
+    }
 
     @PostMapping("/chamados/{id}/etapas")
     public ResponseEntity<ChamadoDTO> novaEtapa(@PathVariable Integer id,
