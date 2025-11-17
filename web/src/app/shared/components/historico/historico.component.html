@@ -38,12 +38,11 @@
             <div class="mt-6">
                 <p class="text-sm font-semibold text-figma-gray-300">Cliente</p>
                 <div class="mt-2 flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">AC</div>
+                    <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">{{ chamado().cliente | iniciais }}</div>
                     <div>
                         <p class="font-medium leading-tight">{{ chamado().cliente }}</p>
                         <p class="text-xs text-figma-gray-300">
-                            {{ chamado().cliente.toLowerCase() }}
-                            <span>&#64; email.com</span>
+                            {{ chamado().cliente.toLowerCase() }}&#64;cliente.com
                         </p>
                     </div>
                 </div>

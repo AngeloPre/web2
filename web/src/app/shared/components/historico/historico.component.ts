@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
+import { IniciaisPipe } from '@pipes/iniciais.pipe';
 
 @Component({
   selector: 'app-historico',
@@ -19,6 +20,7 @@ import { StatusIconComponent } from '../status-icon/status-icon.component';
     MatDividerModule,
     MatExpansionModule,
     DatePipe,
+    IniciaisPipe,
   ],
   templateUrl: './historico.component.html',
   styles: `:host { display:block; }`,

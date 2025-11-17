@@ -14,6 +14,7 @@ import { LimiteCaracteresPipe } from '@/app/shared/pipes/limite-caracteres.pipe'
 import { MatDialog } from '@angular/material/dialog';
 import { LogoutDialogComponent } from '@/app/shared/components/dialogs/logout-dialog/logout-dialog.component';
 import { MatIcon } from '@angular/material/icon';
+import { IniciaisPipe } from '@pipes/iniciais.pipe';
 
 @Component({
   selector: 'app-menu-lateral',
@@ -26,7 +27,8 @@ import { MatIcon } from '@angular/material/icon';
     RouterLink,
     RouterLinkActive,
     LimiteCaracteresPipe,
-    MatIcon
+    MatIcon,
+    IniciaisPipe,
   ],
   templateUrl: './menu-lateral.component.html',
   styles: ``,
