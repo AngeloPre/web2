@@ -39,7 +39,7 @@ export class LoginFormComponent {
     };
     this.loginService.login(login).subscribe({
       next: () => {
-        this.snack.open('Login bem sucessido', 'OK', {
+        this.snack.open('Login bem sucedido!', 'OK', {
           duration: 3000,
           verticalPosition: 'top',
           horizontalPosition: 'center',
@@ -48,7 +48,8 @@ export class LoginFormComponent {
         this.loginService.me().subscribe();
         this.router.navigate([this.userRole.dashboardPath()]);
       },
-      error: () => {
+      error: (erro) => {
+        console.log(erro.error)
         this.snack.open('Login ou senha incorretos', 'OK', {
           duration: 3000,
           verticalPosition: 'top',

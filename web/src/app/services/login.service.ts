@@ -1,9 +1,9 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { API_URL } from './CONSTANTES';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Login } from '../model/login';
 import { Token } from '../model/token';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Role, UserRole } from '../core/store/user-role/user-role.store';
 
@@ -28,6 +28,9 @@ export class LoginService {
   private jwtHelper = inject(JwtHelperService);
   private userRole = inject(UserRole);
 
+  private nomeUsuarioLogado = signal<string | null>(localStorage.getItem(UserName));
+  public setNomeUsuarioLogado = this.nomeUsuarioLogado.asReadonly();
+
   private readonly httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -43,23 +46,33 @@ export class LoginService {
           const tokenRole = this.jwtHelper.decodeToken(token.Token).roles;
           console.log(tokenRole);
           this.userRole.updateRoleFromToken(tokenRole);
-        })
+        }),
+        switchMap((token: Token) => 
+          this.me().pipe(
+            map(() => token)
+        ))
       );
   }
 
   logout(): void {
     localStorage.removeItem(LS_Token);
+    localStorage.removeItem(UserName);
+    this.nomeUsuarioLogado.set(null);
     this.userRole.logoutUser();
   }
 
   me(): Observable<string> {
     return this.httpClient
-      .get<string>(`${this.BASE_URL}/me`, this.httpOptions)
-      .pipe(
-        tap((username: string) => {
-          localStorage[UserName] = username;
-        })
+      .get(
+        `${this.BASE_URL}/me`, 
+        { responseType: 'text' }
       )
+      .pipe(
+        tap((username: string) => { 
+          localStorage[UserName] = username;
+          this.nomeUsuarioLogado.set(username);
+        })
+      );
   }
 
   constructor() { }
