@@ -37,8 +37,8 @@ public class EtapaHistorico {
     @Column(name = "data_criacao", nullable = false, updatable = false)
     private Instant dataCriacao;
 
-    @ManyToOne(fetch = FetchType.EAGER, optional = false)
-    @JoinColumn(name = "funcionario_id", nullable = false)
+    @ManyToOne(fetch = FetchType.EAGER, optional = true)
+    @JoinColumn(name = "funcionario_id", nullable = true)
     private Funcionario funcionario;
 
     @Column(name = "motivo_rejeicao", columnDefinition = "TEXT")

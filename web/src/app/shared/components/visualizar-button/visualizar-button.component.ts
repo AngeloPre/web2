@@ -10,6 +10,7 @@ import { ResgatarServicoComponent } from '../resgatar-servico/resgatar-servico.c
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { filter, switchMap, tap } from 'rxjs';
+import { EtapaHistorico } from '@/app/model/etapa-historico.type';
 
 @Component({
   selector: 'app-visualizar-button',
@@ -21,6 +22,7 @@ import { filter, switchMap, tap } from 'rxjs';
 })
 export class VisualizarButtonComponent {
   private chamadoService = inject(ChamadoService);
+  chamadosStatus = StatusConsertoEnum;
   status = input.required<StatusConsertoEnum>();
   id = input.required<number>();
   slug = input<string>();
@@ -31,14 +33,17 @@ export class VisualizarButtonComponent {
 
     dialogRef.afterClosed().pipe(
       filter(result => result === 'resgatar'),
-      switchMap(() => this.chamadoService.buscarPorId(this.id())),
-      switchMap(chamado => this.chamadoService.atualizar({
-        ...chamado,
-        status: StatusConsertoEnum.APROVADA
-      })),
-      tap(() => this.chamadoService.refresh().subscribe())
+      switchMap(() => {
+        const resgatada: EtapaHistorico = {
+          id: -1,
+          serviceId: this.id(),
+          status: StatusConsertoEnum.APROVADA,
+          dataCriado: new Date(),
+        } as EtapaHistorico;
+        return this.chamadoService.resgatar(this.id(), resgatada);
+      }),
+      switchMap(() => this.chamadoService.refresh())
     ).subscribe();
   }
 
-  chamadosStatus = StatusConsertoEnum;
 }

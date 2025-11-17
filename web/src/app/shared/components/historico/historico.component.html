@@ -55,7 +55,7 @@
 
 
     <div>
-        @for (etapa of etapas; track etapa.id) {
+        @for (etapa of etapas(); track etapa.id) {
             <div class="min-w-0 mb-8">
                 <mat-expansion-panel class="shadow-none">
                     <mat-expansion-panel-header class="flex-between">
@@ -77,10 +77,16 @@
                           <span>{{ etapa.tecnico.nome }}</span>
                           </li>
                         }
-                        @if (etapa.orcamento != null) {
+                        @if (etapa.motivoRejeicao) {
+                          <li class="flex items-center justify-between py-3">
+                          <span>Motivo da Rejeição:</span>
+                          <span>{{ etapa.motivoRejeicao }}</span>
+                          </li>
+                        }
+                        @if (etapa.orcamento != null && etapa.status === StatusConsertoEnum.ORCADA) {
                             <li class="flex items-center justify-between py-3">
                                 <span>Valor do orçamento</span>
-                                <span>R$ {{ etapa.orcamento }},00</span>
+                                <span>{{ etapa.orcamento | currency}}</span>
                             </li>
                         }
 

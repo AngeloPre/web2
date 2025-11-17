@@ -5,6 +5,8 @@ import { ConfirmarModalComponent } from '@shared/components/confirmar-modal/conf
 import { MatDialog } from '@angular/material/dialog';
 import { ChamadoService } from '@services/chamado.service';
 import { catchError, map, of, switchMap } from 'rxjs';
+import { EtapaHistorico } from '@/app/model/etapa-historico.type';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-visualizar-button-card',
@@ -19,6 +21,7 @@ export class VisualizarButtonCardComponent {
   status = input.required<StatusConsertoEnum>();
   private dialog = inject(MatDialog);
   private chamadoService = inject(ChamadoService);
+  private snackBar = inject(MatSnackBar);
 
   btnClicked = output<number>();
   eventoBtn(): void {
@@ -26,16 +29,33 @@ export class VisualizarButtonCardComponent {
   }
 
   finalizar(): void {
-    const id = this.id();
+    const chamadoId = this.id();
+    const finalizada: EtapaHistorico = {
+      id: -1,
+      serviceId: chamadoId,
+      status: StatusConsertoEnum.FINALIZADA,
+      dataCriado: new Date(),
+    };
 
-    this.chamadoService.buscarPorId(id).pipe(
-      map(ch => ({ ...ch, status: StatusConsertoEnum.FINALIZADA })),
-      switchMap(ch => this.chamadoService.atualizar(ch)),
+    this.chamadoService.finalizar(chamadoId, finalizada).pipe(
+      switchMap(() => this.chamadoService.refresh()),
       catchError(err => {
-        console.error(err);
-        return of(null);
+        this.snackBar.open(err.error, 'OK', {
+          duration: 3000,
+          verticalPosition: 'top',
+          horizontalPosition: 'center',
+          panelClass: ['snack-top', 'snack-danger'],
+        });
+        return of([]);
       })
-    ).subscribe();
+    ).subscribe(() => {
+      this.snackBar.open('Solicitação finalizada com sucesso', 'OK', {
+        duration: 3000,
+        verticalPosition: 'top',
+        horizontalPosition: 'center',
+        panelClass: ['snack-top', 'snack-success'],
+      });
+    });
   }
 
   abrirModal(): void {

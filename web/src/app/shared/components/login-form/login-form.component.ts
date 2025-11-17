@@ -45,7 +45,6 @@ export class LoginFormComponent {
           horizontalPosition: 'center',
           panelClass: ['snack-top', 'snack-success'],
         });
-        this.loginService.me().subscribe();
         this.router.navigate([this.userRole.dashboardPath()]);
       },
       error: (erro) => {

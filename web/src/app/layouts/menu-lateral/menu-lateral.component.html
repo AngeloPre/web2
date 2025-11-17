@@ -52,12 +52,12 @@
                 <div class="relative px-4 py-4 inline-flex items-center gap-3">
                     <!--photo-->
                     <div class="w-8 h-8 flex items-center justify-center bg-brand-dark rounded-full" [ngClass]="isOpen ? '' : 'mx-auto' ">
-                        <mat-icon aria-hidden="false" fontIcon="person" class="text-white"></mat-icon>
+                        <span class="text-white font-lato font-normal text-sm tracking-wider" >{{usuarioNome().charAt(0).toUpperCase()}}</span>
                     </div>
                     <!--nomeemail-->
                     <div class="min-w-0" *ngIf="isOpen">
                         <p class="self-stretch justify-center text-sm font-normal font-lato leading-tight text-white">
-                        {{ usuarioNome() }}
+                        {{ usuarioNome() | limiteCaracteres : 12 }}
                         </p>
                     </div>
                     <!-- logout -->

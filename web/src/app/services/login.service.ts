@@ -43,14 +43,12 @@ export class LoginService {
       .pipe(
         tap((token: Token) => {
           localStorage[LS_Token] = token.Token;
-          const tokenRole = this.jwtHelper.decodeToken(token.Token).roles;
-          console.log(tokenRole);
+          const decodedToken = this.jwtHelper.decodeToken(token.Token);
+          const tokenRole = decodedToken.roles;
+          const userName = decodedToken.nome;
+          localStorage[UserName] = userName;
           this.userRole.updateRoleFromToken(tokenRole);
-        }),
-        switchMap((token: Token) => 
-          this.me().pipe(
-            map(() => token)
-        ))
+        })
       );
   }
 
@@ -61,19 +59,5 @@ export class LoginService {
     this.userRole.logoutUser();
   }
 
-  me(): Observable<string> {
-    return this.httpClient
-      .get(
-        `${this.BASE_URL}/me`, 
-        { responseType: 'text' }
-      )
-      .pipe(
-        tap((username: string) => { 
-          localStorage[UserName] = username;
-          this.nomeUsuarioLogado.set(username);
-        })
-      );
-  }
-
-  constructor() { }
+  constructor() {}
 }

@@ -18,6 +18,7 @@ import { Router } from '@angular/router';
 import { RedirecionarModalComponent } from '../redirecionar-modal/redirecionar-modal.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Funcionario } from '@/app/model/funcionario';
+import { ChamadoService } from '@/app/services/chamado.service';
 
 @Component({
   selector: 'app-efetuar-manutencao',
@@ -35,6 +36,7 @@ export class EfetuarManutencaoComponent {
   private dialog = inject(MatDialog);
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
+  private chamadoService = inject(ChamadoService);
   chamado = input<ChamadoItem>();
   salvarChamado = input.required<(item: ChamadoItem) => void>();
   descricaoManutencao: string = '';

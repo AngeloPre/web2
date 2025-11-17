@@ -5,18 +5,15 @@ import { ChamadoService } from '@services/chamado.service';
 
 @Component({
   selector: 'app-pag-inicial-cliente',
-  imports: [ChamadoTableComponent, RiveLoaderComponent],
+  imports: [ChamadoTableComponent],
   templateUrl: './pag-inicial-cliente.component.html',
   styles: ``,
 })
 export class PagInicialClienteComponent implements OnInit {
   private chamadoService = inject(ChamadoService);
+  chamadosRequest = this.chamadoService.chamadosSignal;
 
   ngOnInit(): void {
     this.chamadoService.refresh().subscribe();
   }
-
-  chamadosRequest = this.chamadoService.chamadosSignal;
-
-  loading = this.chamadoService.loading;
 }
