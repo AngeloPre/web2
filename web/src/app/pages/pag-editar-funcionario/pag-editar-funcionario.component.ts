@@ -14,7 +14,6 @@ import { FuncionarioService } from '@/app/services/funcionario.service';
 export class PagEditarFuncionarioComponent implements OnInit {
   private readonly route = inject(ActivatedRoute);
   funcionarioService = inject(FuncionarioService);
-  //usuarioService = inject(UsuarioService);
   funcionarioId: any;
 
   funcionario: Funcionario = new Funcionario(
