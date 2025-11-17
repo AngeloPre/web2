@@ -1,7 +1,6 @@
 import { Funcionario } from '@/app/model/funcionario';
 import { ChamadoItem } from '@/app/model/chamado.type';
 import { ChamadoService } from '@services/chamado.service';
-import { UsuarioService } from '@services/usuario.service';
 import { Component, Inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
@@ -30,21 +29,16 @@ import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
   templateUrl: './redirecionar-modal.component.html',
   styles: ``,
 })
-export class RedirecionarModalComponent implements OnInit {
+export class RedirecionarModalComponent {
   funcionarios: Funcionario[] = [];
   selectedFuncionario: Funcionario | null = null;
   chamado: ChamadoItem;
   constructor(
     @Inject(MAT_DIALOG_DATA) public data: { chamado: ChamadoItem },
     public dialog: MatDialogRef<RedirecionarModalComponent>,
-    private readonly usuarioService: UsuarioService,
     private readonly chamadoService: ChamadoService
   ) {
     this.chamado = data.chamado;
-  }
-
-  ngOnInit(): void {
-    this.funcionarios = this.usuarioService.listarTodosFuncionarios();
   }
 
   onCancel(): void {

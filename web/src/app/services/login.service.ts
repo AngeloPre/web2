@@ -1,9 +1,9 @@
-import { inject, Injectable } from '@angular/core';
+import { inject, Injectable, signal } from '@angular/core';
 import { API_URL } from './CONSTANTES';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Login } from '../model/login';
 import { Token } from '../model/token';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, switchMap, tap } from 'rxjs';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import { Role, UserRole } from '../core/store/user-role/user-role.store';
 
@@ -28,6 +28,9 @@ export class LoginService {
   private jwtHelper = inject(JwtHelperService);
   private userRole = inject(UserRole);
 
+  private nomeUsuarioLogado = signal<string | null>(localStorage.getItem(UserName));
+  public setNomeUsuarioLogado = this.nomeUsuarioLogado.asReadonly();
+
   private readonly httpOptions = {
     headers: new HttpHeaders({
       'Content-Type': 'application/json',
@@ -51,6 +54,8 @@ export class LoginService {
 
   logout(): void {
     localStorage.removeItem(LS_Token);
+    localStorage.removeItem(UserName);
+    this.nomeUsuarioLogado.set(null);
     this.userRole.logoutUser();
   }
 

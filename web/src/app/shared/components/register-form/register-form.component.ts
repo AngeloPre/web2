@@ -1,5 +1,4 @@
 import { CepValidoDirective } from '@/app/directives/cep-valido.directive';
-import { EmailUnicoDirective } from '@/app/directives/email-unico.directive';
 import { Cliente } from '@model/cliente';
 import { Endereco } from '@model/endereco';
 import { Register } from '@model/register';
@@ -32,7 +31,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatSelectModule,
     MatStepperModule,
     NgxMaskDirective,
-    EmailUnicoDirective,
     CepValidoDirective,
     MatSnackBarModule
   ],
