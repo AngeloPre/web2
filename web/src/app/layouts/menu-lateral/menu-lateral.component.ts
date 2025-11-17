@@ -1,35 +1,30 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { RouterOutlet, RouterLink, RouterLinkActive, Router } from "@angular/router"
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { UserRole } from '@core/store/user-role/user-role.store';
-import { UsuarioService } from '@/app/services/usuario.service';
 import { LoginService } from '@/app/services/login.service';
+import {MatIconModule} from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutDialogComponent } from '@/app/shared/components/dialogs/logout-dialog/logout-dialog.component';
 
 @Component({
   selector: 'app-menu-lateral',
   standalone: true,
-  imports: [MatSidenavModule, MatButtonModule, RouterOutlet, CommonModule, RouterLink, RouterLinkActive],
+  imports: [MatSidenavModule, MatButtonModule, RouterOutlet, CommonModule, RouterLink, RouterLinkActive, MatIconModule],
   templateUrl: './menu-lateral.component.html',
   styles: ``
 })
 export class MenuLateralComponent {
   readonly userRole = inject(UserRole);
-  private usuarioService = inject(UsuarioService);
   private loginService = inject(LoginService);
-  private router = inject(Router);
+  private dialog = inject(MatDialog);
 
-  usuarioNome = signal<string>('');
-
-  ngOnInit(): void {
-    const stored = localStorage.getItem("UserName") || '';
-    this.usuarioNome.set(stored);
-
-    if (!stored) {
-      this.loginService.me().subscribe(name => this.usuarioNome.set(name));
-    }
-  }
+  public usuarioNome =  computed(() => {
+    const nome = this.loginService.setNomeUsuarioLogado();
+    return nome ?? '';
+  })
 
   //controla o estado do menu (open/closed)
   isOpen = true;
@@ -37,9 +32,12 @@ export class MenuLateralComponent {
     this.isOpen = !this.isOpen;
   }
 
-  logout(): void {
-    this.loginService.logout();
-    this.router.navigate(['/']);
+  abrirDialog(){
+    const ref = this.dialog.open(LogoutDialogComponent, {
+      width: '500px',
+      maxWidth: 'none',
+      panelClass: 'dialog-xxl'
+    });
   }
 
   get roleLabel(): 'Funcionário' | 'Cliente' {
