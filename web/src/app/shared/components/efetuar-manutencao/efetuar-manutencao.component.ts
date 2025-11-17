@@ -17,8 +17,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RedirecionarModalComponent } from '../redirecionar-modal/redirecionar-modal.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Funcionario } from '@/app/model/funcionario';
 import { ChamadoService } from '@/app/services/chamado.service';
+import { IniciaisPipe } from '@pipes/iniciais.pipe';
 
 @Component({
   selector: 'app-efetuar-manutencao',
@@ -28,6 +28,7 @@ import { ChamadoService } from '@/app/services/chamado.service';
     MatLabel,
     MatButton,
     FormsModule,
+    IniciaisPipe,
   ],
   templateUrl: './efetuar-manutencao.component.html',
   styles: ``,
