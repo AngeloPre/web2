@@ -6,11 +6,18 @@ import { LimiteCaracteresPipe } from '@shared/pipes/limite-caracteres.pipe';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
 import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
 import { VisualizarButtonCardComponent } from '../visualizar-button-card/visualizar-button-card.component';
-
+import { IniciaisPipe } from '@pipes/iniciais.pipe';
 
 @Component({
   selector: 'app-chamado-card',
-  imports: [DatePipe, MatCardModule, LimiteCaracteresPipe, StatusIconComponent, VisualizarButtonCardComponent],
+  imports: [
+    DatePipe,
+    MatCardModule,
+    LimiteCaracteresPipe,
+    StatusIconComponent,
+    VisualizarButtonCardComponent,
+    IniciaisPipe,
+  ],
   templateUrl: './chamado-card.component.html',
   styles: ``
 })

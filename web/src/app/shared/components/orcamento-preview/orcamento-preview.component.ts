@@ -12,6 +12,7 @@ import { ChamadoItem } from '@/app/model/chamado.type';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { EtapaHistorico } from '@/app/model/etapa-historico.type';
 import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { IniciaisPipe } from '@pipes/iniciais.pipe';
 
 @Component({
   selector: 'app-orcamento-preview',
@@ -23,6 +24,7 @@ import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
     MatExpansionModule,
     MatDialogModule,
     MatSnackBarModule,
+    IniciaisPipe,
   ],
   templateUrl: './orcamento-preview.component.html',
   styles: `:host { display:block; }`
@@ -32,7 +34,6 @@ export class OrcamentoPreviewComponent {
   private snackBar = inject(MatSnackBar);
   private router = inject(Router);
   private chamadoService = inject(ChamadoService);
-
 
   chamado = input.required<ChamadoItem>();
 

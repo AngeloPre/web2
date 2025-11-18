@@ -12,6 +12,7 @@ import { ChamadoItem } from '@/app/model/chamado.type';
 import { Router } from '@angular/router';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { Orcamento } from '@/app/model/orcamento';
+import { IniciaisPipe } from '@pipes/iniciais.pipe';
 
 @Component({
   selector: 'app-efetuar-orcamento',
@@ -23,6 +24,7 @@ import { Orcamento } from '@/app/model/orcamento';
     NgxCurrencyDirective,
     DatePipe,
     CurrencyPipe,
+    IniciaisPipe,
   ],
   templateUrl: './efetuar-orcamento.component.html',
   styles: ``,
