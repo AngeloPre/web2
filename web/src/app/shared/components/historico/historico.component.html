@@ -70,20 +70,20 @@
                             <span>Criado em</span>
                             <span>{{ etapa.dataCriado | date:'dd/MM/yy, HH:mm'}}</span>
                         </li>
-                        @if (etapa.tecnico && !etapa.redirecionamento) {
+                        @if (etapa.tecnico && !(etapa.status === StatusConsertoEnum.REDIRECIONADA)) {
                           <li class="flex items-center justify-between py-3">
                           <span>Técnico responsável</span>
                           <span>{{ etapa.tecnico.nome }}</span>
                           </li>
                         }
-                        @if (etapa.tecnico && etapa.redirecionamento) {
+                        @if (etapa.tecnico && (etapa.status === StatusConsertoEnum.REDIRECIONADA)) {
                           <li class="flex items-center justify-between py-3">
                           <span>Técnico destino</span>
-                          <span>{{ etapa.redirecionamento.tecnicoDestino.nome }}</span>
+                          <span>{{ etapa.redirecionamento?.tecnicoDestino?.nome }}</span>
                           </li>
                           <li class="flex items-center justify-between py-3">
                           <span>Técnico origem</span>
-                          <span>{{ etapa.redirecionamento.tecnicoOrigem?.nome }}</span>
+                          <span>{{ etapa.redirecionamento?.tecnicoOrigem?.nome }}</span>
                           </li>
                         }
                         @if (etapa.motivoRejeicao) {
