@@ -57,19 +57,26 @@
         <div class="mt-6 space-y-2">
             <mat-label>Descrição</mat-label>
             <input
-                matInput
-                [(ngModel)]="descricaoManutencao"
-                placeholder="Descrição da manutenção"
-                class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent"/>
+            matInput
+            [(ngModel)]="descricaoManutencao"
+            placeholder="Descrição da manutenção"
+            (ngModelChange)="descricaoObrigatoria = false"
+            class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent"
+            [class.border-feedback-danger]="descricaoObrigatoria"/>
+            @if (descricaoObrigatoria) {
+                <p class="text-xs text-feedback-danger mt-1">
+                    Campo obrigatório
+                </p>
+            }
         </div>
         <div class="mt-6 space-y-2">
             <mat-label>Orientações</mat-label>
             <textarea
-                matInput
-                rows="4"
-                [(ngModel)]="orientacoesCliente"
-                placeholder="Orientações para o cliente"
-                class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent"></textarea>
+            matInput
+            rows="4"
+            [(ngModel)]="orientacoesCliente"
+            placeholder="Orientações para o cliente"
+            class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent"></textarea>
         </div>
         <button mat-flat-button class="w-full mt-10" (click)="abrirModalConfirmacao()">Concluir manutenção</button>
         <button mat-flat-button class="w-full mt-5 bg-feedback-danger text-white hover:bg-red-700" (click)="abrirModalRedirecionamento()">Redirecionar manutenção</button>

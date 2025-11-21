@@ -224,6 +224,14 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
     return this.criarEtapaBase(chamadoId, etapa);
   }
 
+  efetuar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem>{
+    return this.criarEtapaBase(chamadoId, etapa);
+  }
+
+  redirecionar(chamadoId: number, etapa: EtapaHistorico): Observable<ChamadoItem>{
+    return this.criarEtapaBase(chamadoId, etapa);
+  }
+
   private converterData(date: Date | string): string {
     const d = typeof date === 'string' ? new Date(date) : date;
     const dd = String(d.getDate()).padStart(2, '0');
@@ -259,6 +267,14 @@ export class ChamadoService implements ApiServices<ChamadoItem> {
       dataCriado: new Date(etapa.dataCriacao),
       status: this.fromApiStatus(etapa.status),
       tecnico: mapFuncionario(etapa.funcionario),
+      redirecionamento: {
+        tecnicoDestino: {
+          nome: etapa.funcionario?.nome
+        },
+        tecnicoOrigem: {
+          nome: etapa.funcionarioAnterior?.nome
+        }
+      },
       motivoRejeicao: etapa.motivoRejeicao ?? undefined,
       orcamento: etapa.orcamento ?? 0
     };

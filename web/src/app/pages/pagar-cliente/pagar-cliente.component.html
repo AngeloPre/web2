@@ -1,12 +1,12 @@
 <div class="mt-6 page-shell">
   <a mat-button class="figma-ghost"
-    [routerLink]="['/cliente']">
-    <img src="assets/svg/arrow-left.svg" alt=""/>
-    <span>Voltar</span>
-  </a>
-  <h1 class="text-3xl font-bold text-brand-dark" >Pagamento do Serviço</h1>
-  <div class="mt-8 gap-6 flex flex-row items-start">
-    @if (chamado()) {
+  [routerLink]="['/cliente']">
+  <img src="assets/svg/arrow-left.svg" alt=""/>
+  <span>Voltar</span>
+</a>
+<h1 class="text-3xl font-bold text-brand-dark" >Pagamento do Serviço</h1>
+<div class="mt-8 gap-6 flex flex-row items-start">
+  @if (chamado()) {
     <div class="w-[65%] bg-white rounded-lg overflow-hidden border border-figma-gray-200">
       <div class="p-8">
         <div class="flex justify-between">
@@ -22,13 +22,25 @@
           <p class="text-figma-gray-400 font-semibold">Descrição</p>
           <p class="font-sans">{{ chamado()?.descricaoFalha }}</p>
         </div>
+        @if (chamado()?.manutencao?.descricao) {
+          <div class="mt-4">
+            <p class="text-figma-gray-400 font-semibold">Comentários manutenção</p>
+            <p class="font-sans">{{ chamado()?.manutencao?.descricao }}</p>
+          </div>
+        }
+        @if (chamado()?.manutencao?.orientacoes) {
+          <div class="mt-4">
+            <p class="text-figma-gray-400 font-semibold">Orientações</p>
+            <p class="font-sans">{{ chamado()?.manutencao?.orientacoes }}</p>
+          </div>
+        }
         <div class="mt-4">
           <p class="text-figma-gray-400 font-semibold">Criado em</p>
           <p class="font-sans">{{ chamado()?.dataCriacao | date:'dd/MM/yyyy H:mm' }}</p>
         </div>
         <div class="mt-4">
           <p class="text-figma-gray-400 font-semibold">Solucionado em</p>
-          <p class="font-sans">08/09/2025 23:00</p>
+          <p class="font-sans">{{chamado()?.dataResposta | date:'dd/MM/yyyy H:mm' }}</p>
         </div>
       </div>
     </div>
@@ -43,6 +55,6 @@
         >Pagar</button>
       </div>
     </div>
-    }
-  </div>
+  }
+</div>
 </div>
