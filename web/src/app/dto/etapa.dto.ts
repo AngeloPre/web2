@@ -32,12 +32,13 @@ export function etapaCreateDTO(etapa: EtapaHistorico): EtapaCreateApi {
     }
 
     case StatusConsertoEnum.REDIRECIONADA: {
-      //TODO
+      dto.funcionarioDestinoId = etapa.redirecionamento?.tecnicoDestino.id
       break;
     }
 
     case StatusConsertoEnum.ARRUMADA: {
-      //TODO
+      dto.descricaoManutencao = etapa.manutencao?.descricao
+      dto.orientacoesCliente = etapa.manutencao?.orientacoes ?? undefined
       break;
     }
 

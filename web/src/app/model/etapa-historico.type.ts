@@ -1,11 +1,12 @@
 import { StatusConsertoEnum } from './enums/chamado-status.enum';
 export type Tecnico = {
-  nome: string;
+  id?: number;
+  nome?: string;
 };
 
 export type Redirecionamento = {
   //tecnico redireciona quando não está apto
-  tecnicoOrigem: Tecnico;
+  tecnicoOrigem?: Tecnico;
   tecnicoDestino: Tecnico;
 };
 

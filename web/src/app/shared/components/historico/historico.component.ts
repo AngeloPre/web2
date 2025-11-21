@@ -26,7 +26,7 @@ import { IniciaisPipe } from '@pipes/iniciais.pipe';
   styles: `:host { display:block; }`,
 })
 export class HistoricoComponent {
-  chamado = input.required<ChamadoItem>();
+  chamado = input.required<ChamadoItem | undefined>();
   etapas = input.required<EtapaHistorico[]>();
   statusFinal: StatusConsertoEnum = StatusConsertoEnum.FINALIZADA;
   StatusConsertoEnum = StatusConsertoEnum; //para que o html possa acessar
