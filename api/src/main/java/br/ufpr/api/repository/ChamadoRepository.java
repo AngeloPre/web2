@@ -8,6 +8,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import br.ufpr.api.model.entity.Chamado;
 import br.ufpr.api.model.entity.Cliente;
+import br.ufpr.api.model.entity.Funcionario;
 import br.ufpr.api.model.enums.StatusConserto;
 
 
@@ -18,6 +19,6 @@ public interface ChamadoRepository extends CrudRepository<Chamado, Integer> {
     List<Chamado> findByStatus(StatusConserto status);
     List<Chamado> findByStatusAndDataCriacaoBetweenOrderByDataCriacaoAsc(StatusConserto status, Instant inicio, Instant fim);
     List<Chamado> findByClienteAndDataCriacaoBetweenOrderByDataCriacaoAsc(Cliente cliente, Instant inicio, Instant fim);
-    List<Chamado> findByDataCriacaoBetweenOrderByDataCriacaoAsc(Instant inicio, Instant fim);
+    List<Chamado> findByFuncionarioAndDataCriacaoBetweenOrderByDataCriacaoAsc(Funcionario funcionario, Instant inicio, Instant fim);
 
 }

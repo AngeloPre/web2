@@ -9,6 +9,7 @@ public record EtapaHistoricoDTO(
         String comentario,
         Instant dataCriacao,
         FuncionarioDTO funcionario,
+        FuncionarioDTO funcionarioAnterior,
         String motivoRejeicao,
         BigDecimal orcamento
 ) {}

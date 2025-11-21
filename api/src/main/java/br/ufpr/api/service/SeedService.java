@@ -149,7 +149,7 @@ public class SeedService {
             Chamado ch = novoChamado(joao, mario, notebook, "Notebook Dell",
             "Descrição do chamado 2", new BigDecimal("250.00"), null);
 
-            applyStep(ch, StatusConserto.ABERTA,      ramon, at(2025,3,12,9,12), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA,      ramon, at(2025,3,12,9,12), null, null, null);
             applyStep(ch, StatusConserto.ORCADA,      ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
             applyStep(ch, StatusConserto.REJEITADA,   ramon, at(2025,3,14,9,12), null,
             "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
@@ -168,7 +168,7 @@ public class SeedService {
             Chamado ch = novoChamado(joao, mario, impressora, "Impressora HP",
             "Descrição do chamado 2", new BigDecimal("395.00"), null);
 
-            applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
             applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
             applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
             "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
@@ -184,7 +184,7 @@ public class SeedService {
             Chamado ch = novoChamado(jose, ramon, mouse, "Mouse Razer",
             "Descrição do chamado 3", new BigDecimal("75.00"), null);
 
-            applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
             applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
             applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
             "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
@@ -201,7 +201,7 @@ public class SeedService {
             Chamado ch = novoChamado(jose, maria, desktop, "Desktop Dell",
             "Descrição do chamado 4", new BigDecimal("450.00"), null);
 
-            applyStep(ch, StatusConserto.ABERTA,      ramon, at(2025,3,12,9,12), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA,      ramon, at(2025,3,12,9,12), null, null, null);
             applyStep(ch, StatusConserto.ORCADA,      ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
             applyStep(ch, StatusConserto.REJEITADA,   ramon, at(2025,3,14,9,12), null,
             "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
@@ -217,7 +217,7 @@ public class SeedService {
             Chamado ch = novoChamado(joana, maria, teclado, "Teclado Logitec",
             "Descrição do chamado 5", new BigDecimal("120.00"), null);
 
-            applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
             applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
             applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
             "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
@@ -232,7 +232,7 @@ public class SeedService {
             Chamado ch = novoChamado(joana, maria, impressora, "Impressora Epson",
             "Descrição do chamado 6", new BigDecimal("420.00"), null);
 
-            applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
             applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
             applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
             "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
@@ -245,7 +245,7 @@ public class SeedService {
             Chamado ch = novoChamado(joaquina, maria, desktop, "Desktop Customizado",
             "Descrição do chamado 7", new BigDecimal("780.00"), null);
 
-            applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
             applyStep(ch, StatusConserto.ORCADA, ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
 
             chamadoRepository.save(ch);
@@ -256,7 +256,7 @@ public class SeedService {
             Chamado ch = novoChamado(joaquina, null, notebook, "Notebook Avell",
             "Descrição do chamado 8", new BigDecimal("325.00"), null);
 
-            applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
 
             chamadoRepository.save(ch);
         }
@@ -266,7 +266,7 @@ public class SeedService {
             Chamado ch = novoChamado(joaquina, null, notebook, "Notebook Lenovo",
             "Descrição do chamado 9", new BigDecimal("1200.00"), null);
 
-            applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
 
             chamadoRepository.save(ch);
         }
@@ -277,7 +277,7 @@ public class SeedService {
             "Descrição do chamado 10", new BigDecimal("1200.00"), null);
 
             // sem etapas no mock -> adiciono ABERTA para manter histórico mínimo
-            applyStep(ch, StatusConserto.ABERTA, ramon, Instant.now(), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,11,15,11,30), null, null, null);
 
             chamadoRepository.save(ch);
         }
@@ -287,7 +287,7 @@ public class SeedService {
             Chamado ch = novoChamado(joana, null, desktop, "Desktop Alienware",
             "Descrição do chamado 11", new BigDecimal("1200.00"), null);
 
-            applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,9,18,11,32), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,9,18,11,32), null, null, null);
 
             chamadoRepository.save(ch);
         }
@@ -297,7 +297,7 @@ public class SeedService {
             Chamado ch = novoChamado(joana, null, teclado, "Teclado Redragon",
             "Descrição do chamado 12", new BigDecimal("1200.00"), null);
 
-            applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
+            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
 
             chamadoRepository.save(ch);
         }
