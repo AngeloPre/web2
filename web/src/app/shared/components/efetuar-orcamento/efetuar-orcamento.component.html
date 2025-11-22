@@ -57,7 +57,7 @@
                     placeholder="R$ 0,00"
                     [ngModel]="precoBase()"
                     (ngModelChange)="precoBase.set($event)"
-                    [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left' }"
+                    [currencyMask]="{ prefix: 'R$ ', thousands: '.', decimal: ',', align: 'left', allowNegative: false }"
                     class="w-full border border-figma-gray-200 rounded-md px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-base focus:border-transparent" />
             </div>
             <div class="mt-4 space-y-2 text-sm">
