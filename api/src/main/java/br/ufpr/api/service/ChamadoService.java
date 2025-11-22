@@ -19,8 +19,6 @@ import org.springframework.stereotype.Service;
 import br.ufpr.api.dto.ChamadoCreateDTO;
 import br.ufpr.api.dto.ChamadoDTO;
 import br.ufpr.api.dto.ChamadoUpdateDTO;
-import br.ufpr.api.dto.ClienteDTO;
-import br.ufpr.api.dto.EnderecoDTO;
 import br.ufpr.api.dto.EtapaCreateDTO;
 import br.ufpr.api.dto.EtapaHistoricoDTO;
 import br.ufpr.api.dto.FuncionarioDTO;
@@ -32,7 +30,6 @@ import br.ufpr.api.exception.ResourceNotFoundException;
 import br.ufpr.api.model.entity.CategoriaEquipamento;
 import br.ufpr.api.model.entity.Chamado;
 import br.ufpr.api.model.entity.Cliente;
-import br.ufpr.api.model.entity.Endereco;
 import br.ufpr.api.model.entity.EtapaHistorico;
 import br.ufpr.api.model.entity.Funcionario;
 import br.ufpr.api.model.entity.Orcamento;
@@ -47,8 +44,6 @@ public class ChamadoService {
     private CategoriaEquipamentoRepo categoriaRepo;
     @Autowired
     private  FuncionarioRepository funcionarioRepository;
-    @Autowired
-    private  ClienteRepository clienteRepository;
     @Autowired
     private OrcamentoRepository orcamentoRepository;
 
@@ -70,6 +65,7 @@ public class ChamadoService {
         ch.setDescricaoEquipamento(dto.descricaoEquipamento());
         ch.setDescricaoFalha(dto.descricaoFalha());
         ch.setPrecoBase(BigDecimal.valueOf(categoria.getBaseValue() / 100));
+        ch.setSlug(slugify(dto.descricaoFalha()));
 
         // status inicial é ABERTA (RF004)
         ch.setStatus(StatusConserto.ABERTA);
@@ -87,8 +83,12 @@ public class ChamadoService {
     UserDetails activeUser) {
         ZoneId zone = ZoneId.of("America/Sao_Paulo");
         Cliente c = null;
+        Funcionario f = null;
         if (activeUser instanceof Cliente) {
             c = (Cliente) activeUser;
+        }
+        if (activeUser instanceof Funcionario) {
+            f = (Funcionario) activeUser;
         }
 
         var inicio = (dataInicio != null)
@@ -110,7 +110,7 @@ public class ChamadoService {
         }
 
         return toDTO(chamadoRepository
-                .findByDataCriacaoBetweenOrderByDataCriacaoAsc(inicio, fim));
+                .findByFuncionarioAndDataCriacaoBetweenOrderByDataCriacaoAsc(f, inicio, fim));
     }
 
     public ChamadoDTO getChamadoById(Integer id) {
@@ -122,19 +122,12 @@ public class ChamadoService {
         Chamado ch = chamadoRepository.findById(id)
         .orElseThrow(() -> new IllegalArgumentException("Chamado não encontrado"));
 
-        //Cliente cliente = clienteRepository.findById(dto.clienteId())
-        //.orElseThrow(() -> new IllegalArgumentException("Cliente não encontrado"));
         String slug = dto.categoriaNome().toLowerCase().replace(" ", "-");
         CategoriaEquipamento categoria = categoriaRepo.findBySlug(slug)
             .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada"));
 
         Funcionario funcionario = null;
-        //if (dto.funcionarioId() != null) {
-        //    funcionario = funcionarioRepository.findById(dto.funcionarioId())
-        //    .orElseThrow(() -> new IllegalArgumentException("Funcionário não encontrado"));
-        //}
 
-        //ch.setCliente(cliente);                    // sempre tem cliente
         ch.setFuncionario(funcionario);            // pode nao ter um (quando criada)
         ch.setCategoriaEquipamento(categoria);
         ch.setDescricaoEquipamento(dto.descricaoEquipamento());
@@ -142,8 +135,6 @@ public class ChamadoService {
         if(dto.statusConserto() != null) {
             ch.setStatus(dto.statusConserto());
         }
-        //ch.setPrecoBase(dto.precoBase());
-        //ch.setComentario(dto.comentario());
 
         var saved = chamadoRepository.save(ch);
         return toDTO(saved);
@@ -163,6 +154,10 @@ public class ChamadoService {
 
         if (ch.getStatus() != StatusConserto.ABERTA) {
             throw new ResourceConflictException("Apenas um orçamento por chamado");
+        }
+
+        if (dto.valor().compareTo(BigDecimal.ZERO) < 1 ) {
+            throw new BadRequestApiException("Informe um valor de orçamento maior que zero.");
         }
 
         Orcamento orcamento = new Orcamento();
@@ -191,29 +186,38 @@ public class ChamadoService {
         Chamado chamado = chamadoRepository.findById(chamadoId)
             .orElseThrow(() -> new ResourceNotFoundException("Chamado não encontrado"));
 
+        Funcionario atual = chamado.getFuncionario();
         switch (dto.status()) {
-            case ORCADA      -> require(dto.valorOrcamento() != null, "valorOrcamento obrigatório");
             case REJEITADA   -> require(notBlank(dto.motivoRejeicao()), "motivoRejeicao obrigatório");
             case REDIRECIONADA -> {
-                //TODO
+                require(Objects.nonNull(dto.funcionarioDestinoId()), "funcionarioDestinoId obrigatório");
+                if (chamado.getFuncionario().getIdUsuario() == dto.funcionarioDestinoId()) {
+                    throw new BadRequestApiException("Não é permitido redirecionar um chamado para si mesmo.");
+                }
+
             }
             case ARRUMADA    -> require(notBlank(dto.descricaoManutencao()), "descricaoManutencao obrigatória");
-            case PAGA, FINALIZADA, ABERTA, APROVADA -> { /* sem extras obrigatórios */ }
+            case PAGA, FINALIZADA, ABERTA, APROVADA -> {  }
+            default -> {}
         }
         EtapaHistorico etapa = gerarEtapa(chamado, dto.status());
-        // etapa.setComentario(dto.comentario()); //acho que esse sai fora
         etapa.setMotivoRejeicao(dto.motivoRejeicao());
         chamado.getEtapas().add(etapa);
 
         // efeitos colaterais no Chamado
         switch (dto.status()) {
-            case ORCADA -> chamado.getOrcamento().setValor(dto.valorOrcamento());
             case REDIRECIONADA -> {
                 Funcionario destino = funcionarioRepository.findById(dto.funcionarioDestinoId())
                     .orElseThrow(() -> new ResourceNotFoundException("Funcionário de destino não encontrado"));
                 chamado.setFuncionario(destino);
+                etapa.setFuncionario(destino);
+                etapa.setFuncionarioAnterior(atual);
             }
-            case ARRUMADA -> { /*ver se precisa fazer algo*/ }
+            case ARRUMADA -> {
+                chamado.setDescricaoManutencao(dto.descricaoManutencao());
+                String orientacoes = dto.orientacoesCliente() != null ? dto.orientacoesCliente() : null;
+                chamado.setOrientacoesManutencao(orientacoes);
+            }
             case PAGA, FINALIZADA -> chamado.setDataResposta(Instant.now());
             default -> {}
         }
@@ -258,21 +262,10 @@ public class ChamadoService {
         c.getStatus() != null ? c.getStatus().name() : null,
         c.getDataCriacao(),
         c.getDataResposta(),
-        //toEtapasDTO(c.getEtapas()),
-        c.getOrcamento() != null ? c.getOrcamento().getValor() : null
-        //toOrcamentoDTO(c.getOrcamento())
-        );
-    }
-
-    private static ClienteDTO toClienteDTO(Cliente c) {
-        if (c == null) return null;
-        return new ClienteDTO(
-        c.getIdUsuario(),
-        c.getNome(),
-        c.getEmail(),
-        c.getTelefone(),
-        c.getCpf(),
-        toEnderecoDTO(c.getEndereco())
+        c.getOrcamento() != null ? c.getOrcamento().getValor() : null,
+        c.getSlug(),
+        c.getDescricaoManutencao() != null ? c.getDescricaoManutencao() : null,
+        c.getOrientacoesManutencao() != null ? c.getOrientacoesManutencao() : null
         );
     }
 
@@ -283,14 +276,6 @@ public class ChamadoService {
         f.getNome(),
         f.getEmail(),
         f.getDataNascimento()
-        );
-    }
-
-    private static EnderecoDTO toEnderecoDTO(Endereco e) {
-        if (e == null) return null;
-        return new EnderecoDTO(
-        e.getCep(), e.getLogradouro(), e.getComplemento(), e.getNumero(),
-        e.getBairro(), e.getCidade(), e.getUf()
         );
     }
 
@@ -310,8 +295,9 @@ public class ChamadoService {
         e.getComentario(),
         e.getDataCriacao(),
         toFuncionarioDTO(e.getFuncionario()),
+        toFuncionarioDTO(e.getFuncionarioAnterior()),
         e.getMotivoRejeicao(),
-        e.getChamado().getOrcamento().getValor()
+        e.getChamado().getOrcamento() != null? e.getChamado().getOrcamento().getValor() : BigDecimal.ZERO
         );
     }
 
@@ -331,6 +317,10 @@ public class ChamadoService {
 
     private static boolean notBlank(String s) {
         return s != null && !s.isBlank();
+    }
+
+    private static String slugify(String s) {
+        return s == null ? null : s.trim().toLowerCase().replaceAll("\\s+", "-");
     }
 
 }

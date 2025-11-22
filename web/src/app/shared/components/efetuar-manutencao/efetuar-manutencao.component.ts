@@ -2,7 +2,7 @@ import { Component, inject, input, output, Signal } from '@angular/core';
 import { ChamadoItem } from '@/app/model/chamado.type';
 import { StatusIconComponent } from '../status-icon/status-icon.component';
 import { DataHoraPipe } from '../../pipes/data-hora.pipe';
-import { MatLabel } from '@angular/material/form-field';
+import { MatLabel, MatError } from '@angular/material/form-field';
 import { MatButton } from '@angular/material/button';
 import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
 import {
@@ -17,8 +17,10 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { RedirecionarModalComponent } from '../redirecionar-modal/redirecionar-modal.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
-import { Funcionario } from '@/app/model/funcionario';
 import { ChamadoService } from '@/app/services/chamado.service';
+import { IniciaisPipe } from '@pipes/iniciais.pipe';
+import { Observable, of } from 'rxjs';
+import { Funcionario } from '@/app/model/funcionario';
 
 @Component({
   selector: 'app-efetuar-manutencao',
@@ -28,7 +30,9 @@ import { ChamadoService } from '@/app/services/chamado.service';
     MatLabel,
     MatButton,
     FormsModule,
-  ],
+    IniciaisPipe,
+    MatError
+],
   templateUrl: './efetuar-manutencao.component.html',
   styles: ``,
 })
@@ -37,74 +41,67 @@ export class EfetuarManutencaoComponent {
   private router = inject(Router);
   private snackBar = inject(MatSnackBar);
   private chamadoService = inject(ChamadoService);
-  chamado = input<ChamadoItem>();
+  chamado = input<ChamadoItem | undefined>();
   salvarChamado = input.required<(item: ChamadoItem) => void>();
   descricaoManutencao: string = '';
   orientacoesCliente: string = '';
+  descricaoObrigatoria = false;
 
-  redirecionarManutencao(): void {
-    const chamado = this.chamado();
-    if (chamado) {
-      const tecnicoAtual: Tecnico = { nome: 'Tecnico Atual' };
-      const novoTecnico: Tecnico = { nome: 'Novo Tecnico' };
-
-      const redirecionamento: Redirecionamento = {
-        tecnicoOrigem: tecnicoAtual,
-        tecnicoDestino: novoTecnico, //selecionar o nome do crud de funcionarios quando tivermos
-      };
-      const etapaRedirecionamento: EtapaHistorico = {
-        id: 1,
-        serviceId: chamado.id,
-        dataCriado: new Date(),
-        tecnico: tecnicoAtual,
-        status: StatusConsertoEnum.REDIRECIONADA,
-        redirecionamento,
-      };
-      //const etapas = chamado.etapas && chamado.etapas.length > 0
-      //    ? [...chamado.etapas, etapaRedirecionamento]
-      //    : [etapaRedirecionamento]
-      const novoChamado: ChamadoItem = {
-        ...chamado,
-        status: StatusConsertoEnum.REDIRECIONADA,
-        //etapas
-      };
-      console.log('redirecionada', novoChamado);
-      const salvarChamado = this.salvarChamado();
-      salvarChamado(novoChamado);
-    }
+  redirecionarManutencao(funcionarioDestino: Funcionario): Observable<ChamadoItem> {
+  const chamado = this.chamado();
+  if (!chamado) {
+    return of();
   }
 
-  efetuarManutencao(): void {
+  const tecnicoDestino: Tecnico = {
+    id: funcionarioDestino.id,
+    nome: funcionarioDestino.nome,
+  };
+
+  const redirecionamento: Redirecionamento = {
+    tecnicoDestino,
+  };
+
+  const etapaRedirecionamento: EtapaHistorico = {
+    id: -1,
+    serviceId: chamado.id,
+    dataCriado: new Date(),
+    status: StatusConsertoEnum.REDIRECIONADA,
+    redirecionamento: redirecionamento,
+  };
+
+  return this.chamadoService.redirecionar(chamado.id, etapaRedirecionamento);
+}
+
+  efetuarManutencao(): Observable<ChamadoItem> {
     const chamado = this.chamado();
-    if (chamado !== undefined) {
-      const tecnicoAtual: Tecnico = { nome: 'Tecnico Atual' };
-      const manutencao: Manutencao = {
-        descricao: this.descricaoManutencao,
-        orientacoes: this.orientacoesCliente,
-      };
-      const etapaManutencao: EtapaHistorico = {
-        id: 1,
-        serviceId: chamado.id,
-        dataCriado: new Date(),
-        tecnico: tecnicoAtual,
-        status: StatusConsertoEnum.ARRUMADA,
-        manutencao,
-      };
-      // const etapas = chamado.etapas && chamado.etapas.length > 0
-      //     ? [...chamado.etapas, etapaManutencao]
-      //    : [etapaManutencao]
-      const novoChamado: ChamadoItem = {
-        ...chamado,
-        status: StatusConsertoEnum.ARRUMADA,
-        //     etapas
-      };
-      console.log('efetuada', novoChamado);
-      const salvarChamado = this.salvarChamado();
-      salvarChamado(novoChamado);
-    }
+    if(!chamado) return of()
+    const tecnicoAtual: Tecnico = {
+      nome: chamado?.funcionario ?? ""
+    };
+    const manutencao: Manutencao = {
+      descricao: this.descricaoManutencao,
+      orientacoes: this.orientacoesCliente,
+    };
+    const arrumada: EtapaHistorico = {
+      id: -1,
+      serviceId: chamado.id,
+      dataCriado: new Date(),
+      tecnico: tecnicoAtual,
+      status: StatusConsertoEnum.ARRUMADA,
+      manutencao: manutencao,
+    };
+
+    return this.chamadoService.efetuar(chamado.id, arrumada)
   }
 
   abrirModalConfirmacao(): void {
+    if (!this.descricaoManutencao || !this.descricaoManutencao.trim()) {
+      this.descricaoObrigatoria = true;
+      return;
+    }
+
+    this.descricaoObrigatoria = false;
     const dialogRef = this.dialog.open(ConfirmarModalComponent, {
       data: {
         titulo: 'Deseja concluir a manutenção?',
@@ -114,39 +111,62 @@ export class EfetuarManutencaoComponent {
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result) {
-        this.efetuarManutencao();
-        this.snackBar.open('Manutenção concluída com sucesso!', 'Fechar', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center',
-          panelClass: ['snack-top', 'snack-success'],
+        this.efetuarManutencao().subscribe({
+          next: () => {
+            this.snackBar.open('Manutenção concluída com sucesso!', 'Fechar', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+              panelClass: ['snack-top', 'snack-success'],
+            });
+            this.router.navigate(['/funcionario/solicitacoes']);
+          },
+          error: (err) => {
+            this.snackBar.open(err.error, 'OK', {
+              duration: 3000,
+              verticalPosition: 'top',
+              horizontalPosition: 'center',
+              panelClass: ['snack-top', 'snack-danger'],
+            });
+          },
         });
-        this.router.navigate(['/funcionario/solicitacoes']);
       }
     });
   }
 
   abrirModalRedirecionamento(): void {
-    const chamadoAtual = this.chamado();
-    if (!chamadoAtual) return;
+  const chamadoAtual = this.chamado();
+  if (!chamadoAtual) return;
 
-    const dialogRef = this.dialog.open(RedirecionarModalComponent, {
-      width: '400px',
-      data: { chamado: chamadoAtual },
-    });
+  const dialogRef = this.dialog.open(RedirecionarModalComponent, {
+    width: '400px',
+  });
 
-    dialogRef.afterClosed().subscribe((result) => {
-      if (result) {
-        const salvarChamado = this.salvarChamado();
-        salvarChamado(result);
-        this.snackBar.open('Manutenção redirecionada com sucesso!', 'Fechar', {
+  dialogRef.afterClosed().subscribe((selectedFuncionario: Funcionario | null) => {
+    if (!selectedFuncionario) return;
+    this.redirecionarManutencao(selectedFuncionario).subscribe({
+      next: () => {
+        this.snackBar.open(
+          'Manutenção redirecionada com sucesso!',
+          'Fechar',
+          {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snack-top', 'snack-success'],
+          },
+        );
+        this.router.navigate(['/funcionario/solicitacoes']);
+      },
+      error: (err) => {
+        this.snackBar.open(err.error ?? 'Erro ao redirecionar manutenção.', 'OK', {
           duration: 3000,
           verticalPosition: 'top',
           horizontalPosition: 'center',
-          panelClass: ['snack-top', 'snack-success'],
+          panelClass: ['snack-top', 'snack-danger'],
         });
-        this.router.navigate(['/funcionario/solicitacoes']);
-      }
+      },
     });
-  }
+  });
+}
 }

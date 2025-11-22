@@ -21,6 +21,9 @@ export type ChamadoResponseApi = {
   dataCriacao: string;
   dataResposta?: string;
   orcamentoValor?: number;
+  slug: string;
+  descricaoManutencao?: string;
+  orientacoesManutencao?: string;
 };
 
 export function chamadoToDTO(chamado: ChamadoItem): ChamadoCreateApi {
@@ -46,6 +49,11 @@ export function dtoToChamado(dto: ChamadoResponseApi): ChamadoItem {
     comentario: dto.comentario ?? undefined,
     precoBase: dto.precoBase,
     funcionario: dto.funcionario ?? undefined,
+    slug: dto.slug,
+    manutencao: {
+      descricao: dto.descricaoManutencao,
+      orientacoes: dto.orientacoesManutencao
+    }
   } as ChamadoItem;
 }
 

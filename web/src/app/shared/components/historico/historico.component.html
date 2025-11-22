@@ -3,26 +3,26 @@
         <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
             <h2 class="text-3xl font-semibold mt-1 mb-2">
                 <span>Resumo do chamado </span>
-                {{ chamado().id }}
+                {{ chamado()?.id }}
             </h2>
-            <h2 class="text-xl font-semibold mt-1">{{ chamado().descricaoEquipamento }}</h2>
+            <h2 class="text-xl font-semibold mt-1">{{ chamado()?.descricaoEquipamento }}</h2>
 
             <div class="mt-4">
                 <p class="text-sm font-semibold text-figma-gray-300">Descrição</p>
                 <p class="mt-1 text-figma-gray-600">
-                    {{ chamado().descricaoFalha }}
+                    {{ chamado()?.descricaoFalha }}
                 </p>
             </div>
 
             <div class="mt-4">
                 <p class="text-sm font-semibold text-figma-gray-300">Categoria</p>
-                <p class="mt-1">{{ chamado().serviceCategory }}</p>
+                <p class="mt-1">{{ chamado()?.serviceCategory }}</p>
             </div>
 
             <div class="mt-4 grid grid-cols-2 gap-6">
                 <div>
                     <p class="text-sm font-semibold text-figma-gray-300">Criado em</p>
-                    <p class="mt-1">{{ chamado().dataCriacao | date:'dd/MM/yy, HH:mm'}}</p>
+                    <p class="mt-1">{{ chamado()?.dataCriacao | date:'dd/MM/yy, HH:mm'}}</p>
                 </div>
             </div>
 
@@ -30,7 +30,7 @@
                 <div>
                     <p class="text-sm font-semibold text-figma-gray-300">Status</p>
                     <div class >
-                        <app-status-icon [status]="chamado().status" />
+                        <app-status-icon [status]="chamado()?.status" />
                     </div>
                 </div>
             </div>
@@ -38,12 +38,11 @@
             <div class="mt-6">
                 <p class="text-sm font-semibold text-figma-gray-300">Cliente</p>
                 <div class="mt-2 flex items-center gap-3">
-                    <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">AC</div>
+                    <div class="w-8 h-8 rounded-full bg-brand-base text-white flex items-center justify-center text-xs">{{ chamado()?.cliente | iniciais }}</div>
                     <div>
-                        <p class="font-medium leading-tight">{{ chamado().cliente }}</p>
+                        <p class="font-medium leading-tight">{{ chamado()?.cliente }}</p>
                         <p class="text-xs text-figma-gray-300">
-                            {{ chamado().cliente.toLowerCase() }}
-                            <span>&#64; email.com</span>
+                            {{ chamado()?.cliente?.toLowerCase() }}&#64;cliente.com
                         </p>
                     </div>
                 </div>
@@ -55,13 +54,13 @@
 
 
     <div>
-        @for (etapa of etapas(); track etapa.id) {
+        @for (etapa of etapas(); track etapa.id; let indice = $index) {
             <div class="min-w-0 mb-8">
                 <mat-expansion-panel class="shadow-none">
                     <mat-expansion-panel-header class="flex-between">
                     <span class="font-medium">
                         <span>Etapa </span>
-                        00{{ etapa.id }}
+                        {{ indice + 1 | number:'3.0-0' }}
                     </span>
                     <app-status-icon [status]=etapa.status />
                     </mat-expansion-panel-header>
@@ -71,10 +70,20 @@
                             <span>Criado em</span>
                             <span>{{ etapa.dataCriado | date:'dd/MM/yy, HH:mm'}}</span>
                         </li>
-                        @if (etapa.tecnico) {
+                        @if (etapa.tecnico && !(etapa.status === StatusConsertoEnum.REDIRECIONADA)) {
                           <li class="flex items-center justify-between py-3">
                           <span>Técnico responsável</span>
                           <span>{{ etapa.tecnico.nome }}</span>
+                          </li>
+                        }
+                        @if (etapa.tecnico && (etapa.status === StatusConsertoEnum.REDIRECIONADA)) {
+                          <li class="flex items-center justify-between py-3">
+                          <span>Técnico destino</span>
+                          <span>{{ etapa.redirecionamento?.tecnicoDestino?.nome }}</span>
+                          </li>
+                          <li class="flex items-center justify-between py-3">
+                          <span>Técnico origem</span>
+                          <span>{{ etapa.redirecionamento?.tecnicoOrigem?.nome }}</span>
                           </li>
                         }
                         @if (etapa.motivoRejeicao) {

@@ -1,18 +1,30 @@
 <h2 mat-dialog-title class="font-bold">Redirecionar Manutenção</h2>
+
 <mat-dialog-content>
-    <p>Selecione um funcionário para redirecionar o chamado.</p>
-    <mat-form-field appearance="fill" class="w-full">
-        <mat-label>Funcionário</mat-label>
-        <mat-select [(ngModel)]="selectedFuncionario">
-            <mat-option *ngFor="let funcionario of funcionarios" [value]="funcionario">
-                {{ funcionario.nome }}
-            </mat-option>
-        </mat-select>
-    </mat-form-field>
+  <p>Selecione um funcionário para redirecionar o chamado.</p>
+
+  <mat-form-field appearance="fill" class="w-full">
+    <mat-label>Funcionário</mat-label>
+
+    <mat-select [(ngModel)]="selectedFuncionario">
+      @for (funcionario of funcionariosSignal(); track funcionario.id) {
+        <mat-option [value]="funcionario">
+          {{ funcionario.nome }}
+        </mat-option>
+      }
+    </mat-select>
+  </mat-form-field>
 </mat-dialog-content>
+
 <mat-dialog-actions align="end">
-    <button mat-button (click)="onCancel()">Cancelar</button>
-    <button mat-raised-button color="primary" (click)="onRedirect()" [disabled]="!selectedFuncionario">
-        Redirecionar
-    </button>
+  <button mat-button (click)="onCancel()">Cancelar</button>
+
+  <button
+    mat-raised-button
+    color="primary"
+    (click)="onRedirect()"
+    [disabled]="!selectedFuncionario"
+  >
+    Redirecionar
+  </button>
 </mat-dialog-actions>

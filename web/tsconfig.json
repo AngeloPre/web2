@@ -23,7 +23,8 @@
       "@core/*": ["src/app/core/*"],
       "@services/*": ["src/app/services/*"],
       "@shared/*": ["src/app/shared/*"],
-      "@model/*": ["src/app/model/*"]
+      "@model/*": ["src/app/model/*"],
+      "@pipes/*": ["src/app/shared/pipes/*"]
     }
   },
   "angularCompilerOptions": {

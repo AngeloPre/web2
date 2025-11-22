@@ -81,4 +81,13 @@ public class Chamado {
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true, optional = true)
   @JoinColumn(name = "orcamento_id", nullable = true)
   private Orcamento orcamento;
+
+  @Column(name = "slug", nullable = false, length = 120, unique = false)
+  private String slug;
+
+  @Column(name = "descricao_manutencao", nullable = true, length = 255)
+  private String descricaoManutencao;
+
+  @Column(name = "orientacoes_manutencao", nullable = true, length = 255)
+  private String orientacoesManutencao;
 }

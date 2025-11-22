@@ -15,6 +15,8 @@ public record ChamadoDTO(
     String status,
     Instant dataCriacao,
     Instant dataResposta,
-    //List<EtapaHistoricoDTO> etapas,
-    BigDecimal orcamentoValor
+    BigDecimal orcamentoValor,
+    String slug,
+    String descricaoManutencao,
+    String orientacoesManutencao
 ) {}

@@ -1,8 +1,6 @@
 import { Funcionario } from '@/app/model/funcionario';
 import { ChamadoItem } from '@/app/model/chamado.type';
-import { ChamadoService } from '@services/chamado.service';
-import { UsuarioService } from '@services/usuario.service';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, inject, Inject, OnInit } from '@angular/core';
 import { MatButton } from '@angular/material/button';
 import {
   MAT_DIALOG_DATA,
@@ -13,7 +11,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatOption, MatSelect } from '@angular/material/select';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
+import { FuncionarioService } from '@/app/services/funcionario.service';
 
 @Component({
   selector: 'app-redirecionar-modal',
@@ -30,21 +28,17 @@ import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
   templateUrl: './redirecionar-modal.component.html',
   styles: ``,
 })
-export class RedirecionarModalComponent implements OnInit {
-  funcionarios: Funcionario[] = [];
+export class RedirecionarModalComponent implements OnInit{
+  private funcionarioService: FuncionarioService = inject(FuncionarioService);
+  funcionariosSignal = this.funcionarioService.signalFuncionarios;
   selectedFuncionario: Funcionario | null = null;
-  chamado: ChamadoItem;
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { chamado: ChamadoItem },
-    public dialog: MatDialogRef<RedirecionarModalComponent>,
-    private readonly usuarioService: UsuarioService,
-    private readonly chamadoService: ChamadoService
-  ) {
-    this.chamado = data.chamado;
-  }
 
+  constructor(
+    public dialog: MatDialogRef<RedirecionarModalComponent>,
+  ) {
+  }
   ngOnInit(): void {
-    this.funcionarios = this.usuarioService.listarTodosFuncionarios();
+    this.funcionarioService.refresh().subscribe();
   }
 
   onCancel(): void {
@@ -52,11 +46,8 @@ export class RedirecionarModalComponent implements OnInit {
   }
 
   onRedirect(): void {
-    if (this.selectedFuncionario && this.chamado) {
-      this.chamado.funcionario = this.selectedFuncionario.nome;
-      this.chamado.status = StatusConsertoEnum.REDIRECIONADA;
-      this.chamadoService.atualizar(this.chamado);
-      this.dialog.close(this.chamado);
-    }
-  }
+  if (!this.selectedFuncionario) return;
+console.log("FUNCIONARIO DA MODAL", this.selectedFuncionario)
+  this.dialog.close(this.selectedFuncionario);
+}
 }

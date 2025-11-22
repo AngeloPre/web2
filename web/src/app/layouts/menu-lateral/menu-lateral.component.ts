@@ -9,9 +9,12 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatButtonModule } from '@angular/material/button';
 import { CommonModule } from '@angular/common';
 import { UserRole } from '@core/store/user-role/user-role.store';
-import { UsuarioService } from '@/app/services/usuario.service';
 import { LoginService } from '@/app/services/login.service';
 import { LimiteCaracteresPipe } from '@/app/shared/pipes/limite-caracteres.pipe';
+import { MatDialog } from '@angular/material/dialog';
+import { LogoutDialogComponent } from '@/app/shared/components/dialogs/logout-dialog/logout-dialog.component';
+import { MatIcon } from '@angular/material/icon';
+import { IniciaisPipe } from '@pipes/iniciais.pipe';
 
 @Component({
   selector: 'app-menu-lateral',
@@ -24,6 +27,8 @@ import { LimiteCaracteresPipe } from '@/app/shared/pipes/limite-caracteres.pipe'
     RouterLink,
     RouterLinkActive,
     LimiteCaracteresPipe,
+    MatIcon,
+    IniciaisPipe,
   ],
   templateUrl: './menu-lateral.component.html',
   styles: ``,
@@ -32,7 +37,7 @@ export class MenuLateralComponent {
   readonly userRole = inject(UserRole);
   //private usuarioService = inject(UsuarioService);
   private loginService = inject(LoginService);
-  private router = inject(Router);
+  private dialog = inject(MatDialog);
 
   usuarioNome = signal<string>('');
 
@@ -47,9 +52,12 @@ export class MenuLateralComponent {
     this.isOpen = !this.isOpen;
   }
 
-  logout(): void {
-    this.loginService.logout();
-    this.router.navigate(['/']);
+  abrirDialog(){
+    const ref = this.dialog.open(LogoutDialogComponent, {
+      width: '500px',
+      maxWidth: 'none',
+      panelClass: 'dialog-xxl'
+    });
   }
 
   get roleLabel(): 'Funcionário' | 'Cliente' {

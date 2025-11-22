@@ -8,6 +8,6 @@ import { StatusConsertoEnum } from '@/app/model/enums/chamado-status.enum';
   styles: ``,
 })
 export class StatusIconComponent {
-  status = input.required<StatusConsertoEnum>();
+  status = input.required<StatusConsertoEnum | undefined>();
   chamadosStatus = StatusConsertoEnum;
 }
