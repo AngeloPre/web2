@@ -1,7 +1,7 @@
 import { inject, Injectable, signal } from '@angular/core';
 import { ChamadoItem, ChamadoUpdateDTO } from '@model/chamado.type';
 import { StatusConsertoEnum } from '@model/enums/chamado-status.enum';
-import { API_URL } from './CONSTANTES';
+import { API_URL } from '@/environment/env';
 import {
   HttpClient,
   HttpHeaders,

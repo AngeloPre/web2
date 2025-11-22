@@ -1,16 +1,15 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable, signal } from '@angular/core';
 import { Observable, map, switchMap, tap, finalize, delay } from 'rxjs';
-
 import { ApiServices } from '../model/interfaces/api-services';
 import { CategoriaEquipamento } from '@model/categoria-equipamento.type';
-import { API_URL } from './CONSTANTES';
 import {
   DtoToEquipamento,
   EquipamentoCreateUpdateApi,
   EquipamentoResponseApi,
   EquipamentoToDTO,
 } from '../dto/equipamento.dto';
+import { API_URL } from '@/environment/env';
 
 @Injectable({
   providedIn: 'root',

@@ -40,11 +40,11 @@
             <app-status-ativo-inativo [status]="funcionario.status"/>
           </td>
           <td class="px-6 py-4 flex justify-end">
-            <button class="aspect-square rounded p-2"  [routerLink]="['/funcionario/editar-funcionario', funcionario.id]">
+            <button class="aspect-square rounded p-2 w-10 hover:bg-figma-gray-100"  [routerLink]="['/funcionario/editar-funcionario', funcionario.id]">
               <img src="assets/svg/pen-line.svg" />
             </button>
             <button type="button"
-                    class="inline-flex items-center rounded-lg  px-2.5 py-1.5 text-sm text-red-600 hover:bg-red-50"
+                    class="aspect-square rounded p-2 w-10 text-red-600 hover:bg-figma-gray-100"
                     (click)="confirmarExcluir(funcionario.id)">
               <img src="assets/svg/trash.svg" />
             </button>
