@@ -9,6 +9,7 @@ export type ChamadoItem = {
   userId?: number;
   userName?: string;
   cliente: string;
+  clienteEmail: string;
   serviceCategory: string;
   status: StatusConsertoEnum;
   descricaoEquipamento: string;

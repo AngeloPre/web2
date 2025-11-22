@@ -6,6 +6,7 @@ import java.time.Instant;
 public record ChamadoDTO(
     Integer id,
     String cliente,
+    String clienteEmail,
     String funcionario,
     String funcionarioEmail,
     String categoriaNome,

@@ -59,6 +59,7 @@ export class SolicitacaoClienteComponent {
     userName: '',
     serviceCategory: '',
     cliente: '',
+    clienteEmail: '',
     status: StatusConsertoEnum.ABERTA,
     descricaoEquipamento: '',
     descricaoFalha: '',

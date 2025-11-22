@@ -253,6 +253,7 @@ public class ChamadoService {
         return new ChamadoDTO(
         c.getId(),
         c.getCliente().getNome(),
+        c.getCliente().getEmail(),
         c.getFuncionario() != null ? c.getFuncionario().getNome() : null,
         c.getFuncionario() != null ? c.getFuncionario().getEmail() : null,
         c.getCategoriaEquipamento() != null ? c.getCategoriaEquipamento().getName() : null,
