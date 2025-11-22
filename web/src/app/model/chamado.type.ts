@@ -19,6 +19,7 @@ export type ChamadoItem = {
   comentario?: string;
   precoBase: number;
   funcionario?: string;
+  funcionarioEmail?: string;
   manutencao?: Manutencao
 };
 

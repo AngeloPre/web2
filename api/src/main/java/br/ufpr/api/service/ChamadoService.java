@@ -254,6 +254,7 @@ public class ChamadoService {
         c.getId(),
         c.getCliente().getNome(),
         c.getFuncionario() != null ? c.getFuncionario().getNome() : null,
+        c.getFuncionario() != null ? c.getFuncionario().getEmail() : null,
         c.getCategoriaEquipamento() != null ? c.getCategoriaEquipamento().getName() : null,
         c.getDescricaoEquipamento(),
         c.getDescricaoFalha(),

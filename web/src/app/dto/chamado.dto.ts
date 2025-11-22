@@ -12,6 +12,7 @@ export type ChamadoResponseApi = {
   id: number;
   cliente: string;
   funcionario?: string;
+  funcionarioEmail?: string;
   categoriaNome: string;
   descricaoEquipamento: string;
   descricaoFalha: string;
@@ -49,6 +50,7 @@ export function dtoToChamado(dto: ChamadoResponseApi): ChamadoItem {
     comentario: dto.comentario ?? undefined,
     precoBase: dto.precoBase,
     funcionario: dto.funcionario ?? undefined,
+    funcionarioEmail: dto.funcionarioEmail ?? undefined,
     slug: dto.slug,
     manutencao: {
       descricao: dto.descricaoManutencao,

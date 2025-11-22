@@ -7,6 +7,7 @@ public record ChamadoDTO(
     Integer id,
     String cliente,
     String funcionario,
+    String funcionarioEmail,
     String categoriaNome,
     String descricaoEquipamento,
     String descricaoFalha,

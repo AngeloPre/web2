@@ -30,8 +30,7 @@ import { Funcionario } from '@/app/model/funcionario';
     MatLabel,
     MatButton,
     FormsModule,
-    IniciaisPipe,
-    MatError
+    IniciaisPipe
 ],
   templateUrl: './efetuar-manutencao.component.html',
   styles: ``,
