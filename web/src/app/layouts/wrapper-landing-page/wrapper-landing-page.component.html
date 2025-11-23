@@ -15,12 +15,9 @@
       <div class="flex h-20 items-center justify-evenly">
 
         <!-- Menu desktop -->
-        <ul class="hidden md:flex items-center gap-6">
+        <ul class="hidden md:flex items-center gap-14">
           <li><a class="text-gray-700 hover:text-brand-light font-medium" href="#">Home</a></li>
-          <li><a class="text-gray-700 hover:text-brand-light font-medium" href="#">About Us</a></li>
-          <li><a class="text-gray-700 hover:text-brand-light font-medium" href="#">Services</a></li>
-          <li><a class="text-gray-700 hover:text-brand-light font-medium" href="#">Pricing</a></li>
-          <li><a class="text-gray-700 hover:text-brand-light font-medium" href="#">Contact Us</a></li>
+          <li><a class="text-gray-700 hover:text-brand-light font-medium" href="#servicos">Serviços</a></li>
           <li><a class="block py-2 text-gray-700 hover:text-brand-light" routerLink="/login">Login</a></li>
         </ul>
 
@@ -31,7 +28,7 @@
           <path stroke-linecap="round" stroke-linejoin="round"
             d="M2.25 6.75c0 8.284 6.716 15 15 15h1.5a1.5 1.5 0 0 0 1.5-1.5v-2.318a1.5 1.5 0 0 0-1.116-1.45l-3.13-.782a1.5 1.5 0 0 0-1.622.694l-.53.884a12.036 12.036 0 0 1-5.39-5.39l.884-.53a1.5 1.5 0 0 0 .694-1.622l-.782-3.13A1.5 1.5 0 0 0 7.568 3.75H5.25A3 3 0 0 0 2.25 6.75Z" />
           </svg>
-          <a href="tel:1234567890" class="text-gray-900 font-semibold tracking-wide">123 - 456 - 7890</a>
+          <a href="tel:1234567890" class="text-gray-900 font-semibold tracking-wide">(11) 4002 - 8922</a>
         </div>
 
       <!-- Botão mobile -->
@@ -60,12 +57,9 @@
     <div class="md:hidden border-t">
       <div class="space-y-1 px-4 py-3">
         <a class="block py-2 text-gray-700 hover:text-brand-light" href="#">Home</a>
-        <a class="block py-2 text-gray-700 hover:text-brand-light" href="#">About Us</a>
-        <a class="block py-2 text-gray-700 hover:text-brand-light" href="#">Services</a>
-        <a class="block py-2 text-gray-700 hover:text-brand-light" href="#">Pricing</a>
-        <a class="block py-2 text-gray-700 hover:text-brand-light" href="#">Contact Us</a>
+        <a class="block py-2 text-gray-700 hover:text-brand-light" href="#servicos" (click)="toggleMobile()">Serviços</a>
         <a class="block py-2 text-gray-700 hover:text-brand-light" routerLink="/login">Login</a>
-        <a class="block py-2 font-semibold text-gray-900" href="tel:1234567890">123 - 456 - 7890</a>
+        <a class="block py-2 font-semibold text-gray-900" href="tel:1234567890">(11) 4002 - 8922</a>
       </div>
     </div>
   }
