@@ -9,7 +9,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { CategoriaEquipamentoService } from '@services/categoria-equipamento.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatInputModule } from '@angular/material/input';
-import { PdfServiceService } from '@services/pdf-service.service';
+import { RelatorioService } from '@services/relatorio.service';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {
   FormControl,
@@ -35,7 +35,7 @@ import {
 })
 export class PagRelatoriosComponent {
   private categoriaService = inject(CategoriaEquipamentoService);
-  private pdfService = inject(PdfServiceService);
+  private relatorioService = inject(RelatorioService);
   tipoRelatorio = signal<'Periodo' | 'Categoria'>('Periodo');
 
   range = new FormGroup({
@@ -52,11 +52,10 @@ export class PagRelatoriosComponent {
   }
 
   gerarPDF(): void {
-    this.pdfService.gerarPDF(
+    this.relatorioService.gerarPDF(
       this.tipoRelatorio(),
       this.range.value.start?.toLocaleDateString('pt-BR'),
-      this.range.value.end?.toLocaleDateString('pt-BR'),
-      this.categorias()
+      this.range.value.end?.toLocaleDateString('pt-BR')
     );
   }
 }

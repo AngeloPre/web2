@@ -52,6 +52,8 @@ Links Uteis Frontend:
 
 [Gerenciamento de Estado com NGRX para rotas](https://angular.love/mastering-state-management-in-angular-with-ngrx-and-signals-scalable-predictable-performant)
 
+[Encoder base64 para fontes jsPDF](https://www.giftofspeed.com/base64-encoder/)
+
 ## Backend
 
 Para compilar o backend use o comando:
