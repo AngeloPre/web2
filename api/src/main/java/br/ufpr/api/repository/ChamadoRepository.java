@@ -20,7 +20,7 @@ public interface ChamadoRepository extends CrudRepository<Chamado, Integer> {
     List<Chamado> findByStatus(StatusConserto status);
     List<Chamado> findByStatusAndDataCriacaoBetweenOrderByDataCriacaoAsc(StatusConserto status, Instant inicio, Instant fim);
     List<Chamado> findByClienteAndDataCriacaoBetweenOrderByDataCriacaoAsc(Cliente cliente, Instant inicio, Instant fim);
-    List<Chamado> findByFuncionarioAndDataCriacaoBetweenOrderByDataCriacaoAsc(Funcionario funcionario, Instant inicio, Instant fim);
+    List<Chamado> findByFuncionarioAndDataCriacaoBetweenOrStatusOrderByDataCriacaoAsc(Funcionario funcionario, Instant inicio, Instant fim, StatusConserto status);
     List<Chamado> findByDataCriacaoBetweenOrderByDataCriacaoAsc(Instant inicio, Instant fim);
     List<Chamado> findByDataCriacaoGreaterThanEqualOrderByDataCriacaoAsc(Instant inicio);
     List<Chamado> findByDataCriacaoLessThanEqualOrderByDataCriacaoAsc(Instant fim);
