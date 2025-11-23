@@ -13,6 +13,7 @@ import { Router } from '@angular/router';
 import { ChamadoService } from '@/app/services/chamado.service';
 import { Orcamento } from '@/app/model/orcamento';
 import { IniciaisPipe } from '@pipes/iniciais.pipe';
+import { LimiteCaracteresPipe } from '@pipes/limite-caracteres.pipe';
 
 @Component({
   selector: 'app-efetuar-orcamento',
@@ -25,6 +26,7 @@ import { IniciaisPipe } from '@pipes/iniciais.pipe';
     DatePipe,
     CurrencyPipe,
     IniciaisPipe,
+    LimiteCaracteresPipe,
   ],
   templateUrl: './efetuar-orcamento.component.html',
   styles: ``,

@@ -8,6 +8,7 @@ import {
 import { provideRouter } from '@angular/router';
 import {
   provideHttpClient,
+  HTTP_INTERCEPTORS,
   withInterceptors,
   withInterceptorsFromDi,
 } from '@angular/common/http';
@@ -23,6 +24,7 @@ import ptBr from '@angular/common/locales/pt';
 import { registerLocaleData } from '@angular/common';
 import { JwtModule } from '@auth0/angular-jwt';
 import { tokenGetter } from './services/login.service';
+import { AuthErrorInterceptor } from './core/interceptors/auth-error.interceptor';
 
 registerLocaleData(ptBr);
 
@@ -50,5 +52,10 @@ export const appConfig: ApplicationConfig = {
       })
     ),
     provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthErrorInterceptor,
+      multi: true
+    },
   ],
 };
