@@ -3,11 +3,11 @@
     <div class="min-w-0">
         <div class="bg-white rounded-lg border border-figma-gray-200 p-6">
             <p class="text-sm text-figma-gray-300">{{ chamado().id }}</p>
-            <h2 class="text-xl font-semibold mt-1">{{ chamado().descricaoEquipamento }}</h2>
+            <h2 class="text-xl font-semibold mt-1">{{ chamado().descricaoEquipamento | limiteCaracteres : 50 }}</h2>
 
             <div class="mt-4">
                 <p class="text-sm font-semibold text-figma-gray-300">Descrição</p>
-                <p class="mt-1 text-figma-gray-600">
+                <p class="mt-1 text-figma-gray-600 break-words">
                     {{ chamado().descricaoFalha }}
                 </p>
             </div>

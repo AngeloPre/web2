@@ -10,7 +10,7 @@ import {
 import { Observable } from 'rxjs';
 import { Role, STORAGE_KEY } from '../../store/user-role/user-role.store';
 import { JwtHelperService } from '@auth0/angular-jwt';
-import { LS_Token } from '@/app/services/login.service';
+import { LS_Token, LoginService } from '@/app/services/login.service';
 
 export const authGuard: CanActivateFn = (
   next: ActivatedRouteSnapshot,
@@ -22,6 +22,7 @@ export const authGuard: CanActivateFn = (
   | UrlTree => {
   const jwtHelper = inject(JwtHelperService);
   const router = inject(Router);
+  const loginService = inject(LoginService);
   const requiredRole = next.data['role'] as Role;
   const token = localStorage.getItem(LS_Token);
   const key = localStorage.getItem(STORAGE_KEY) ?? '{}';
@@ -30,6 +31,7 @@ export const authGuard: CanActivateFn = (
   console.log(currentRole);
 
   if (!token || jwtHelper.isTokenExpired(token)) {
+    loginService.logout();
     return router.parseUrl('/login');
   }
 
