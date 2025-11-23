@@ -1,0 +1,1 @@
+import{wb as n}from"./chunk-K7Q6RGMJ.js";var t=class i{transform(r,e){return r.length<=e?r:r.substring(0,e)+"\u2026"}static \u0275fac=function(e){return new(e||i)};static \u0275pipe=n({name:"limiteCaracteres",type:i,pure:!0})};export{t as a};

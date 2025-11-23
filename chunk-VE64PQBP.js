@@ -1,1 +1,0 @@
-import{vb as n}from"./chunk-WQLYTPAN.js";var t=class i{transform(r,e){return r.length<=e?r:r.substring(0,e)+"\u2026"}static \u0275fac=function(e){return new(e||i)};static \u0275pipe=n({name:"limiteCaracteres",type:i,pure:!0})};export{t as a};
