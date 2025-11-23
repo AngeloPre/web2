@@ -53,7 +53,7 @@ export class MenuLateralComponent {
   }
 
   abrirDialog(){
-    const ref = this.dialog.open(LogoutDialogComponent, {
+    this.dialog.open(LogoutDialogComponent, {
       width: '500px',
       maxWidth: 'none',
       panelClass: 'dialog-xxl'

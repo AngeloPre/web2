@@ -8,4 +8,5 @@ import java.util.List;
 
 public interface FuncionarioRepository extends JpaRepository<Funcionario, Integer>{
     List<Funcionario> findByStatus(boolean status);
+    long countByStatusTrue();
 }

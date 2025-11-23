@@ -36,6 +36,13 @@
             </div>
         </mat-card>
     }@empty {
-        <p>Nenhum chamado encontrado</p>
+        <div class="col-span-3 w-full flex flex-col items-center justify-center text-center h-full">
+            <img
+                src="assets/empty-categories.gif"
+                alt="Nenhum chamado encontrado"
+                class="h-96"
+            />
+            <p class="text-figma-gray-500 font-semibold">Nenhuma solicitação encontrada</p>
+        </div>
         }
 </div>

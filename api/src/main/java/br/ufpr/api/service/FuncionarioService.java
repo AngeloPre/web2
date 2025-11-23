@@ -3,6 +3,7 @@ package br.ufpr.api.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -10,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import br.ufpr.api.dto.FuncionarioCreateUpdateDTO;
 import br.ufpr.api.dto.FuncionarioDTO;
 import br.ufpr.api.exception.ResourceConflictException;
+import br.ufpr.api.exception.ResourceForbiddenException;
 import br.ufpr.api.exception.ResourceNotFoundException;
 import br.ufpr.api.model.entity.Funcionario;
 import br.ufpr.api.repository.FuncionarioRepository;
@@ -70,14 +72,22 @@ public class FuncionarioService {
     }
 
     @Transactional
-    public void deleteFuncionario(Integer id){
+    public void deleteFuncionario(Integer id, UserDetails activeUser){
         Funcionario funcionario = buscarPorId(id);
         
-        funcionario.setStatus(false);
-        funcionarioRepository.save(funcionario);
+        if (funcionario.getEmail().equals(activeUser.getUsername())) {
+            throw new ResourceForbiddenException("Funcionario não pode excluir a si mesmo");
+        }
 
-        //implementar regra que o funcionario nao pode deletar a si mesmo 
-        // + regra que impede funcionario deletar o ultimo funcionario ativo
+        if(funcionario.isStatus()){
+            long funcionariosAtivos = funcionarioRepository.countByStatusTrue();
+            if(funcionariosAtivos <= 2){
+                throw new ResourceForbiddenException("Não é possível excluir o último funcionário ativo");
+            }
+        }
+
+        funcionario.setStatus(false);
+        funcionarioRepository.save(funcionario); 
     }
 
     public FuncionarioDTO toDTO(Funcionario funcionario) {

@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { API_URL } from './CONSTANTES';
+import { API_URL } from '@/environment/env';
 import { Register } from '@model/register';
 
 @Injectable({ providedIn: 'root' })

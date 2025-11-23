@@ -3,7 +3,7 @@ import { Injectable, signal } from '@angular/core';
 import { Observable, map, switchMap, tap, finalize, delay } from 'rxjs';
 
 import { ApiServices } from '../model/interfaces/api-services';
-import { API_URL } from './CONSTANTES';
+import { API_URL } from '@/environment/env';
 import { Funcionario } from '../model/funcionario';
 import {
   dtoToFuncionario,

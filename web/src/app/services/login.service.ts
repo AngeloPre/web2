@@ -1,5 +1,5 @@
 import { inject, Injectable, signal } from '@angular/core';
-import { API_URL } from './CONSTANTES';
+import { API_URL } from '@/environment/env';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Login } from '../model/login';
 import { Token } from '../model/token';

@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { Funcionario } from '@/app/model/funcionario';
 import { FuncionarioService } from '@/app/services/funcionario.service';
 import { RiveLoaderComponent } from '@shared/components/rive-loader/rive-loader.component';
+import { MatSnackBar } from "@angular/material/snack-bar";
 
 @Component({
   selector: 'app-funcionarios-table',
@@ -16,6 +17,7 @@ import { RiveLoaderComponent } from '@shared/components/rive-loader/rive-loader.
 })
 export class FuncionariosTableComponent {
   private dialog = inject(MatDialog);
+  private snack = inject(MatSnackBar);
   protected funcionarioService = inject(FuncionarioService);
   funcionarios = input.required<Funcionario[]>();
   router = inject(Router);
@@ -29,7 +31,14 @@ export class FuncionariosTableComponent {
       if (!ok) return;
       this.funcionarioService.remover(id).subscribe({
         next: () => this.deleted.emit(id),
-        error: (err) => console.error('Erro ao remover funcionário', err)
+        error: (err) => {
+          this.snack.open(err.error, 'OK', {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snack-top', 'snack-danger'],
+          });
+        }
       });
     });
   }
