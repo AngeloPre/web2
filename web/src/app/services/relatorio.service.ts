@@ -1,7 +1,7 @@
 import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { jsPDF } from 'jspdf';
-import { API_URL } from './CONSTANTES';
+import { API_URL } from '@/environment/env';
 import autoTable from 'jspdf-autotable';
 import { PDF_FONTS } from './pdf-fonts';
 import { firstValueFrom } from 'rxjs';
