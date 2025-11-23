@@ -2,13 +2,13 @@ import { inject, Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { jsPDF } from 'jspdf';
 import { API_URL } from '@/environment/env';
-import autoTable from 'jspdf-autotable';
+import autoTable, { CellHookData, UserOptions, PageHook, CellHook, Color } from 'jspdf-autotable';
 import { PDF_FONTS } from './pdf-fonts';
 import { firstValueFrom } from 'rxjs';
 
 declare module 'jspdf' {
   interface jsPDF {
-    autoTable: (options: any) => jsPDF;
+    autoTable: (options: UserOptions) => jsPDF;
     lastAutoTable: { finalY: number };
   }
 }
@@ -31,21 +31,29 @@ interface RelatorioDetalhe {
   ticketMedio: number;
 }
 
+interface RelatorioParams {
+  tipo: string;
+  dataInicio?: string | null;
+  dataFim?: string | null;
+}
+
+type RGBColor = [number, number, number];
+
 @Injectable({ providedIn: 'root' })
 export class RelatorioService {
   private readonly http = inject(HttpClient);
   private readonly BASE_URL = `${API_URL}/relatorios`;
   private readonly cores = {
-    brandDark: [220, 38, 38] as [number, number, number],
-    brandBase: [251, 146, 60] as [number, number, number],
-    brandLight: [254, 215, 170] as [number, number, number],
-    darkGray: [55, 65, 81] as [number, number, number],
-    steelGray: [107, 114, 128] as [number, number, number],
-    white: [255, 255, 255] as [number, number, number],
-    lightGray: [249, 250, 251] as [number, number, number],
-    mediumGray: [156, 163, 175] as [number, number, number],
-    textPrimary: [31, 41, 55] as [number, number, number],
-  };
+    brandDark: [220, 38, 38] as RGBColor,
+    brandBase: [251, 146, 60] as RGBColor,
+    brandLight: [254, 215, 170] as RGBColor,
+    darkGray: [55, 65, 81] as RGBColor,
+    steelGray: [107, 114, 128] as RGBColor,
+    white: [255, 255, 255] as RGBColor,
+    lightGray: [249, 250, 251] as RGBColor,
+    mediumGray: [156, 163, 175] as RGBColor,
+    textPrimary: [31, 41, 55] as RGBColor,
+  } as const satisfies Record<string, RGBColor>;
 
   private readonly logoPath = 'assets/logo.png';
 
@@ -79,7 +87,7 @@ export class RelatorioService {
   ): Promise<void> {
     try {
       // BATER NO ENDPOINT DO RELATÓRIO
-      const params: any = {
+      const params: RelatorioParams = {
         tipo: tipo.toUpperCase()
       };
       
@@ -87,7 +95,7 @@ export class RelatorioService {
       if (data_fim) params.dataFim = this.formatDateForApi(data_fim);
       
       const relatorioData = await firstValueFrom(
-        this.http.get<RelatorioDTO>(this.BASE_URL, { params })
+        this.http.get<RelatorioDTO>(this.BASE_URL, { params: params as any })
       );
       const doc = new jsPDF('p', 'mm', 'a4');
       const margin = { top: 25, right: 15, bottom: 25, left: 15 };
@@ -247,15 +255,21 @@ export class RelatorioService {
   }
 
   // https://codepen.io/mmghv/pen/eYYvQqO
-  private enhanceWordBreak = ({ doc, cell, column }: any) => {
+  private enhanceWordBreak: CellHook = (data: CellHookData) => {
+    const { cell, column } = data;
+    const doc = data.doc as any;
+
     if (!cell || typeof cell.styles.cellWidth === 'number' || !cell.raw || cell.colSpan > 1) {
       return;
     }
 
+    if (!column) return;
+
     let text: string;
     
     if (cell.raw instanceof Node) {
-      text = (cell.raw as any).innerText || '';
+      const node = cell.raw as HTMLElement;
+      text = node.innerText || node.textContent || '';
     } else if (typeof cell.raw === 'object') {
       return;
     } else {
@@ -302,7 +316,13 @@ export class RelatorioService {
       ];
     });
 
-    autoTable(doc, {
+    const didDrawPageHook: PageHook = (data) => {
+      if (data.pageCount > 1) {
+        this.adicionarCabecalho(doc, 'Periodo', phoenixLogo);
+      }
+    };
+
+    const options: UserOptions = {
       startY,
       head,
       body,
@@ -338,14 +358,11 @@ export class RelatorioService {
       },
       didParseCell: this.enhanceWordBreak,
       // CABEÇALHO PARA NOVA PAGINA
-      didDrawPage: (data: any) => {
-        if (data.pageCount > 1) {
-          this.adicionarCabecalho(doc, 'Periodo', phoenixLogo);
-        }
-      },
+      didDrawPage: didDrawPageHook,
       pageBreak: 'auto',
       showHead: 'everyPage'
-    });
+    };
+    autoTable(doc, options);
   }
 
   private adicionarTabelaCategoria(doc: jsPDF, relatorio: RelatorioDTO, startY: number, phoenixLogo?: string): void {
@@ -365,7 +382,13 @@ export class RelatorioService {
       ];
     });
 
-    autoTable(doc, {
+    const didDrawPageHook: PageHook = (data) => {
+      if (data.pageCount > 1) {
+        this.adicionarCabecalho(doc, 'Categoria', phoenixLogo);
+      }
+    };
+
+    const options: UserOptions = {
       startY,
       head,
       body,
@@ -400,14 +423,11 @@ export class RelatorioService {
       },
       didParseCell: this.enhanceWordBreak,
       // CABEÇALHO PARA NOVA PAGINA
-      didDrawPage: (data: any) => {
-        if (data.pageCount > 1) {
-          this.adicionarCabecalho(doc, 'Categoria', phoenixLogo);
-        }
-      },
+      didDrawPage: didDrawPageHook,
       pageBreak: 'auto',
       showHead: 'everyPage'
-    });
+    };
+    autoTable(doc, options);
   }
 
   private adicionarRodape(doc: jsPDF, paginaAtual: number, totalPaginas: number): void {
