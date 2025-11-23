@@ -12,9 +12,10 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.ZoneId;
+import java.time.Instant;
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 public class RelatorioService {
@@ -35,67 +36,88 @@ public class RelatorioService {
     }
     
     private List<Chamado> buscarChamados(LocalDate dataInicio, LocalDate dataFim) {
-        List<Chamado> todos = (List<Chamado>) chamadoRepository.findAll();
+        Instant inicio = dataInicio != null ? 
+            dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant() : null;
+        Instant fim = dataFim != null ? 
+            dataFim.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant() : null;
         
-        return todos.stream()
-            .filter(c -> {
-                LocalDate dataChamado = c.getDataCriacao()
-                    .atZone(ZoneId.systemDefault())
-                    .toLocalDate();
-                
-                boolean dentroInicio = dataInicio == null || !dataChamado.isBefore(dataInicio);
-                boolean dentroFim = dataFim == null || !dataChamado.isAfter(dataFim);
-                
-                return dentroInicio && dentroFim;
-            })
-            .collect(Collectors.toList());
+        if (inicio != null && fim != null) {
+            return chamadoRepository.findByDataCriacaoBetweenOrderByDataCriacaoAsc(inicio, fim);
+        } else if (inicio != null) {
+            return chamadoRepository.findByDataCriacaoGreaterThanEqualOrderByDataCriacaoAsc(inicio);
+        } else if (fim != null) {
+            return chamadoRepository.findByDataCriacaoLessThanEqualOrderByDataCriacaoAsc(fim);
+        } else {
+            return (List<Chamado>) chamadoRepository.findAll();
+        }
     }
     
     private RelatorioDTO gerarRelatorioPorPeriodo(List<Chamado> chamados, LocalDate dataInicio, LocalDate dataFim) {
-        Map<LocalDate, List<Chamado>> porData = chamados.stream()
-            .collect(Collectors.groupingBy(c -> 
-                c.getDataCriacao().atZone(ZoneId.systemDefault()).toLocalDate()
-            ));
-        
         List<RelatorioDetalhe> detalhes = new ArrayList<>();
         BigDecimal receitaTotal = BigDecimal.ZERO;
         int totalChamados = 0;
         int totalFinalizados = 0;
+        List<LocalDate> datasProcessadas = new ArrayList<>();
         
-        for (Map.Entry<LocalDate, List<Chamado>> entry : porData.entrySet()) {
-            LocalDate data = entry.getKey();
-            List<Chamado> chamadosDoDia = entry.getValue();
+        for (Chamado chamado : chamados) {
+            LocalDate data = chamado.getDataCriacao()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
             
-            int chamadosCount = chamadosDoDia.size();
-            int finalizadosCount = (int) chamadosDoDia.stream()
-                .filter(c -> c.getStatus() == StatusConserto.FINALIZADA)
-                .count();
+            boolean jaProcessada = false;
+            for (LocalDate dataProcessada : datasProcessadas) {
+                if (dataProcessada.equals(data)) {
+                    jaProcessada = true;
+                    break;
+                }
+            }
             
-            BigDecimal receitaDia = chamadosDoDia.stream()
-                .filter(c -> c.getStatus() == StatusConserto.FINALIZADA)
-                .filter(c -> c.getOrcamento() != null)
-                .map(c -> c.getOrcamento().getValor())
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            // Se não foi processada ainda
+            if (!jaProcessada) {
+                datasProcessadas.add(data);
+            }
+        }
+        
+        Collections.sort(datasProcessadas);
+        
+        for (LocalDate data : datasProcessadas) {
+            int qtdChamados = 0;
+            int qtdFinalizados = 0;
+            BigDecimal receitaDia = BigDecimal.ZERO;
             
-            double taxaConversao = chamadosCount > 0 ? 
-                (double) finalizadosCount / chamadosCount : 0.0;
+            for (Chamado chamado : chamados) {
+                LocalDate dataChamado = chamado.getDataCriacao()
+                    .atZone(ZoneId.systemDefault())
+                    .toLocalDate();
+                
+                if (dataChamado.equals(data)) {
+                    qtdChamados++;
+                    if (chamado.getStatus() == StatusConserto.FINALIZADA) {
+                        qtdFinalizados++;
+                        if (chamado.getOrcamento() != null) {
+                            receitaDia = receitaDia.add(chamado.getOrcamento().getValor());
+                        }
+                    }
+                }
+            }
+            
+            double taxaConversao = qtdChamados > 0 ? 
+                (double) qtdFinalizados / qtdChamados : 0.0;
             
             detalhes.add(new RelatorioDetalhe(
                 data.toString(),
-                chamadosCount,
-                finalizadosCount,
+                qtdChamados,
+                qtdFinalizados,
                 receitaDia,
                 taxaConversao,
                 null
             ));
             
-            totalChamados += chamadosCount;
-            totalFinalizados += finalizadosCount;
+            totalChamados += qtdChamados;
+            totalFinalizados += qtdFinalizados;
             receitaTotal = receitaTotal.add(receitaDia);
         }
-        
-        detalhes.sort(Comparator.comparing(RelatorioDetalhe::chave));
-        
+                
         BigDecimal ticketMedio = totalFinalizados > 0 ?
             receitaTotal.divide(BigDecimal.valueOf(totalFinalizados), 2, RoundingMode.HALF_UP) :
             BigDecimal.ZERO;
@@ -111,51 +133,75 @@ public class RelatorioService {
     }
     
     private RelatorioDTO gerarRelatorioPorCategoria(List<Chamado> chamados) {
-        Map<CategoriaEquipamento, List<Chamado>> porCategoria = chamados.stream()
-            .collect(Collectors.groupingBy(Chamado::getCategoriaEquipamento));
-        
         List<RelatorioDetalhe> detalhes = new ArrayList<>();
         BigDecimal receitaTotal = BigDecimal.ZERO;
         int totalChamados = 0;
         int totalFinalizados = 0;
+        List<CategoriaEquipamento> categoriasProcessadas = new ArrayList<>();
+         
+        for (Chamado chamado : chamados) {
+            CategoriaEquipamento categoria = chamado.getCategoriaEquipamento();
+            if (categoria == null) {
+                continue;
+            }
+            boolean jaProcessada = false;
+            for (CategoriaEquipamento catProcessada : categoriasProcessadas) {
+                if (catProcessada.getCategoryId().equals(categoria.getCategoryId())) {
+                    jaProcessada = true;
+                    break;
+                }
+            }
+            if (!jaProcessada) {
+                categoriasProcessadas.add(categoria);
+            }
+        }
         
-        for (Map.Entry<CategoriaEquipamento, List<Chamado>> entry : porCategoria.entrySet()) {
-            CategoriaEquipamento categoria = entry.getKey();
-            List<Chamado> chamadosCategoria = entry.getValue();
+        for (CategoriaEquipamento categoria : categoriasProcessadas) {
+            int qtdChamados = 0;
+            int qtdFinalizados = 0;
+            BigDecimal receitaCategoria = BigDecimal.ZERO;
             
-            int chamadosCount = chamadosCategoria.size();
-            int finalizadosCount = (int) chamadosCategoria.stream()
-                .filter(c -> c.getStatus() == StatusConserto.FINALIZADA)
-                .count();
+            for (Chamado chamado : chamados) {
+                if (chamado.getCategoriaEquipamento() != null && 
+                    chamado.getCategoriaEquipamento().getCategoryId().equals(categoria.getCategoryId())) {
+                    
+                    qtdChamados++;
+                    if (chamado.getStatus() == StatusConserto.FINALIZADA) {
+                        qtdFinalizados++;
+                        if (chamado.getOrcamento() != null) {
+                            receitaCategoria = receitaCategoria.add(chamado.getOrcamento().getValor());
+                        }
+                    }
+                }
+            }
             
-            BigDecimal receitaCategoria = chamadosCategoria.stream()
-                .filter(c -> c.getStatus() == StatusConserto.FINALIZADA)
-                .filter(c -> c.getOrcamento() != null)
-                .map(c -> c.getOrcamento().getValor())
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+            double taxaConversao = qtdChamados > 0 ? 
+                (double) qtdFinalizados / qtdChamados : 0.0;
             
-            double taxaConversao = chamadosCount > 0 ? 
-                (double) finalizadosCount / chamadosCount : 0.0;
-            
-            BigDecimal ticketMedioCategoria = finalizadosCount > 0 ?
-                receitaCategoria.divide(BigDecimal.valueOf(finalizadosCount), 2, RoundingMode.HALF_UP) :
+            BigDecimal ticketMedioCategoria = qtdFinalizados > 0 ?
+                receitaCategoria.divide(BigDecimal.valueOf(qtdFinalizados), 2, RoundingMode.HALF_UP) :
                 BigDecimal.ZERO;
             
             detalhes.add(new RelatorioDetalhe(
                 categoria.getName(),
-                chamadosCount,
-                finalizadosCount,
+                qtdChamados,
+                qtdFinalizados,
                 receitaCategoria,
                 taxaConversao,
                 ticketMedioCategoria
             ));
 
-            totalChamados += chamadosCount;
-            totalFinalizados += finalizadosCount;
+            totalChamados += qtdChamados;
+            totalFinalizados += qtdFinalizados;
             receitaTotal = receitaTotal.add(receitaCategoria);
         }
         
-        detalhes.sort((a, b) -> b.receita().compareTo(a.receita()));
+        Collections.sort(detalhes, new Comparator<RelatorioDetalhe>() {
+            @Override
+            public int compare(RelatorioDetalhe a, RelatorioDetalhe b) {
+                return b.receita().compareTo(a.receita());
+            }
+        });
         
         BigDecimal ticketMedio = totalFinalizados > 0 ?
             receitaTotal.divide(BigDecimal.valueOf(totalFinalizados), 2, RoundingMode.HALF_UP) :
