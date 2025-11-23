@@ -3,6 +3,7 @@ package br.ufpr.api.repository;
 import java.time.Instant;
 import java.util.List;
 
+
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.repository.CrudRepository;
 
@@ -20,5 +21,8 @@ public interface ChamadoRepository extends CrudRepository<Chamado, Integer> {
     List<Chamado> findByStatusAndDataCriacaoBetweenOrderByDataCriacaoAsc(StatusConserto status, Instant inicio, Instant fim);
     List<Chamado> findByClienteAndDataCriacaoBetweenOrderByDataCriacaoAsc(Cliente cliente, Instant inicio, Instant fim);
     List<Chamado> findByFuncionarioAndDataCriacaoBetweenOrderByDataCriacaoAsc(Funcionario funcionario, Instant inicio, Instant fim);
+    List<Chamado> findByDataCriacaoBetweenOrderByDataCriacaoAsc(Instant inicio, Instant fim);
+    List<Chamado> findByDataCriacaoGreaterThanEqualOrderByDataCriacaoAsc(Instant inicio);
+    List<Chamado> findByDataCriacaoLessThanEqualOrderByDataCriacaoAsc(Instant fim);
 
 }
