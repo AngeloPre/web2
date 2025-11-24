@@ -149,16 +149,15 @@ public class SeedService {
             Chamado ch = novoChamado(joao, mario, notebook, "Notebook Dell",
             "Descrição do chamado 2", new BigDecimal("250.00"), null);
 
-            // applyStep(ch, StatusConserto.ABERTA,      ramon, at(2025,3,12,9,12), null, null, null);
-            applyStep(ch, StatusConserto.ORCADA,      ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
-            applyStep(ch, StatusConserto.REJEITADA,   ramon, at(2025,3,14,9,12), null,
-            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
-            applyStep(ch, StatusConserto.ORCADA,      ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.APROVADA,    ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.REDIRECIONADA,ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.ARRUMADA,    ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.PAGA,        ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.FINALIZADA,  ramon, at(2025,3,18,9,12), null, null, new BigDecimal("100.00"));
+            criarEtapa(ch, StatusConserto.ORCADA,      mario, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.REJEITADA,   mario, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.ORCADA,      mario, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,    mario, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.REDIRECIONADA,mario, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), ramon);
+            criarEtapa(ch, StatusConserto.ARRUMADA,    mario, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.PAGA,        mario, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.FINALIZADA,  mario, at(2025,3,18,9,12), null, null, new BigDecimal("100.00"), null);
 
             chamadoRepository.save(ch);
         }
@@ -168,13 +167,12 @@ public class SeedService {
             Chamado ch = novoChamado(joao, mario, impressora, "Impressora HP",
             "Descrição do chamado 2", new BigDecimal("395.00"), null);
 
-            // applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
-            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
-            applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
-            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
-            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.APROVADA,  ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.PAGA,      ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"));
+            criarEtapa(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.ORCADA,    ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,  ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.PAGA,      ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
 
             chamadoRepository.save(ch);
         }
@@ -184,14 +182,13 @@ public class SeedService {
             Chamado ch = novoChamado(jose, ramon, mouse, "Mouse Razer",
             "Descrição do chamado 3", new BigDecimal("75.00"), null);
 
-            // applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
-            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
-            applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
-            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
-            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.APROVADA,  ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.REDIRECIONADA, ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.ARRUMADA,  ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"));
+            criarEtapa(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.ORCADA,    ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,  ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.REDIRECIONADA, ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), mario);
+            criarEtapa(ch, StatusConserto.ARRUMADA,  ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
 
             chamadoRepository.save(ch);
         }
@@ -201,13 +198,12 @@ public class SeedService {
             Chamado ch = novoChamado(jose, maria, desktop, "Desktop Dell",
             "Descrição do chamado 4", new BigDecimal("450.00"), null);
 
-            // applyStep(ch, StatusConserto.ABERTA,      ramon, at(2025,3,12,9,12), null, null, null);
-            applyStep(ch, StatusConserto.ORCADA,      ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
-            applyStep(ch, StatusConserto.REJEITADA,   ramon, at(2025,3,14,9,12), null,
-            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
-            applyStep(ch, StatusConserto.ORCADA,      ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.APROVADA,    ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.REDIRECIONADA,ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
+            criarEtapa(ch, StatusConserto.ORCADA,      maria, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.REJEITADA,   maria, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.ORCADA,      maria, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,    maria, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"),null);
+            criarEtapa(ch, StatusConserto.REDIRECIONADA,maria, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), ramon);
 
             chamadoRepository.save(ch);
         }
@@ -217,12 +213,11 @@ public class SeedService {
             Chamado ch = novoChamado(joana, maria, teclado, "Teclado Logitec",
             "Descrição do chamado 5", new BigDecimal("120.00"), null);
 
-            // applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
-            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
-            applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
-            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
-            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"));
-            applyStep(ch, StatusConserto.APROVADA,  ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"));
+            criarEtapa(ch, StatusConserto.ORCADA,    maria, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.REJEITADA, maria, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.ORCADA,    maria, at(2025,3,15,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,  maria, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), null);
 
             chamadoRepository.save(ch);
         }
@@ -232,10 +227,9 @@ public class SeedService {
             Chamado ch = novoChamado(joana, maria, impressora, "Impressora Epson",
             "Descrição do chamado 6", new BigDecimal("420.00"), null);
 
-            // applyStep(ch, StatusConserto.ABERTA,    ramon, at(2025,3,12,9,12), null, null, null);
-            applyStep(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
-            applyStep(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
-            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"));
+            criarEtapa(ch, StatusConserto.ORCADA,    ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.REJEITADA, ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"), null);
 
             chamadoRepository.save(ch);
         }
@@ -245,8 +239,7 @@ public class SeedService {
             Chamado ch = novoChamado(joaquina, maria, desktop, "Desktop Customizado",
             "Descrição do chamado 7", new BigDecimal("780.00"), null);
 
-            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
-            applyStep(ch, StatusConserto.ORCADA, ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"));
+            criarEtapa(ch, StatusConserto.ORCADA, ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"), null);
 
             chamadoRepository.save(ch);
         }
@@ -256,7 +249,6 @@ public class SeedService {
             Chamado ch = novoChamado(joaquina, null, notebook, "Notebook Avell",
             "Descrição do chamado 8", new BigDecimal("325.00"), null);
 
-            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
 
             chamadoRepository.save(ch);
         }
@@ -266,7 +258,6 @@ public class SeedService {
             Chamado ch = novoChamado(joaquina, null, notebook, "Notebook Lenovo",
             "Descrição do chamado 9", new BigDecimal("1200.00"), null);
 
-            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
 
             chamadoRepository.save(ch);
         }
@@ -276,8 +267,6 @@ public class SeedService {
             Chamado ch = novoChamado(joao, null, impressora, "Impressora HP",
             "Descrição do chamado 10", new BigDecimal("1200.00"), null);
 
-            // sem etapas no mock -> adiciono ABERTA para manter histórico mínimo
-            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,11,15,11,30), null, null, null);
 
             chamadoRepository.save(ch);
         }
@@ -287,8 +276,6 @@ public class SeedService {
             Chamado ch = novoChamado(joana, null, desktop, "Desktop Alienware",
             "Descrição do chamado 11", new BigDecimal("1200.00"), null);
 
-            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,9,18,11,32), null, null, null);
-
             chamadoRepository.save(ch);
         }
 
@@ -297,7 +284,120 @@ public class SeedService {
             Chamado ch = novoChamado(joana, null, teclado, "Teclado Redragon",
             "Descrição do chamado 12", new BigDecimal("1200.00"), null);
 
-            // applyStep(ch, StatusConserto.ABERTA, ramon, at(2025,3,12,9,12), null, null, null);
+            chamadoRepository.save(ch);
+        }
+        // ===== 13) João - Notebook - PAGA =====
+        {
+            Chamado ch = novoChamado(joao, ramon, notebook, "Notebook Intel Gamer",
+            "Descrição do chamado 13", new BigDecimal("250.00"), null);
+
+            criarEtapa(ch, StatusConserto.ORCADA,      ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.REJEITADA,   ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.ORCADA,      ramon, at(2025,3,15,9,12), null, null, new BigDecimal("250.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,    ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.REDIRECIONADA,ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), mario);
+            criarEtapa(ch, StatusConserto.ARRUMADA,    ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.PAGA,        ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 14) João - Notebook - REDIRECIONADA =====
+        {
+            Chamado ch = novoChamado(joao, ramon, notebook, "Notebook Xiaomi",
+            "Problemas de privacidade de dados", new BigDecimal("500.00"), null);
+
+            criarEtapa(ch, StatusConserto.ORCADA,      ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.REJEITADA,   ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço solicitado.", new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.ORCADA,      ramon, at(2025,3,15,9,12), null, null, new BigDecimal("500.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,    ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.REDIRECIONADA,mario, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), maria);
+            criarEtapa(ch, StatusConserto.REDIRECIONADA,ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), mario);
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 15) João - Notebook - REJEITADA =====
+        {
+            Chamado ch = novoChamado(joao, ramon, notebook, "Notebook Xiaomi",
+            "Problemas de privacidade de dados", new BigDecimal("500.00"), null);
+
+            criarEtapa(ch, StatusConserto.ORCADA,      ramon, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.REJEITADA,   ramon, at(2025,3,14,9,12), null,
+            "Este preço não condiz com o serviço que pedi.", new BigDecimal("120.00"), null);
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 16) João - Notebook - FINALIZADA =====
+        {
+            Chamado ch = novoChamado(joao, mario, notebook, "Notebook Dell",
+            "Descrição do chamado 16", new BigDecimal("250.00"), null);
+
+            criarEtapa(ch, StatusConserto.ORCADA,      mario, at(2025,3,13,9,12), null, null, new BigDecimal("120.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,    mario, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.REDIRECIONADA,mario, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), ramon);
+            criarEtapa(ch, StatusConserto.ARRUMADA,    mario, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.PAGA,        mario, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.FINALIZADA,  mario, at(2025,3,18,9,12), null, null, new BigDecimal("100.00"), null);
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 17) JOANA - Notebook - FINALIZADA =====
+        {
+            Chamado ch = novoChamado(joana, mario, impressora, "Impressora Dell",
+            "Descrição do chamado 17", new BigDecimal("250.00"), null);
+
+            criarEtapa(ch, StatusConserto.ORCADA,      mario, at(2025,3,13,9,12), null, null, new BigDecimal("250.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,    mario, at(2025,3,16,9,12), null, null, new BigDecimal("250.00"), null);
+            criarEtapa(ch, StatusConserto.REDIRECIONADA,mario, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), ramon);
+            criarEtapa(ch, StatusConserto.ARRUMADA,    mario, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.PAGA,        mario, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.FINALIZADA,  mario, at(2025,3,18,9,12), null, null, new BigDecimal("100.00"), null);
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 18) JOSE - Impressora - FINALIZADA =====
+        {
+            Chamado ch = novoChamado(jose, mario, impressora, "Impressora Dell",
+            "Descrição do chamado 2", new BigDecimal("250.00"), null);
+
+            criarEtapa(ch, StatusConserto.ORCADA,      mario, at(2025,3,13,9,12), null, null, new BigDecimal("250.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,    mario, at(2025,3,16,9,12), null, null, new BigDecimal("250.00"), null);
+            criarEtapa(ch, StatusConserto.REDIRECIONADA,mario, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), ramon);
+            criarEtapa(ch, StatusConserto.ARRUMADA,    mario, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.PAGA,        mario, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.FINALIZADA,  mario, at(2025,3,18,9,12), null, null, new BigDecimal("100.00"), null);
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 19) JOSE - Impressora - PAGA =====
+        {
+            Chamado ch = novoChamado(jose, ramon, impressora, "Impressora Dell",
+            "Descrição do chamado 2", new BigDecimal("250.00"), null);
+
+            criarEtapa(ch, StatusConserto.ORCADA,      ramon, at(2025,3,13,9,12), null, null, new BigDecimal("250.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,    ramon, at(2025,3,16,9,12), null, null, new BigDecimal("250.00"), null);
+            criarEtapa(ch, StatusConserto.REDIRECIONADA,ramon, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), maria);
+            criarEtapa(ch, StatusConserto.ARRUMADA,    ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+            criarEtapa(ch, StatusConserto.PAGA,        ramon, at(2025,3,17,9,12), null, null, new BigDecimal("100.00"), null);
+
+            chamadoRepository.save(ch);
+        }
+
+        // ===== 20) JOSE - Impressora - REDIRECIONADA =====
+        {
+            Chamado ch = novoChamado(jose, mario, impressora, "Impressora Dell",
+            "Descrição do chamado 2", new BigDecimal("250.00"), null);
+
+            criarEtapa(ch, StatusConserto.ORCADA,      mario, at(2025,3,13,9,12), null, null, new BigDecimal("250.00"), null);
+            criarEtapa(ch, StatusConserto.APROVADA,    mario, at(2025,3,16,9,12), null, null, new BigDecimal("250.00"), null);
+            criarEtapa(ch, StatusConserto.REDIRECIONADA,mario, at(2025,3,16,9,12), null, null, new BigDecimal("100.00"), ramon);
 
             chamadoRepository.save(ch);
         }
@@ -398,13 +498,14 @@ public class SeedService {
         // month: 1=Jan ... 12=Dez
         return LocalDateTime.of(year, month, day, hour, minute).toInstant(ZoneOffset.of("-03:00"));
     }
-    private void applyStep(Chamado ch,
+    private void criarEtapa(Chamado ch,
     StatusConserto status,
     Funcionario resp,
     Instant when,
     String comentario,
     String motivoRejeicao,
-    BigDecimal orcamentoSeHouver) {
+    BigDecimal orcamentoSeHouver,
+    Funcionario origemRedirecionada) {
         // cria a etapa
         EtapaHistorico e = new EtapaHistorico();
         e.setChamado(ch);
@@ -412,6 +513,9 @@ public class SeedService {
         e.setFuncionario(resp);
         e.setComentario(comentario);
         e.setMotivoRejeicao(motivoRejeicao);
+        if (origemRedirecionada != null) {
+          e.setFuncionarioAnterior(origemRedirecionada);
+        }
         // e.setDataCriacao(when); // @CreationTimestamp geralmente sobrescreve; manterá a ordem de inserção
 
         ch.getEtapas().add(e);
