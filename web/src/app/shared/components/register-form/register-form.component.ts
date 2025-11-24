@@ -6,7 +6,12 @@ import { UF } from '@model/enums/uf';
 import { RegisterService } from '@services/register.service';
 import { ViacepService } from '@services/viacep.service';
 import { fromViaCep } from '@/app/util/mapper/endereco-mapper';
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+} from '@angular/core';
 import { FormsModule, NgForm, NgModel } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,7 +27,8 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 @Component({
   selector: 'app-register-form',
   standalone: true,
-  imports: [MatFormFieldModule,
+  imports: [
+    MatFormFieldModule,
     MatInputModule,
     FormsModule,
     MatButtonModule,
@@ -32,7 +38,7 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     MatStepperModule,
     NgxMaskDirective,
     CepValidoDirective,
-    MatSnackBarModule
+    MatSnackBarModule,
   ],
 
   templateUrl: './register-form.component.html',
@@ -53,12 +59,10 @@ export class RegisterFormComponent {
     email: '',
     cpf: '',
     telefone: '',
-    endereco: this.novoEndereco()
+    endereco: this.novoEndereco(),
   };
 
-  constructor(private cdr: ChangeDetectorRef) {
-
-  }
+  constructor(private cdr: ChangeDetectorRef) {}
 
   private novoEndereco(): Endereco {
     return {
@@ -68,7 +72,7 @@ export class RegisterFormComponent {
       numero: '',
       bairro: '',
       cidade: '',
-      uf: (this.listaUfs[0] as UF)
+      uf: this.listaUfs[0] as UF,
     };
   }
   onSubmit(form: NgForm) {
@@ -76,23 +80,27 @@ export class RegisterFormComponent {
 
     this.registerService.register(this.cliente).subscribe({
       next: () => {
-        this.snack.open('Cadastro realizado! Você receberá a senha por e-mail.', 'OK', {
-          duration: 3000,
-          verticalPosition: 'top',
-          horizontalPosition: 'center',
-          panelClass: ['snack-top', 'snack-success'],
-        });
+        this.snack.open(
+          'Cadastro realizado! Você receberá a senha por e-mail.',
+          'OK',
+          {
+            duration: 3000,
+            verticalPosition: 'top',
+            horizontalPosition: 'center',
+            panelClass: ['snack-top', 'snack-success'],
+          }
+        );
         this.router.navigate(['/login']);
       },
       error: (err) => {
         console.error(err);
-        this.snack.open('Falha no cadastro.', 'OK', {
+        this.snack.open(err.error, 'OK', {
           duration: 3000,
           verticalPosition: 'top',
           horizontalPosition: 'center',
           panelClass: ['snack-top', 'snack-danger'],
         });
-      }
+      },
     });
   }
 
@@ -105,15 +113,17 @@ export class RegisterFormComponent {
   }
 
   buscarCep(cepModel: NgModel) {
-    const limpo = (cepModel.value || '').toString().replace(/\D/g, '');//tira qualquer dígito que naõ seja um número
+    const limpo = (cepModel.value || '').toString().replace(/\D/g, ''); //tira qualquer dígito que naõ seja um número
     if (limpo.length !== 8) return;
-    this.viacepService.getCepFromViaCep(limpo).pipe(
-      catchError((erro) => {
-        console.log(erro);
-        throw erro;
-      })
-    )
-      .subscribe(res => {
+    this.viacepService
+      .getCepFromViaCep(limpo)
+      .pipe(
+        catchError((erro) => {
+          console.log(erro);
+          throw erro;
+        })
+      )
+      .subscribe((res) => {
         Object.assign(this.cliente.endereco, fromViaCep(res, ''));
         this.cdr.markForCheck();
       });
