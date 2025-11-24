@@ -110,7 +110,7 @@ public class ChamadoService {
         }
 
         return toDTO(chamadoRepository
-                .findByFuncionarioAndDataCriacaoBetweenOrStatusOrderByDataCriacaoAsc(f, inicio, fim, StatusConserto.ABERTA));
+                .filtrarChamados(f, inicio, fim, StatusConserto.ABERTA));
     }
 
     public ChamadoDTO getChamadoById(Integer id) {
