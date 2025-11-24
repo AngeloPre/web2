@@ -37,9 +37,9 @@ public class RelatorioService {
     
     private List<Chamado> buscarChamados(LocalDate dataInicio, LocalDate dataFim) {
         Instant inicio = dataInicio != null ? 
-            dataInicio.atStartOfDay(ZoneId.systemDefault()).toInstant() : null;
+            dataInicio.atStartOfDay(ZoneId.of("America/Sao_Paulo")).toInstant() : null;
         Instant fim = dataFim != null ? 
-            dataFim.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant() : null;
+            dataFim.atTime(LocalTime.MAX).atZone(ZoneId.of("America/Sao_Paulo")).toInstant() : null;
         
         if (inicio != null && fim != null) {
             return chamadoRepository.findByDataCriacaoBetweenOrderByDataCriacaoAsc(inicio, fim);
@@ -61,7 +61,7 @@ public class RelatorioService {
         
         for (Chamado chamado : chamados) {
             LocalDate data = chamado.getDataCriacao()
-                .atZone(ZoneId.systemDefault())
+                .atZone(ZoneId.of("America/Sao_Paulo"))
                 .toLocalDate();
             
             boolean jaProcessada = false;
@@ -87,7 +87,7 @@ public class RelatorioService {
             
             for (Chamado chamado : chamados) {
                 LocalDate dataChamado = chamado.getDataCriacao()
-                    .atZone(ZoneId.systemDefault())
+                    .atZone(ZoneId.of("America/Sao_Paulo"))
                     .toLocalDate();
                 
                 if (dataChamado.equals(data)) {
