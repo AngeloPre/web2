@@ -2,104 +2,124 @@
   <img alt="projeto web2" src=".github/maintenance.png" width="80%">
 </p>
 
+<h1 align="center">Web2</h1>
+
+<p align="center">
+  Aplicação full-stack com Angular, Spring Boot e PostgreSQL
+</p>
+
 <div align="center">
 
 [![Deploy Angular to GitHub Pages](https://github.com/AngeloPre/web2/actions/workflows/deploy-gh-pages.yml/badge.svg)](https://github.com/AngeloPre/web2/actions/workflows/deploy-gh-pages.yml)
 [![Build and Deploy Backend](https://github.com/AngeloPre/web2/actions/workflows/backend_deploy.yml/badge.svg)](https://github.com/AngeloPre/web2/actions/workflows/backend_deploy.yml)
 
+![Angular](https://img.shields.io/badge/Angular-19-DD0031?logo=angular&logoColor=white)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-3-6DB33F?logo=springboot&logoColor=white)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?logo=postgresql&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-2496ED?logo=docker&logoColor=white)
+![TailwindCSS](https://img.shields.io/badge/TailwindCSS-3-38B2AC?logo=tailwind-css&logoColor=white)
+
 </div>
 
-## Frontend
+---
+
+## 📑 Índice
+
+- [🖥️ Frontend](#️-frontend)
+- [⚙️ Backend](#️-backend)
+- [🐘 Postgres + PgAdmin](#-postgres--pgadmin)
+- [📄 Swagger](#-swagger)
+
+---
+
+## 🖥️ Frontend
+
+Acesse o diretório do frontend:
+
 ```bash
 cd web/
 ```
 
-Para baixar as dependências (node_modules) use:
-```bash
-npm i
-```
-Definido no package.json já vem os scripts para rodar no npm:
-
-```json
-"scripts": {
-    "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
-}
-```
-
-Para rodar qualquer um dos comandos use npm
+Instale as dependências:
 
 ```bash
-npm run start
+npm install
 ```
 
-Links Uteis Frontend:
+### Scripts disponíveis
 
-[Documentação do figma](https://github.com/AngeloPre/web2/blob/main/web/src/app/pages/figma.md)
+| Comando | Descrição |
+|---|---|
+| `npm run start` | Inicia o servidor de desenvolvimento |
+| `npm run build` | Compila o projeto para produção |
+| `npm run watch` | Compila em modo watch (desenvolvimento) |
+| `npm run test` | Executa os testes unitários |
 
-[Documentação da Landing Page](https://github.com/AngeloPre/web2/blob/main/web/Landing-Page.md)
+### 📚 Links úteis — Frontend
 
-[Documentação do Padrão de Projeto](https://github.com/AngeloPre/web2/blob/main/web/Components.md)
+| Recurso | Link |
+|---|---|
+| 🎨 Figma | [Documentação do Figma](https://github.com/AngeloPre/web2/blob/main/web/src/app/pages/figma.md) |
+| 🏠 Landing Page | [Documentação da Landing Page](https://github.com/AngeloPre/web2/blob/main/web/Landing-Page.md) |
+| 🧩 Padrão de Projeto | [Documentação de Componentes](https://github.com/AngeloPre/web2/blob/main/web/Components.md) |
+| 💨 Tailwind & CSS | [Documentação Tailwind](https://github.com/AngeloPre/web2/blob/main/web/Tailwind.md) |
+| 🚫 Página 404 | [Referência de Design 404](https://github.com/AngeloPre/web2/blob/main/web/src/app/pages/404.md) |
+| ⏳ Loading (Rive) | [Implementação de loading](https://rive.app/docs/runtimes/web/rive-parameters) |
+| 🗂️ NgRx + Signals | [Gerenciamento de Estado](https://angular.love/mastering-state-management-in-angular-with-ngrx-and-signals-scalable-predictable-performant) |
+| 🔤 Base64 para jsPDF | [Encoder de fontes](https://www.giftofspeed.com/base64-encoder/) |
 
-[Documentação Tailwind e CSS](https://github.com/AngeloPre/web2/blob/main/web/Tailwind.md)
+---
 
-[Referência de Design página 404](https://github.com/AngeloPre/web2/blob/main/web/src/app/pages/404.md)
+## ⚙️ Backend
 
-[Implementação de loading](https://rive.app/docs/runtimes/web/rive-parameters)
+Acesse o diretório do backend:
 
-[Gerenciamento de Estado com NGRX para rotas](https://angular.love/mastering-state-management-in-angular-with-ngrx-and-signals-scalable-predictable-performant)
+```bash
+cd api/
+```
 
-[Encoder base64 para fontes jsPDF](https://www.giftofspeed.com/base64-encoder/)
-
-## Backend
-
-Para compilar o backend use o comando:
+Compile o projeto:
 
 ```bash
 ./mvnw clean compile
 ```
-Para executar o backend use o comando:
+
+Execute o servidor:
 
 ```bash
 ./mvnw spring-boot:run
 ```
-Para executar todos os testes use o comando:
+
+Execute os testes:
 
 ```bash
 ./mvnw -q test
 ```
-- flag "-q" reduz o detalhamento dos testes
 
-## Postgres + Pgadmin
-O docker compose já está configurado para subir o banco + pgadmin. Rode o comando:
+> 💡 A flag `-q` reduz o detalhamento da saída dos testes.
+
+---
+
+## 🐘 Postgres + PgAdmin
+
+O `docker-compose.yml` já está configurado para subir o banco de dados e o PgAdmin. Execute:
 
 ```bash
 docker compose up -d
 ```
 
-Entre no link a seguir para abrir o postgres admin e acessar o banco de dados
+Acesse o PgAdmin em: **[http://localhost:5050/login](http://localhost:5050/login)**
 
-Abra o Pgadmin: [Clique aqui](http://localhost:5050/login)
+| Campo | Valor |
+|---|---|
+| Login | `admin@admin.com` |
+| Senha | `admin` |
 
-Ou copie:
-```
-http://localhost:5050/login
-```
-- Login: admin@admin.com
-- Senha: admin
+---
 
-## Swagger
-Entre no link a seguir para abrir o swagger e testar os endpoints
+## 📄 Swagger
 
-Abra o Swagger UI: [Clique aqui](http://localhost:8080/swagger-ui/index.html)
+Acesse a documentação interativa da API:
 
-Ou copie:
-```
-http://localhost:8080/swagger-ui/index.html
-```
-
-Swagger disponível também em:
-[Clique aqui](https://java-web2.tail041186.ts.net/swagger-ui/index.html)
+- **Local:** [http://localhost:8080/swagger-ui/index.html](http://localhost:8080/swagger-ui/index.html)
+- **Remoto:** [https://java-web2.tail041186.ts.net/swagger-ui/index.html](https://java-web2.tail041186.ts.net/swagger-ui/index.html)
