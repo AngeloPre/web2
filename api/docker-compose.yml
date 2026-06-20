@@ -9,6 +9,30 @@ services:
       POSTGRES_DB: postgres
     ports:
       - "8765:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - web2-network
+
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: api-web2
+    restart: always
+    environment:
+      # Dentro da rede do compose o banco é alcançado pelo nome do serviço (postgres:5432)
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
     networks:
       - web2-network
 
